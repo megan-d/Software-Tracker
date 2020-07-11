@@ -1,0 +1,5 @@
+@import-normalize;
+
+.full-page-grow {
+  min-height: 100vh;
+}
