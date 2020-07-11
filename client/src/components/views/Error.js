@@ -3,11 +3,9 @@ import React from 'react';
 const Error = (props) => {
   
   return (
-    <div className='full-page'>
-      <h1 className='text-center text-results'>
+      <h1 className='text-center'>
         Oops, something went wrong...
       </h1>
-    </div>
   );
 };
 
