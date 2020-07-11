@@ -16,10 +16,12 @@ const StyledFooter = styled.footer`
   margin: 0;
   color: red;`
 
-export default function Footer() {
+const Footer = () => {
   return (
     <StyledFooter>
     Here's the footer
     </StyledFooter>
   );
 }
+
+export default Footer;

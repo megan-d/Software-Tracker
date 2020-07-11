@@ -1,20 +1,25 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Footer from './components/layout/Footer';
 import './index.css';
 import GlobalStyle from './components/GlobalStyle';
+import DeveloperDashboard from './components/dashboards/DeveloperDashboard';
 
 const App = () => {
   return (
-    <Fragment>
+    <Router>
       <GlobalStyle />
       <div className='full-page'>
-        <h1>Welcome to the Software Tracker! Glad to have you here!</h1>
-        <Button>Try Me</Button>
+        
+        <Switch>
+          <Route path='/dashboard' component={DeveloperDashboard} exact/>
+        </Switch>
       </div>
       <Footer />
-    </Fragment>
+    </Router>
+      
   );
 };
 
