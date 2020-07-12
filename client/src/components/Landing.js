@@ -1,11 +1,12 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 
 const Landing = (props) => {
   
   return (
-      <h1 className='text-center'>
-        This is the landing page
-      </h1>
+    <Button variant="contained" color="primary">
+    Hello World
+  </Button>
   );
 };
 

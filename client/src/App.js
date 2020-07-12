@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './components/layout/Footer';
 import './index.css';
 import GlobalStyle from './components/GlobalStyle';
