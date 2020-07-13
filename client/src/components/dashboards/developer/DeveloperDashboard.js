@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,13 +15,11 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import PopMenu from './PopMenu';
-import MainListItems from './MainListItems';
-import SecondaryListItems from './SecondaryListItems';
+import DrawerListItems from './DrawerListItems';
 
 const drawerWidth = 240;
 
@@ -114,6 +112,13 @@ export default function DeveloperDashboard(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const [ dashboardComponent, setDashboardComponent ] = useState('dashboardHome');
+
+  const handleSidedrawerClick = (clicked) => {
+    setDashboardComponent(clicked);
+  };
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -163,11 +168,10 @@ export default function DeveloperDashboard(props) {
           </IconButton>
         </div>
         <Divider />
-        <List><MainListItems /></List>
-        <Divider />
-        <List><SecondaryListItems /></List>
+        <List><DrawerListItems sidedrawerClick={handleSidedrawerClick}/></List>
       </Drawer>
       <main className={classes.content}>
+
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={3}>
