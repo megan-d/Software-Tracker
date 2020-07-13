@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Footer from './components/layout/Footer';
 import './index.css';
 import GlobalStyle from './components/GlobalStyle';
-import DeveloperDashboard from './components/dashboards/DeveloperDashboard';
+import Dashboard from './components/dashboards/Dashboard';
 import Error from './components/views/Error';
 import Landing from './components/Landing';
 
@@ -14,7 +14,7 @@ const App = () => {
       <div className='full-page'>
         <Switch>
           <Route path='/' component={Landing} exact />
-          <Route path='/dashboard' component={DeveloperDashboard} exact />
+          <Route path='/dashboard' component={Dashboard} exact />
           <Route path='' component={Error} />
         </Switch>
       </div>
