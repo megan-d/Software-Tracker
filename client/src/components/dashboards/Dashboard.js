@@ -8,12 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
-import Chart from './Chart';
-import Deposits from './Deposits';
-import Orders from './Orders';
 import PopMenu from './PopMenu';
 import SideDrawer from '../layout/SideDrawer';
 import DeveloperDashboard from './developer/DeveloperDashboard';
@@ -89,7 +84,7 @@ export default function Dashboard(props) {
     setDashboardComponent(clicked);
   };
 
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
