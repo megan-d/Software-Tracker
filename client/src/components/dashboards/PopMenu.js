@@ -61,7 +61,7 @@ export default function PopMenu() {
           aria-haspopup="true"
           onClick={handleToggle}
         >
-          <AccountCircleIcon />
+          <AccountCircleIcon style={{color: 'white'}} />
         </Button>
         <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
           {({ TransitionProps, placement }) => (

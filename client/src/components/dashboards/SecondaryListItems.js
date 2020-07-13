@@ -11,55 +11,33 @@ import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 
-
-export const mainListItems = () =>
+const SecondaryListItems = () =>
  (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-
-      <ListItemText primary="Dashboard"/>
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="My Projects" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-      <ConfirmationNumberIcon />
-      </ListItemIcon>
-      <ListItemText primary="My Tickets" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <GroupWorkIcon />
-      </ListItemIcon>
-      <ListItemText primary="My Sprints" />
-    </ListItem>
-    
-  </div>
-);
-
-export const secondaryListItems = (
-  <div>
+    <div>
     {/* <ListSubheader inset>Saved reports</ListSubheader> */}
+    <Link to='/submit' style={{ textDecoration: 'none', color: 'black' }}>
     <ListItem button>
       <ListItemIcon>
         <AddCircleIcon />
       </ListItemIcon>
       <ListItemText primary="Submit Ticket" />
     </ListItem>
+    </Link>
+    
+    <Link to='/settings' style={{ textDecoration: 'none', color: 'black'  }}>
     <ListItem button>
       <ListItemIcon>
         <SettingsIcon />
       </ListItemIcon>
       <ListItemText primary="Profile Settings" />
     </ListItem>
+    </Link>
+    
   </div>
 );
+
+export default SecondaryListItems;

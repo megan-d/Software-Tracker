@@ -14,7 +14,7 @@ import GroupWorkIcon from '@material-ui/icons/GroupWork';
 
 
 
-export const mainListItems = () =>
+const MainListItems = () =>
  (
   <div>
     <ListItem button>
@@ -46,20 +46,4 @@ export const mainListItems = () =>
   </div>
 );
 
-export const secondaryListItems = (
-  <div>
-    {/* <ListSubheader inset>Saved reports</ListSubheader> */}
-    <ListItem button>
-      <ListItemIcon>
-        <AddCircleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Submit Ticket" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <SettingsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Profile Settings" />
-    </ListItem>
-  </div>
-);
+export default MainListItems;

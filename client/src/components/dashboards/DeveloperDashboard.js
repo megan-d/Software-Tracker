@@ -20,6 +20,8 @@ import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import PopMenu from './PopMenu';
+import MainListItems from './MainListItems';
+import SecondaryListItems from './SecondaryListItems';
 
 const drawerWidth = 240;
 
@@ -43,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    background: 'purple',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -102,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DeveloperDashboard() {
+export default function DeveloperDashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -160,9 +163,9 @@ export default function DeveloperDashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List><MainListItems /></List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List><SecondaryListItems /></List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

@@ -6,7 +6,7 @@ import Link from '@material-ui/core/Link';
 const StyledFooter = styled.footer`
   background-color: #808080;
   margin: 0;
-  color: red;`
+  color: white;`
 
 function Copyright() {
   return (
