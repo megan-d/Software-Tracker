@@ -8,6 +8,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import Error from './components/views/Error';
 import Landing from './components/Landing';
 import Projects from './components/dashboard/projects/Projects';
+import Tickets from './components/dashboard/tickets/Tickets';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path='/' component={Landing} exact />
           <Route path='/dashboard' component={Dashboard} exact />
           <Route path='/projects' component={Projects} exact />
+          <Route path='/tickets' component={Tickets} exact />
           <Route path='' component={Error} />
         </Switch>
       </div>

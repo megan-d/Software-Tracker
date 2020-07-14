@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -16,25 +17,33 @@ const DrawerListItems = ({ sidedrawerClick }) => (
     <div className='main-list-items'>
       {/* If role is developer or manager, show developer/manager sidedrawer list */}
       
-      <ListItem button onClick={() => sidedrawerClick('Dashboard')}>
+      <Link to='/dashboard'>
+      <ListItem button >
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText primary='Dashboard' />
-      </ListItem>
-      <ListItem button onClick={() => sidedrawerClick('Projects')}>
+      </ListItem></Link>
+
+      <Link to='/projects'>
+      <ListItem button >
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
         <ListItemText primary='My Projects' />
       </ListItem>
-      <ListItem button onClick={() => sidedrawerClick('Tickets')}>
+      </Link>
+      
+      <Link to='/tickets'>
+      <ListItem button >
         <ListItemIcon>
           <ConfirmationNumberIcon />
         </ListItemIcon>
         <ListItemText primary='My Tickets' />
       </ListItem>
-      <ListItem button onClick={() => sidedrawerClick('Sprints')}>
+      </Link>
+      
+      <ListItem button >
         <ListItemIcon>
           <GroupWorkIcon />
         </ListItemIcon>
@@ -46,21 +55,21 @@ const DrawerListItems = ({ sidedrawerClick }) => (
     <Divider />
 
     <div className='secondary-list-items'>
-      <ListItem button onClick={() => sidedrawerClick('Submit Ticket')}>
+      <ListItem button >
         <ListItemIcon>
           <AddCircleIcon />
         </ListItemIcon>
         <ListItemText primary='Submit Ticket' />
       </ListItem>
 
-      <ListItem button onClick={() => sidedrawerClick('Profile Settings')}>
+      <ListItem button >
         <ListItemIcon>
           <SettingsIcon />
         </ListItemIcon>
         <ListItemText primary='Profile Settings' />
       </ListItem>
 
-      <ListItem button onClick={() => sidedrawerClick('Logout')}>
+      <ListItem button >
         <ListItemIcon>
           <ExitToAppIcon />
         </ListItemIcon>

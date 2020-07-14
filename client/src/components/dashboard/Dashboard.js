@@ -91,36 +91,21 @@ export default function Dashboard(props) {
     setOpen(false);
   };
 
-  const [dashboardComponent, setDashboardComponent] = useState('Dashboard');
-
-  const handleSideDrawerClick = (clicked) => {
-    setDashboardComponent(clicked);
-  };
-
-  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  
   return (
     <div className={classes.root}>
-      <Header open={open} handleDrawerOpen={handleDrawerOpen} dashboardComponent={dashboardComponent} />
+      <Header open={open} handleDrawerOpen={handleDrawerOpen} />
       <SideDrawer
-        sidedrawerClick={handleSideDrawerClick}
+        
         open={open}
         handleDrawerClose={handleDrawerClose}
       />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
-          {/* If role is developer, show developer dashboard. If admin, show admin. If manager, show manager. */}
-          {user.role === 'developer' && dashboardComponent === 'Dashboard' ? (
+          
             <DeveloperDashboard />
-          ) : user.role === 'developer' && dashboardComponent === 'Projects' ? (
-            <Projects />
-          ) : user.role === 'developer' && dashboardComponent === 'Tickets' ? (
-            <Tickets />
-          ) : user.role === 'developer' && dashboardComponent === 'Sprints' ? (
-            <Sprints />
-          ) : <h4>Access denied. Please login or sign up.</h4>}
-
+          
           <Box pt={4}></Box>
         </Container>
       </main>

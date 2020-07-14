@@ -73,7 +73,7 @@ const SideDrawer = (props) => {
         </div>
         <Divider />
         <List>
-          <DrawerListItems sidedrawerClick={props.sidedrawerClick} />
+          <DrawerListItems />
         </List>
       </Drawer>
     </div>
@@ -81,7 +81,7 @@ const SideDrawer = (props) => {
 };
 
 SideDrawer.propTypes = {
-    sidedrawerClick: PropTypes.func.isRequired,
+    
     open: PropTypes.bool.isRequired,
 };
 
