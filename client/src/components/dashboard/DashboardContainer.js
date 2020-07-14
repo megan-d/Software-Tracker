@@ -1,9 +1,10 @@
 import React from 'react';
+import SideDrawer from '../layout/sidedrawer/SideDrawer';
+import DeveloperDashboard from './developer/DeveloperDashboard';
+import Header from '../layout/Header';
+import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import SideDrawer from '../../layout/sidedrawer/SideDrawer';
-import Header from '../../layout/Header';
 
 const drawerWidth = 240;
 
@@ -61,22 +62,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-export default function Projects(props) {
+export default function DashboardContainer(props) {
   const classes = useStyles();
-  
+  const [open, setOpen] = React.useState(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
+  
   return (
     <div className={classes.root}>
-      
+      <Header open={open} handleDrawerOpen={handleDrawerOpen} />
+      <SideDrawer
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+      />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
-          <p>This is the Projects page</p>
-
+          
+            <p>The content for each component should go here</p>
+          
           <Box pt={4}></Box>
         </Container>
       </main>
     </div>
   );
 }
+
