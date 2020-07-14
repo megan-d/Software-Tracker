@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Login = props => {
+const Profile = props => {
     return (
         <div>
             
@@ -9,8 +9,8 @@ const Login = props => {
     )
 }
 
-Login.propTypes = {
+Profile.propTypes = {
 
 }
 
-export default Login;
+export default Profile;

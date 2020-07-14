@@ -7,6 +7,7 @@ import GlobalStyle from './components/GlobalStyle';
 import Dashboard from './components/dashboard/Dashboard';
 import Error from './components/views/Error';
 import Landing from './components/Landing';
+import Projects from './components/dashboard/projects/Projects';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Switch>
           <Route path='/' component={Landing} exact />
           <Route path='/dashboard' component={Dashboard} exact />
+          <Route path='/projects' component={Projects} exact />
           <Route path='' component={Error} />
         </Switch>
       </div>
