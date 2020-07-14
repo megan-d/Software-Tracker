@@ -9,6 +9,10 @@ import Error from './components/views/Error';
 import Landing from './components/Landing';
 import Projects from './components/dashboard/projects/Projects';
 import Tickets from './components/dashboard/tickets/Tickets';
+import Header from './components/layout/Header';
+import Sidedrawer from './components/layout/sidedrawer/SideDrawer';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 
 const App = () => {
   return (
@@ -18,6 +22,8 @@ const App = () => {
       <div className='full-page'>
         <Switch>
           <Route path='/' component={Landing} exact />
+          <Route path='/register' component={Register} exact />
+          <Route path='/login' component={Login} exact />
           <Route path='/dashboard' component={Dashboard} exact />
           <Route path='/projects' component={Projects} exact />
           <Route path='/tickets' component={Tickets} exact />

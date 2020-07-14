@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import SideDrawer from '../layout/sidedrawer/SideDrawer';
 import DeveloperDashboard from './developer/DeveloperDashboard';
-import Projects from '../dashboard/projects/Projects';
-import Tickets from '../dashboard/tickets/Tickets';
-import Sprints from '../dashboard/sprints/Sprints';
 import Header from '../layout/Header';
 
 const drawerWidth = 240;
@@ -64,22 +61,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//Set up test user before database is set up
-const user = {
-  name: 'Luke',
-  email: 'luke@demo.com',
-  password: '123',
-  role: 'developer',
-  date: Date.now(),
-};
-
-const manager = {
-  name: 'Cindy',
-  email: 'cindy@demo.com',
-  password: '123',
-  role: 'manager',
-  date: Date.now(),
-};
 
 export default function Dashboard(props) {
   const classes = useStyles();
