@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Chart from '../Chart';
-import Deposits from '../Deposits';
-import Orders from '../Orders';
+import Chart from '../charts/Chart';
+import Deposits from '../charts/Deposits';
+import Table from '../charts/Table';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,9 +44,15 @@ export default function DeveloperDashboard(props) {
         </Paper>
       </Grid>
       {/* Recent Orders */}
-      <Grid item xs={12}>
+      {/* Table */}
+      <Grid item xs={6}>
         <Paper className={classes.paper}>
-          <Orders />
+          <Table />
+        </Paper>
+      </Grid>
+      <Grid item xs={6}>
+        <Paper className={classes.paper}>
+          <Table />
         </Paper>
       </Grid>
     </Grid>

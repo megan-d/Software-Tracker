@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import DrawerListItems from '../dashboards/DrawerListItems';
+import DrawerListItems from './DrawerListItems';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';

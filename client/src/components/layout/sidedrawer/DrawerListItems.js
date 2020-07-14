@@ -8,16 +8,18 @@ import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Divider from '@material-ui/core/Divider';
 
 const DrawerListItems = ({ sidedrawerClick }) => (
   <Fragment>
     <div className='main-list-items'>
+      {/* If role is developer or manager, show developer/manager sidedrawer list */}
+      
       <ListItem button onClick={() => sidedrawerClick('dashboardHome')}>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-
         <ListItemText primary='Dashboard' />
       </ListItem>
       <ListItem button onClick={() => sidedrawerClick('projects')}>
@@ -38,6 +40,7 @@ const DrawerListItems = ({ sidedrawerClick }) => (
         </ListItemIcon>
         <ListItemText primary='My Sprints' />
       </ListItem>
+      
     </div>
 
     <Divider />
@@ -56,6 +59,16 @@ const DrawerListItems = ({ sidedrawerClick }) => (
         </ListItemIcon>
         <ListItemText primary='Profile Settings' />
       </ListItem>
+
+      <ListItem button onClick={() => sidedrawerClick('logout')}>
+        <ListItemIcon>
+          <ExitToAppIcon />
+        </ListItemIcon>
+        <ListItemText primary='Logout' />
+      </ListItem>
+
+
+  {/* If role is admin, show admin sidedrawer list */}
     </div>
   </Fragment>
 );

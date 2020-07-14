@@ -9,8 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
-import PopMenu from './PopMenu';
-import SideDrawer from '../layout/SideDrawer';
+import PopMenu from '../layout/PopMenu';
+import SideDrawer from '../layout/sidedrawer/SideDrawer';
 import DeveloperDashboard from './developer/DeveloperDashboard';
 
 const drawerWidth = 240;
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    background: 'purple',
+    background: '#ad3968',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -67,6 +67,15 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
 }));
+
+//Set up test user before database is set up
+const user = {
+  name: 'Luke',
+  email: 'luke@demo.com',
+  password: '123',
+  role: 'developer',
+  date: Date.now(),
+};
 
 export default function Dashboard(props) {
   const classes = useStyles();
@@ -127,7 +136,13 @@ export default function Dashboard(props) {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
-          <DeveloperDashboard />
+          {/* If role is developer, show developer dashboard. If admin, show admin. If manager, show manager. */}
+          {user.role === 'developer' ? (
+            <DeveloperDashboard />
+          ) : (
+            <h4>You are not a developer</h4>
+          )}
+
           <Box pt={4}></Box>
         </Container>
       </main>
