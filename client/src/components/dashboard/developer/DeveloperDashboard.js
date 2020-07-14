@@ -45,12 +45,12 @@ export default function DeveloperDashboard(props) {
       </Grid>
       {/* Recent Orders */}
       {/* Table */}
-      <Grid item xs={6}>
+      <Grid item xs={12} lg={6}>
         <Paper className={classes.paper}>
           <Table />
         </Paper>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item md={12} lg={6}>
         <Paper className={classes.paper}>
           <Table />
         </Paper>

@@ -12,6 +12,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import PopMenu from '../layout/PopMenu';
 import SideDrawer from '../layout/sidedrawer/SideDrawer';
 import DeveloperDashboard from './developer/DeveloperDashboard';
+import Projects from '../dashboard/projects/Projects';
+import Tickets from '../dashboard/tickets/Tickets';
+import Sprints from '../dashboard/sprints/Sprints';
 
 const drawerWidth = 240;
 
@@ -77,6 +80,14 @@ const user = {
   date: Date.now(),
 };
 
+const manager = {
+  name: 'Cindy',
+  email: 'cindy@demo.com',
+  password: '123',
+  role: 'manager',
+  date: Date.now(),
+};
+
 export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -87,7 +98,7 @@ export default function Dashboard(props) {
     setOpen(false);
   };
 
-  const [dashboardComponent, setDashboardComponent] = useState('dashboardHome');
+  const [dashboardComponent, setDashboardComponent] = useState('Dashboard');
 
   const handleSideDrawerClick = (clicked) => {
     setDashboardComponent(clicked);
@@ -123,7 +134,7 @@ export default function Dashboard(props) {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            {dashboardComponent}
           </Typography>
           <PopMenu />
         </Toolbar>
@@ -137,11 +148,15 @@ export default function Dashboard(props) {
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
           {/* If role is developer, show developer dashboard. If admin, show admin. If manager, show manager. */}
-          {user.role === 'developer' ? (
+          {user.role === 'developer' && dashboardComponent === 'Dashboard' ? (
             <DeveloperDashboard />
-          ) : (
-            <h4>You are not a developer</h4>
-          )}
+          ) : user.role === 'developer' && dashboardComponent === 'Projects' ? (
+            <Projects />
+          ) : user.role === 'developer' && dashboardComponent === 'Tickets' ? (
+            <Tickets />
+          ) : user.role === 'developer' && dashboardComponent === 'Sprints' ? (
+            <Sprints />
+          ) : <h4>Access denied. Please login or sign up.</h4>}
 
           <Box pt={4}></Box>
         </Container>

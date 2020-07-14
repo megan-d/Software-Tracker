@@ -16,25 +16,25 @@ const DrawerListItems = ({ sidedrawerClick }) => (
     <div className='main-list-items'>
       {/* If role is developer or manager, show developer/manager sidedrawer list */}
       
-      <ListItem button onClick={() => sidedrawerClick('dashboardHome')}>
+      <ListItem button onClick={() => sidedrawerClick('Dashboard')}>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText primary='Dashboard' />
       </ListItem>
-      <ListItem button onClick={() => sidedrawerClick('projects')}>
+      <ListItem button onClick={() => sidedrawerClick('Projects')}>
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
         <ListItemText primary='My Projects' />
       </ListItem>
-      <ListItem button onClick={() => sidedrawerClick('tickets')}>
+      <ListItem button onClick={() => sidedrawerClick('Tickets')}>
         <ListItemIcon>
           <ConfirmationNumberIcon />
         </ListItemIcon>
         <ListItemText primary='My Tickets' />
       </ListItem>
-      <ListItem button onClick={() => sidedrawerClick('sprints')}>
+      <ListItem button onClick={() => sidedrawerClick('Sprints')}>
         <ListItemIcon>
           <GroupWorkIcon />
         </ListItemIcon>
@@ -46,21 +46,21 @@ const DrawerListItems = ({ sidedrawerClick }) => (
     <Divider />
 
     <div className='secondary-list-items'>
-      <ListItem button onClick={() => sidedrawerClick('submit')}>
+      <ListItem button onClick={() => sidedrawerClick('Submit Ticket')}>
         <ListItemIcon>
           <AddCircleIcon />
         </ListItemIcon>
         <ListItemText primary='Submit Ticket' />
       </ListItem>
 
-      <ListItem button onClick={() => sidedrawerClick('profile')}>
+      <ListItem button onClick={() => sidedrawerClick('Profile Settings')}>
         <ListItemIcon>
           <SettingsIcon />
         </ListItemIcon>
         <ListItemText primary='Profile Settings' />
       </ListItem>
 
-      <ListItem button onClick={() => sidedrawerClick('logout')}>
+      <ListItem button onClick={() => sidedrawerClick('Logout')}>
         <ListItemIcon>
           <ExitToAppIcon />
         </ListItemIcon>
