@@ -6,10 +6,24 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
-  user: {
+  description: {
+    type: String,
+    required: true,
+  },
+  submitdate: {
+    type: Date,
+    default: Date.now,
+  },
+  targetdate: {
+    type: Date,
+    required: true,
+  },
+  submitter: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true,
   },
+  //how do you add manager and developer that will get from their userId?
 });
 
 module.exports = Project = mongoose.model('Project', projectSchema);
