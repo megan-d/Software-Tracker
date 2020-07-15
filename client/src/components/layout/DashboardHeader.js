@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,8 +8,14 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import PopMenu from '../layout/PopMenu';
+import styled from 'styled-components';
 
 const drawerWidth = 240;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,7 +98,7 @@ const Header = (props) => {
             noWrap
             className={classes.title}
           >
-            {props.location}
+            <StyledLink to='/'>Software Tracker</StyledLink>
           </Typography>
           <PopMenu />
         </Toolbar>
