@@ -1,9 +1,12 @@
 import React from 'react';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import SideDrawer from '../layout/sidedrawer/SideDrawer';
-import DeveloperDashboard from './developer/DeveloperDashboard';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import PopMenu from '../layout/PopMenu';
 
 const drawerWidth = 240;
 
@@ -60,16 +63,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-export default function Dashboard(props) {
+const Header = (props) => {
   const classes = useStyles();
-  
-  
   return (
-    // if developer role, display developer dashboard
-    
-            <DeveloperDashboard />
-          
-         
+    <div className={classes.root}>
+      <AppBar
+        position='absolute'
+        className={clsx(classes.appBar, props.open && classes.appBarShift)}
+      >
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge='start'
+            color='inherit'
+            aria-label='open drawer'
+            onClick={() => props.handleDrawerOpen()}
+            className={clsx(
+              classes.menuButton,
+              props.open && classes.menuButtonHidden,
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            component='h1'
+            variant='h6'
+            color='inherit'
+            noWrap
+            className={classes.title}
+          >
+            {props.location}
+          </Typography>
+          <PopMenu />
+        </Toolbar>
+      </AppBar>
+    </div>
   );
-}
+};
+
+export default Header;

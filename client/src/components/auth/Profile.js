@@ -1,16 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 
 const Profile = props => {
     return (
-        <div>
-            
-        </div>
+      <p>This is the Profile page</p>
     )
 }
 
-Profile.propTypes = {
-
-}
 
 export default Profile;

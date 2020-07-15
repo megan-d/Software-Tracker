@@ -11,73 +11,87 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Divider from '@material-ui/core/Divider';
+import styled from 'styled-components';
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
 
 const DrawerListItems = ({ sidedrawerClick }) => (
   <Fragment>
     <div className='main-list-items'>
       {/* If role is developer or manager, show developer/manager sidedrawer list */}
-      
-      <Link to='/dashboard'>
-      <ListItem button >
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary='Dashboard' />
-      </ListItem></Link>
 
-      <Link to='/projects'>
-      <ListItem button >
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary='My Projects' />
-      </ListItem>
-      </Link>
-      
-      <Link to='/tickets'>
-      <ListItem button >
-        <ListItemIcon>
-          <ConfirmationNumberIcon />
-        </ListItemIcon>
-        <ListItemText primary='My Tickets' />
-      </ListItem>
-      </Link>
-      
-      <ListItem button >
-        <ListItemIcon>
-          <GroupWorkIcon />
-        </ListItemIcon>
-        <ListItemText primary='My Sprints' />
-      </ListItem>
-      
+      <StyledLink
+        to='/dashboard'
+        style={{ textDecoration: 'none', color: 'black' }}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary='Dashboard' />
+        </ListItem>
+      </StyledLink>
+
+      <StyledLink to='/projects'>
+        <ListItem button>
+          <ListItemIcon>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText primary='My Projects' />
+        </ListItem>
+      </StyledLink>
+
+      <StyledLink to='/tickets'>
+        <ListItem button>
+          <ListItemIcon>
+            <ConfirmationNumberIcon />
+          </ListItemIcon>
+          <ListItemText primary='My Tickets' />
+        </ListItem>
+      </StyledLink>
+
+      <StyledLink to='/sprints'>
+        <ListItem button>
+          <ListItemIcon>
+            <GroupWorkIcon />
+          </ListItemIcon>
+          <ListItemText primary='My Sprints' />
+        </ListItem>
+      </StyledLink>
     </div>
 
     <Divider />
 
     <div className='secondary-list-items'>
-      <ListItem button >
+    <StyledLink to='/submit'>
+      <ListItem button>
         <ListItemIcon>
           <AddCircleIcon />
         </ListItemIcon>
         <ListItemText primary='Submit Ticket' />
       </ListItem>
+      </StyledLink>
 
-      <ListItem button >
+      <StyledLink to='/profile'>
+      <ListItem button>
         <ListItemIcon>
           <SettingsIcon />
         </ListItemIcon>
         <ListItemText primary='Profile Settings' />
       </ListItem>
+      </StyledLink>
 
-      <ListItem button >
+      <ListItem button>
         <ListItemIcon>
           <ExitToAppIcon />
         </ListItemIcon>
         <ListItemText primary='Logout' />
       </ListItem>
 
-
-  {/* If role is admin, show admin sidedrawer list */}
+      {/* If role is admin, show admin sidedrawer list */}
     </div>
   </Fragment>
 );

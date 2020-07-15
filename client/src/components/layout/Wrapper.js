@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import SideDrawer from '../layout/sidedrawer/SideDrawer';
-import DeveloperDashboard from './developer/DeveloperDashboard';
+import SideDrawer from './sidedrawer/SideDrawer';
+import DashboardHeader from './DashboardHeader';
 
 const drawerWidth = 240;
 
@@ -61,15 +61,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Dashboard(props) {
+export default function Wrapper(props) {
   const classes = useStyles();
-  
+  const [open, setOpen] = React.useState(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   
   return (
-    // if developer role, display developer dashboard
-    
-            <DeveloperDashboard />
+    <div className={classes.root}>
+      <DashboardHeader open={open} handleDrawerOpen={handleDrawerOpen} location={props.location}/>
+      <SideDrawer
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+      />
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth='lg' className={classes.container}>
           
-         
+            {props.children}
+          
+          <Box pt={4}></Box>
+        </Container>
+      </main>
+    </div>
   );
 }

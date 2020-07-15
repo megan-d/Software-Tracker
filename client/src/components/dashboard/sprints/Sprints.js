@@ -1,16 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+
 
 const Sprints = props => {
     return (
-        <div>
-            This is the Sprints page
-        </div>
+      <p>This is the Sprints page</p>
     )
 }
 
-Sprints.propTypes = {
-
-}
 
 export default Sprints;
