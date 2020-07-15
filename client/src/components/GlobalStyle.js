@@ -56,14 +56,18 @@ input[type="search"] {
   -webkit-appearance: none;
 }
 
-input:focus{
+/* input:focus{
   outline: none;
   border: 2px solid #fdc108;
-}
+} */
 
 .btn:focus{
   outline: none;
   
+}
+
+hr {
+  margin: 10px 0px 20px 0px;
 }
 
 img:-moz-loading {

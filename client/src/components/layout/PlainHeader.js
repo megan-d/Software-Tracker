@@ -73,7 +73,7 @@ const PlainHeader = (props) => {
             noWrap
             className={classes.title}
           >
-            <StyledLink>Software Tracker</StyledLink>
+            <StyledLink to='/'>Software Tracker</StyledLink>
           </Typography>
           <PopMenu />
         </Toolbar>
