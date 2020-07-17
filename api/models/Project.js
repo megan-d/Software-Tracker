@@ -14,13 +14,12 @@ const projectSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  targetcompletiondate: {
+  targetCompletionDate: {
     type: Date,
     required: true,
   },
-  completiondate: {
+  completionDate: {
     type: Date,
-    required: true,
   },
   manager: {
     type: Schema.Types.ObjectId,
