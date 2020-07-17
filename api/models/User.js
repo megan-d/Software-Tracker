@@ -20,10 +20,14 @@ const userSchema = new Schema({
         type: String,
         required: true,
       },
-    date: {
+    created: {
       type: Date,
       default: Date.now,
     },
+    modified: {
+      type: Date,
+      default: null
+    }
   });
   
   module.exports = User = mongoose.model('User', userSchema);
