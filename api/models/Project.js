@@ -38,7 +38,7 @@ const projectSchema = new Schema({
       //Shouldn't need to manipulate specific comments so probably don't need a separate model for this
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'Sser'
+        ref: 'User'
       },
       name: {
         type: String,
