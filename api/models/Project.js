@@ -10,20 +10,63 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
-  submitdate: {
+  datecreated: {
     type: Date,
     default: Date.now,
   },
-  targetdate: {
+  targetcompletiondate: {
     type: Date,
     required: true,
   },
-  submitter: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+  completiondate: {
+    type: Date,
     required: true,
   },
-  //how do you add manager and developer that will get from their userId?
+  manager: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  developers: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    },
+  ],
+  comments: [{
+      //Shouldn't need to manipulate specific comments so probably don't need a separate model for this
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'Sser'
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      text: {
+        type: String,
+        required: true,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+  }],
+  tickets: [
+    {
+      ticket: {
+        type: Schema.Types.ObjectId,
+        ref: 'Ticket',
+      },
+    },
+  ],
+  sprints: [{
+    sprint: {
+      type: Schema.Types.ObjectId,
+      ref: 'Sprint',
+    },
+  }],
 });
 
 module.exports = Project = mongoose.model('Project', projectSchema);
