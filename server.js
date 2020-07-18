@@ -5,9 +5,9 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 //Import routes
-// const auth = require('./api/routes/auth');
-// const users = require('./api/routes/users');
-// const profile = require('./api/routes/profile');
+const auth = require('./api/routes/auth');
+const users = require('./api/routes/users');
+const projects = require('./api/routes/projects');
 
 dotenv.config();
 const app = express();
@@ -30,12 +30,12 @@ connectDatabase();
 app.use(express.json());
 
 //Route middlewares
-    // //Authenticate user and get token
-    // app.use('/api/auth', auth);
-    // //Register new user 
-    // app.use('/api/users', users);
-    // //Create, update, and delete profile. Add activity to profile.
-    // app.use('/api/profile', profile);
+    // Authenticate user
+    app.use('/api/auth', auth);
+    // Register new user 
+    app.use('/api/users', users);
+    // Create, update, and delete projects. 
+    app.use('/api/projects', projects);
 
 // Serve static assets in production. Heroku will automatically default the NODE_ENV to production.
 if (process.env.NODE_ENV === 'production') {
