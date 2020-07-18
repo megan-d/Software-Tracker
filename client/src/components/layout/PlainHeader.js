@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import PopMenu from '../layout/PopMenu';
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -35,12 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -75,7 +70,9 @@ const PlainHeader = (props) => {
           >
             <StyledLink to='/'>Software Tracker</StyledLink>
           </Typography>
-          <PopMenu />
+          {/* <PopMenu /> */}
+          <Button color="inherit" href='/login'>Login</Button>
+          <Button color="inherit">Demo</Button>
         </Toolbar>
       </AppBar>
     </div>
