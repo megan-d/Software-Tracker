@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 //Import routes
 const auth = require('./api/routes/auth');
@@ -36,23 +38,32 @@ connectDatabase();
 
 //MIDDLEWARES
 //Set up sessions with express session. Then use flash middleware provided by connect-flash.
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 'this secret',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}))
-app.use(flash());
+app.set('trust proxy', 1); // trust first proxy
+app.use(express.static(__dirname + '/public'));
+app.use(
+  session({
+    secret: 'this secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  }),
+);
 //To get access to req.body (no longer need body parser npm package)
 app.use(express.json());
+
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //Route middlewares
 // Authenticate user
 app.use('/api/auth', auth);
 // Register new user
 app.use('/api/users', users);
-// Create, update, and delete projects.
+// Create, update, and delete projects, including add/modify/delete tickets and add/modify/delete sprints.
 app.use('/api/projects', projects);
 
 // Serve static assets in production. Heroku will automatically default the NODE_ENV to production.
