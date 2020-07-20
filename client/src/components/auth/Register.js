@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import PlainHeader from '../layout/PlainHeader';
+import AlertBanner from '../layout/AlertBanner';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,8 +44,10 @@ export default function Register() {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'Developer',
+    role: '',
   });
+
+  const [isAuthenticated, setAuthenticated] = useState(false);
 
   //Pull out variables from formData
   const { name, email, password, confirmPassword, role } = formData;
@@ -55,7 +59,6 @@ export default function Register() {
   //Function to send data that's in formData to database endpoint when submit is clicked
   const onSubmit = async (e) => {
     e.preventDefault();
-
     const user = {
       name: name,
       email: email,
@@ -71,7 +74,9 @@ export default function Register() {
     const body = JSON.stringify(user);
     try {
       //Axios will return promise with response in route to add new user (should return a token)
-      const res = await axios.post('/api/auth/register', body, config);
+      await axios.post('/api/users', body, config);
+      //Set state is isAuthenticated upon registration
+      setAuthenticated(true);
     } catch (err) {
       //If errors, get array of errors and loop through them and dispatch setAlert
       const errors = err.response.data.errors;
@@ -81,11 +86,17 @@ export default function Register() {
     }
   };
 
+  //If isAuthenticated, redirect to their dashboard. Will need a function to run on mounting of Dashboard that will load the dashboard for that specific user.
+  if(isAuthenticated) {
+    return <Redirect to='/dashboard' />
+  }
+
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <PlainHeader />
       <div className={classes.paper}>
+        <AlertBanner />
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -145,6 +156,16 @@ export default function Register() {
                   required
                 />
               </label>
+            </div>
+            <div className='form-group'>
+              <label>
+                Choose your typical role (this can be changed later):
+              </label>
+
+              <select name='role' id='role' onChange={(e) => onChange(e)}>
+                <option value='developer'>Developer</option>
+                <option value='manager'>Manager</option>
+              </select>
             </div>
           </div>
           <input

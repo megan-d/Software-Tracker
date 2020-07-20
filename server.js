@@ -36,27 +36,9 @@ const connectDatabase = async () => {
 };
 connectDatabase();
 
-//MIDDLEWARES
-//Set up sessions with express session. Then use flash middleware provided by connect-flash.
-app.set('trust proxy', 1); // trust first proxy
-app.use(express.static(__dirname + '/public'));
-app.use(
-  session({
-    secret: 'this secret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true },
-  }),
-);
 //To get access to req.body (no longer need body parser npm package)
 app.use(express.json());
 
-app.use(flash());
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 //Route middlewares
 // Authenticate user
@@ -65,6 +47,27 @@ app.use('/api/auth', auth);
 app.use('/api/users', users);
 // Create, update, and delete projects, including add/modify/delete tickets and add/modify/delete sprints.
 app.use('/api/projects', projects);
+
+app.use(flash());
+
+//MIDDLEWARES
+//Set up sessions with express session. Then use flash middleware provided by connect-flash.
+app.set('trust proxy', 1); // trust first proxy
+app.use(express.static(__dirname + '/public'));
+app.use(
+  session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  }),
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Serve static assets in production. Heroku will automatically default the NODE_ENV to production.
 if (process.env.NODE_ENV === 'production') {
