@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const passport = require('passport');
 const bcrypt = require('bcryptjs');
-const session = require('express-session');
 
 const User = require('../models/User');
 
@@ -28,6 +26,9 @@ router.post(
     check('password', 'Passwords do not match').custom(
       (value, { req }) => value === req.body.confirmPassword,
     ),
+    check('role', 'Please select a role')
+      .not()
+      .isEmpty()
   ],
   async (req, res) => {
     //Show error if validation fails

@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import PlainHeader from '../layout/PlainHeader';
 import AlertBanner from '../layout/AlertBanner';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -158,11 +158,8 @@ export default function Register() {
               </label>
             </div>
             <div className='form-group'>
-              <label>
-                Choose your typical role (this can be changed later):
-              </label>
-
               <select name='role' id='role' onChange={(e) => onChange(e)}>
+              <option value=''>Please select your typical project role...</option>
                 <option value='developer'>Developer</option>
                 <option value='manager'>Manager</option>
               </select>
@@ -174,6 +171,8 @@ export default function Register() {
             className='button login-form-button'
           />
         </form>
+        <p>Already have an account?</p>
+        <Link to='/login'>Log In</Link>
       </div>
     </Container>
   );

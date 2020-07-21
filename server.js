@@ -3,12 +3,12 @@ const port = process.env.PORT || 5000;
 const path = require('path');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const flash = require('connect-flash');
-const session = require('express-session');
-const passport = require('passport');
-const bodyParser = require('body-parser');
+// const flash = require('connect-flash');
+// const session = require('express-session');
+// const passport = require('passport');
+// const bodyParser = require('body-parser');
 
-require('./api/config/passport')(passport);
+// require('./api/config/passport')(passport);
 
 //Import routes
 const auth = require('./api/routes/auth');
@@ -43,24 +43,24 @@ app.use(express.json());
 // Express body parser
 // app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: true },
-  }),
-);
+// app.use(
+//   session({
+//     secret: 'secret',
+//     resave: true,
+//     saveUninitialized: true,
+//     cookie: { secure: true },
+//   }),
+// );
 
-//Passport middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(passport.initialize());
-app.use(passport.session());
+// //Passport middleware
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-//MIDDLEWARES
-//Set up sessions with express session. Then use flash middleware provided by connect-flash.
-app.set('trust proxy', 1); // trust first proxy
-app.use(express.static(__dirname + '/public'));
+// //MIDDLEWARES
+// //Set up sessions with express session. Then use flash middleware provided by connect-flash.
+// app.set('trust proxy', 1); // trust first proxy
+// app.use(express.static(__dirname + '/public'));
 
 //Route middlewares
 // Authenticate user

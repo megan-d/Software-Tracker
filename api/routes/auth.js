@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const passport = require('passport');
 
 const User = require('../models/User');
 
@@ -38,16 +37,8 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     } else {
-      //If passes validation authenticate user with passport and redirect to user's dashboard
+      //If passes validation authenticate user and issue jwt
       
-        passport.authenticate('local', function(err, user, info) {
-          if (err) { return next(err); }
-          if (!user) { return res.send('Error'); }
-          req.logIn(user, function(err) {
-            if (err) { return next(err); }
-            return res.json({user});
-          });
-        })(req, res, next);
       }
     }
 );

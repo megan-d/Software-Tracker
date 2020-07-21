@@ -35,10 +35,10 @@ export default function SimpleSelect() {
           value={role}
           onChange={handleChange}
         >
+          <MenuItem value={''}>Please select your typical role on projects...</MenuItem>
           <MenuItem value={'Developer'}>Developer</MenuItem>
           <MenuItem value={'Manager'}>Manager</MenuItem>
         </Select>
-        <FormHelperText>Please select your typical role on projects. This can be updated later.</FormHelperText>
       </FormControl>
       
     </div>
