@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
+const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/User');
 
@@ -19,8 +20,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-
 //ROUTE: POST api/auth/login
 //DESCRIPTION: Authenticate user (login existing user)
 //ACCESS LEVEL: Public (make request so can get access to private routes)
@@ -35,19 +34,50 @@ router.post(
       .not()
       .isEmpty(),
   ],
-  async (req, res) => {
+  async (req, res, next) => {
     //Add validation. If doesn't pass the above validation, respond witih error. Need to adjust how handling flash errors (won't work like this)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      req.flash('error', errors.array());
       return res.status(400).json({ errors: errors.array() });
     } else {
       //If passes validation authenticate user with passport and redirect to user's dashboard
-      passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
-        failureFlash: 'Invalid username and/or password',
-      });
+      passport.use(
+        new LocalStrategy({ usernameField: 'email' }, async function(
+          email,
+          password,
+          done,
+        ) {
+          //Match user
+          try {
+            await User.findOne({ email: email }, function(err, user) {
+              console.log(email);
+              if (err) {
+                return done(err);
+              }
+              if (!user) {
+                return done(null, false, {
+                  message: 'This email address is not registered.',
+                });
+              }
+              //Match password
+              bcrypt.compare(password, user.password, (err, isMatch) => {
+                if (err) throw err;
+                if (isMatch) {
+                  return done(null, user);
+                } else {
+                  return done(null, false, { message: 'Incorrect password.' });
+                }
+              });
+              return done(null, user);
+            });
+          } catch (error) {
+            console.log(error);
+            res.status(500).send('Server error');
+          }
+        }),
+      );
+
+      passport.authenticate('local')(req, res, next);
     }
   },
 );
