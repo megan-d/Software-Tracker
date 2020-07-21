@@ -6,13 +6,9 @@ const dotenv = require('dotenv');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const LocalStrategy = require('passport-local').Strategy;
 
-
-const initializePassport = require('./api/config/passport');
-initializePassport(passport);
+require('./api/config/passport')(passport);
 
 //Import routes
 const auth = require('./api/routes/auth');
@@ -21,7 +17,6 @@ const projects = require('./api/routes/projects');
 
 dotenv.config();
 const app = express();
-app.use(cookieParser);
 
 //Connect to Database. Dotenv npm package gives access to .env
 const connectDatabase = async () => {
@@ -44,9 +39,9 @@ const connectDatabase = async () => {
 connectDatabase();
 
 //To get access to req.body (no longer need body parser npm package)
-// app.use(express.json());
+app.use(express.json());
 // Express body parser
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
@@ -61,10 +56,6 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 //MIDDLEWARES
 //Set up sessions with express session. Then use flash middleware provided by connect-flash.

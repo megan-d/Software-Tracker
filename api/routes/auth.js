@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const passport = require('passport');
-const bcrypt = require('bcryptjs');
-const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/User');
 
@@ -41,45 +39,17 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     } else {
       //If passes validation authenticate user with passport and redirect to user's dashboard
-      passport.use(
-        new LocalStrategy({ usernameField: 'email' }, async function(
-          email,
-          password,
-          done,
-        ) {
-          //Match user
-          try {
-            await User.findOne({ email: email }, function(err, user) {
-              console.log(email);
-              if (err) {
-                return done(err);
-              }
-              if (!user) {
-                return done(null, false, {
-                  message: 'This email address is not registered.',
-                });
-              }
-              //Match password
-              bcrypt.compare(password, user.password, (err, isMatch) => {
-                if (err) throw err;
-                if (isMatch) {
-                  return done(null, user);
-                } else {
-                  return done(null, false, { message: 'Incorrect password.' });
-                }
-              });
-              return done(null, user);
-            });
-          } catch (error) {
-            console.log(error);
-            res.status(500).send('Server error');
-          }
-        }),
-      );
-
-      passport.authenticate('local')(req, res, next);
+      
+        passport.authenticate('local', function(err, user, info) {
+          if (err) { return next(err); }
+          if (!user) { return res.send('Error'); }
+          req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            return res.json({user});
+          });
+        })(req, res, next);
+      }
     }
-  },
 );
 
 //ROUTE: GET api/auth/logout
