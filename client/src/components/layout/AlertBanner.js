@@ -18,7 +18,7 @@ const AlertBanner = (props) => {
       {props.errors !== null &&
         props.errors.length > 0 &&
         props.errors.map((el, index) => (
-          <Alert onClose={() => {}} severity='error' key={index}>
+          <Alert severity='error' key={index}>
             {el.msg}
           </Alert>
         ))}

@@ -91,7 +91,6 @@ const Login = (props) => {
       if (errors) {
         setUserData({ userErrors: errors });
         setTimeout(() => setUserData({ userErrors: null }), 3000);
-        console.log(errors);
       }
       //set state for failed login
     }

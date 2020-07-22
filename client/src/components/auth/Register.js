@@ -10,6 +10,16 @@ import PlainHeader from '../layout/PlainHeader';
 import AlertBanner from '../layout/AlertBanner';
 import { Link, Redirect } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,11 +41,14 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: '300px',
+    minWidth: 120,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  roleSelect: {
+    minWidth: '400px'
+  }
 }));
 
 export default function Register() {
@@ -95,10 +108,9 @@ export default function Register() {
       //If errors, get array of errors and loop through them and dispatch setAlert
       const errors = err.response.data.errors;
       if (errors) {
-        setUserData({ userErrors: errors  });
+        setUserData({ userErrors: errors });
         //remove errors within 3 seconds
-        setTimeout(() => setUserData({ userErrors: null  }), 3000);
-        console.log(errors);
+        setTimeout(() => setUserData({ userErrors: null }), 3000);
       }
     }
   };
@@ -112,10 +124,7 @@ export default function Register() {
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <PlainHeader />
-
       <div className={classes.paper}>
-       
-        
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -123,8 +132,101 @@ export default function Register() {
           Register
         </Typography>
         {userErrors && <AlertBanner errors={userErrors} />}
-        <form className='form-right' action='' onSubmit={(e) => onSubmit(e)}>
-          <div className='form-container-signup'>
+        <form className={classes.form} action='' onSubmit={(e) => onSubmit(e)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete='name'
+                name='name'
+                variant='outlined'
+                required
+                fullWidth
+                id='name'
+                label='Name'
+                autoFocus
+                value={name}
+                onChange={(e) => onChange(e)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant='outlined'
+                required
+                fullWidth
+                id='email'
+                label='Email Address'
+                name='email'
+                autoComplete='email'
+                value={email}
+                onChange={(e) => onChange(e)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => onChange(e)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => onChange(e)}
+              />
+            </Grid>
+            <FormControl className={classes.formControl}>
+        <InputLabel id="role-label">Role</InputLabel>
+        <Select
+          labelId="role-label"
+          id="role-select"
+          value={role}
+          name='role'
+          onChange={(e) => onChange(e)}
+          className={classes.roleSelect}
+        >
+          <MenuItem value='developer'>Developer</MenuItem>
+          <MenuItem value='manager'>Manager</MenuItem>
+        </Select>
+        <FormHelperText>Please select your typical project role</FormHelperText>
+      </FormControl>
+            <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign Up
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link to="/login" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+    </Container>
+  );
+}
+
+{
+  /* <div className='form-container-signup'>
             <div className='form-group'>
               <label>
                 Name:
@@ -150,52 +252,49 @@ export default function Register() {
                   required
                 />
               </label>
-            </div>
-            <div className='form-group'>
-              <label>
-                Password:
-                <input
-                  type='password'
-                  name='password'
-                  placeholder=''
-                  value={password}
-                  onChange={(e) => onChange(e)}
-                  required
-                />
-              </label>
-            </div>
-            <div className='form-group'>
-              <label>
-                Confirm Password:
-                <input
-                  type='password'
-                  name='confirmPassword'
-                  placeholder=''
-                  value={confirmPassword}
-                  onChange={(e) => onChange(e)}
-                  required
-                />
-              </label>
-            </div>
-            <div className='form-group'>
-              <select name='role' id='role' onChange={(e) => onChange(e)}>
-                <option value=''>
-                  Please select your typical project role...
-                </option>
-                <option value='developer'>Developer</option>
-                <option value='manager'>Manager</option>
-              </select>
-            </div>
-          </div>
-          <input
-            type='submit'
-            value='Sign Up'
-            className='button login-form-button'
-          />
-        </form>
-        <p>Already have an account?</p>
-        <Link to='/login'>Log In</Link>
-      </div>
-    </Container>
-  );
+            </div> */
 }
+//     <div className='form-group'>
+//       <label>
+//         Password:
+//         <input
+//           type='password'
+//           name='password'
+//           placeholder=''
+//           value={password}
+//           onChange={(e) => onChange(e)}
+//           required
+//         />
+//       </label>
+//     </div>
+//     <div className='form-group'>
+//       <label>
+//         Confirm Password:
+//         <input
+//           type='password'
+//           name='confirmPassword'
+//           placeholder=''
+//           value={confirmPassword}
+//           onChange={(e) => onChange(e)}
+//           required
+//         />
+//       </label>
+//     </div>
+//     <div className='form-group'>
+//       <select name='role' id='role' onChange={(e) => onChange(e)}>
+//         <option value=''>
+//           Please select your typical project role...
+//         </option>
+//         <option value='developer'>Developer</option>
+//         <option value='manager'>Manager</option>
+//       </select>
+//     </div>
+//   </div>
+//   <input
+//     type='submit'
+//     value='Sign Up'
+//     className='button login-form-button'
+//   />
+// </form>
+// <p>Already have an account?</p>
+// <Link to='/login'>Log In</Link> */}
