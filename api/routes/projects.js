@@ -43,12 +43,18 @@ router.post(
       verify,
       [
         //User express validator to validate required inputs
-        check('weight', 'Please provide a numeric weight in pounds.')
-          .isNumeric()
-          .trim(),
-        check('height', 'Please provide a numeric height in inches.')
-          .isNumeric()
-          .trim(),
+        check('name', 'Please provide a project name.')
+        .not()
+        .isEmpty()
+        .trim(),
+        check('description', 'Please provide a project description.')
+        .not()
+        .isEmpty()
+        .trim(),
+        check('targetCompletionDate', 'Please provide a target date in the future.')
+        .not()
+        .isEmpty()
+        .isAfter(Date.now),
         check('goalDays', 'Please provide a number between 0 and 7')
           .optional({ checkFalsy: true })
           .isInt({ min: 0, max: 7 })
