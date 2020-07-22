@@ -15,11 +15,13 @@ const AlertBanner = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {/* {props.errors !== null &&
+      {props.errors !== null &&
         props.errors.length > 0 &&
-        props.errors.map((el) => (
-          <Alert severity={props.errors.severity}>{props.errors.msg}</Alert>
-        ))} */}
+        props.errors.map((el, index) => (
+          <Alert onClose={() => {}} severity='error' key={index}>
+            {el.msg}
+          </Alert>
+        ))}
     </div>
   );
 };

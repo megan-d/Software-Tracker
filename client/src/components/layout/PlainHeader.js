@@ -72,6 +72,7 @@ const PlainHeader = (props) => {
           </Typography>
           {/* <PopMenu /> */}
           <Button color="inherit" href='/login'>Login</Button>
+          <Button color="inherit" href='/register'>Register</Button>
           <Button color="inherit">Demo</Button>
         </Toolbar>
       </AppBar>

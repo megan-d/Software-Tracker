@@ -47,6 +47,14 @@ const Login = (props) => {
   //Pull out variables from formData
   const { email, password } = formData;
 
+  const [userData, setUserData] = useState({
+    isLoading: true,
+    profile: null,
+    userErrors: null,
+  });
+
+  const { isLoading, profile, userErrors } = userData;
+
   //Function to update state on change and put into updateFormData variable
   const onChange = (e) =>
     updateFormData({ ...formData, [e.target.name]: e.target.value });
@@ -72,7 +80,7 @@ const Login = (props) => {
       if (token) {
         localStorage.setItem('token', token);
       }
-      
+
       //TO DO*************
       //set state accordingly (isLoading: false, isAuthenticated: true, token, user)
       //Call load user function and redirect to user's dashboard
@@ -81,7 +89,8 @@ const Login = (props) => {
       //If errors, get array of errors and loop through them and dispatch setAlert
       const errors = err.response.data.errors;
       if (errors) {
-        // errors.forEach((error) => dispatch(displayAlert(error.msg, 'warning')));
+        setUserData({ userErrors: errors });
+        setTimeout(() => setUserData({ userErrors: null }), 3000);
         console.log(errors);
       }
       //set state for failed login
@@ -98,13 +107,13 @@ const Login = (props) => {
       <CssBaseline />
       <PlainHeader />
       <div className={classes.paper}>
-        <AlertBanner />
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
           Login
         </Typography>
+        {userErrors && <AlertBanner errors={userErrors} />}
         <form className='form' action='' onSubmit={(e) => onSubmit(e)}>
           <div className='form-container'>
             <div className='form-group'>

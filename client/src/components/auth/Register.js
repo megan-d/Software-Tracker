@@ -9,6 +9,7 @@ import Container from '@material-ui/core/Container';
 import PlainHeader from '../layout/PlainHeader';
 import AlertBanner from '../layout/AlertBanner';
 import { Link, Redirect } from 'react-router-dom';
+import Spinner from '../layout/Spinner';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,10 +48,16 @@ export default function Register() {
     role: '',
   });
 
-  const [isAuthenticated, setAuthenticated] = useState(false);
+  const [userData, setUserData] = useState({
+    isLoading: true,
+    profile: null,
+    userErrors: null,
+  });
 
-  //Pull out variables from formData
+  //Pull out variables from formData and userData
   const { name, email, password, confirmPassword, role } = formData;
+
+  const { isLoading, profile, userErrors } = userData;
 
   //Function to update state on change using updateFormData
   const onChange = (e) =>
@@ -84,34 +91,38 @@ export default function Register() {
       //Call load user function and redirect to user's dashboard
       //Set up alert messages below for errors
       //Set state is isAuthenticated upon registration
-      setAuthenticated(true);
     } catch (err) {
       //If errors, get array of errors and loop through them and dispatch setAlert
       const errors = err.response.data.errors;
       if (errors) {
-        // errors.forEach((error) => dispatch(displayAlert(error.msg, 'warning')));
+        setUserData({ userErrors: errors  });
+        //remove errors within 3 seconds
+        setTimeout(() => setUserData({ userErrors: null  }), 3000);
         console.log(errors);
       }
     }
   };
 
   //If isAuthenticated, redirect to their dashboard. Will need a function to run on mounting of Dashboard that will load the dashboard for that specific user.
-  if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
-  }
+  // if (isAuthenticated) {
+  //   return <Redirect to='/dashboard' />;
+  // }
 
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <PlainHeader />
+
       <div className={classes.paper}>
-        <AlertBanner />
+       
+        
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
           Register
         </Typography>
+        {userErrors && <AlertBanner errors={userErrors} />}
         <form className='form-right' action='' onSubmit={(e) => onSubmit(e)}>
           <div className='form-container-signup'>
             <div className='form-group'>
