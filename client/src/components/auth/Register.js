@@ -76,25 +76,28 @@ export default function Register() {
       //Axios will return promise with response in route to add new user (should return a token)
       const res = await axios.post('/api/users', body, config);
       const token = res.data.token;
-    if (token) {
-      localStorage.setItem('token', token);
-    }
-
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+      //TO DO*************
+      //set state accordingly (isLoading: false, isAuthenticated: true, token, user)
+      //Call load user function and redirect to user's dashboard
+      //Set up alert messages below for errors
       //Set state is isAuthenticated upon registration
       setAuthenticated(true);
-
     } catch (err) {
       //If errors, get array of errors and loop through them and dispatch setAlert
       const errors = err.response.data.errors;
       if (errors) {
+        // errors.forEach((error) => dispatch(displayAlert(error.msg, 'warning')));
         console.log(errors);
       }
     }
   };
 
   //If isAuthenticated, redirect to their dashboard. Will need a function to run on mounting of Dashboard that will load the dashboard for that specific user.
-  if(isAuthenticated) {
-    return <Redirect to='/dashboard' />
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
   }
 
   return (
@@ -165,7 +168,9 @@ export default function Register() {
             </div>
             <div className='form-group'>
               <select name='role' id='role' onChange={(e) => onChange(e)}>
-              <option value=''>Please select your typical project role...</option>
+                <option value=''>
+                  Please select your typical project role...
+                </option>
                 <option value='developer'>Developer</option>
                 <option value='manager'>Manager</option>
               </select>

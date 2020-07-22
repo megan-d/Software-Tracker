@@ -66,14 +66,25 @@ const Login = (props) => {
     };
     const body = JSON.stringify(user);
     try {
-      const res = await axios.post('/api/auth/login', body, config);
-      //set isAuthenticated to true once have state implemented
+      const res = await axios.post('/api/auth', body, config);
+      const token = res.data.token;
+
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+      
+      //TO DO*************
+      //set state accordingly (isLoading: false, isAuthenticated: true, token, user)
+      //Call load user function and redirect to user's dashboard
+      //Set up alert messages below for errors
     } catch (err) {
       //If errors, get array of errors and loop through them and dispatch setAlert
       const errors = err.response.data.errors;
       if (errors) {
+        // errors.forEach((error) => dispatch(displayAlert(error.msg, 'warning')));
         console.log(errors);
       }
+      //set state for failed login
     }
   };
 
@@ -103,6 +114,7 @@ const Login = (props) => {
                   type='email'
                   name='email'
                   placeholder=''
+                  value={email}
                   onChange={(e) => onChange(e)}
                   required
                 />
@@ -115,6 +127,7 @@ const Login = (props) => {
                   type='password'
                   name='password'
                   placeholder=''
+                  value={password}
                   onChange={(e) => onChange(e)}
                   required
                 />
