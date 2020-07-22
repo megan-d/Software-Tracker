@@ -8,6 +8,7 @@ import Tickets from '../dashboard/tickets/Tickets';
 import Sprints from '../dashboard/sprints/Sprints';
 import SubmitTicket from '../dashboard/tickets/SubmitTicket';
 import Profile from '../auth/Profile';
+import Footer from '../layout/Footer';
 
 const DashboardRoutes = () => {
   return (
@@ -23,6 +24,8 @@ const DashboardRoutes = () => {
           <Route path='' component={Error} />
         </Switch>
       </Wrapper>
+
+      <Footer />
     </div>
   );
 };

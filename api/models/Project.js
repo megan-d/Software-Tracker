@@ -20,16 +20,19 @@ const projectSchema = new Schema({
   },
   completionDate: {
     type: Date,
+    default: null,
   },
   manager: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true,
   },
   developers: [
     {
       user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        required: true,
       },
     },
   ],
@@ -57,6 +60,7 @@ const projectSchema = new Schema({
       ticket: {
         type: Schema.Types.ObjectId,
         ref: 'Ticket',
+        required: true,
       },
     },
   ],

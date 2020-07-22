@@ -5,25 +5,37 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import PlainHeader from '../layout/PlainHeader';
 import AlertBanner from '../layout/AlertBanner';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import image from '../../assets/images/working.jpg';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100vh',
+  },
+  image: {
+    backgroundImage: `url(${image})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+      theme.palette.type === 'light'
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
   paper: {
-    marginTop: theme.spacing(8),
+    margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -34,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -47,11 +59,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   roleSelect: {
-    minWidth: '400px'
+    width: '100%',
+    minWidth: '300px'
   }
 }));
 
-export default function Register() {
+const Register = (props) => {
   const classes = useStyles();
   const [formData, updateFormData] = useState({
     name: '',
@@ -121,9 +134,11 @@ export default function Register() {
   // }
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Grid container component='main' className={classes.root}>
       <CssBaseline />
       <PlainHeader />
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -133,8 +148,7 @@ export default function Register() {
         </Typography>
         {userErrors && <AlertBanner errors={userErrors} />}
         <form className={classes.form} action='' onSubmit={(e) => onSubmit(e)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+          
               <TextField
                 autoComplete='name'
                 name='name'
@@ -146,9 +160,9 @@ export default function Register() {
                 autoFocus
                 value={name}
                 onChange={(e) => onChange(e)}
+                margin='normal'
               />
-            </Grid>
-            <Grid item xs={12}>
+            
               <TextField
                 variant='outlined'
                 required
@@ -159,9 +173,9 @@ export default function Register() {
                 autoComplete='email'
                 value={email}
                 onChange={(e) => onChange(e)}
+                margin='normal'
               />
-            </Grid>
-            <Grid item xs={12}>
+            
               <TextField
                 variant="outlined"
                 required
@@ -172,9 +186,9 @@ export default function Register() {
                 id="password"
                 value={password}
                 onChange={(e) => onChange(e)}
+                margin='normal'
               />
-            </Grid>
-            <Grid item xs={12}>
+           
               <TextField
                 variant="outlined"
                 required
@@ -185,8 +199,9 @@ export default function Register() {
                 id="confirmPassword"
                 value={confirmPassword}
                 onChange={(e) => onChange(e)}
+                margin='normal'
               />
-            </Grid>
+           
             <FormControl className={classes.formControl}>
         <InputLabel id="role-label">Role</InputLabel>
         <Select
@@ -218,83 +233,11 @@ export default function Register() {
               </Link>
             </Grid>
             </Grid>
-          </Grid>
         </form>
       </div>
-    </Container>
+      </Grid>
+    </Grid>
   );
 }
 
-{
-  /* <div className='form-container-signup'>
-            <div className='form-group'>
-              <label>
-                Name:
-                <input
-                  type='text'
-                  name='name'
-                  placeholder=''
-                  value={name}
-                  onChange={(e) => onChange(e)}
-                  required
-                />
-              </label>
-            </div>
-            <div className='form-group'>
-              <label>
-                Email:
-                <input
-                  type='email'
-                  name='email'
-                  placeholder=''
-                  value={email}
-                  onChange={(e) => onChange(e)}
-                  required
-                />
-              </label>
-            </div> */
-}
-//     <div className='form-group'>
-//       <label>
-//         Password:
-//         <input
-//           type='password'
-//           name='password'
-//           placeholder=''
-//           value={password}
-//           onChange={(e) => onChange(e)}
-//           required
-//         />
-//       </label>
-//     </div>
-//     <div className='form-group'>
-//       <label>
-//         Confirm Password:
-//         <input
-//           type='password'
-//           name='confirmPassword'
-//           placeholder=''
-//           value={confirmPassword}
-//           onChange={(e) => onChange(e)}
-//           required
-//         />
-//       </label>
-//     </div>
-//     <div className='form-group'>
-//       <select name='role' id='role' onChange={(e) => onChange(e)}>
-//         <option value=''>
-//           Please select your typical project role...
-//         </option>
-//         <option value='developer'>Developer</option>
-//         <option value='manager'>Manager</option>
-//       </select>
-//     </div>
-//   </div>
-//   <input
-//     type='submit'
-//     value='Sign Up'
-//     className='button login-form-button'
-//   />
-// </form>
-// <p>Already have an account?</p>
-// <Link to='/login'>Log In</Link> */}
+export default Register;

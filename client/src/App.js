@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Footer from './components/layout/Footer';
 import './index.css';
 import GlobalStyle from './components/GlobalStyle';
 import Landing from './components/Landing';
@@ -24,7 +23,6 @@ const App = () => {
           <Route path='' component={Error} />
         </Switch>
       </div>
-      <Footer />
     </Router>
   );
 };

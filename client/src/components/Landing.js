@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import PlainHeader from '../components/layout/PlainHeader';
+import Footer from './layout/Footer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,10 +38,6 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent: {
     flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
   },
 }));
 
@@ -114,6 +111,7 @@ export default function Landing() {
           </Grid>
         </Container>
       </main>
+      <Footer />
     </React.Fragment>
   );
 }
