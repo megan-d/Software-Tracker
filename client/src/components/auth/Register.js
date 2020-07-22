@@ -74,9 +74,15 @@ export default function Register() {
     const body = JSON.stringify(user);
     try {
       //Axios will return promise with response in route to add new user (should return a token)
-      await axios.post('/api/users', body, config);
+      const res = await axios.post('/api/users', body, config);
+      const token = res.data.token;
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+
       //Set state is isAuthenticated upon registration
       setAuthenticated(true);
+
     } catch (err) {
       //If errors, get array of errors and loop through them and dispatch setAlert
       const errors = err.response.data.errors;

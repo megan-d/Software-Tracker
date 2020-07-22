@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
@@ -58,9 +59,21 @@ router.post(
         role: req.body.role,
       });
 
-      // User.register({ username: email, password: hashedPassword });
       await user.save();
-      return res.json({ user });
+
+      //Add user ID to payload so it comes in with token
+      const payload = {
+        user: {
+          id: user.id
+        }
+      }
+
+      //Return Jsonwebtoken so have access upon registration
+      jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn:  '1h'}, (err, token) => {
+        if(err) throw err;
+        res.json({token});
+      });
+
     } catch (error) {
       res.status(500).send('Server error');
     }
