@@ -7,8 +7,8 @@ const verify = require('../middleware/verifyToken');
 
 const User = require('../models/User');
 
-//ROUTE: GET api/auth
-//DESCRIPTION: Get user from database
+//ROUTE: GET api/users
+//DESCRIPTION: Load logged in user
 //ACCESS LEVEL: Private
 router.get('/', verify, async (req, res) => {
   try {
@@ -93,5 +93,21 @@ router.post(
 //ROUTE: PUT api/users
 //DESCRIPTION: Update user profile
 //ACCESS LEVEL: Private
+
+
+//ROUTE: DELETE api/users
+//DESCRIPTION: Delete user
+//ACCESS LEVEL: Private
+router.delete('/', verify, async (req, res) => {
+  try {
+    //Find user that corresponds to user id found in token and delete
+    await User.findOneAndRemove({ _id: req.user.id });
+
+    res.json({ msg: 'This user has been deleted.' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

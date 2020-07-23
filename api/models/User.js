@@ -19,7 +19,7 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    Default: 'Developer',
+    default: 'developer',
   },
   //Will allow managers to search for developers by email and add them to their team
   teams: [

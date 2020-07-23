@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
-//ROUTE: POST api/auth/login
+//ROUTE: POST api/auth
 //DESCRIPTION: Authenticate user (login existing user)
 //ACCESS LEVEL: Public (make request so can get access to private routes)
 router.post(

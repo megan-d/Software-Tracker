@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const verify = require('../middleware/verifyToken');
+const verifyAdminManager = require('../middleware/verifyAdminOrManagerToken');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
+const verifyAdminOrManagerToken = require('../middleware/verifyAdminOrManagerToken');
 
 //ROUTE: GET api/projects/me
-//DESCRIPTION: Get all projects for current developer user
+//DESCRIPTION: Get all projects for current user
 //ACCESS LEVEL: Private
 router.get('/me', verify, async (req, res) => {
   try {
@@ -32,7 +34,7 @@ router.get('/me', verify, async (req, res) => {
 
 //Get project by project id
 
-//Get projects for specific user
+
 
 //ROUTE: POST api/projects
 //DESCRIPTION: Create a new project
@@ -109,8 +111,31 @@ router.post(
   );
   
 
-//Edit an existing project
+//Update an existing project (project details or add a comment)
 
-//Delete a project
+
+
+//ROUTE: DELETE api/projects/:project_id
+//DESCRIPTION: Delete a project by project's id
+//ACCESS LEVEL: Private
+//Must be Manager on the project or admin to delete it
+router.delete('/:project_id', verify, async (req, res) => {
+    try {
+    //Find project based on the project id from request parameters
+    const project = await Project.findById(req.params.project_id);
+    console.log(req.user.id);
+    //If the user is not an admin or the manager for the project, deny access.
+    if (req.user.role === 'admin' || project.manager.toString() === req.user.id) {
+        
+    await Project.findOneAndRemove({ _id: req.params.project_id });
+      res.json({ msg: 'This project has been deleted.' });
+    } else {
+        return res.status(401).json({ msg: 'You are not permitted to perform this action.' })
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+  });
 
 module.exports = router;
