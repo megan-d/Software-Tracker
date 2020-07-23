@@ -32,8 +32,27 @@ router.get('/me', verify, async (req, res) => {
   }
 });
 
-//Get project by project id
+// ROUTE:  GET api/projects/:project_id
+// DESCRIPTION:    Get project by project id
+// ACCESS LEVEL:  Private
 
+router.get('/:project_id', verify, async (req, res) => {
+    try {
+      const project = await Project.findOne({
+        _id: req.params.project_id,
+      });
+  
+      if (!project) return res.status(400).json({ msg: 'Project not found' });
+  
+      res.json(project);
+    } catch (err) {
+      console.error(err.message);
+      if (err.kind == 'ObjectId') {
+        return res.status(400).json({ msg: 'Project not found' });
+      }
+      res.status(500).send('Server Error');
+    }
+  });
 
 
 //ROUTE: POST api/projects
@@ -123,7 +142,7 @@ router.delete('/:project_id', verify, async (req, res) => {
     try {
     //Find project based on the project id from request parameters
     const project = await Project.findById(req.params.project_id);
-    console.log(req.user.id);
+    
     //If the user is not an admin or the manager for the project, deny access.
     if (req.user.role === 'admin' || project.manager.toString() === req.user.id) {
         
