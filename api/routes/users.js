@@ -3,8 +3,22 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const verify = require('../middleware/verifyToken');
 
 const User = require('../models/User');
+
+//ROUTE: GET api/auth
+//DESCRIPTION: Get user from database
+//ACCESS LEVEL: Private
+router.get('/', verify, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (err) {
+    console.err(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 //ROUTE: POST api/users
 //DESCRIPTION: Register new user
@@ -75,5 +89,9 @@ router.post(
     }
   },
 );
+
+//ROUTE: PUT api/users
+//DESCRIPTION: Update user profile
+//ACCESS LEVEL: Private
 
 module.exports = router;

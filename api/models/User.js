@@ -22,12 +22,16 @@ const userSchema = new Schema({
     Default: 'Developer',
   },
   //Will allow managers to search for developers by email and add them to their team
-  teams: [{
-    type: String,
-  }],
-  organizations: [{
-    type: String,
-  }],
+  teams: [
+    {
+      type: String,
+    },
+  ],
+  organizations: [
+    {
+      type: String,
+    },
+  ],
   created: {
     type: Date,
     default: Date.now,

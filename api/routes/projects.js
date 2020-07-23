@@ -11,9 +11,9 @@ const Project = require('../models/Project');
 //ACCESS LEVEL: Private
 router.get('/me', verify, async (req, res) => {
   try {
-    //   Find the relevant projects for manager or developer based on the id that comes in with the request's token.
+    //   Find the relevant projects associated with user based on the id that comes in with the request's token. Could be manager role or developer role on project.
     const projects = await Project.find({
-      $or: [{ 'developers.user': req.user.id }, { manager: req.user.id }],
+      $or: [{ 'developers.user': req.user.id }, { 'manager': req.user.id }],
     });
 
     //If there is no profile, return an error
