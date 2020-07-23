@@ -6,11 +6,15 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
   description: {
     type: String,
     required: true,
   },
-  datecreated: {
+  dateCreated: {
     type: Date,
     default: Date.now,
   },
@@ -32,7 +36,6 @@ const projectSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
       },
     },
   ],

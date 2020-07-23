@@ -20,8 +20,14 @@ const userSchema = new Schema({
   role: {
     type: String,
     Default: 'Developer',
-    required: true,
   },
+  //Will allow managers to search for developers by email and add them to their team
+  teams: [{
+    type: String,
+  }],
+  organizations: [{
+    type: String,
+  }],
   created: {
     type: Date,
     default: Date.now,

@@ -26,10 +26,7 @@ router.post(
     ).isLength({ min: 8 }),
     check('password', 'Passwords do not match').custom(
       (value, { req }) => value === req.body.confirmPassword,
-    ),
-    check('role', 'Please select a role')
-      .not()
-      .isEmpty()
+    )
   ],
   async (req, res) => {
     //Show error if validation fails
@@ -56,7 +53,6 @@ router.post(
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword,
-        role: req.body.role,
       });
 
       await user.save();

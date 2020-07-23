@@ -53,20 +53,10 @@ router.post(
         .trim(),
         check('targetCompletionDate', 'Please provide a target date in the future.')
         .not()
+        .isEmpty(),
+        check('manager', 'A manager is required for the project. Select the Add Self button to assign yourself as manager.')
+        .not()
         .isEmpty()
-        .isAfter(Date.now),
-        check('goalDays', 'Please provide a number between 0 and 7')
-          .optional({ checkFalsy: true })
-          .isInt({ min: 0, max: 7 })
-          .trim(),
-        check('goalWeight', 'Please provide a number')
-          .optional({ checkFalsy: true })
-          .isInt()
-          .trim(),
-        check('goalDailyCalories', 'Please provide a number')
-          .optional({ checkFalsy: true })
-          .isInt()
-          .trim(),
       ],
     ],
     async (req, res) => {
@@ -78,70 +68,38 @@ router.post(
   
       //Pull all of the fields out into variables from req.body. Don't include activities or calories consumed today (user can update later).
       const {
-        weight,
-        height,
-        goalWeight,
-        goalDailyCalories,
-        goalDays,
+        name,
+        description,
+        targetCompletionDate,
+        manager,
       } = req.body;
   
-      //Build the profileItems object. If the value is there, add it to the profileItems object.
-      const profileItems = {
-        weightHistory: {
-          weight: weight,
-        },
-      };
-      profileItems.user = req.user.id;
-      if (weight) {
-        profileItems.weight = weight;
-        profileItems.weightHistory.weight = weight;
-      }
-      if (height) {
-        profileItems.height = height;
-      }
-      if (weight && height) {
-        //need to see how to make this work when updating
-        profileItems.bmi = ((weight / (height * height)) * 703).toFixed(1);
-      }
-      if (goalWeight) {
-        profileItems.goalWeight = goalWeight;
-      }
-      if (goalDailyCalories) {
-        profileItems.goalDailyCalories = goalDailyCalories;
-      } else {
-        profileItems.goalDailyCalories = 2000;
-      }
-      if (goalDays || goalDays === 0) {
-        profileItems.goalDays = goalDays;
-      }
-      profileItems.caloriesConsumedToday = 0;
-      profileItems.caloriesRemainingToday = profileItems.goalDailyCalories;
-  
+      //Build the projectItems object. If the value is there, add it to the profileItems object.
+      const projectItems = {};
+
+      projectItems.creator = req.user.id;
+      projectItems.name = name;
+      projectItems.description = description;
+      const date = new Date(targetCompletionDate);
+      projectItems.targetCompletionDate = date;
+      projectItems.manager = manager;
+      
       //Once all fields are prepared, update and populate the data
       try {
-        //Check if a user exists before creating a profile. If there's no user in database, don't allow profile to be created.
-        let user = await User.findOne({ _id: req.user.id });
-        if (!user) {
+        //Check if a project with that name already exists. 
+        //**TODO- Will need to set up functionality to check within the organization.
+        let project = await Project.findOne({ name: name });
+        if (project) {
           return res.json({
-            msg: 'You must be a currently registered user to create a profile.',
+            msg: 'A project with that name already exists. Please choose another name.',
           });
         }
-  
-        //Use findOne to find profile
-        let profile = await Profile.findOne({ user: req.user.id });
-  
-        //If profile is found, give error and suggest user updates profile
-        if (profile) {
-          return res.json({
-            msg:
-              'A profile already exists for this user. Please select update stats from your dashboard to update your profile.',
-          });
-        }
-        //If profile isn't found, create a new one
-        if (!profile) {
-          profile = await new Profile(profileItems);
-          await profile.save();
-          res.json(profile);
+
+        //If project isn't found, create a new one
+        if (!project) {
+          project = await new Project(projectItems);
+          await project.save();
+          res.json(project);
         }
       } catch (err) {
         console.error(err);

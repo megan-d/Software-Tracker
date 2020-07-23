@@ -13,11 +13,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import image from '../../assets/images/working.jpg';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,10 +53,6 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
-  roleSelect: {
-    width: '100%',
-    minWidth: '300px'
-  }
 }));
 
 const Register = (props) => {
@@ -201,22 +192,6 @@ const Register = (props) => {
                 onChange={(e) => onChange(e)}
                 margin='normal'
               />
-           
-            <FormControl className={classes.formControl}>
-        <InputLabel id="role-label">Role</InputLabel>
-        <Select
-          labelId="role-label"
-          id="role-select"
-          value={role}
-          name='role'
-          onChange={(e) => onChange(e)}
-          className={classes.roleSelect}
-        >
-          <MenuItem value='developer'>Developer</MenuItem>
-          <MenuItem value='manager'>Manager</MenuItem>
-        </Select>
-        <FormHelperText>Please select your typical project role</FormHelperText>
-      </FormControl>
             <Button
             type="submit"
             fullWidth
