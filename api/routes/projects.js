@@ -197,9 +197,9 @@ router.put(
         }
         //If adding a developer, first add that to project. Before adding, check to make sure developer doesn't already exist in developers array.
         if (developer) {
-          let isExistingDeveloper = project.developers.includes(developer.toString());
+          let isExistingDeveloper = project.developers.filter(dev => dev._id.toString() === developer);
           console.log(isExistingDeveloper);
-          if (!isExistingDeveloper) {
+          if (isExistingDeveloper.length === 0) {
             project.developers.push(developer);
             await project.save();
           }
@@ -282,6 +282,7 @@ router.put(
 //ROUTE: PUT api/projects/sprints/:project_id
 //DESCRIPTION: Add a sprint to an existing project
 //ACCESS LEVEL: Private
+
 
 //ROUTE: DELETE api/projects/:project_id
 //DESCRIPTION: Delete a project by project's id
