@@ -7,6 +7,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  username: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
@@ -21,10 +25,25 @@ const userSchema = new Schema({
     type: String,
     default: 'developer',
   },
-  //Will allow managers to search for developers by email and add them to their team
+  //Will allow members to search for developers by username, view their profile, and add them to their team
   teams: [
     {
-      type: String,
+      name: {
+        type: String,
+      },
+      description: {
+        type: String,
+      },
+      captain: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+      members: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'User',
+        },
+      ],
     },
   ],
   organizations: [

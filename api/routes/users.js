@@ -31,6 +31,14 @@ router.post(
       .not()
       .isEmpty()
       .trim(),
+    check(
+      'username',
+      'Please provide a username that is at least 5 characters.',
+    )
+      .not()
+      .isEmpty()
+      .trim()
+      .isLength({ min: 5 }),
     check('email', 'Please provide a valid email')
       .isEmail()
       .normalizeEmail(),
@@ -50,21 +58,34 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, username, email, password } = req.body;
 
     try {
       //If user already exists in database, give error
-      let user = await User.findOne({ email });
-      if (user) {
+      let emailInput = await User.findOne({ email });
+      if (emailInput) {
         // req.flash('error', 'This user already exists');
         return res
           .status(400)
-          .json({ errors: [{ msg: 'This user already exists' }] });
+          .json({ errors: [{ msg: 'This email already exists' }] });
+      }
+      let usernameInput = await User.findOne({ username });
+      if (usernameInput) {
+        // req.flash('error', 'This user already exists');
+        return res.status(400).json({
+          errors: [
+            {
+              msg:
+                'This username already exists. Please select another username.',
+            },
+          ],
+        });
       }
 
       //If user doesn't already exist, encrypt password with bcrypt and create new user. Hash password.
       user = new User({
         name,
+        username,
         email,
         password,
       });
@@ -166,15 +187,83 @@ router.put(
   },
 );
 
+//ROUTE: PUT api/users/teams
+//DESCRIPTION: Allow user to create a team or add members to existing team. Next route will be add other users to that team. In future let users auto generate a name with npm package as an option.
+//ACCESS LEVEL: Private
+router.post(
+  '/teams',
+  [
+    verify,
+    [
+      //User express validator to validate required inputs
+      check('name', 'Please provide a team name.')
+        .optional({ checkFalsy: true })
+        .trim(),
+      check('name', 'Please provide a team description.')
+        .optional({ checkFalsy: true })
+        .trim(),
+    ],
+  ],
+  async (req, res) => {
+    //Add in logic for express validator error check
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    //Pull all of the fields out into variables from req.body.
+    const { name, description, members } = req.body;
+
+    //Build the teamItems object. If the value is there, add it to the profileItems object.
+    const teamItems = {};
+
+    teamItems.captain = req.user.id;
+    teamItems.name = name;
+    teamItems.description = description;
+
+    //Once all fields are prepared, update and populate the data
+    try {
+      //Check if a team with that name already exists for this user.
+      let user = await User.findOne({ _id: req.user.id });
+      let isExistingTeam = user.teams.filter(
+        (team) => team.name.toString() === name,
+      );
+      if (isExistingTeam.length > 0) {
+        return res.json({
+          msg:
+            'A team with that name already exists for your account. Please choose another name.',
+        });
+      }
+      //If team isn't found, create a new one
+      else {
+        user.teams.push(teamItems);
+        await user.save();
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  },
+);
+
+//UPDATE A TEAM
+
+//DELETE A TEAM
+
 //ROUTE: DELETE api/users
 //DESCRIPTION: Delete user
 //ACCESS LEVEL: Private
 router.delete('/', verify, async (req, res) => {
   try {
     //Find user that corresponds to user id found in token and delete
-    await User.findOneAndRemove({ _id: req.user.id });
-
-    res.json({ msg: 'This user has been deleted.' });
+    let user = await User.findOneAndRemove({ _id: req.user.id });
+    if(user) {
+      res.json({ msg: 'This user has been deleted.' });
+      
+    } else {
+      res.status(400).json({ msg: 'This user could not be found.' })
+    }
+    
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

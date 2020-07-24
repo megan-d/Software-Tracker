@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import CardActions from '@material-ui/core/CardActions';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -55,12 +56,10 @@ export default function Landing() {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-              Issue Tracking Made Easy
+              Issue Tracking and Project Collaboration
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
-              Something short and leading about the collection below—its contents, the creator, etc.
-              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-              entirely.
+              Software Tracker helps you manage your projects, track bugs, and collaborate with our network of software professionals
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
@@ -81,8 +80,8 @@ export default function Landing() {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={10}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            
+              <Grid item xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
@@ -91,23 +90,72 @@ export default function Landing() {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      Manage Projects
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the content.
+                      Create issues and sprints to ensure your project stays focused and meets deadlines
                     </Typography>
                   </CardContent>
-                  {/* <CardActions>
+                  <CardActions>
                     <Button size="small" color="primary">
                       View
                     </Button>
                     <Button size="small" color="primary">
                       Edit
                     </Button>
-                  </CardActions> */}
+                  </CardActions>
                 </Card>
               </Grid>
-            ))}
+              <Grid item xs={12} sm={6} md={4}>
+                <Card className={classes.card}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image="https://source.unsplash.com/random"
+                    title="Image title"
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Track Issues
+                    </Typography>
+                    <Typography>
+                      Track project tasks and bugs and assign them to team members as needed
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      View
+                    </Button>
+                    <Button size="small" color="primary">
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <Card className={classes.card}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image="https://source.unsplash.com/random"
+                    title="Image title"
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Collaborate
+                    </Typography>
+                    <Typography>
+                      Find other developers within the Software Tracking community to collaborate with
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      View
+                    </Button>
+                    <Button size="small" color="primary">
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
           </Grid>
         </Container>
       </main>

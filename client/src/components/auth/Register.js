@@ -59,6 +59,7 @@ const Register = (props) => {
   const classes = useStyles();
   const [formData, updateFormData] = useState({
     name: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -72,7 +73,7 @@ const Register = (props) => {
   });
 
   //Pull out variables from formData and userData
-  const { name, email, password, confirmPassword, role } = formData;
+  const { name, username, email, password, confirmPassword, role } = formData;
 
   const { isLoading, profile, userErrors } = userData;
 
@@ -85,6 +86,7 @@ const Register = (props) => {
     e.preventDefault();
     const user = {
       name: name,
+      username: username,
       email: email,
       password: password,
       confirmPassword: confirmPassword,
@@ -150,6 +152,19 @@ const Register = (props) => {
                 label='Name'
                 autoFocus
                 value={name}
+                onChange={(e) => onChange(e)}
+                margin='normal'
+              />
+              <TextField
+                autoComplete='username'
+                name='username'
+                variant='outlined'
+                required
+                fullWidth
+                id='username'
+                label='Username'
+                autoFocus
+                value={username}
                 onChange={(e) => onChange(e)}
                 margin='normal'
               />
