@@ -49,25 +49,28 @@ router.post(
       // req.flash('error', errors.array());
       return res.status(400).json({ errors: errors.array() });
     }
+
+    const { name, email, password } = req.body;
+
     try {
       //If user already exists in database, give error
-      let user = await User.findOne({ email: req.body.email });
+      let user = await User.findOne({ email });
       if (user) {
         // req.flash('error', 'This user already exists');
         return res
           .status(400)
           .json({ errors: [{ msg: 'This user already exists' }] });
       }
-      //If user doesn't already exist, encrypt password with bcrypt and create new user. Hash password.
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-      //Create/authenticate new User and save to database
+      //If user doesn't already exist, encrypt password with bcrypt and create new user. Hash password.
       user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword,
+        name,
+        email,
+        password,
       });
+
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
 
       await user.save();
 
@@ -97,7 +100,7 @@ router.post(
 //ROUTE: PUT api/users
 //DESCRIPTION: Update user information. Will need a different route to update password.
 //ACCESS LEVEL: Private
-//This can also be where if you have admin permissions, you can update the role of a user
+//TODO: This can also be where if you have admin permissions, you can update the role of a user. Need to add this functionality.
 router.put(
   '/',
   verify,

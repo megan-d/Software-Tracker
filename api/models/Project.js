@@ -33,7 +33,7 @@ const projectSchema = new Schema({
   },
   developers: [
     {
-      user: {
+      developer: {
         type: Schema.Types.ObjectId,
         ref: 'User',
       },
