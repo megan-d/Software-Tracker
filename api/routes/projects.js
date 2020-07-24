@@ -181,7 +181,7 @@ router.put(
     if (completionDate) updatedProjectFields.completionDate = completionDate;
 
     try {
-      //TODO: If there is a developer, this needs to be pushed onto developer array. Need to figure out how this will happen since the developer isn't going to be the currently logged in user necessarily. Need to figure out how the manager is going to get access to a given user's id. In future, add functionality so developer will only be pushed into array if it's not already there.
+      //TODO: If there is a developer, this needs to be pushed onto developer array. Need to figure out how this will happen since the developer isn't going to be the currently logged in user necessarily. Need to figure out how the manager is going to get access to a given user's id. 
 
       let project = await Project.findOne({ _id: req.params.project_id });
       //Only allow project to be updated if admin user or manager on project
