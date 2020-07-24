@@ -40,7 +40,7 @@ router.post(
     ).isLength({ min: 8 }),
     check('password', 'Passwords do not match').custom(
       (value, { req }) => value === req.body.confirmPassword,
-    )
+    ),
   ],
   async (req, res) => {
     //Show error if validation fails
@@ -74,16 +74,20 @@ router.post(
       //Add user ID to payload so it comes in with token
       const payload = {
         user: {
-          id: user.id
-        }
-      }
+          id: user.id,
+        },
+      };
 
       //Return Jsonwebtoken so have access upon registration
-      jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn:  '1h'}, (err, token) => {
-        if(err) throw err;
-        res.json({token});
-      });
-
+      jwt.sign(
+        payload,
+        process.env.TOKEN_SECRET,
+        { expiresIn: '1h' },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        },
+      );
     } catch (error) {
       res.status(500).send('Server error');
     }
@@ -91,9 +95,73 @@ router.post(
 );
 
 //ROUTE: PUT api/users
-//DESCRIPTION: Update user profile
+//DESCRIPTION: Update user information. Will need a different route to update password.
 //ACCESS LEVEL: Private
+//This can also be where if you have admin permissions, you can update the role of a user
+router.put(
+  '/',
+  verify,
+  [
+    //Use express-validator to validate the inputs
+    check('name', 'Please provide an updated name')
+      .optional({ checkFalsy: true })
+      .trim(),
+    check('email', 'Please provide a valid email')
+      .optional({ checkFalsy: true })
+      .isEmail()
+      .normalizeEmail(),
+  ],
 
+  async (req, res) => {
+    //pull all fields out of req.body using destructuring
+    const { name, email, role, team, organization } = req.body;
+
+    //Build user object
+    const updatedUserFields = {};
+    //if the field is provided, add to profileFields object
+    if (name) updatedUserFields.company = company;
+    if (email) updatedUserFields.email = email;
+    if (role) updatedUserFields.role = role;
+    //TODO: If there is a team or organization, this needs to be pushed onto teams or organization array. Need to figure out how teams and organizations should be stored.
+    if (team) {
+      console.log(team);
+    }
+    if (organization) {
+      console.log(organization);
+    }
+    console.log(updatedUserFields);
+
+    //Add in logic for express validator error check
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    //Now that all fields are prepared, ready to update and insert the data
+    try {
+      let user = await User.findOne({ _id: req.user.id });
+      //If user isn't found throw error
+      if (!user) {
+        return res
+          .status(400)
+          .json({ msg: 'The profile for this user could not be found.' });
+      } else {
+        //if user is found, update it
+        user = await User.findOneAndUpdate(
+          { _id: req.user.id },
+          { $set: updatedUserFields },
+          { new: true },
+        );
+        console.log(user);
+        //Send back the entire profile
+        return res.json(user);
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  },
+);
 
 //ROUTE: DELETE api/users
 //DESCRIPTION: Delete user

@@ -130,9 +130,61 @@ router.post(
   );
   
 
-//Update an existing project (project details or add a comment)
+//ROUTE: PUT api/projects
+//DESCRIPTION: Update an existing project
+//ACCESS LEVEL: Private
+//Must be Manager on the project or admin to update it
 
 
+
+//ROUTE: PUT api/projects/comment/:project_id
+//DESCRIPTION: Comment on an existing project
+//ACCESS LEVEL: Private
+router.put(
+    '/comment/:project_id',
+    [
+      verify,
+      [
+        check('text', 'Please provide text in the comment field.')
+          .not()
+          .isEmpty().trim(),
+      ],
+    ],
+    async (req, res) => {
+      //Do error checking
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+  
+      try {
+        //Create variable called user to get user. Since we are logged in, we have the id from the token.
+        const user = await User.findById(req.user.id).select('-password');
+        //Get the project
+        const project = await Project.findById(req.params.project_id);
+        //Create object for new comment. It's not a collection in database so just an object.
+        const newComment = {
+          name: user.name,
+          text: req.body.text,
+          user: req.user.id,
+        };
+  
+        //Add newComment onto project comments at the end of array (want chronological order in this case)
+        project.comments.push(newComment);
+  
+        //Save to database
+        await project.save();
+  
+        //Send back all comments
+        res.json(project.comments);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
+    },
+  );
+
+  //Add Route to delete comments?
 
 //ROUTE: DELETE api/projects/:project_id
 //DESCRIPTION: Delete a project by project's id
