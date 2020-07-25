@@ -155,7 +155,7 @@ router.put(
 
     //Now that all fields are prepared, ready to update and insert the data
     try {
-      let user = await User.findOne({ _id: req.user.id });
+      let user = await User.findOne({ _id: req.user.id }).select('-password');;
       //If user isn't found throw error
       if (!user) {
         return res
@@ -184,7 +184,7 @@ router.put(
 router.delete('/', verify, async (req, res) => {
   try {
     //Find user that corresponds to user id found in token and delete
-    let user = await User.findOneAndRemove({ _id: req.user.id });
+    let user = await User.findOneAndRemove({ _id: req.user.id }).select('-password');;
     if (user) {
       res.json({ msg: 'This user has been deleted.' });
     } else {
