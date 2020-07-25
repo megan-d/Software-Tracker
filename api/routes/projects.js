@@ -181,27 +181,41 @@ router.put(
     if (completionDate) updatedProjectFields.completionDate = completionDate;
 
     try {
-      //TODO: If there is a developer, this needs to be pushed onto developer array. Need to figure out how this will happen since the developer isn't going to be the currently logged in user necessarily. Need to figure out how the manager is going to get access to a given user's id. 
+      //TODO: If there is a developer, this needs to be pushed onto developer array. Need to figure out how this will happen since the developer isn't going to be the currently logged in user necessarily. Need to figure out how the manager is going to get access to a given user's id.
 
       let project = await Project.findOne({ _id: req.params.project_id });
       //Only allow project to be updated if admin user or manager on project
+      if (!project) {
+        return res
+          .status(400)
+          .json({ msg: 'This project could not be found.' });
+      }
       if (
         req.user.role === 'admin' ||
         project.manager.toString() === req.user.id
       ) {
-        //If project isn't found throw error
-        if (!project) {
-          return res
-            .status(400)
-            .json({ msg: 'This project could not be found.' });
-        }
+        //If adding developer, check to make sure they are in the system.
         //If adding a developer, first add that to project. Before adding, check to make sure developer doesn't already exist in developers array.
         if (developer) {
-          let isExistingDeveloper = project.developers.filter(dev => dev._id.toString() === developer);
-          console.log(isExistingDeveloper);
+          let user = await User.findOne({ _id: developer });
+          if (!user) {
+            return res
+              .status(400)
+              .json({ msg: 'This user could not be found.' });
+          }
+          let isExistingDeveloper = project.developers.filter(
+            (dev) => dev._id.toString() === developer,
+          );
           if (isExistingDeveloper.length === 0) {
             project.developers.push(developer);
             await project.save();
+          } else {
+            return res
+              .status(400)
+              .json({
+                msg:
+                  'That user is already on the project. Please select another user to add to project.',
+              });
           }
         }
         //Then, update project with provided updates from updatedProjectFields
@@ -282,7 +296,6 @@ router.put(
 //ROUTE: PUT api/projects/sprints/:project_id
 //DESCRIPTION: Add a sprint to an existing project
 //ACCESS LEVEL: Private
-
 
 //ROUTE: DELETE api/projects/:project_id
 //DESCRIPTION: Delete a project by project's id

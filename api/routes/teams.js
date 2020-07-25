@@ -155,7 +155,38 @@ router.put(
 );
 
 
-
-//DELETE A TEAM
+//ROUTE: DELETE api/projects/:project_id
+//DESCRIPTION: Delete a team by team's id
+//ACCESS LEVEL: Private
+//Must be logged in user to delete a team
+router.delete('/:team_id', verify, async (req, res) => {
+    try {
+      //Find user based on id
+      let user = await User.findOne({ _id: req.user.id }).select('-password');
+      if(!user) {
+        return res
+        .status(400)
+        .json({ msg: 'This user could not be found.' });
+      }
+      //Find the team in the user's teams array based on team_id
+      let teams = user.teams;
+      //if user is found, find the relevant team by id and update the name and/or description depending on what's provided
+      let index = teams.map((el) => el._id).indexOf(req.params.team_id);
+      if (index === -1) {
+        return res.status(400).json({
+          msg: 'A team with this name is not associated with your account.',
+        });
+      } else {
+          //Remove team from user's account
+        let deletedTeam = user.teams.splice(index, 1);
+        user.save();
+          return res.json({ msg: 'This team has been deleted.' });
+      }
+        
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
 
 module.exports = router;
