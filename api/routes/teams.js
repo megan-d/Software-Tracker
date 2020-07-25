@@ -44,7 +44,7 @@ router.post(
     //Once all fields are prepared, update and populate the data
     try {
       //Check if a team with that name already exists for this user.
-      let user = await User.findOne({ _id: req.user.id }).select('-password');;
+      let user = await User.findOne({ _id: req.user.id }).select('-password');
       let isExistingTeam = user.teams.filter(
         (el) => el.name.toString() === name,
       );
@@ -99,7 +99,7 @@ router.put(
 
     //Now that all fields are prepared, ready to update and insert the data
     try {
-      let user = await User.findOne({ _id: req.user.id }).select('-password');;
+      let user = await User.findOne({ _id: req.user.id }).select('-password');
       //If user isn't found throw error because user making request isn't valid
       if (!user) {
         return res.status(400).json({ msg: 'Invalid user.' });

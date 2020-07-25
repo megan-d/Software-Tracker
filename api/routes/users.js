@@ -184,7 +184,7 @@ router.put(
 router.delete('/', verify, async (req, res) => {
   try {
     //Find user that corresponds to user id found in token and delete
-    let user = await User.findOneAndRemove({ _id: req.user.id }).select('-password');;
+    let user = await User.findOneAndRemove({ _id: req.user.id });
     if (user) {
       res.json({ msg: 'This user has been deleted.' });
     } else {
