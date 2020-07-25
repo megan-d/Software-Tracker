@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    background: '#ad3968',
+    background: '#204051',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -98,7 +98,7 @@ const Header = (props) => {
             noWrap
             className={classes.title}
           >
-            <StyledLink to='/'>Software Tracker</StyledLink>
+            <StyledLink to='/'>TrackIt</StyledLink>
           </Typography>
           <PopMenu />
         </Toolbar>

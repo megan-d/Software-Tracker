@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(12, 0, 6),
   },
+  heroTitle: {
+    width: '100%'
+  },
   heroButtons: {
     marginTop: theme.spacing(4),
   },
@@ -55,11 +58,11 @@ export default function Landing() {
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
+            <Typography component="h1" className={classes.HeroTitle} variant="h4" align="center" color="textPrimary" gutterBottom>
               Issue Tracking and Project Collaboration
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
-              Software Tracker helps you manage your projects, track bugs, and collaborate with our network of software professionals
+              Manage projects, track bugs, and collaborate with other software professionals
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
@@ -143,7 +146,7 @@ export default function Landing() {
                       Collaborate
                     </Typography>
                     <Typography>
-                      Find other developers within the Software Tracking community to collaborate with
+                      Work with others in your organization or find collaborators within the TrackIt community
                     </Typography>
                   </CardContent>
                   <CardActions>

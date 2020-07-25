@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    background: '#ad3968',
+    background: '#204051',
   },
   menuButton: {
     marginRight: 36,
@@ -67,7 +67,7 @@ const PlainHeader = (props) => {
             noWrap
             className={classes.title}
           >
-            <StyledLink to='/'>Software Tracker</StyledLink>
+            <StyledLink to='/'>TrackIt</StyledLink>
           </Typography>
           {/* <PopMenu /> */}
           <Button color="inherit" href='/login'>Login</Button>

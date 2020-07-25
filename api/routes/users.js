@@ -143,17 +143,9 @@ router.put(
     //Build user object
     const updatedUserFields = {};
     //if the field is provided, add to profileFields object
-    if (name) updatedUserFields.company = company;
+    if (name) updatedUserFields.name = name;
     if (email) updatedUserFields.email = email;
     if (role) updatedUserFields.role = role;
-    //TODO: If there is a team or organization, this needs to be pushed onto teams or organization array. Need to figure out how teams and organizations should be stored.
-    if (team) {
-      console.log(team);
-    }
-    if (organization) {
-      console.log(organization);
-    }
-    console.log(updatedUserFields);
 
     //Add in logic for express validator error check
     const errors = validationResult(req);
@@ -176,7 +168,6 @@ router.put(
           { $set: updatedUserFields },
           { new: true },
         );
-        console.log(user);
         //Send back the entire profile
         return res.json(user);
       }
@@ -187,69 +178,6 @@ router.put(
   },
 );
 
-//ROUTE: PUT api/users/teams
-//DESCRIPTION: Allow user to create a team or add members to existing team. Next route will be add other users to that team. In future let users auto generate a name with npm package as an option.
-//ACCESS LEVEL: Private
-router.post(
-  '/teams',
-  [
-    verify,
-    [
-      //User express validator to validate required inputs
-      check('name', 'Please provide a team name.')
-        .optional({ checkFalsy: true })
-        .trim(),
-      check('name', 'Please provide a team description.')
-        .optional({ checkFalsy: true })
-        .trim(),
-    ],
-  ],
-  async (req, res) => {
-    //Add in logic for express validator error check
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
-    //Pull all of the fields out into variables from req.body.
-    const { name, description, members } = req.body;
-
-    //Build the teamItems object. If the value is there, add it to the profileItems object.
-    const teamItems = {};
-
-    teamItems.captain = req.user.id;
-    teamItems.name = name;
-    teamItems.description = description;
-
-    //Once all fields are prepared, update and populate the data
-    try {
-      //Check if a team with that name already exists for this user.
-      let user = await User.findOne({ _id: req.user.id });
-      let isExistingTeam = user.teams.filter(
-        (team) => team.name.toString() === name,
-      );
-      if (isExistingTeam.length > 0) {
-        return res.json({
-          msg:
-            'A team with that name already exists for your account. Please choose another name.',
-        });
-      }
-      //If team isn't found, create a new one
-      else {
-        user.teams.push(teamItems);
-        await user.save();
-      }
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Server Error');
-    }
-  },
-);
-
-//UPDATE A TEAM
-
-//DELETE A TEAM
-
 //ROUTE: DELETE api/users
 //DESCRIPTION: Delete user
 //ACCESS LEVEL: Private
@@ -257,17 +185,16 @@ router.delete('/', verify, async (req, res) => {
   try {
     //Find user that corresponds to user id found in token and delete
     let user = await User.findOneAndRemove({ _id: req.user.id });
-    if(user) {
+    if (user) {
       res.json({ msg: 'This user has been deleted.' });
-      
     } else {
-      res.status(400).json({ msg: 'This user could not be found.' })
+      res.status(400).json({ msg: 'This user could not be found.' });
     }
-    
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
+
 
 module.exports = router;

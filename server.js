@@ -13,6 +13,7 @@ const dotenv = require('dotenv');
 //Import routes
 const auth = require('./api/routes/auth');
 const users = require('./api/routes/users');
+const teams = require('./api/routes/teams');
 const projects = require('./api/routes/projects');
 
 dotenv.config();
@@ -67,6 +68,8 @@ app.use(express.json());
 app.use('/api/auth', auth);
 // Register new user
 app.use('/api/users', users);
+//Create and edit user teams
+app.use('/api/users/teams', teams);
 // Create, update, and delete projects, including add/modify/delete tickets and add/modify/delete sprints.
 app.use('/api/projects', projects);
 
