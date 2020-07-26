@@ -1,2 +1,2 @@
-# Software-Tracker
-Issue tracking and project management application for software projects
+# Dash
+Issue tracking, project management, and coding collaboration application for software projects
