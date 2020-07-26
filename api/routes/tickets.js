@@ -5,8 +5,10 @@ const verify = require('../middleware/verifyToken');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
+const Ticket = require('../models/Ticket');
 
 //*****TICKET ROUTES */
+
 //ROUTE: GET api/projects/tickets/me
 //DESCRIPTION: Get all tickets for current user
 //ACCESS LEVEL: Private
@@ -88,8 +90,15 @@ router.post(
     }
 
     //Pull all of the fields out into variables from req.body.
-    
-    const { title, type, description, priority, dateDue, assignedDeveloper } = req.body;
+
+    const {
+      title,
+      type,
+      description,
+      priority,
+      dateDue,
+      assignedDeveloper,
+    } = req.body;
 
     //Build the ticketItems object. If the value is there, add it to the ticketItems object.
     const ticketItems = {};
@@ -106,17 +115,17 @@ router.post(
     //Once all fields are prepared, update and populate the data
     try {
       //Check if a ticket with that title already exists for the project. Populate the ticket titles.
-      let project = await Project.findOne({ _id : req.params.project_id }).populate('ticket',);
+      let project = await Project.findOne({
+        _id: req.params.project_id,
+      }).populate('ticket');
       console.log(project);
       if (!project) {
         return res.json({
-          msg:
-            'The requested project could not be found.',
+          msg: 'The requested project could not be found.',
         });
       }
-      
-      //populate the ticket titles so can determine if title already exists
 
+      //populate the ticket titles so can determine if title already exists
 
       project.tickets.filter(
         (ticket) => ticket.title.toLowerCase() === title.toLowerCase(),
@@ -125,16 +134,13 @@ router.post(
         project.developers.push(developerId);
         await project.save();
       } else {
-        return res
-          .status(400)
-          .json({
-            msg:
-              'A ticket with that title is already on the project. Please provide another title.',
-          });
+        return res.status(400).json({
+          msg:
+            'A ticket with that title is already on the project. Please provide another title.',
+        });
       }
-        await project.save();
-        res.json(project.tickets);
-      
+      await project.save();
+      res.json(project.tickets);
     } catch (err) {
       console.error(err);
       res.status(500).send('Server Error');

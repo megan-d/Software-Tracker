@@ -6,7 +6,7 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
-  creator: {
+  owner: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
@@ -77,6 +77,12 @@ const projectSchema = new Schema({
       ref: 'Sprint',
     },
   }],
+  repoLink: {
+    type: String,
+  },
+  liveLink: {
+    type: String,
+  }
 });
 
 

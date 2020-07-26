@@ -98,7 +98,7 @@ const Header = (props) => {
             noWrap
             className={classes.title}
           >
-            <StyledLink to='/'>TrackIt</StyledLink>
+            <StyledLink to='/'>DASH</StyledLink>
           </Typography>
           <PopMenu />
         </Toolbar>

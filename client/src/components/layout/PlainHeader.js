@@ -67,7 +67,7 @@ const PlainHeader = (props) => {
             noWrap
             className={classes.title}
           >
-            <StyledLink to='/'>TrackIt</StyledLink>
+            <StyledLink to='/'>DASH</StyledLink>
           </Typography>
           {/* <PopMenu /> */}
           <Button color="inherit" href='/login'>Login</Button>

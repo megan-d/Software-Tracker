@@ -7,7 +7,7 @@ import Projects from '../dashboard/projects/Projects';
 import Tickets from '../dashboard/tickets/Tickets';
 import Sprints from '../dashboard/sprints/Sprints';
 import SubmitTicket from '../dashboard/tickets/SubmitTicket';
-import Profile from '../auth/Profile';
+import Profile from '../profile/Profile';
 import Footer from '../layout/Footer';
 
 const DashboardRoutes = () => {

@@ -6,8 +6,8 @@ const verify = require('../middleware/verifyToken');
 const User = require('../models/User');
 const Project = require('../models/Project');
 
-
 //*****OVERALL PROJECT ROUTES */
+
 //ROUTE: GET api/projects/me
 //DESCRIPTION: Get all projects for current user
 //ACCESS LEVEL: Private
@@ -95,17 +95,26 @@ router.post(
 
     //Pull all of the fields out into variables from req.body.
     //TODO: Need to figure out how manager can be assigned so not just current user is manager (e.g., if admin wants to assign a different manager.)
-    const { name, description, targetCompletionDate, manager } = req.body;
+    const {
+      name,
+      description,
+      targetCompletionDate,
+      manager,
+      repoLink,
+      liveLink,
+    } = req.body;
 
     //Build the projectItems object. If the value is there, add it to the profileItems object.
     const projectItems = {};
 
-    projectItems.creator = req.user.id;
+    projectItems.owner = req.user.id;
     projectItems.name = name;
     projectItems.description = description;
     const date = new Date(targetCompletionDate);
     projectItems.targetCompletionDate = date;
     projectItems.manager = manager;
+    projectItems.repoLink = repoLink;
+    projectItems.liveLink = liveLink;
 
     //Once all fields are prepared, update and populate the data
     try {
@@ -160,7 +169,7 @@ router.put(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    //pull all fields out of req.body using destructuring
+    //pull all fields out of req.body using destructuring. Note on front end that inputs are case sensitive.
     const {
       name,
       description,
@@ -168,6 +177,8 @@ router.put(
       manager,
       developer,
       completionDate,
+      repoLink,
+      liveLink,
     } = req.body;
 
     //Build updatedProjectFields object. If the field is provided, add to profileFields object
@@ -178,6 +189,8 @@ router.put(
       updatedProjectFields.targetCompletionDate = targetCompletionDate;
     if (manager) updatedProjectFields.manager = manager;
     if (completionDate) updatedProjectFields.completionDate = completionDate;
+    if (repoLink) updatedProjectFields.repoLink = repoLink;
+    if (liveLink) updatedProjectFields.liveLink = liveLink;
 
     try {
       //TODO: If there is a developer, this needs to be pushed onto developer array. Need to figure out how this will happen since the developer isn't going to be the currently logged in user necessarily. Need to figure out how the manager is going to get access to a given user's id.
@@ -210,12 +223,10 @@ router.put(
             project.developers.push(developerId);
             await project.save();
           } else {
-            return res
-              .status(400)
-              .json({
-                msg:
-                  'That user is already on the project. Please select another user to add to project.',
-              });
+            return res.status(400).json({
+              msg:
+                'That user is already on the project. Please select another user to add to project.',
+            });
           }
         }
         //Then, update project with provided updates from updatedProjectFields
@@ -288,14 +299,6 @@ router.put(
 );
 
 //Add Route to delete comments?
-
-//ROUTE: PUT api/projects/tickets/:project_id
-//DESCRIPTION: Add a ticket to an existing project
-//ACCESS LEVEL: Private
-
-//ROUTE: PUT api/projects/sprints/:project_id
-//DESCRIPTION: Add a sprint to an existing project
-//ACCESS LEVEL: Private
 
 //ROUTE: DELETE api/projects/:project_id
 //DESCRIPTION: Delete a project by project's id
