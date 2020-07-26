@@ -8,7 +8,7 @@ const verify = require('../middleware/verifyToken');
 const User = require('../models/User');
 
 //ROUTE: POST api/users/teams
-//DESCRIPTION: Allow user to create a team. In future let users auto generate a name with npm package as an option.
+//DESCRIPTION: Allow user to create a team name and description. In future let users auto generate a name with npm package as an option. There is a separate route for adding team members.
 //ACCESS LEVEL: Private
 router.post(
   '/',
@@ -32,7 +32,7 @@ router.post(
     }
 
     //Pull all of the fields out into variables from req.body.
-    const { name, description, members } = req.body;
+    const { name, description } = req.body;
 
     //Build the teamItems object. If the value is there, add it to the profileItems object.
     const teamItems = {};
@@ -113,10 +113,10 @@ router.put(
         });
       }
       if (name) {
-        teams[index].name = name;
+        user.teams[index].name = name;
       }
       if (description) {
-        teams[index].description = description;
+       user.teams[index].description = description;
       }
       if (username) {
         let foundMember = await User.findOne({ username: username }).select('-password');;
@@ -155,7 +155,7 @@ router.put(
 );
 
 
-//ROUTE: DELETE api/projects/:project_id
+//ROUTE: DELETE api/projects/:team_id
 //DESCRIPTION: Delete a team by team's id
 //ACCESS LEVEL: Private
 //Must be logged in user to delete a team

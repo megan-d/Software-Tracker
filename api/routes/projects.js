@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const verify = require('../middleware/verifyToken');
-const verifyAdminManager = require('../middleware/verifyAdminOrManagerToken');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
-const verifyAdminOrManagerToken = require('../middleware/verifyAdminOrManagerToken');
 
+
+//*****OVERALL PROJECT ROUTES */
 //ROUTE: GET api/projects/me
 //DESCRIPTION: Get all projects for current user
 //ACCESS LEVEL: Private
@@ -110,7 +110,6 @@ router.post(
     //Once all fields are prepared, update and populate the data
     try {
       //Check if a project with that name already exists.
-      //**TODO- Will need to set up functionality to check within the organization.
       let project = await Project.findOne({ name: name });
       if (project) {
         return res.json({
@@ -197,17 +196,18 @@ router.put(
         //If adding developer, check to make sure they are in the system.
         //If adding a developer, first add that to project. Before adding, check to make sure developer doesn't already exist in developers array.
         if (developer) {
-          let user = await User.findOne({ _id: developer });
+          let user = await User.findOne({ username: developer });
           if (!user) {
             return res
               .status(400)
               .json({ msg: 'This user could not be found.' });
           }
+          let developerId = user._id;
           let isExistingDeveloper = project.developers.filter(
-            (dev) => dev._id.toString() === developer,
+            (dev) => dev._id === developerId,
           );
           if (isExistingDeveloper.length === 0) {
-            project.developers.push(developer);
+            project.developers.push(developerId);
             await project.save();
           } else {
             return res

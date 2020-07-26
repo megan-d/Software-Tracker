@@ -41,18 +41,24 @@ const ticketSchema = new Schema({
   },
   status: {
     type: String,
-    default: 'Unassigned'
+    default: 'Unassigned',
   },
-  statusLog: [
-      {
-          status: {
-              type: String
-          },
-          date: {
-              type: Date,
-              default: Date.now,
-          }
-      }
+  history: [
+    {
+      typeOfChange: {
+        type: String,
+      },
+      prevValue: {
+        type: String,
+      },
+      newValue: {
+        type: String,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
   ],
   comments: [
     {
@@ -72,22 +78,6 @@ const ticketSchema = new Schema({
       date: {
         type: Date,
         default: Date.now,
-      },
-    },
-  ],
-  tickets: [
-    {
-      ticket: {
-        type: Schema.Types.ObjectId,
-        ref: 'Ticket',
-      },
-    },
-  ],
-  sprints: [
-    {
-      sprint: {
-        type: Schema.Types.ObjectId,
-        ref: 'Sprint',
       },
     },
   ],

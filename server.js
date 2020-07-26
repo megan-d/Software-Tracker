@@ -3,18 +3,13 @@ const port = process.env.PORT || 5000;
 const path = require('path');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-// const flash = require('connect-flash');
-// const session = require('express-session');
-// const passport = require('passport');
-// const bodyParser = require('body-parser');
-
-// require('./api/config/passport')(passport);
 
 //Import routes
 const auth = require('./api/routes/auth');
 const users = require('./api/routes/users');
 const teams = require('./api/routes/teams');
 const projects = require('./api/routes/projects');
+const tickets = require('./api/routes/tickets');
 
 dotenv.config();
 const app = express();
@@ -39,41 +34,21 @@ const connectDatabase = async () => {
 };
 connectDatabase();
 
+//MIDDLEWARE
 //To get access to req.body (no longer need body parser npm package)
 app.use(express.json());
-// Express body parser
-// app.use(express.urlencoded({ extended: true }));
 
-// app.use(
-//   session({
-//     secret: 'secret',
-//     resave: true,
-//     saveUninitialized: true,
-//     cookie: { secure: true },
-//   }),
-// );
-
-// //Passport middleware
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// //MIDDLEWARES
-// //Set up sessions with express session. Then use flash middleware provided by connect-flash.
-// app.set('trust proxy', 1); // trust first proxy
-// app.use(express.static(__dirname + '/public'));
-
-//Route middlewares
+//ROUTE MIDDLEWARE
 // Authenticate user
 app.use('/api/auth', auth);
 // Register new user
 app.use('/api/users', users);
 //Create and edit user teams
 app.use('/api/users/teams', teams);
-// Create, update, and delete projects, including add/modify/delete tickets and add/modify/delete sprints.
+// Create, update, and delete projects
 app.use('/api/projects', projects);
-
-// app.use(flash());
+// Create, update, and delete tickets and sprints.
+app.use('/api/projects/tickets', tickets);
 
 // Serve static assets in production. Heroku will automatically default the NODE_ENV to production.
 if (process.env.NODE_ENV === 'production') {
