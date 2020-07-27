@@ -15,7 +15,7 @@ router.get('/me', verify, async (req, res) => {
   try {
     //   Find the relevant projects associated with user based on the id that comes in with the request's token. Could be manager role or developer role on project.
     const projects = await Project.find({
-      $or: [{ 'developers.user': req.user.id }, { manager: req.user.id }],
+      $or: [{ 'developers.developer': req.user.id }, { manager: req.user.id }],
     });
 
     //If there is no profile, return an error
@@ -217,7 +217,7 @@ router.put(
           }
           let developerId = user._id;
           let isExistingDeveloper = project.developers.filter(
-            (dev) => dev._id === developerId,
+            (dev) => dev._id.toString() === developerId.toString(),
           );
           if (isExistingDeveloper.length === 0) {
             project.developers.push(developerId);
@@ -314,6 +314,8 @@ router.delete('/:project_id', verify, async (req, res) => {
       req.user.role === 'admin' ||
       project.manager.toString() === req.user.id
     ) {
+
+        //TODO: also delete tickets associated with project when a project is deleted
       await Project.findOneAndRemove({ _id: req.params.project_id });
       res.json({ msg: 'This project has been deleted.' });
     } else {

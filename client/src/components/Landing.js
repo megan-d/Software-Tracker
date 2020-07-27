@@ -65,7 +65,7 @@ export default function Landing() {
               color='textPrimary'
               gutterBottom
             >
-              Welcome to Dash!
+              Project Management, Issue Tracking, and Community Collaboration
             </Typography>
             <Typography
               variant='h6'
@@ -73,8 +73,7 @@ export default function Landing() {
               color='textSecondary'
               paragraph
             >
-              We provide software professionals with a solution for project management and issue tracking with a dash of
-              social networking.
+              We provide software professionals with a solution for project management and issue tracking along with a community to collaborate with
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify='center'>

@@ -6,6 +6,10 @@ const ticketSchema = new Schema({
     type: String,
     required: true,
   },
+  project: {
+    type: Schema.Types.ObjectId,
+    ref: 'Project',
+  },
   type: {
     type: String,
     required: true,
