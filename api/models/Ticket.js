@@ -19,10 +19,8 @@ const ticketSchema = new Schema({
     required: true,
   },
   submitter: {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    type: Schema.Types.ObjectId,
+    ref: 'User',
   },
   dateCreated: {
     type: Date,
@@ -33,20 +31,19 @@ const ticketSchema = new Schema({
     required: true,
   },
   assignedDeveloper: {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
   status: {
     type: String,
-    default: 'Unassigned',
+    default: 'Assigned',
   },
   history: [
     {
       typeOfChange: {
         type: String,
+        required: true,
       },
       prevValue: {
         type: String,

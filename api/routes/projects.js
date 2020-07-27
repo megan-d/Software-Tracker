@@ -193,7 +193,7 @@ router.put(
     if (liveLink) updatedProjectFields.liveLink = liveLink;
 
     try {
-      //TODO: If there is a developer, this needs to be pushed onto developer array. Need to figure out how this will happen since the developer isn't going to be the currently logged in user necessarily. Need to figure out how the manager is going to get access to a given user's id.
+      //TODO: If there is a developer, this needs to be pushed onto developer array. Need to figure out how this will happen since the developer isn't going to be the currently logged in user necessarily. Need to figure out how the manager is going to get access to a given user's id (could search by username and add it).
 
       let project = await Project.findOne({ _id: req.params.project_id });
       //Only allow project to be updated if admin user or manager on project

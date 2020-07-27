@@ -23,7 +23,7 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    default: 'developer',
+    default: 'manager',
   },
   //Will allow members to search for developers by username, view their profile, and add them to their team
   teams: [

@@ -64,12 +64,9 @@ const projectSchema = new Schema({
   }],
   tickets: [
     {
-      ticket: {
         type: Schema.Types.ObjectId,
         ref: 'Ticket',
-        required: true,
       },
-    },
   ],
   sprints: [{
     sprint: {

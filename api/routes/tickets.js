@@ -42,7 +42,7 @@ router.get('/me', verify, async (req, res) => {
   }
 });
 
-//When create ticket, can only be assigned to somebody who is on that project (either a developer or a manager)
+//When create ticket, can only be assigned to somebody who is on that project (either a developer or a manager). Note this on the front end.
 
 //ROUTE: POST api/projects/tickets/:project_id
 //DESCRIPTION: Create a new ticket for project
@@ -80,6 +80,10 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
+      check('history', 'Please provide a type of change for ticket history.')
+        .not()
+        .isEmpty()
+        .trim(),
     ],
   ],
   async (req, res) => {
@@ -90,7 +94,6 @@ router.post(
     }
 
     //Pull all of the fields out into variables from req.body.
-
     const {
       title,
       type,
@@ -98,6 +101,7 @@ router.post(
       priority,
       dateDue,
       assignedDeveloper,
+      history,
     } = req.body;
 
     //Build the ticketItems object. If the value is there, add it to the ticketItems object.
@@ -111,36 +115,34 @@ router.post(
     const date = new Date(dateDue);
     ticketItems.dateDue = date;
     ticketItems.assignedDeveloper = assignedDeveloper;
+    let historyItem = {
+      typeOfChange: history,
+    };
 
     //Once all fields are prepared, update and populate the data
     try {
-      //Check if a ticket with that title already exists for the project. Populate the ticket titles.
-      let project = await Project.findOne({
+      //Populate ticket titles. Check if a ticket with that title already exists for the project. If so, give error. If not, create new ticket.
+      const projectTickets = await Project.findOne({
         _id: req.params.project_id,
-      }).populate('ticket');
-      console.log(project);
-      if (!project) {
-        return res.json({
-          msg: 'The requested project could not be found.',
-        });
-      }
+      }).populate('tickets', 'title');
 
-      //populate the ticket titles so can determine if title already exists
-
-      project.tickets.filter(
-        (ticket) => ticket.title.toLowerCase() === title.toLowerCase(),
+      let isExistingTicketTitle = projectTickets.tickets.filter(
+        (ticket) => ticket.title === title,
       );
-      if (isExistingDeveloper.length === 0) {
-        project.developers.push(developerId);
-        await project.save();
-      } else {
+      if (isExistingTicketTitle.length > 0) {
         return res.status(400).json({
           msg:
-            'A ticket with that title is already on the project. Please provide another title.',
+            'A ticket with that title already exists. Please select another title for the ticket.',
         });
+      } else {
+        let ticket = await new Ticket(ticketItems);
+        await ticket.history.push(historyItem);
+        await ticket.save();
+        const project = await Project.findOne({ _id: req.params.project_id });
+        await project.tickets.push(ticket);
+        await project.save();
+        return res.json(project);
       }
-      await project.save();
-      res.json(project.tickets);
     } catch (err) {
       console.error(err);
       res.status(500).send('Server Error');
@@ -148,6 +150,8 @@ router.post(
   },
 );
 
-//When update ticket, push to history array so have a log of ticket history
+//When update ticket, push type of change to history array so have a log of ticket history. Can also create variable for prevValue and newValue so that can be populated into a table to display it.
+
+//When ticket is deleted, also need to delete it from project (remove from array)
 
 module.exports = router;
