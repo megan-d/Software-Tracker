@@ -144,9 +144,6 @@ router.post(
 //DESCRIPTION: Update an existing project's details
 //ACCESS LEVEL: Private
 //Must be Manager on the project or admin to update it
-//ROUTE: PUT api/users
-//DESCRIPTION: Update user information. Will need a different route to update password.
-//ACCESS LEVEL: Private
 //TODO: Will also need a route to delete a developer from a project. This can be future phase.
 router.put(
   '/:project_id',
@@ -193,7 +190,6 @@ router.put(
     if (liveLink) updatedProjectFields.liveLink = liveLink;
 
     try {
-      //TODO: If there is a developer, this needs to be pushed onto developer array. Need to figure out how this will happen since the developer isn't going to be the currently logged in user necessarily. Need to figure out how the manager is going to get access to a given user's id (could search by username and add it).
 
       let project = await Project.findOne({ _id: req.params.project_id });
       //Only allow project to be updated if admin user or manager on project
@@ -206,7 +202,7 @@ router.put(
         req.user.role === 'admin' ||
         project.manager.toString() === req.user.id
       ) {
-        //If adding developer, check to make sure they are in the system.
+        //If adding developer, check to make sure they are in the system. User can be submitted by username.
         //If adding a developer, first add that to project. Before adding, check to make sure developer doesn't already exist in developers array.
         if (developer) {
           let user = await User.findOne({ username: developer });

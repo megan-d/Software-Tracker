@@ -116,17 +116,17 @@ router.post(
       history,
     } = req.body;
 
-    //Build the ticketItems object. If the value is there, add it to the ticketItems object.
-    const ticketItems = {};
+    //Build the updatedTicketItems object. If the value is there, add it to the updatedTicketItems object.
+    const updatedTicketItems = {};
 
-    ticketItems.submitter = req.user.id;
-    ticketItems.project = req.params.project_id;
-    ticketItems.title = title;
-    ticketItems.type = type;
-    ticketItems.description = description;
-    ticketItems.priority = priority;
+    updatedTicketItems.submitter = req.user.id;
+    updatedTicketItems.project = req.params.project_id;
+    updatedTicketItems.title = title;
+    updatedTicketItems.type = type;
+    updatedTicketItems.description = description;
+    updatedTicketItems.priority = priority;
     const date = new Date(dateDue);
-    ticketItems.dateDue = date;
+    updatedTicketItems.dateDue = date;
 
     let historyItem = {
       typeOfChange: history,
@@ -148,17 +148,17 @@ router.post(
             'A ticket with that title already exists. Please select another title for the ticket.',
         });
       }
-      //TODO: verify that the assignedDevelopers is actually a user
+
       let user = await User.findOne({ username: assignedDeveloper });
       let developerId = user._id;
-      ticketItems.assignedDeveloper = developerId;
+      updatedTicketItems.assignedDeveloper = developerId;
       if (!user) {
         return res
           .status(400)
           .json({ msg: 'The assigned developer could not be found.' });
       }
 
-      let ticket = await new Ticket(ticketItems);
+      let ticket = await new Ticket(updatedTicketItems);
       await ticket.history.push(historyItem);
       await ticket.save();
 
@@ -166,7 +166,7 @@ router.post(
       let isExistingProjectDeveloper = project.developers.filter(
         (dev) => dev._id.toString() === developerId.toString(),
       );
-      
+
       if (isExistingProjectDeveloper.length === 0) {
         //Add to developers array for project
         await project.developers.push(developerId);
@@ -181,8 +181,163 @@ router.post(
   },
 );
 
-//Update a ticket
-//When update ticket, push type of change to history array so have a log of ticket history. Can also create variable for prevValue and newValue so that can be populated into a table to display it.
+//ROUTE: PUT api/projects/tickets/:project_id/:ticket_id
+//DESCRIPTION: Update an existing ticket
+//ACCESS LEVEL: Private
+router.put(
+  '/:project_id/:ticket_id',
+  [
+    verify,
+    [
+      //User express validator to validate required inputs
+      check('title', 'Please provide a ticket title.')
+        .optional({ checkFalsy: true })
+        .trim(),
+      check('type', 'Please provide a ticket type.')
+        .optional({ checkFalsy: true })
+        .trim(),
+      check('description', 'Please provide a ticket description.')
+        .optional({ checkFalsy: true })
+        .trim(),
+      check('history', 'Please provide a type of change for ticket history.')
+        .not()
+        .isEmpty()
+        .trim(),
+    ],
+  ],
+  async (req, res) => {
+    //Add in logic for express validator error check
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    //Pull all of the fields out into variables from req.body.
+    const {
+      title,
+      type,
+      description,
+      priority,
+      dateDue,
+      assignedDeveloper,
+      history,
+      prevValue,
+      newValue,
+      status,
+      dateCompleted,
+      resolutionSummary,
+    } = req.body;
+
+    //Build the updatedTicketItems object. If the value is there, add it to the updatedTicketItems object.
+    const updatedTicketItems = {};
+
+    updatedTicketItems.submitter = req.user.id;
+    if (title) updatedTicketItems.title = title;
+    if (type) updatedTicketItems.type = type;
+    if (description) updatedTicketItems.description = description;
+    if (priority) updatedTicketItems.priority = priority;
+    if (dateDue) {
+      const date = new Date(dateDue);
+      updatedTicketItems.dateDue = date;
+    }
+    if (status) updatedTicketItems.status = status;
+    if (dateCompleted) {
+      const completionDate = new Date(dateCompleted);
+      updatedTicketItems.dateCompleted = dateCompleted;
+    }
+    if (resolutionSummary)
+      updatedTicketItems.resolutionSummary = resolutionSummary;
+
+    let historyItem = {
+      typeOfChange: history,
+      prevValue: prevValue,
+      newValue: newValue,
+    };
+
+    //Once all fields are prepared, update and populate the data
+    try {
+      let project = await Project.findOne({
+        _id: req.params.project_id,
+      }).populate('tickets');
+      if (!project) {
+        return res
+          .status(400)
+          .json({ msg: 'This project could not be found.' });
+      }
+      
+      //Go through array of assigned developers and filter by current user to see if they are one
+      let isProjectDeveloper = project.developers.filter(
+        (dev) => dev._id.toString() === req.user.id.toString(),
+      );
+      //Make so you can only update ticket if you are an admin user, the project manager, the assigned developer, or a developer on the project
+      let ticket = await Ticket.findOne({ _id: req.params.ticket_id });
+      if (
+        req.user.role === 'admin' ||
+        project.manager.toString() === req.user.id ||
+        isProjectDeveloper.length > 0 ||
+        ticket.assignedDeveloper.toString() === req.user.id.toString()
+      ) {
+        
+        //Need to decide if only want project manager or admin user to update tickets, or if anybody can update tickets
+        if (title) {
+          let isExistingTicketTitle = ticket.filter(
+            (ticket) => ticket.title === title,
+          );
+
+          if (isExistingTicketTitle.length > 0) {
+            return res.status(400).json({
+              msg:
+                'A ticket with that title already exists. Please select another title for the ticket.',
+            });
+          }
+        }
+
+        if (assignedDeveloper) {
+          let user = await User.findOne({ username: assignedDeveloper });
+          let developerId = user._id;
+          updatedTicketItems.assignedDeveloper = developerId;
+          if (!user) {
+            return res
+              .status(400)
+              .json({ msg: 'The assigned developer could not be found.' });
+          }
+          //Check to see if assigned developer is a developer on the project yet. If not, add them with request.
+          let isExistingProjectDeveloper = project.developers.filter(
+            (dev) => dev._id.toString() === developerId.toString(),
+          );
+
+          if (isExistingProjectDeveloper.length === 0) {
+            //Add to developers array for project
+            await project.developers.push(developerId);
+          }
+        }
+
+        //When update ticket, push type of change to history array so have a log of ticket history.
+        await ticket.history.push(historyItem);
+        await ticket.save();
+        await project.save();
+
+        let updatedTicket = await Ticket.findOneAndUpdate(
+          { _id: req.params.ticket_id },
+          { $set: updatedTicketItems },
+          { new: true },
+        );
+
+        //Send back the updated ticket
+        return res.json(updatedTicket);
+      } else {
+        return res
+          .status(401)
+          .json({ msg: 'You are not permitted to perform this action.' });
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  },
+);
+
+//Comment on an existing ticket
 
 //ROUTE: DELETE api/projects/tickets/:project_id/:ticket_id
 //DESCRIPTION: Delete a ticket on given project by ticket id
@@ -196,11 +351,9 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
       '_id',
     );
     if (!project) {
-      return res
-        .status(400)
-        .json({
-          msg: 'The project associated with this ticket could not be found.',
-        });
+      return res.status(400).json({
+        msg: 'The project associated with this ticket could not be found.',
+      });
     }
     //If the user is not an admin or the manager for the project, deny access.
     if (
