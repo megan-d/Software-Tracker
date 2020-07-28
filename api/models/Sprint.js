@@ -11,17 +11,13 @@ const sprintSchema = new Schema({
     required: true,
   },
   submitter: {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    type: Schema.Types.ObjectId,
+    ref: 'User',
   },
   developers: {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
   startDate: {
     type: Date,
@@ -69,10 +65,8 @@ const sprintSchema = new Schema({
   ],
   tickets: [
     {
-      ticket: {
-        type: Schema.Types.ObjectId,
-        ref: 'Ticket',
-      },
+      type: Schema.Types.ObjectId,
+      ref: 'Ticket',
     },
   ],
   dateCompleted: {

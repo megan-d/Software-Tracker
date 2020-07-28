@@ -56,6 +56,26 @@ router.get('/:project_id', verify, async (req, res) => {
   }
 });
 
+//ROUTE: GET api/projects/tickets/ticket/:ticket_id
+//DESCRIPTION: Get ticket by ID
+//ACCESS LEVEL: Private
+router.get('/ticket/:ticket_id', verify, async (req, res) => {
+  try {
+    let ticket = await Ticket.findOne({ _id: req.params.ticket_id });
+
+    //If there are no tickets, return an error
+    if (!ticket) {
+      return res
+        .status(400)
+        .json({ msg: 'This ticket could not be found.' });
+    }
+    res.json(ticket);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 //ROUTE: POST api/projects/tickets/:project_id
 //DESCRIPTION: Create a new ticket for project
 //ACCESS LEVEL: Private
@@ -264,7 +284,7 @@ router.put(
           .status(400)
           .json({ msg: 'This project could not be found.' });
       }
-      
+
       //Go through array of assigned developers and filter by current user to see if they are one
       let isProjectDeveloper = project.developers.filter(
         (dev) => dev._id.toString() === req.user.id.toString(),
@@ -277,7 +297,6 @@ router.put(
         isProjectDeveloper.length > 0 ||
         ticket.assignedDeveloper.toString() === req.user.id.toString()
       ) {
-        
         //Need to decide if only want project manager or admin user to update tickets, or if anybody can update tickets
         if (title) {
           let isExistingTicketTitle = ticket.filter(
@@ -341,49 +360,49 @@ router.put(
 //DESCRIPTION: Comment on an existing ticket
 //ACCESS LEVEL: Private
 router.post(
-    '/comment/:ticket_id',
+  '/comment/:ticket_id',
+  [
+    verify,
     [
-      verify,
-      [
-        check('text', 'Please provide text in the comment field.')
-          .not()
-          .isEmpty()
-          .trim(),
-      ],
+      check('text', 'Please provide text in the comment field.')
+        .not()
+        .isEmpty()
+        .trim(),
     ],
-    async (req, res) => {
-      //Do error checking
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-  
-      try {
-        //Create variable called user to get user. Since we are logged in, we have the id from the token.
-        let user = await User.findById(req.user.id).select('-password');
-        //Get the project
-        let ticket = await Ticket.findById(req.params.ticket_id);
-        //Create object for new comment. It's not a collection in database so just an object.
-        const newComment = {
-          name: user.name,
-          text: req.body.text,
-          user: req.user.id,
-        };
-  
-        //Add newComment onto ticket comments at the end of array (want chronological order in this case)
-        ticket.comments.push(newComment);
-  
-        //Save to database
-        await ticket.save();
-  
-        //Send back all comments
-        res.json(ticket.comments);
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-      }
-    },
-  );
+  ],
+  async (req, res) => {
+    //Do error checking
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      //Create variable called user to get user. Since we are logged in, we have the id from the token.
+      let user = await User.findById(req.user.id).select('-password');
+      //Get the project
+      let ticket = await Ticket.findById(req.params.ticket_id);
+      //Create object for new comment. It's not a collection in database so just an object.
+      const newComment = {
+        name: user.name,
+        text: req.body.text,
+        user: req.user.id,
+      };
+
+      //Add newComment onto ticket comments at the end of array (want chronological order in this case)
+      ticket.comments.push(newComment);
+
+      //Save to database
+      await ticket.save();
+
+      //Send back all comments
+      res.json(ticket.comments);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  },
+);
 
 //ROUTE: DELETE api/projects/tickets/:project_id/:ticket_id
 //DESCRIPTION: Delete a ticket on given project by ticket id
@@ -430,7 +449,5 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
-//Need route to get ticket by ID
 
 module.exports = router;
