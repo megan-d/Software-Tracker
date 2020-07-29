@@ -18,8 +18,9 @@ router.get('/me', verify, async (req, res) => {
     //   Find the all sprints assigned to the user based on the id that comes in with the request's token.
     //TODO: Test if this will work as written
     const assignedSprints = await Sprint.find({
-      'developers._id': { _id: req.user.id },
+      'developers': { _id: req.user.id }
     });
+    console.log()
 
     //If there are no sprints, return an error
     if (assignedSprints.length === 0) {
@@ -27,7 +28,7 @@ router.get('/me', verify, async (req, res) => {
         .status(400)
         .json({ msg: 'There are no sprints assigned to this user.' });
     }
-    res.json(assignedSprint);
+    res.json(assignedSprints);
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');

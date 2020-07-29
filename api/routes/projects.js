@@ -16,7 +16,7 @@ router.get('/me', verify, async (req, res) => {
     //   Find the relevant projects associated with user based on the id that comes in with the request's token. Could be manager role or developer role on project.
     let projects = await Project.find({
       $or: [
-        { 'developers._id': { _id: req.user.id } },
+        { 'developers': { _id: req.user.id } },
         { manager: req.user.id },
         { owner: req.user.id },
       ],
