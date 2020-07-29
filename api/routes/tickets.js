@@ -261,7 +261,7 @@ router.put(
     if (status) updatedTicketItems.status = status;
     if (dateCompleted) {
       const completionDate = new Date(dateCompleted);
-      updatedTicketItems.dateCompleted = dateCompleted;
+      updatedTicketItems.dateCompleted = completionDate;
     }
     if (resolutionSummary)
       updatedTicketItems.resolutionSummary = resolutionSummary;

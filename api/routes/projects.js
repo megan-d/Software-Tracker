@@ -224,7 +224,7 @@ router.put(
           } else {
             return res.status(400).json({
               msg:
-                'That user is already on the project. Please select another user to add to project.',
+                'That user is already on the project. Please select another user to add to the project.',
             });
           }
         }

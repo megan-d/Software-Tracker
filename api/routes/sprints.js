@@ -89,7 +89,7 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
-      check('description', 'Please provide a ticket description.')
+      check('description', 'Please provide a sprint description.')
         .not()
         .isEmpty()
         .trim(),
@@ -139,6 +139,9 @@ router.post(
     sprintItems.plannedEndDate = endDate;
     sprintItems.resolutionSummary = resolutionSummary;
     sprintItems.status = 'Sprint Created';
+    sprintItems.statusLog = {
+      status: 'Sprint Created',
+    };
 
     //Once all fields are prepared, update and populate the data
     try {
@@ -173,6 +176,10 @@ router.post(
         await project.sprints.push(sprint);
         await project.save();
         return res.json(sprint);
+      } else {
+        return res
+          .status(401)
+          .json({ msg: 'You are not permitted to perform this action.' });
       }
     } catch (err) {
       console.error(err);
@@ -184,7 +191,153 @@ router.post(
 //ROUTE: PUT api/projects/sprints/:project_id/:sprint_id
 //DESCRIPTION: Update an existing sprint
 //ACCESS LEVEL: Private
-//Provide opportunity to update startDate once know the precise date, and allow for adding developers to sprints
+
+//TODO: figure out how to have tickets added to sprints
+router.put(
+  '/:project_id/:sprint_id',
+  [
+    verify,
+    [
+      //User express validator to validate required inputs
+      check('title', 'Please provide a sprint title.')
+        .optional({ checkFalsy: true })
+        .trim(),
+      check('type', 'Please provide a sprint description.')
+        .optional({ checkFalsy: true })
+        .trim(),
+      check('status', 'Please provide the current status for the sprint.')
+        .not()
+        .isEmpty()
+        .trim(),
+    ],
+  ],
+  async (req, res) => {
+    //Add in logic for express validator error check
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    //Pull all of the fields out into variables from req.body.
+    const {
+      title,
+      description,
+      startDate,
+      plannedEndDate,
+      dateCompleted,
+      resolutionSummary,
+      status,
+      developer,
+    } = req.body;
+
+    //Build the updatedSprintItems object. If the value is there, add it to the updatedSprintItems object.
+    const updatedSprintItems = {};
+
+    updatedSprintItems.submitter = req.user.id;
+    if (title) updatedSprintItems.title = title;
+    if (description) updatedSprintItems.description = description;
+    
+    if (startDate) {
+      const start = new Date(startDate);
+      updatedSprintItems.startDate = start;
+    }
+    if (dateCompleted) {
+      const completionDate = new Date(dateCompleted);
+      updatedSprintItems.dateCompleted = completionDate;
+    }
+    if (plannedEndDate) {
+      const date = new Date(plannedEndDate);
+      updatedSprintItems.plannedEndDate = date;
+    }
+    if (resolutionSummary)
+      updatedSprintItems.resolutionSummary = resolutionSummary;
+
+    //Once all fields are prepared, update and populate the data
+    try {
+      let project = await Project.findOne({
+        _id: req.params.project_id,
+      }).populate(['sprints', 'tickets']);
+      if (!project) {
+        return res
+          .status(400)
+          .json({
+            msg:
+              'This project could not be found. A sprint must be associated with an existing project. Please create a new project to add a sprint.',
+          });
+      }
+
+      let sprint = await Sprint.findOne({ _id: req.params.sprint_id });
+      //Make so you can only update sprint if you are an admin user or the project manager
+      if (
+        req.user.role === 'admin' ||
+        project.manager.toString() === req.user.id
+      ) {
+        if (title) {
+          let isExistingSprintTitle = project.sprints.filter(
+            (sprint) => sprint.title === title,
+          );
+          if (isExistingSprintTitle.length > 0) {
+            return res.status(400).json({
+              msg:
+                'A sprint with that title already exists for this project. Please select another title for the sprint.',
+            });
+          }
+        }
+        if (status) {
+          sprint.statusLog.push({ status: status });
+        }
+        if (developer) {
+          let user = await User.findOne({ username: developer });
+          if (!user) {
+            return res
+              .status(400)
+              .json({ msg: 'This user could not be found.' });
+          }
+          let developerId = user._id;
+          let isExistingSprintDeveloper = sprint.developers.filter(
+            (dev) => dev._id.toString() === developerId.toString(),
+          );
+          if (isExistingSprintDeveloper.length === 0) {
+            sprint.developers.push(developerId);
+          } else {
+            return res.status(400).json({
+              msg:
+                'That user is already on the sprint. Please select another user to add to the sprint.',
+            });
+          }
+          //Check to see if this developer is a developer on the project yet. If not, add them with request.
+          let isExistingProjectDeveloper = project.developers.filter(
+            (dev) => dev._id.toString() === developerId.toString(),
+          );
+
+          if (isExistingProjectDeveloper.length === 0) {
+            //Add to developers array for project
+            await project.developers.push(developerId);
+          }
+        }
+
+        await sprint.save();
+        await project.save();
+
+        let updatedSprint = await Sprint.findOneAndUpdate(
+          { _id: req.params.sprint_id },
+          { $set: updatedSprintItems },
+          { new: true },
+        );
+
+        //Send back the updated sprint
+        return res.json(updatedSprint);
+      } else {
+        return res
+          .status(401)
+          .json({ msg: 'You are not permitted to perform this action.' });
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  },
+);
 
 //ROUTE: PUT api/projects/sprints/comment/:sprint_id
 //DESCRIPTION: Comment on an existing sprint

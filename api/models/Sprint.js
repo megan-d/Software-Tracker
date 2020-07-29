@@ -16,14 +16,8 @@ const sprintSchema = new Schema({
   },
   developers: [
     {
-      developer: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-      },
-      role: {
-        type: String,
-        default: 'developer',
-      },
     },
   ],
   dateCreated: {
