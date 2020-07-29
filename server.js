@@ -10,6 +10,7 @@ const users = require('./api/routes/users');
 const teams = require('./api/routes/teams');
 const projects = require('./api/routes/projects');
 const tickets = require('./api/routes/tickets');
+const sprints = require('./api/routes/sprints');
 
 dotenv.config();
 const app = express();
@@ -47,8 +48,10 @@ app.use('/api/users', users);
 app.use('/api/users/teams', teams);
 // Create, update, and delete projects
 app.use('/api/projects', projects);
-// Create, update, and delete tickets and sprints.
+// Create, update, and delete tickets.
 app.use('/api/projects/tickets', tickets);
+// Create, update, and delete sprints
+app.use('/api/projects/sprints', sprints);
 
 // Serve static assets in production. Heroku will automatically default the NODE_ENV to production.
 if (process.env.NODE_ENV === 'production') {

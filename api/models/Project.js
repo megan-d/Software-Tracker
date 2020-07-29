@@ -39,15 +39,16 @@ const projectSchema = new Schema({
       },
       role: {
         type: String,
-        default: 'developer'
-      }
+        default: 'developer',
+      },
     },
   ],
-  comments: [{
+  comments: [
+    {
       //Shouldn't need to manipulate specific comments so probably don't need a separate model for this
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
       },
       name: {
         type: String,
@@ -61,26 +62,26 @@ const projectSchema = new Schema({
         type: Date,
         default: Date.now,
       },
-  }],
+    },
+  ],
   tickets: [
     {
-        type: Schema.Types.ObjectId,
-        ref: 'Ticket',
-      },
+      type: Schema.Types.ObjectId,
+      ref: 'Ticket',
+    },
   ],
-  sprints: [{
-    sprint: {
+  sprints: [
+    {
       type: Schema.Types.ObjectId,
       ref: 'Sprint',
     },
-  }],
+  ],
   repoLink: {
     type: String,
   },
   liveLink: {
     type: String,
-  }
+  },
 });
-
 
 module.exports = Project = mongoose.model('Project', projectSchema);

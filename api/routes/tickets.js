@@ -65,9 +65,7 @@ router.get('/ticket/:ticket_id', verify, async (req, res) => {
 
     //If there are no tickets, return an error
     if (!ticket) {
-      return res
-        .status(400)
-        .json({ msg: 'This ticket could not be found.' });
+      return res.status(400).json({ msg: 'This ticket could not be found.' });
     }
     res.json(ticket);
   } catch (err) {
@@ -112,10 +110,6 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
-      check('history', 'Please provide a type of change for ticket history.')
-        .not()
-        .isEmpty()
-        .trim(),
     ],
   ],
   async (req, res) => {
@@ -133,23 +127,27 @@ router.post(
       priority,
       dateDue,
       assignedDeveloper,
-      history,
+      dateCompleted,
+      resolutionSummary,
     } = req.body;
 
-    //Build the updatedTicketItems object. If the value is there, add it to the updatedTicketItems object.
-    const updatedTicketItems = {};
+    //Build the ticketItems object. If the value is there, add it to the ticketItems object.
+    const ticketItems = {};
 
-    updatedTicketItems.submitter = req.user.id;
-    updatedTicketItems.project = req.params.project_id;
-    updatedTicketItems.title = title;
-    updatedTicketItems.type = type;
-    updatedTicketItems.description = description;
-    updatedTicketItems.priority = priority;
+    ticketItems.submitter = req.user.id;
+    ticketItems.project = req.params.project_id;
+    ticketItems.title = title;
+    ticketItems.type = type;
+    ticketItems.description = description;
+    ticketItems.priority = priority;
     const date = new Date(dateDue);
-    updatedTicketItems.dateDue = date;
+    ticketItems.dateDue = date;
+    const completionDate = new Date(dateCompleted);
+    ticketItems.dateCompleted = completionDate;
+    ticketItems.resolutionSummary = resolutionSummary;
 
     let historyItem = {
-      typeOfChange: history,
+      typeOfChange: 'Create ticket',
     };
 
     //Once all fields are prepared, update and populate the data
@@ -171,14 +169,14 @@ router.post(
 
       let user = await User.findOne({ username: assignedDeveloper });
       let developerId = user._id;
-      updatedTicketItems.assignedDeveloper = developerId;
+      ticketItems.assignedDeveloper = developerId;
       if (!user) {
         return res
           .status(400)
           .json({ msg: 'The assigned developer could not be found.' });
       }
 
-      let ticket = await new Ticket(updatedTicketItems);
+      let ticket = await new Ticket(ticketItems);
       await ticket.history.push(historyItem);
       await ticket.save();
 
@@ -356,6 +354,8 @@ router.put(
   },
 );
 
+//TODO: Add tickets to sprint
+
 //ROUTE: PUT api/projects/tickets/comment/:ticket_id
 //DESCRIPTION: Comment on an existing ticket
 //ACCESS LEVEL: Private
@@ -380,7 +380,7 @@ router.post(
     try {
       //Create variable called user to get user. Since we are logged in, we have the id from the token.
       let user = await User.findById(req.user.id).select('-password');
-      //Get the project
+      //Get the ticket
       let ticket = await Ticket.findById(req.params.ticket_id);
       //Create object for new comment. It's not a collection in database so just an object.
       const newComment = {
@@ -415,11 +415,7 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
       'tickets',
       '_id',
     );
-    if (!project) {
-      return res.status(400).json({
-        msg: 'The project associated with this ticket could not be found.',
-      });
-    }
+
     //If the user is not an admin or the manager for the project, deny access.
     if (
       req.user.role === 'admin' ||
@@ -427,6 +423,7 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
     ) {
       //TODO: also delete tickets associated with project when a project is deleted
       await Ticket.findOneAndRemove({ _id: req.params.ticket_id });
+
       let tickets = project.tickets;
       let index = tickets.map((el) => el._id).indexOf(req.params.ticket_id);
       if (index === -1) {
@@ -435,8 +432,8 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
         });
       }
       let deletedTicket = project.tickets.splice(index, 1);
-      project.save();
-      res.json({ msg: 'This ticket has been deleted .' });
+      await project.save();
+      res.json({ msg: 'This ticket has been deleted.' });
 
       //When ticket is deleted, also need to delete it from project (remove from array)
     } else {

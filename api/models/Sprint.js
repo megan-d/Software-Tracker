@@ -14,10 +14,21 @@ const sprintSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  developers: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+  developers: [
+    {
+      developer: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+      role: {
+        type: String,
+        default: 'developer',
+      },
+    },
+  ],
+  dateCreated: {
+    type: Date,
+    default: Date.now,
   },
   startDate: {
     type: Date,
@@ -29,7 +40,7 @@ const sprintSchema = new Schema({
   },
   status: {
     type: String,
-    default: 'Not Started',
+    required: true
   },
   statusLog: [
     {
@@ -72,7 +83,7 @@ const sprintSchema = new Schema({
   dateCompleted: {
     type: Date,
   },
-  summary: {
+  resolutionSummary: {
     type: String,
   },
 });

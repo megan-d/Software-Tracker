@@ -14,8 +14,12 @@ const Project = require('../models/Project');
 router.get('/me', verify, async (req, res) => {
   try {
     //   Find the relevant projects associated with user based on the id that comes in with the request's token. Could be manager role or developer role on project.
-    const projects = await Project.find({
-      $or: [{ 'developers.developer': req.user.id }, { manager: req.user.id }],
+    let projects = await Project.find({
+      $or: [
+        { 'developers._id': { _id: req.user.id } },
+        { manager: req.user.id },
+        { owner: req.user.id },
+      ],
     });
 
     //If there is no profile, return an error
@@ -190,7 +194,6 @@ router.put(
     if (liveLink) updatedProjectFields.liveLink = liveLink;
 
     try {
-
       let project = await Project.findOne({ _id: req.params.project_id });
       //Only allow project to be updated if admin user or manager on project
       if (!project) {
@@ -310,8 +313,7 @@ router.delete('/:project_id', verify, async (req, res) => {
       req.user.role === 'admin' ||
       project.manager.toString() === req.user.id
     ) {
-
-        //TODO: also delete tickets associated with project when a project is deleted
+      //TODO: also delete tickets associated with project when a project is deleted
       await Project.findOneAndRemove({ _id: req.params.project_id });
       res.json({ msg: 'This project has been deleted.' });
     } else {
