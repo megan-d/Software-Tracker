@@ -142,9 +142,6 @@ router.post(
     ticketItems.priority = priority;
     const date = new Date(dateDue);
     ticketItems.dateDue = date;
-    const completionDate = new Date(dateCompleted);
-    ticketItems.dateCompleted = completionDate;
-    ticketItems.resolutionSummary = resolutionSummary;
 
     let historyItem = {
       typeOfChange: 'Create ticket',

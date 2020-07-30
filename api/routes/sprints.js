@@ -18,9 +18,9 @@ router.get('/me', verify, async (req, res) => {
     //   Find the all sprints assigned to the user based on the id that comes in with the request's token.
     //TODO: Test if this will work as written
     const assignedSprints = await Sprint.find({
-      'developers': { _id: req.user.id }
+      developers: { _id: req.user.id },
     });
-    console.log()
+    console.log();
 
     //If there are no sprints, return an error
     if (assignedSprints.length === 0) {
@@ -193,7 +193,7 @@ router.post(
 //DESCRIPTION: Update an existing sprint
 //ACCESS LEVEL: Private
 
-//TODO: figure out how to have tickets added to sprints
+//TODO: Consider adding developers to sprints by just adding the assignedDeveloper from the ticket that is added to the sprint
 router.put(
   '/:project_id/:sprint_id',
   [
@@ -237,7 +237,7 @@ router.put(
     updatedSprintItems.submitter = req.user.id;
     if (title) updatedSprintItems.title = title;
     if (description) updatedSprintItems.description = description;
-    
+
     if (startDate) {
       const start = new Date(startDate);
       updatedSprintItems.startDate = start;
@@ -259,12 +259,10 @@ router.put(
         _id: req.params.project_id,
       }).populate(['sprints', 'tickets']);
       if (!project) {
-        return res
-          .status(400)
-          .json({
-            msg:
-              'This project could not be found. A sprint must be associated with an existing project. Please create a new project to add a sprint.',
-          });
+        return res.status(400).json({
+          msg:
+            'This project could not be found. A sprint must be associated with an existing project. Please create a new project to add a sprint.',
+        });
       }
 
       let sprint = await Sprint.findOne({ _id: req.params.sprint_id });
@@ -339,6 +337,40 @@ router.put(
     }
   },
 );
+
+//ROUTE: PUT api/projects/sprints/tickets/:sprint_id/:ticket_id
+//DESCRIPTION: Add a ticket to existing sprint
+//ACCESS LEVEL: Private
+router.put('/tickets/:sprint_id/:ticket_id', verify, async (req, res) => {
+  
+  try {
+    //Get the sprint
+    let sprint = await Sprint.findById(req.params.sprint_id).populate('tickets');
+    let tickets = sprint.tickets;
+    let isExistingTicket = tickets.filter(
+      (ticket) => ticket._id.toString() === req.params.ticket_id,
+    );
+    if (isExistingTicket.length > 0) {
+      return res.status(400).json({
+        msg:
+          'This ticket has already been added to the sprint.',
+      });
+    }
+    
+    //Add ticket ID onto sprint at the end of array (want chronological order in this case)
+    //Check if ticket already exists for sprint
+    sprint.tickets.push(req.params.ticket_id);
+
+    //Save to database
+    await sprint.save();
+
+    //Send back all tickets
+    res.json(sprint);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 //ROUTE: PUT api/projects/sprints/comment/:sprint_id
 //DESCRIPTION: Comment on an existing sprint
