@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import image from '../../assets/images/working.jpg';
+import { AuthContext } from '../../context/auth/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Register = (props) => {
+const Register = (props, value) => {
   const classes = useStyles();
   const [formData, updateFormData] = useState({
     name: '',
@@ -66,16 +67,13 @@ const Register = (props) => {
     role: '',
   });
 
-  const [userData, setUserData] = useState({
-    isLoading: true,
-    profile: null,
-    userErrors: null,
-  });
+  //Use AuthContext
+  const{userData, setUserData} = useContext(AuthContext);
 
   //Pull out variables from formData and userData
   const { name, username, email, password, confirmPassword, role } = formData;
 
-  const { isLoading, profile, userErrors } = userData;
+  const { token, isLoading, user, isAuthenticated, userErrors } = userData;
 
   //Function to update state on change using updateFormData
   const onChange = (e) =>
@@ -98,23 +96,37 @@ const Register = (props) => {
       },
     };
     const body = JSON.stringify(user);
+    //TO DO*************
+    //set state accordingly (isLoading: false, isAuthenticated: true, token, user)
+    //Call load user function and redirect to user's dashboard
     try {
+      setUserData({
+        ...userData,
+        isLoading: true
+      })
       //Axios will return promise with response in route to add new user (should return a token)
       const res = await axios.post('/api/users', body, config);
-      const token = res.data.token;
-      if (token) {
-        localStorage.setItem('token', token);
+      const tokenRes = res.data.token;
+      if (tokenRes) {
+        localStorage.setItem('token', tokenRes);
+        setUserData({ 
+          ...userData,
+          token: tokenRes 
+        });
       }
-      //TO DO*************
-      //set state accordingly (isLoading: false, isAuthenticated: true, token, user)
-      //Call load user function and redirect to user's dashboard
-      //Set up alert messages below for errors
-      //Set state is isAuthenticated upon registration
+        setUserData({
+          ...userData,
+          isLoading: false,
+          isAuthenticated: true,
+          user: res.user,
+      });
     } catch (err) {
       //If errors, get array of errors and loop through them and dispatch setAlert
       const errors = err.response.data.errors;
       if (errors) {
-        setUserData({ userErrors: errors });
+        setUserData({ 
+          ...userData,
+          userErrors: errors });
         //remove errors within 3 seconds
         setTimeout(() => setUserData({ userErrors: null }), 3000);
       }
@@ -132,102 +144,105 @@ const Register = (props) => {
       <PlainHeader />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component='h1' variant='h5'>
-          Register
-        </Typography>
-        {userErrors && <AlertBanner errors={userErrors} />}
-        <form className={classes.form} action='' onSubmit={(e) => onSubmit(e)}>
-          
-              <TextField
-                autoComplete='name'
-                name='name'
-                variant='outlined'
-                required
-                fullWidth
-                id='name'
-                label='Name'
-                autoFocus
-                value={name}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-              />
-              <TextField
-                autoComplete='username'
-                name='username'
-                variant='outlined'
-                required
-                fullWidth
-                id='username'
-                label='Username'
-                autoFocus
-                value={username}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-              />
-            
-              <TextField
-                variant='outlined'
-                required
-                fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
-                value={email}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-              />
-            
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-              />
-           
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-              />
-            <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component='h1' variant='h5'>
+            Register
+          </Typography>
+          {userErrors && <AlertBanner errors={userErrors} />}
+          <form
+            className={classes.form}
+            action=''
+            onSubmit={(e) => onSubmit(e)}
           >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link to="/login" variant="body2">
-                Already have an account? Sign in
-              </Link>
+            <TextField
+              autoComplete='name'
+              name='name'
+              variant='outlined'
+              required
+              fullWidth
+              id='name'
+              label='Name'
+              autoFocus
+              value={name}
+              onChange={(e) => onChange(e)}
+              margin='normal'
+            />
+            <TextField
+              autoComplete='username'
+              name='username'
+              variant='outlined'
+              required
+              fullWidth
+              id='username'
+              label='Username'
+              autoFocus
+              value={username}
+              onChange={(e) => onChange(e)}
+              margin='normal'
+            />
+
+            <TextField
+              variant='outlined'
+              required
+              fullWidth
+              id='email'
+              label='Email Address'
+              name='email'
+              autoComplete='email'
+              value={email}
+              onChange={(e) => onChange(e)}
+              margin='normal'
+            />
+
+            <TextField
+              variant='outlined'
+              required
+              fullWidth
+              name='password'
+              label='Password'
+              type='password'
+              id='password'
+              value={password}
+              onChange={(e) => onChange(e)}
+              margin='normal'
+            />
+
+            <TextField
+              variant='outlined'
+              required
+              fullWidth
+              name='confirmPassword'
+              label='Confirm Password'
+              type='password'
+              id='confirmPassword'
+              value={confirmPassword}
+              onChange={(e) => onChange(e)}
+              margin='normal'
+            />
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              className={classes.submit}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify='flex-end'>
+              <Grid item>
+                <Link to='/login' variant='body2'>
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
             </Grid>
-            </Grid>
-        </form>
-      </div>
+          </form>
+        </div>
       </Grid>
     </Grid>
   );
-}
+};
 
 export default Register;

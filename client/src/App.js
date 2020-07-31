@@ -8,6 +8,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import DashboardRoutes from './components/routing/DashboardRoutes';
 import Error from './components/views/Error';
+import { AuthProvider } from '../src/context/auth/AuthContext';
 
 const App = () => {
   return (
@@ -15,13 +16,15 @@ const App = () => {
       <CssBaseline />
       <GlobalStyle />
       <div className='full-page'>
-        <Switch>
-          <Route path='/' component={Landing} exact />
-          <Route path='/register' component={Register} exact />
-          <Route path='/login' component={Login} exact />
-          <Route component={DashboardRoutes} />
-          <Route path='' component={Error} />
-        </Switch>
+        <AuthProvider>
+          <Switch>
+            <Route path='/' component={Landing} exact />
+            <Route path='/register' component={Register} exact />
+            <Route path='/login' component={Login} exact />
+            <Route component={DashboardRoutes} />
+            <Route path='' component={Error} />
+          </Switch>
+        </AuthProvider>
       </div>
     </Router>
   );
