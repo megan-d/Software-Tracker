@@ -1,11 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Chart from '../charts/Chart';
 import Deposits from '../charts/Deposits';
 import Table from '../charts/Table';
+import { AuthContext } from '../../../context/auth/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,6 +29,12 @@ export default function DeveloperDashboard(props) {
   const classes = useStyles();
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const { isAuthenticated } = useContext(AuthContext);
+
+  if (!isAuthenticated) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <Fragment>

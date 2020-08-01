@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { AuthContext } from '../../context/auth/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +23,8 @@ export default function PopMenu() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+
+  const { logoutUser } = useContext(AuthContext);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -58,22 +61,35 @@ export default function PopMenu() {
         <Button
           ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}
-          aria-haspopup="true"
+          aria-haspopup='true'
           onClick={handleToggle}
         >
-          <AccountCircleIcon style={{color: 'white'}} />
+          <AccountCircleIcon style={{ color: 'white' }} />
         </Button>
-        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          transition
+          disablePortal
+        >
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}
-              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+              style={{
+                transformOrigin:
+                  placement === 'bottom' ? 'center top' : 'center bottom',
+              }}
             >
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                  <MenuList
+                    autoFocusItem={open}
+                    id='menu-list-grow'
+                    onKeyDown={handleListKeyDown}
+                  >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={logoutUser}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
