@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import PlainHeader from '../layout/PlainHeader';
 import AlertBanner from '../layout/AlertBanner';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import image from '../../assets/images/working.jpg';
 import { AuthContext } from '../../context/auth/AuthContext';
+import { use } from 'passport';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,13 +68,13 @@ const Register = (props, value) => {
     role: '',
   });
 
-  //Use AuthContext
-  const{userData, setUserData} = useContext(AuthContext);
+  // const context = useContext(AuthContext);
+  const { isLoading, user, isAuthenticated, userErrors, register } = useContext(
+    AuthContext,
+  );
 
   //Pull out variables from formData and userData
   const { name, username, email, password, confirmPassword, role } = formData;
-
-  const { token, isLoading, user, isAuthenticated, userErrors } = userData;
 
   //Function to update state on change using updateFormData
   const onChange = (e) =>
@@ -82,61 +83,22 @@ const Register = (props, value) => {
   //Function to send data that's in formData to database endpoint when submit is clicked
   const onSubmit = async (e) => {
     e.preventDefault();
-    const user = {
-      name: name,
-      username: username,
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword,
-      role: role,
-    };
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify(user);
-    //TO DO*************
-    //set state accordingly (isLoading: false, isAuthenticated: true, token, user)
-    //Call load user function and redirect to user's dashboard
-    try {
-      setUserData({
-        ...userData,
-        isLoading: true
-      })
-      //Axios will return promise with response in route to add new user (should return a token)
-      const res = await axios.post('/api/users', body, config);
-      const tokenRes = res.data.token;
-      if (tokenRes) {
-        localStorage.setItem('token', tokenRes);
-        setUserData({ 
-          ...userData,
-          token: tokenRes 
-        });
-      }
-        setUserData({
-          ...userData,
-          isLoading: false,
-          isAuthenticated: true,
-          user: res.user,
-      });
-    } catch (err) {
-      //If errors, get array of errors and loop through them and dispatch setAlert
-      const errors = err.response.data.errors;
-      if (errors) {
-        setUserData({ 
-          ...userData,
-          userErrors: errors });
-        //remove errors within 3 seconds
-        setTimeout(() => setUserData({ userErrors: null }), 3000);
-      }
-    }
+      const user = {
+        name: name,
+        username: username,
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+        role: role,
+      };
+      //call register action
+      register(user);
   };
 
   //If isAuthenticated, redirect to their dashboard. Will need a function to run on mounting of Dashboard that will load the dashboard for that specific user.
-  // if (isAuthenticated) {
-  //   return <Redirect to='/dashboard' />;
-  // }
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Grid container component='main' className={classes.root}>
