@@ -1,6 +1,7 @@
 import React, { useState, createContext, useReducer } from 'react';
 import AuthReducer from './AuthReducer';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 //This is similar to the file where you would put your actions if you're using Redux
 
@@ -9,7 +10,8 @@ const initialState = {
   isLoading: true,
   user: null,
   isAuthenticated: false,
-  userErrors: null
+  errors: [],
+  alerts: []
 };
 
 //Initiate context
@@ -18,8 +20,8 @@ export const AuthContext = createContext(initialState);
 //Create provider
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
-  
-//Add actions that make calls to reducer
+
+  //Add actions that make calls to reducer
 
   //*****REGISTER ACTION************
   const register = async (user) => {
@@ -45,7 +47,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         localStorage.setItem('token', token);
       }
-      
+
       console.log(res.data);
       dispatch({
         type: 'REGISTER_SUCCESS',
@@ -54,17 +56,21 @@ export const AuthProvider = ({ children }) => {
       dispatch(loadUser());
     } catch (err) {
       let errors = err.response.data.errors;
-      console.log(errors);
+      if (errors) {
+        //Change this to display an alert
+        console.log(errors);
+      }
       dispatch({
         type: 'REGISTER_FAILURE',
-        payload: errors
+        payload: {
+          msg: err.response.data.msg,
+          status: err.response.status,
+        },
       });
     }
   };
 
   //*****LOGIN ACTION************
-
-
 
   //*****LOAD USER ACTION************
   const loadUser = async (user) => {
@@ -72,36 +78,40 @@ export const AuthProvider = ({ children }) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': localStorage.getItem('token')
+        'x-access-token': localStorage.getItem('token'),
       },
-    }
+    };
     try {
       const res = await axios.get('/api/users', config);
-      console.log(res);
       dispatch({
         type: 'LOAD_USER_SUCCESS',
         payload: res.data,
       });
-
     } catch (err) {
       let errors = err.response.data.errors;
+      if (errors) {
+        //Change this to display an alert
+        console.log(errors);
+      }
       dispatch({
         type: 'LOAD_USER_FAILURE',
-        payload: errors
+        payload: {
+          msg: err.response.data.msg,
+          status: err.response.status,
+        },
       });
     }
   };
 
-
   //*****LOGOUT USER ACTION************
   const logoutUser = async () => {
     dispatch({
-      type: 'LOGOUT'
+      type: 'LOGOUT',
     });
     //TODO: Need to set up action to clear user profile if I set up profile as separate state
-  }
+  };
 
-  
+
   //Return Auth Provider
   return (
     <AuthContext.Provider
@@ -110,9 +120,9 @@ export const AuthProvider = ({ children }) => {
         isLoading: state.isLoading,
         user: state.user,
         isAuthenticated: state.isAuthenticated,
-        register, 
+        register,
         loadUser,
-        logoutUser
+        logoutUser,
       }}
     >
       {children}

@@ -15,15 +15,13 @@ const useStyles = makeStyles((theme) => ({
 const AlertBanner = (props) => {
   const classes = useStyles();
 
-  const { userErrors } = useContext(
-    AuthContext,
-  );
-
+  const { errors } = useContext(AuthContext);
+  
   return (
     <div className={classes.root}>
-      {/* {userErrors !== null &&
-        userErrors.length > 0 &&
-        userErrors.map((el, index) => (
+      {/* {errors !== null &&
+        errors.length > 0 &&
+        errors.map((el, index) => (
           <Alert severity='error' key={index}>
             {el.msg}
           </Alert>

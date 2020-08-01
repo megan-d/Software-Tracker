@@ -113,7 +113,7 @@ const Register = (props, value) => {
           <Typography component='h1' variant='h5'>
             Register
           </Typography>
-          {userErrors && <AlertBanner errors={userErrors} />}
+          {/* {errors && <AlertBanner errors={errors} />} */}
           <form
             className={classes.form}
             action=''

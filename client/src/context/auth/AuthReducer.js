@@ -28,7 +28,7 @@ export default (state, action) => {
         isLoading: false,
         isAuthenticated: false,
         user: null,
-        userErrors: action.payload,
+        errors: [action.payload],
       };
     default:
       return state;
