@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
-import { AuthContext } from '../../context/auth/AuthContext';
+import { AlertContext } from '../../context/alerts/AlertContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,20 +12,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AlertBanner = (props) => {
+const AlertBanner = () => {
   const classes = useStyles();
 
-  const { errors } = useContext(AuthContext);
+  const { alerts } = useContext(AlertContext);
   
   return (
     <div className={classes.root}>
-      {/* {errors !== null &&
-        errors.length > 0 &&
-        errors.map((el, index) => (
-          <Alert severity='error' key={index}>
+      {alerts !== null &&
+        alerts.length > 0 &&
+        alerts.map((el, index) => (
+          <Alert severity='error' key={el.id}>
             {el.msg}
           </Alert>
-        ))} */}
+        ))}
     </div>
   );
 };

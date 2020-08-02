@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import image from '../../assets/images/working.jpg';
 import { AuthContext } from '../../context/auth/AuthContext';
-import { use } from 'passport';
+import { AlertContext } from '../../context/alerts/AlertContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,9 +69,11 @@ const Register = (props, value) => {
   });
 
   // const context = useContext(AuthContext);
-  const { isLoading, user, isAuthenticated, userErrors, register } = useContext(
+  const { isLoading, user, isAuthenticated, register } = useContext(
     AuthContext,
   );
+
+  const { alerts } = useContext(AlertContext);
 
   //Pull out variables from formData and userData
   const { name, username, email, password, confirmPassword, role } = formData;
@@ -83,16 +85,16 @@ const Register = (props, value) => {
   //Function to send data that's in formData to database endpoint when submit is clicked
   const onSubmit = async (e) => {
     e.preventDefault();
-      const user = {
-        name: name,
-        username: username,
-        email: email,
-        password: password,
-        confirmPassword: confirmPassword,
-        role: role,
-      };
-      //call register action
-      register(user);
+    const user = {
+      name: name,
+      username: username,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+      role: role,
+    };
+    //call register action
+    await register(user);
   };
 
   //If isAuthenticated, redirect to their dashboard. Will need a function to run on mounting of Dashboard that will load the dashboard for that specific user.
@@ -107,13 +109,14 @@ const Register = (props, value) => {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
+          <AlertBanner />
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
             Register
           </Typography>
-          {/* {errors && <AlertBanner errors={errors} />} */}
+          {alerts && <AlertBanner alerts={alerts} />}
           <form
             className={classes.form}
             action=''

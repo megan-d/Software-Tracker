@@ -31,7 +31,7 @@ export default function DeveloperDashboard(props) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const { isAuthenticated } = useContext(AuthContext);
-
+console.log(isAuthenticated);
   if (!isAuthenticated) {
     return <Redirect to='/' />;
   }

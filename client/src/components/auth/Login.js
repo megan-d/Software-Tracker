@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
@@ -13,6 +13,8 @@ import PlainHeader from '../layout/PlainHeader';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import image from '../../assets/images/meeting.jpg';
+import { AuthContext } from '../../context/auth/AuthContext';
+import { AlertContext } from '../../context/alerts/AlertContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,13 +59,11 @@ const Login = (props) => {
   //Pull out variables from formData
   const { email, password } = formData;
 
-  const [userData, setUserData] = useState({
-    isLoading: true,
-    profile: null,
-    userErrors: null,
-  });
-
-  const { isLoading, profile, userErrors } = userData;
+  //Consume context
+  const { isLoading, user, isAuthenticated, register, login } = useContext(
+    AuthContext
+  );
+  const { alerts } = useContext(AlertContext);
 
   //Function to update state on change and put into updateFormData variable
   const onChange = (e) =>
@@ -77,39 +77,14 @@ const Login = (props) => {
       email: email,
       password: password,
     };
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify(user);
-    try {
-      const res = await axios.post('/api/auth', body, config);
-      const token = res.data.token;
-
-      if (token) {
-        localStorage.setItem('token', token);
-      }
-
-      //TO DO*************
-      //set state accordingly (isLoading: false, isAuthenticated: true, token, user)
-      //Call load user function and redirect to user's dashboard
-      //Set up alert messages below for errors
-    } catch (err) {
-      //If errors, get array of errors and loop through them and dispatch setAlert
-      const errors = err.response.data.errors;
-      if (errors) {
-        setUserData({ userErrors: errors });
-        setTimeout(() => setUserData({ userErrors: null }), 3000);
-      }
-      //set state for failed login
-    }
+    //call register action
+    await login(user);
   };
 
   //Redirect to dashboard if logged in
-  // if (props.isAuthenticated) {
-  //   return <Redirect to='/dashboard' />;
-  // }
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Grid container component='main' className={classes.root}>
@@ -124,7 +99,7 @@ const Login = (props) => {
           <Typography component='h1' variant='h5'>
             Login
           </Typography>
-          {userErrors && <AlertBanner errors={userErrors} />}
+          {alerts && <AlertBanner alerts={alerts} />}
           <form
             className={classes.form}
             action=''

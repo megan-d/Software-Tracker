@@ -1,7 +1,7 @@
-import React, { useState, createContext, useReducer } from 'react';
+import React, { useContext, createContext, useReducer } from 'react';
 import AuthReducer from './AuthReducer';
+import { AlertContext } from '../alerts/AlertContext';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 
 //This is similar to the file where you would put your actions if you're using Redux
 
@@ -11,15 +11,17 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   errors: [],
-  alerts: []
 };
 
 //Initiate context
 export const AuthContext = createContext(initialState);
 
-//Create provider
+//Create provider and set up reducer
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+
+  //Consume alert context to be able to use showAlert
+  const { alertDispatch, showAlert } = useContext(AlertContext);
 
   //Add actions that make calls to reducer
 
@@ -48,7 +50,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', token);
       }
 
-      console.log(res.data);
       dispatch({
         type: 'REGISTER_SUCCESS',
         payload: res.data,
@@ -57,8 +58,8 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       let errors = err.response.data.errors;
       if (errors) {
-        //Change this to display an alert
-        console.log(errors);
+        //if errors, loop through them and dispatch the displayAlert
+        errors.forEach((error) => showAlert(error.msg, 'warning'));
       }
       dispatch({
         type: 'REGISTER_FAILURE',
@@ -71,6 +72,46 @@ export const AuthProvider = ({ children }) => {
   };
 
   //*****LOGIN ACTION************
+  const login = async (user) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    //Create body and stringify user object
+    const data = {
+      email: user.email,
+      password: user.password,
+    };
+    const body = JSON.stringify(data);
+    try {
+      const res = await axios.post('/api/auth', body, config);
+      const token = res.data.token;
+
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        payload: res.data,
+      });
+      dispatch(loadUser());
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if(errors) {
+        //TODO: loop through and dispatch showAlert once get that to work
+      }
+      dispatch({
+        type: 'LOGIN_FAILURE',
+        payload: {
+          msg: err.response.data.msg,
+          status: err.response.status,
+        },
+      });
+    }
+  };
 
   //*****LOAD USER ACTION************
   const loadUser = async (user) => {
@@ -111,7 +152,6 @@ export const AuthProvider = ({ children }) => {
     //TODO: Need to set up action to clear user profile if I set up profile as separate state
   };
 
-
   //Return Auth Provider
   return (
     <AuthContext.Provider
@@ -120,7 +160,9 @@ export const AuthProvider = ({ children }) => {
         isLoading: state.isLoading,
         user: state.user,
         isAuthenticated: state.isAuthenticated,
+        errors: state.errors,
         register,
+        login,
         loadUser,
         logoutUser,
       }}
