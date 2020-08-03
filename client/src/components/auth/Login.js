@@ -99,7 +99,7 @@ const Login = (props) => {
           <Typography component='h1' variant='h5'>
             Login
           </Typography>
-          {alerts && <AlertBanner alerts={alerts} />}
+          <AlertBanner />
           <form
             className={classes.form}
             action=''

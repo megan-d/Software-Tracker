@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AuthProvider } from '../src/context/auth/AuthContext';
+import { AlertProvider } from '../src/context/alerts/AlertContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <AlertProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </AlertProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

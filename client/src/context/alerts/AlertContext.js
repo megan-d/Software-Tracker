@@ -12,21 +12,21 @@ export const AlertContext = createContext(initialState);
 
 //Create provider and set up reducer
 export const AlertProvider = ({ children }) => {
-  const [state, alertDispatch] = useReducer(AlertReducer, initialState);
+  const [state, dispatch] = useReducer(AlertReducer, initialState);
 
   //Add actions that make calls to reducer
 
   //*****ALERT ACTION************
   const showAlert = (msg, alertType) => {
     const id = uuidv4();
-    alertDispatch({
+    dispatch({
       type: 'SHOW_ALERT',
       payload: { msg, alertType, id },
     });
 
     setTimeout(
       () =>
-        alertDispatch({
+        dispatch({
           type: 'REMOVE_ALERT',
           payload: id,
         }),

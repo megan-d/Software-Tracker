@@ -109,14 +109,13 @@ const Register = (props, value) => {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <AlertBanner />
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
             Register
           </Typography>
-          {alerts && <AlertBanner alerts={alerts} />}
+          <AlertBanner />
           <form
             className={classes.form}
             action=''

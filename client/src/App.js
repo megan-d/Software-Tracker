@@ -9,7 +9,6 @@ import Register from './components/auth/Register';
 import DashboardRoutes from './components/routing/DashboardRoutes';
 import Error from './components/views/Error';
 import { AuthContext } from './context/auth/AuthContext';
-import { AlertProvider } from './context/alerts/AlertContext';
 
 const App = () => {
   const { loadUser } = useContext(AuthContext);
@@ -24,7 +23,6 @@ const App = () => {
       <CssBaseline />
       <GlobalStyle />
       <div className='full-page'>
-        <AlertProvider>
           <Switch>
             <Route path='/' component={Landing} exact />
             <Route path='/register' component={Register} exact />
@@ -32,7 +30,6 @@ const App = () => {
             <Route component={DashboardRoutes} />
             <Route path='' component={Error} />
           </Switch>
-        </AlertProvider>
       </div>
     </Router>
   );

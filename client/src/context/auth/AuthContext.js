@@ -10,7 +10,8 @@ const initialState = {
   isLoading: true,
   user: null,
   isAuthenticated: false,
-  errors: [],
+  errors: null,
+  isLoading: true
 };
 
 //Initiate context
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   //Consume alert context to be able to use showAlert
-  const { alertDispatch, showAlert } = useContext(AlertContext);
+  const { showAlert } = useContext(AlertContext);
 
   //Add actions that make calls to reducer
 
@@ -58,15 +59,11 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       let errors = err.response.data.errors;
       if (errors) {
-        //if errors, loop through them and dispatch the displayAlert
-        errors.forEach((error) => showAlert(error.msg, 'warning'));
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((error) => showAlert(error.msg, 'error'));
       }
       dispatch({
-        type: 'REGISTER_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        type: 'REGISTER_FAILURE'
       });
     }
   };
@@ -100,15 +97,13 @@ export const AuthProvider = ({ children }) => {
       dispatch(loadUser());
     } catch (err) {
       const errors = err.response.data.errors;
-      if(errors) {
-        //TODO: loop through and dispatch showAlert once get that to work
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((error) => showAlert(error.msg, 'error'));
+        
       }
       dispatch({
-        type: 'LOGIN_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        type: 'LOGIN_FAILURE'
       });
     }
   };
@@ -131,15 +126,11 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       let errors = err.response.data.errors;
       if (errors) {
-        //Change this to display an alert
-        console.log(errors);
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((error) => showAlert(error.msg, 'error'));
       }
       dispatch({
-        type: 'LOAD_USER_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        type: 'LOAD_USER_FAILURE'
       });
     }
   };
@@ -161,6 +152,7 @@ export const AuthProvider = ({ children }) => {
         user: state.user,
         isAuthenticated: state.isAuthenticated,
         errors: state.errors,
+        isLoading: state.isLoading,
         register,
         login,
         loadUser,

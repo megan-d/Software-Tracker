@@ -64,24 +64,17 @@ router.post(
       //If user already exists in database, give error
       let emailInput = await User.findOne({ email });
       if (emailInput) {
-        // req.flash('error', 'This user already exists');
         return res
           .status(400)
           .json({ errors: [{ msg: 'This email already exists' }] });
       }
       let usernameInput = await User.findOne({ username });
       if (usernameInput) {
-        // req.flash('error', 'This user already exists');
-        return res.status(400).json({
-          errors: [
-            {
-              msg:
-                'This username already exists. Please select another username.',
-            },
-          ],
-        });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'This username already exists' }] });
       }
-
+          
       //If user doesn't already exist, encrypt password with bcrypt and create new user. Hash password.
       user = new User({
         name,
@@ -195,6 +188,5 @@ router.delete('/', verify, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
 
 module.exports = router;
