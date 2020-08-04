@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 body {
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -28,7 +28,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 5vh;
+  height: 30px;
   margin-top: auto;
   flex-shrink: 0;
   font-size: 13px;

@@ -83,7 +83,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <ListItemIcon>
           <SettingsIcon />
         </ListItemIcon>
-        <ListItemText primary='Profile Settings' />
+        <ListItemText primary='My Profile' />
       </ListItem>
       </StyledLink>
 
