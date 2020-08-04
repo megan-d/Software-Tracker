@@ -7,7 +7,13 @@ import Paper from '@material-ui/core/Paper';
 import Chart from '../charts/Chart';
 import Deposits from '../charts/Deposits';
 import Table from '../charts/Table';
+import Container from '@material-ui/core/Container';
+import SideDrawer from '../../layout/sidedrawer/SideDrawer';
+import DashboardHeader from '../../layout/DashboardHeader';
 import { AuthContext } from '../../../context/auth/AuthContext';
+import Footer from '../../layout/Footer';
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,6 +29,43 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  root: {
+    display: 'flex',
+  },
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    background: '#ad3968',
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
+  title: {
+    flexGrow: 1,
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
 }));
 
 export default function DeveloperDashboard(props) {
@@ -31,14 +74,26 @@ export default function DeveloperDashboard(props) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const { isAuthenticated } = useContext(AuthContext);
-console.log(isAuthenticated);
-  if (!isAuthenticated) {
-    return <Redirect to='/' />;
-  }
+
+  const [open, setOpen] = React.useState(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <Fragment>
-      <h2>My Dashboard</h2>
+    <div className={classes.root}>
+      <DashboardHeader open={open} handleDrawerOpen={handleDrawerOpen} location={props.location}/>
+      <SideDrawer
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+      />
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth='lg' className={classes.container}>
+        <h2>My Dashboard</h2>
       <hr />
       <Grid container spacing={3}>
         {/* Chart */}
@@ -66,6 +121,11 @@ console.log(isAuthenticated);
           </Paper>
         </Grid>
       </Grid>
-    </Fragment>
+
+        </Container>
+        <Footer />
+        </main>
+        
+    </div>
   );
 }

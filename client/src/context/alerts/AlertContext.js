@@ -1,6 +1,5 @@
-import React, { useState, createContext, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
 import AlertReducer from './AlertReducer';
-import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 //This is similar to the file where you would put your actions if you're using Redux

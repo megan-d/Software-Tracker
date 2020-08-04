@@ -7,8 +7,7 @@ export default (state, action) => {
         user: {...action.payload},
         isLoading: false,
         isAuthenticated: true,
-        errors: null,
-        isLoading: false
+        errors: null
       };
     case 'LOAD_USER_SUCCESS':
       return {
@@ -16,8 +15,7 @@ export default (state, action) => {
         user: {...action.payload},
         isLoading: false,
         isAuthenticated: true,
-        errors: null,
-        isLoading: false
+        errors: null
       };
     case 'REGISTER_FAILURE':
     case 'LOGIN_FAILURE':
@@ -32,8 +30,7 @@ export default (state, action) => {
         isLoading: false,
         isAuthenticated: false,
         user: null,
-        errors: action.payload,
-        isLoading: false
+        errors: action.payload
       };
     default:
       return state;

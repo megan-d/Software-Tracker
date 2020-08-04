@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
-import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -14,7 +13,6 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import image from '../../assets/images/meeting.jpg';
 import { AuthContext } from '../../context/auth/AuthContext';
-import { AlertContext } from '../../context/alerts/AlertContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,10 +58,9 @@ const Login = (props) => {
   const { email, password } = formData;
 
   //Consume context
-  const { isLoading, user, isAuthenticated, register, login } = useContext(
+  const { isAuthenticated, login } = useContext(
     AuthContext
   );
-  const { alerts } = useContext(AlertContext);
 
   //Function to update state on change and put into updateFormData variable
   const onChange = (e) =>

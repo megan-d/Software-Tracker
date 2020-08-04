@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useReducer } from 'react';
 import AuthReducer from './AuthReducer';
+import { Redirect } from 'react-router-dom';
 import { AlertContext } from '../alerts/AlertContext';
 import axios from 'axios';
 
@@ -10,8 +11,7 @@ const initialState = {
   isLoading: true,
   user: null,
   isAuthenticated: false,
-  errors: null,
-  isLoading: true
+  errors: null
 };
 
 //Initiate context
@@ -140,6 +140,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({
       type: 'LOGOUT',
     });
+    return <Redirect to='/' />
     //TODO: Need to set up action to clear user profile if I set up profile as separate state
   };
 
@@ -152,7 +153,6 @@ export const AuthProvider = ({ children }) => {
         user: state.user,
         isAuthenticated: state.isAuthenticated,
         errors: state.errors,
-        isLoading: state.isLoading,
         register,
         login,
         loadUser,

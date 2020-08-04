@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, Fragment } from 'react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
+import { AuthContext } from '../../context/auth/AuthContext';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -53,12 +54,12 @@ const useStyles = makeStyles((theme) => ({
 
 const PlainHeader = (props) => {
   const classes = useStyles();
+
+  const { isAuthenticated, logoutUser } = useContext(AuthContext);
+
   return (
     <div className={classes.root}>
-      <AppBar
-        position='absolute'
-        className={clsx(classes.appBar)}
-      >
+      <AppBar position='absolute' className={clsx(classes.appBar)}>
         <Toolbar className={classes.toolbar}>
           <Typography
             component='h1'
@@ -69,10 +70,27 @@ const PlainHeader = (props) => {
           >
             <StyledLink to='/'>DASH</StyledLink>
           </Typography>
-          {/* <PopMenu /> */}
-          <Button color="inherit" href='/login'>Login</Button>
-          <Button color="inherit" href='/register'>Register</Button>
-          <Button color="inherit">Demo</Button>
+
+          {isAuthenticated ? (
+            <Fragment>
+              <Button color='inherit' href='/dashboard'>
+                My Dashboard
+              </Button>
+              <Button color='inherit' onClick={logoutUser}>
+                Logout
+              </Button>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Button color='inherit' href='/login'>
+                Login
+              </Button>
+              <Button color='inherit' href='/register'>
+                Register
+              </Button>
+              <Button color='inherit'>Demo</Button>
+            </Fragment>
+          )}
         </Toolbar>
       </AppBar>
     </div>
