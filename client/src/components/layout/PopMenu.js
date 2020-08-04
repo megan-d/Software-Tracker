@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -88,8 +89,8 @@ export default function PopMenu() {
                     id='menu-list-grow'
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={logoutUser}>Logout</MenuItem>
+                    <MenuItem component={Link} onClick={handleClose} to='/profile'>Profile</MenuItem>
+                    <MenuItem component={Link} onClick={logoutUser} to='/'>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

@@ -68,7 +68,7 @@ const PlainHeader = (props) => {
             noWrap
             className={classes.title}
           >
-            <StyledLink to='/'>DASH</StyledLink>
+            <StyledLink to='/' style={{fontFamily: 'Caveat, cursive', fontSize: '30px'}}>--DASH--></StyledLink>
           </Typography>
 
           {isAuthenticated ? (
@@ -88,7 +88,7 @@ const PlainHeader = (props) => {
               <Button color='inherit' href='/register'>
                 Register
               </Button>
-              <Button color='inherit'>Demo</Button>
+              <Button color='inherit' href='/'>Demo</Button>
             </Fragment>
           )}
         </Toolbar>

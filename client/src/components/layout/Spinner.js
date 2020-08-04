@@ -8,6 +8,8 @@ const useStyles = makeStyles((theme) => ({
     '& > * + *': {
       marginLeft: theme.spacing(2),
     },
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 }));
 
@@ -15,7 +17,7 @@ export default function CircularIndeterminate() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{background: '#fafafa', height: '100vh'}}>
       <CircularProgress color='secondary' />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -12,13 +12,16 @@ import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Divider from '@material-ui/core/Divider';
 import styled from 'styled-components';
+import { AuthContext } from '../../../context/auth/AuthContext';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
 `;
 
-const DrawerListItems = ({ sidedrawerClick }) => (
+const DrawerListItems = ({ sidedrawerClick }) => {
+  const { logoutUser } = useContext(AuthContext);
+ return (
   <Fragment>
     <div className='main-list-items'>
       {/* If role is developer or manager, show developer/manager sidedrawer list */}
@@ -84,16 +87,18 @@ const DrawerListItems = ({ sidedrawerClick }) => (
       </ListItem>
       </StyledLink>
 
+      <StyledLink to='/' onClick={logoutUser}>
       <ListItem button>
         <ListItemIcon>
           <ExitToAppIcon />
         </ListItemIcon>
         <ListItemText primary='Logout' />
       </ListItem>
+      </StyledLink>
 
       {/* If role is admin, show admin sidedrawer list */}
     </div>
   </Fragment>
-);
+)};
 
 export default DrawerListItems;

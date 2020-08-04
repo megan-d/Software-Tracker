@@ -74,7 +74,7 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: 'This username already exists' }] });
       }
-          
+
       //If user doesn't already exist, encrypt password with bcrypt and create new user. Hash password.
       user = new User({
         name,
@@ -114,7 +114,7 @@ router.post(
 //ROUTE: PUT api/users
 //DESCRIPTION: Update user information. Will need a different route to update password.
 //ACCESS LEVEL: Private
-//TODO: This can also be where if you have admin permissions, you can update the role of a user. Need to add this functionality.
+//TODO: This can also be where if you have admin permissions, you can update the role of a user. Need to add this functionality here and to UI. This needs to be adjusted so that an admin can update the role of another user not just themselves.
 router.put(
   '/',
   verify,
@@ -138,7 +138,15 @@ router.put(
     //if the field is provided, add to profileFields object
     if (name) updatedUserFields.name = name;
     if (email) updatedUserFields.email = email;
-    if (role) updatedUserFields.role = role;
+    if (role) {
+      if (req.user.role === 'admin') {
+        updatedUserFields.role = role;
+      } else {
+        return res
+          .status(401)
+          .json({ msg: 'You are not permitted to perform this action.' });
+      }
+    }
 
     //Add in logic for express validator error check
     const errors = validationResult(req);

@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Projects = props => {
+const Project = props => {
     return (
         <div>
-            This is the Projects page
+            This is a project
         </div>
     )
 }
 
-Projects.propTypes = {
+Project.propTypes = {
 
 }
 
-export default Projects;
+export default Project;

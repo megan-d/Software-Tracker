@@ -29,18 +29,22 @@ const App = () => {
       <CssBaseline />
       <GlobalStyle />
       <div className='full-page'>
-          <Switch>
-            <Route path='/' component={Landing} exact />
-            <Route path='/register' component={Register} exact />
-            <Route path='/login' component={Login} exact />
-            <PrivateRoute path='/dashboard' component={DeveloperDashboard} exact />
+        <Switch>
+          <Route path='/' component={Landing} exact />
+          <Route path='/register' component={Register} exact />
+          <Route path='/login' component={Login} exact />
+          <PrivateRoute
+            path='/dashboard'
+            component={DeveloperDashboard}
+            exact
+          />
           <PrivateRoute path='/projects' component={Projects} exact />
           <PrivateRoute path='/tickets' component={Tickets} exact />
           <PrivateRoute path='/sprints' component={Sprints} exact />
           <PrivateRoute path='/submit' component={SubmitTicket} exact />
           <PrivateRoute path='/profile' component={Profile} exact />
-            <Route path='' component={Error} />
-          </Switch>
+          <Route path='' component={Error} />
+        </Switch>
       </div>
     </Router>
   );

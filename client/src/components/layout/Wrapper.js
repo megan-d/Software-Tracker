@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import SideDrawer from './sidedrawer/SideDrawer';
 import DashboardHeader from './DashboardHeader';
+import Footer from './Footer';
 
 const drawerWidth = 240;
 
@@ -87,6 +88,7 @@ export default function Wrapper(props) {
           
           <Box pt={4}></Box>
         </Container>
+        <Footer />
       </main>
     </div>
   );
