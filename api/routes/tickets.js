@@ -289,6 +289,7 @@ router.put(
       if (
         req.user.role === 'admin' ||
         project.manager.toString() === req.user.id ||
+        project.owner.toString() === req.user.id ||
         isProjectDeveloper.length > 0 ||
         ticket.assignedDeveloper.toString() === req.user.id.toString()
       ) {
@@ -404,7 +405,7 @@ router.post(
 //ROUTE: DELETE api/projects/tickets/:project_id/:ticket_id
 //DESCRIPTION: Delete a ticket on given project by ticket id
 //ACCESS LEVEL: Private
-//Must be Manager on the project or admin to delete it
+//Must be Manager on the project, owner of project, or admin to delete it
 router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
   try {
     //Find project based on the project id from request parameters
@@ -412,11 +413,11 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
       'tickets',
       '_id',
     );
-
     //If the user is not an admin or the manager for the project, deny access.
     if (
       req.user.role === 'admin' ||
-      project.manager.toString() === req.user.id
+      project.manager.toString() === req.user.id ||
+      project.owner.toString() === req.user.id
     ) {
       //TODO: also delete tickets associated with project when a project is deleted
       await Ticket.findOneAndRemove({ _id: req.params.ticket_id });

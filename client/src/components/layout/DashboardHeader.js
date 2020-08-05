@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -105,6 +106,12 @@ const Header = (props) => {
               --DASH-->
             </StyledLink>
           </Typography>
+          <Button color='inherit' href='/register'>
+                Developers
+              </Button>
+              <Button color='inherit' href='/register'>
+                Forum
+              </Button>
           <PopMenu />
         </Toolbar>
       </AppBar>

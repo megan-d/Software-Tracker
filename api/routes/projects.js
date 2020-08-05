@@ -9,14 +9,14 @@ const Project = require('../models/Project');
 //*****OVERALL PROJECT ROUTES */
 
 //ROUTE: GET api/projects/me
-//DESCRIPTION: Get all projects for current user
+//DESCRIPTION: Get all projects associated with current user (not where they are just the owner of)
 //ACCESS LEVEL: Private
 router.get('/me', verify, async (req, res) => {
   try {
     //   Find the relevant projects associated with user based on the id that comes in with the request's token. Could be manager role or developer role on project.
     let projects = await Project.find({
       $or: [
-        { 'developers': { _id: req.user.id } },
+        { developers: { _id: req.user.id } },
         { manager: req.user.id },
         { owner: req.user.id },
       ],
@@ -123,6 +123,7 @@ router.post(
     //Once all fields are prepared, update and populate the data
     try {
       //Check if a project with that name already exists.
+      //TODO: Decide if want to do it this way or only require unique projects for owner
       let project = await Project.findOne({ name: name });
       if (project) {
         return res.json({
@@ -130,6 +131,16 @@ router.post(
             'A project with that name already exists. Please choose another name.',
         });
       }
+      //Match the username entered for manager to the user id in the database
+      let user = await User.findOne({ username: manager });
+          if (!user) {
+            return res
+              .status(400)
+              .json({ msg: 'The user selected for manager could not be found.' });
+          } else {
+            //convert username to id
+            projectItems.manager = user._id;
+          }
 
       //If project isn't found, create a new one
       if (!project) {
@@ -188,7 +199,6 @@ router.put(
     if (description) updatedProjectFields.description = description;
     if (targetCompletionDate)
       updatedProjectFields.targetCompletionDate = targetCompletionDate;
-    if (manager) updatedProjectFields.manager = manager;
     if (completionDate) updatedProjectFields.completionDate = completionDate;
     if (repoLink) updatedProjectFields.repoLink = repoLink;
     if (liveLink) updatedProjectFields.liveLink = liveLink;
@@ -203,9 +213,10 @@ router.put(
       }
       if (
         req.user.role === 'admin' ||
-        project.manager.toString() === req.user.id
+        project.manager.toString() === req.user.id ||
+        project.owner.toString() === req.user.id
       ) {
-        //If adding developer, check to make sure they are in the system. User can be submitted by username.
+        //If adding developer or manager, check to make sure they are in the system. User can be submitted by username.
         //If adding a developer, first add that to project. Before adding, check to make sure developer doesn't already exist in developers array.
         if (developer) {
           let user = await User.findOne({ username: developer });
@@ -228,6 +239,17 @@ router.put(
             });
           }
         }
+        if (manager) {
+          let user = await User.findOne({ username: manager });
+          if (!user) {
+            return res
+              .status(400)
+              .json({ msg: 'The user selected for manager could not be found.' });
+          } else {
+            updatedProjectFields.manager = user._id;
+          }
+        }
+
         //Then, update project with provided updates from updatedProjectFields
         let updatedProject = await Project.findOneAndUpdate(
           { _id: req.params.project_id },
@@ -311,7 +333,8 @@ router.delete('/:project_id', verify, async (req, res) => {
     //If the user is not an admin or the manager for the project, deny access.
     if (
       req.user.role === 'admin' ||
-      project.manager.toString() === req.user.id
+      project.manager.toString() === req.user.id ||
+      project.owner.toString() === req.user.id
     ) {
       //TODO: also delete tickets associated with project when a project is deleted
       await Project.findOneAndRemove({ _id: req.params.project_id });

@@ -7,7 +7,7 @@ const verify = require('../middleware/verifyToken');
 
 const User = require('../models/User');
 
-//ROUTE: POST api/users/teams
+//ROUTE: POST api/projects/teams
 //DESCRIPTION: Allow user to create a team name and description. In future let users auto generate a name with npm package as an option. There is a separate route for adding team members.
 //ACCESS LEVEL: Private
 router.post(
@@ -44,6 +44,7 @@ router.post(
     //Once all fields are prepared, update and populate the data
     try {
       //Check if a team with that name already exists for this user.
+      //TODO: Will have to change this to Profile
       let user = await User.findOne({ _id: req.user.id }).select('-password');
       let isExistingTeam = user.teams.filter(
         (el) => el.name.toString() === name,
@@ -68,7 +69,7 @@ router.post(
   },
 );
 
-//ROUTE: PUT api/users/teams/:team_id
+//ROUTE: PUT api/projects/teams/:team_id
 //DESCRIPTION: Update an existing team name or description or add a team member
 //ACCESS LEVEL: Private
 router.put(
@@ -104,6 +105,7 @@ router.put(
       if (!user) {
         return res.status(400).json({ msg: 'Invalid user.' });
       }
+      //TODO: change to profile.teams and make related changes
       let teams = user.teams;
       //if user is found, find the relevant team by id and update the name and/or description depending on what's provided
       let index = teams.map((el) => el._id).indexOf(req.params.team_id);

@@ -127,17 +127,25 @@ router.put(
       .optional({ checkFalsy: true })
       .isEmail()
       .normalizeEmail(),
+    check(
+      'username',
+      'Please provide a username that is at least 5 characters.',
+    )
+      .optional({ checkFalsy: true })
+      .trim()
+      .isLength({ min: 5 }),
   ],
 
   async (req, res) => {
     //pull all fields out of req.body using destructuring
-    const { name, email, role, team, organization } = req.body;
+    const { name, email, role, username, team, organization } = req.body;
 
     //Build user object
     const updatedUserFields = {};
     //if the field is provided, add to profileFields object
     if (name) updatedUserFields.name = name;
     if (email) updatedUserFields.email = email;
+    if (username) updatedUserFields.username = username;
     if (role) {
       if (req.user.role === 'admin') {
         updatedUserFields.role = role;
@@ -154,8 +162,22 @@ router.put(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    //Now that all fields are prepared, ready to update and insert the data
+    //Now that all fields are prepared, ready to update and insert the data. But first need to make sure email and/or username aren't already in use.
     try {
+      //If user already exists in database other than what is there for current user, give error
+      let emailInputUser = await User.findOne({ email });
+      if (emailInputUser && emailInputUser.id !== req.userid) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'This email already exists' }] });
+      }
+      let usernameInputUser = await User.findOne({ username });
+      if (usernameInputUser && usernameInputUser.id !== req.user.id) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'This username already exists' }] });
+      }
+
       let user = await User.findOne({ _id: req.user.id }).select('-password');
       //If user isn't found throw error
       if (!user) {

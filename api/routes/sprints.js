@@ -159,7 +159,8 @@ router.post(
       //Only allow project to be updated if admin user or manager on project
       if (
         req.user.role === 'admin' ||
-        project.manager.toString() === req.user.id
+        project.manager.toString() === req.user.id ||
+        project.owner.toString() === req.user.id
       ) {
         let isExistingSprintTitle = project.sprints.filter(
           (sprint) => sprint.title === title,
@@ -269,7 +270,8 @@ router.put(
       //Make so you can only update sprint if you are an admin user or the project manager
       if (
         req.user.role === 'admin' ||
-        project.manager.toString() === req.user.id
+        project.manager.toString() === req.user.id ||
+        project.owner.toString() === req.user.id
       ) {
         if (title) {
           let isExistingSprintTitle = project.sprints.filter(
@@ -342,21 +344,21 @@ router.put(
 //DESCRIPTION: Add a ticket to existing sprint
 //ACCESS LEVEL: Private
 router.put('/tickets/:sprint_id/:ticket_id', verify, async (req, res) => {
-  
   try {
     //Get the sprint
-    let sprint = await Sprint.findById(req.params.sprint_id).populate('tickets');
+    let sprint = await Sprint.findById(req.params.sprint_id).populate(
+      'tickets',
+    );
     let tickets = sprint.tickets;
     let isExistingTicket = tickets.filter(
       (ticket) => ticket._id.toString() === req.params.ticket_id,
     );
     if (isExistingTicket.length > 0) {
       return res.status(400).json({
-        msg:
-          'This ticket has already been added to the sprint.',
+        msg: 'This ticket has already been added to the sprint.',
       });
     }
-    
+
     //Add ticket ID onto sprint at the end of array (want chronological order in this case)
     //Check if ticket already exists for sprint
     sprint.tickets.push(req.params.ticket_id);
@@ -435,7 +437,8 @@ router.delete('/:project_id/:sprint_id', verify, async (req, res) => {
     //If the user is not an admin or the manager for the project, deny access.
     if (
       req.user.role === 'admin' ||
-      project.manager.toString() === req.user.id
+      project.manager.toString() === req.user.id ||
+      project.owner.toString() === req.user.id
     ) {
       //TODO: Also delete sprints associated with project when a project is deleted
       await Sprint.findOneAndRemove({ _id: req.params.ticket_id });

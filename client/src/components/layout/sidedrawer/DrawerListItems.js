@@ -22,84 +22,85 @@ const StyledLink = styled(Link)`
 
 const DrawerListItems = ({ sidedrawerClick }) => {
   const { logoutUser } = useContext(AuthContext);
- return (
-  <Fragment>
-    <div className='main-list-items'>
-      {/* If role is developer or manager, show developer/manager sidedrawer list */}
+  return (
+    <Fragment>
+      <div className='main-list-items'>
+        {/* If role is developer or manager, show developer/manager sidedrawer list */}
 
-      <StyledLink
-        to='/dashboard'
-        style={{ textDecoration: 'none', color: 'black' }}
-      >
-        <ListItem button>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary='Dashboard' />
-        </ListItem>
-      </StyledLink>
+        <StyledLink
+          to='/dashboard'
+          style={{ textDecoration: 'none', color: 'black' }}
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary='Dashboard' />
+          </ListItem>
+        </StyledLink>
 
-      <StyledLink to='/projects'>
-        <ListItem button>
-          <ListItemIcon>
-            <AssignmentIcon />
-          </ListItemIcon>
-          <ListItemText primary='My Projects' />
-        </ListItem>
-      </StyledLink>
+        <StyledLink to='/projects'>
+          <ListItem button>
+            <ListItemIcon>
+              <AssignmentIcon />
+            </ListItemIcon>
+            <ListItemText primary='Projects' />
+          </ListItem>
+        </StyledLink>
 
-      <StyledLink to='/tickets'>
-        <ListItem button>
-          <ListItemIcon>
-            <ConfirmationNumberIcon />
-          </ListItemIcon>
-          <ListItemText primary='My Tickets' />
-        </ListItem>
-      </StyledLink>
+        <StyledLink to='/tickets'>
+          <ListItem button>
+            <ListItemIcon>
+              <ConfirmationNumberIcon />
+            </ListItemIcon>
+            <ListItemText primary='Tickets' />
+          </ListItem>
+        </StyledLink>
 
-      <StyledLink to='/sprints'>
-        <ListItem button>
-          <ListItemIcon>
-            <GroupWorkIcon />
-          </ListItemIcon>
-          <ListItemText primary='My Sprints' />
-        </ListItem>
-      </StyledLink>
-    </div>
+        <StyledLink to='/sprints'>
+          <ListItem button>
+            <ListItemIcon>
+              <GroupWorkIcon />
+            </ListItemIcon>
+            <ListItemText primary='Sprints' />
+          </ListItem>
+        </StyledLink>
+      </div>
 
-    <Divider />
+      <Divider />
 
-    <div className='secondary-list-items'>
-    <StyledLink to='/submit'>
-      <ListItem button>
-        <ListItemIcon>
-          <AddCircleIcon />
-        </ListItemIcon>
-        <ListItemText primary='Submit Ticket' />
-      </ListItem>
-      </StyledLink>
+      <div className='secondary-list-items'>
+        {/* <StyledLink to='/submit'>
+    <ListItem button>
+    <ListItemIcon>
+    <AddCircleIcon />
+    </ListItemIcon>
+    <ListItemText primary='Submit Ticket' />
+    </ListItem>
+    </StyledLink>  */}
 
-      <StyledLink to='/profile'>
-      <ListItem button>
-        <ListItemIcon>
-          <PersonIcon />
-        </ListItemIcon>
-        <ListItemText primary='My Profile' />
-      </ListItem>
-      </StyledLink>
+        <StyledLink to='/profile'>
+          <ListItem button>
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary='My Profile' />
+          </ListItem>
+        </StyledLink>
 
-      <StyledLink to='/' onClick={logoutUser}>
-      <ListItem button>
-        <ListItemIcon>
-          <ExitToAppIcon />
-        </ListItemIcon>
-        <ListItemText primary='Logout' />
-      </ListItem>
-      </StyledLink>
+        <StyledLink to='/' onClick={logoutUser}>
+          <ListItem button>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary='Logout' />
+          </ListItem>
+        </StyledLink>
 
-      {/* If role is admin, show admin sidedrawer list */}
-    </div>
-  </Fragment>
-)};
+        {/* If role is admin, show admin sidedrawer list */}
+      </div>
+    </Fragment>
+  );
+};
 
 export default DrawerListItems;

@@ -45,7 +45,7 @@ app.use('/api/auth', auth);
 // Register new user
 app.use('/api/users', users);
 //Create and edit user teams
-app.use('/api/users/teams', teams);
+app.use('/api/projects/teams', teams);
 // Create, update, and delete projects
 app.use('/api/projects', projects);
 // Create, update, and delete tickets.
