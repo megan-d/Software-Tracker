@@ -1,7 +1,6 @@
 import React from 'react';
 import DeveloperDashboard from './developer/DeveloperDashboard';
 import AdminDashboard from './admin/AdminDashboard';
-import Wrapper from '../layout/Wrapper';
 import { AuthContext } from '../../context/auth/AuthContext';
 
 export default function Dashboard(props) {

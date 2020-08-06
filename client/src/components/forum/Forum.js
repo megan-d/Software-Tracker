@@ -1,18 +1,11 @@
-import React, { Fragment } from 'react';
-import PlainHeader from '../layout/PlainHeader';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Footer from '../layout/Footer';
+import React from 'react';
+import Wrapper from '../layout/Wrapper';
 
 const Forum = (props) => {
   return (
-    <Fragment>
-      <CssBaseline />
-      <PlainHeader />
-      <main>
-        <p>This is the Forum page</p>
-      </main>
-      <Footer />
-    </Fragment>
+    <Wrapper>
+      <p>This is the Forum page</p>
+    </Wrapper>
   );
 };
 
