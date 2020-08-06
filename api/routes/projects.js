@@ -82,12 +82,15 @@ router.post(
       )
         .not()
         .isEmpty(),
-      check(
-        'manager',
-        'A manager is required for the project. Select the Add Self button to assign yourself as manager.',
-      )
-        .not()
-        .isEmpty(),
+      check('manager', 'Please provide the username for a manager.')
+        .optional({ checkFalsy: true })
+        .trim(),
+        check('repoLink', 'Please provide a link to the project repo.')
+        .optional({ checkFalsy: true })
+        .trim(),
+        check('liveLink', 'Please provide a link to the live application.')
+        .optional({ checkFalsy: true })
+        .trim(),
     ],
   ],
   async (req, res) => {
@@ -114,9 +117,13 @@ router.post(
     projectItems.owner = req.user.id;
     projectItems.name = name;
     projectItems.description = description;
-    const date = new Date(targetCompletionDate);
-    projectItems.targetCompletionDate = date;
-    projectItems.manager = manager;
+    projectItems.targetCompletionDate = targetCompletionDate;
+    if (manager) {
+      projectItems.manager = manager;
+    } else {
+      projectItems.manager = req.user.id;
+    }
+
     projectItems.repoLink = repoLink;
     projectItems.liveLink = liveLink;
 
@@ -132,15 +139,17 @@ router.post(
         });
       }
       //Match the username entered for manager to the user id in the database
-      let user = await User.findOne({ username: manager });
-          if (!user) {
-            return res
-              .status(400)
-              .json({ msg: 'The user selected for manager could not be found.' });
-          } else {
-            //convert username to id
-            projectItems.manager = user._id;
-          }
+      if (projectItems.manager !== req.user.id) {
+        let user = await User.findOne({ username: projectItems.manager });
+        if (!user) {
+          return res
+            .status(400)
+            .json({ msg: 'The user selected for manager could not be found.' });
+        } else {
+          //convert username to id
+          projectItems.manager = user._id;
+        }
+      }
 
       //If project isn't found, create a new one
       if (!project) {
@@ -242,9 +251,9 @@ router.put(
         if (manager) {
           let user = await User.findOne({ username: manager });
           if (!user) {
-            return res
-              .status(400)
-              .json({ msg: 'The user selected for manager could not be found.' });
+            return res.status(400).json({
+              msg: 'The user selected for manager could not be found.',
+            });
           } else {
             updatedProjectFields.manager = user._id;
           }

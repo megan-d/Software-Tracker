@@ -57,6 +57,39 @@ export const ProjectProvider = ({ children }) => {
   };
 
   //*****CREATE NEW PROJECT ACTION************
+  const createProject = async (project, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    //Create body variable and stringify
+    const body = JSON.stringify(project);
+
+    try {
+      const res = await axios.post('/api/projects', body, config);
+      dispatch({
+        type: 'CREATE_PROJECT_SUCCESS',
+        payload: res.data,
+      });
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((error) => showAlert(error.msg, 'error'));
+      }
+      dispatch({
+        type: 'CREATE_PROJECT_FAILURE',
+        payload: {
+          msg: err.response.data.msg,
+          status: err.response.status,
+        },
+      });
+    }
+  };
 
   //Return Project Provider
   return (
@@ -66,6 +99,7 @@ export const ProjectProvider = ({ children }) => {
         isLoading: state.isLoading,
         errors: state.errors,
         getUserProjects,
+        createProject
       }}
     >
       {children}

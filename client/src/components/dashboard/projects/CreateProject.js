@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import Wrapper from '../../layout/Wrapper';
 import Button from '@material-ui/core/Button';
@@ -8,6 +8,12 @@ import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import { ProjectContext } from '../../../context/projects/ProjectContext';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,26 +47,57 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     marginRight: '10px',
-    marginTop: '20px'
+    marginTop: '20px',
+  },
+  findButton: {
+    fontSize: '11px',
+    marginBottom: '10px',
+    marginTop: '1px'
   }
 }));
 
-//Function to update state on change using updateFormData
-// const onChange = (e) =>
-// updateFormData({ ...formData, [e.target.name]: e.target.value });
-
-//Function to send data that's in formData to database endpoint when submit is clicked
-// const onSubmit = async (e) => {
-// e.preventDefault();
-// const project = {
-
-// };
-// //call register action
-// // await register(project);
-// };
-
 const CreateProject = (props) => {
   const classes = useStyles();
+
+  const [formData, updateFormData] = useState({
+    name: '',
+    description: '',
+    manager: '',
+    repoLink: '',
+    liveLink: '',
+  });
+
+  const [targetCompletionDate, setSelectedDate] = useState(
+    Date.now(),
+  );
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const { createProject } = useContext(ProjectContext);
+
+  //Pull out variables from formData and userData
+  const { name, description, manager, repoLink, liveLink } = formData;
+
+  // Function to update state on change using updateFormData
+  const onChange = (e) =>
+    updateFormData({ ...formData, [e.target.name]: e.target.value });
+
+  //Function to send data that's in formData to database endpoint when submit is clicked
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const project = {
+      name: name,
+      description: description,
+      targetCompletionDate: targetCompletionDate,
+      manager: manager,
+      repoLink: repoLink,
+      liveLink: liveLink,
+    };
+    //call add project action
+    await createProject(project);
+  };
 
   return (
     <Wrapper>
@@ -74,7 +111,7 @@ const CreateProject = (props) => {
             <form
               className={classes.form}
               action=''
-              // onSubmit={}
+              onSubmit={(e) => onSubmit(e)}
             >
               <TextField
                 autoComplete='name'
@@ -85,8 +122,8 @@ const CreateProject = (props) => {
                 id='name'
                 label='Project Name'
                 autoFocus
-                //   value={}
-                //   onChange={}
+                value={name}
+                onChange={(e) => onChange(e)}
                 margin='normal'
               />
               <TextField
@@ -97,42 +134,54 @@ const CreateProject = (props) => {
                 fullWidth
                 id='description'
                 label='Project description'
-                //   value={}
-                //   onChange={}
+                value={description}
+                onChange={(e) => onChange(e)}
                 margin='normal'
               />
 
-              <TextField
-                id='targetCompletionDate'
-                label='Target Completion Date'
-                type='date'
-                required
-                defaultValue='2021-05-24'
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify='flex-start'>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant='inline'
+                    format='MM/dd/yyyy'
+                    margin='normal'
+                    id='date-picker-inline'
+                    label='Date picker inline'
+                    value={targetCompletionDate}
+                    onChange={(targetCompletionDate) => handleDateChange(targetCompletionDate)}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
 
               <TextField
                 variant='outlined'
-                required
                 fullWidth
                 name='manager'
-                label='Project Manager. Please provide the username.'
+                label='Project Manager username. You will be assigned as manager if left blank.'
                 id='manager'
-                //   value={}
-                //   onChange={}
+                value={manager}
+                onChange={(e) => onChange(e)}
                 margin='normal'
               />
+              <Button
+                variant='contained'
+                size='small'
+                color='default'
+                href='/developers'
+                className={classes.findButton}
+              >Search for user...</Button>
               <TextField
                 variant='outlined'
                 fullWidth
                 name='repoLink'
                 label='URL for project repo'
                 id='repoLink'
-                //   value={}
-                //   onChange={}
+                value={repoLink}
+                onChange={(e) => onChange(e)}
                 margin='normal'
               />
               <TextField
@@ -141,18 +190,33 @@ const CreateProject = (props) => {
                 name='liveLink'
                 label='URL for live project'
                 id='liveLink'
-                //   value={}
-                //   onChange={}
+                value={liveLink}
+                onChange={(e) => onChange(e)}
                 margin='normal'
               />
 
-              <Button type='submit' variant='contained' color='primary' className={classes.buttons}>
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+                className={classes.buttons}
+              >
                 Submit
               </Button>
-              <Button variant='contained' color='secondary' href='/projects' className={classes.buttons}>
+              <Button
+                variant='contained'
+                color='secondary'
+                href='/projects'
+                className={classes.buttons}
+              >
                 Cancel
               </Button>
-              <Button variant='contained' color='default' href='/projects' className={classes.buttons}>
+              <Button
+                variant='contained'
+                color='default'
+                href='/projects'
+                className={classes.buttons}
+              >
                 Back to Projects
               </Button>
             </form>
