@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useReducer } from 'react';
 import ProjectReducer from './ProjectReducer';
+import { Redirect } from 'react-router-dom';
 import { AlertContext } from '../alerts/AlertContext';
 import axios from 'axios';
 
@@ -76,10 +77,10 @@ export const ProjectProvider = ({ children }) => {
         payload: res.data,
       });
     } catch (err) {
-      let errors = err.response.data.errors;
-      if (errors) {
+      let error = err.response.data;
+      if (error) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
-        errors.forEach((error) => showAlert(error.msg, 'error'));
+        showAlert(error.msg, 'error');
       }
       dispatch({
         type: 'CREATE_PROJECT_FAILURE',

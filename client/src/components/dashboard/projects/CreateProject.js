@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
   findButton: {
     fontSize: '11px',
     marginBottom: '10px',
-    marginTop: '1px'
-  }
+    marginTop: '1px',
+  },
 }));
 
 const CreateProject = (props) => {
@@ -67,9 +67,7 @@ const CreateProject = (props) => {
     liveLink: '',
   });
 
-  const [targetCompletionDate, setSelectedDate] = useState(
-    Date.now(),
-  );
+  const [targetCompletionDate, setSelectedDate] = useState(Date.now());
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -107,7 +105,6 @@ const CreateProject = (props) => {
       <Grid container component='main' className={classes.root}>
         <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
           <div className={classes.paper}>
-            <AlertBanner />
             <form
               className={classes.form}
               action=''
@@ -147,9 +144,11 @@ const CreateProject = (props) => {
                     format='MM/dd/yyyy'
                     margin='normal'
                     id='date-picker-inline'
-                    label='Date picker inline'
+                    label='Target Completion Date'
                     value={targetCompletionDate}
-                    onChange={(targetCompletionDate) => handleDateChange(targetCompletionDate)}
+                    onChange={(targetCompletionDate) =>
+                      handleDateChange(targetCompletionDate)
+                    }
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
@@ -173,7 +172,9 @@ const CreateProject = (props) => {
                 color='default'
                 href='/developers'
                 className={classes.findButton}
-              >Search for user...</Button>
+              >
+                Search for user...
+              </Button>
               <TextField
                 variant='outlined'
                 fullWidth
@@ -194,7 +195,7 @@ const CreateProject = (props) => {
                 onChange={(e) => onChange(e)}
                 margin='normal'
               />
-
+              <AlertBanner />
               <Button
                 type='submit'
                 variant='contained'

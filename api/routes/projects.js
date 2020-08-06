@@ -133,10 +133,9 @@ router.post(
       //TODO: Decide if want to do it this way or only require unique projects for owner
       let project = await Project.findOne({ name: name });
       if (project) {
-        return res.json({
-          msg:
-            'A project with that name already exists. Please choose another name.',
-        });
+        return res
+            .status(400)
+            .json({ msg: 'A project with that name already exists.' });
       }
       //Match the username entered for manager to the user id in the database
       if (projectItems.manager !== req.user.id) {
