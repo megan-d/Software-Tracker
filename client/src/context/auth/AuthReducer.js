@@ -23,7 +23,6 @@ export default (state, action) => {
     case 'LOGOUT':
     case 'USER_DELETED':
       localStorage.removeItem('token');
-      //Need to figure out how to dispatch way to setTimeout and clear errors so they are removed from UI
       return {
         ...state,
         token: null,

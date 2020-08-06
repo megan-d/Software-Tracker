@@ -107,11 +107,11 @@ const Header = (props) => {
             </StyledLink>
           </Typography>
           <Button color='inherit' href='/register'>
-                Developers
-              </Button>
-              <Button color='inherit' href='/register'>
-                Forum
-              </Button>
+            Developers
+          </Button>
+          <Button color='inherit' href='/forum'>
+            Forum
+          </Button>
           <PopMenu />
         </Toolbar>
       </AppBar>

@@ -4,12 +4,15 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AuthProvider } from '../src/context/auth/AuthContext';
 import { AlertProvider } from '../src/context/alerts/AlertContext';
+import { ProjectProvider } from './context/projects/ProjectContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <AlertProvider>
       <AuthProvider>
-        <App />
+        <ProjectProvider>
+          <App />
+        </ProjectProvider>
       </AuthProvider>
     </AlertProvider>
   </React.StrictMode>,

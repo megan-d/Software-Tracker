@@ -10,10 +10,12 @@ import Error from './components/views/Error';
 import { AuthContext } from './context/auth/AuthContext';
 import DeveloperDashboard from './components/dashboard/developer/DeveloperDashboard';
 import Projects from './components/dashboard/projects/Projects';
+import CreateProject from './components/dashboard/projects/CreateProject';
 import Tickets from './components/dashboard/tickets/Tickets';
 import Sprints from './components/dashboard/sprints/Sprints';
 import SubmitTicket from './components/dashboard/tickets/SubmitTicket';
 import Profile from './components/profile/Profile';
+import Forum from './components/forum/Forum';
 import PrivateRoute from './components/routing/PrivateRoute';
 
 const App = () => {
@@ -39,10 +41,12 @@ const App = () => {
             exact
           />
           <PrivateRoute path='/projects' component={Projects} exact />
+          <PrivateRoute path='/createproject' component={CreateProject} exact />
           <PrivateRoute path='/tickets' component={Tickets} exact />
           <PrivateRoute path='/sprints' component={Sprints} exact />
           <PrivateRoute path='/submit' component={SubmitTicket} exact />
           <PrivateRoute path='/profile' component={Profile} exact />
+          <PrivateRoute path='/forum' component={Forum} exact />
           <Route path='' component={Error} />
         </Switch>
       </div>

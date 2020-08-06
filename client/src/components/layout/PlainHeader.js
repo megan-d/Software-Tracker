@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 const PlainHeader = (props) => {
   const classes = useStyles();
 
-  const { isAuthenticated, logoutUser } = useContext(AuthContext);
+  const { isAuthenticated, logoutUser, isLoading } = useContext(AuthContext);
 
   return (
     <div className={classes.root}>
@@ -68,27 +68,44 @@ const PlainHeader = (props) => {
             noWrap
             className={classes.title}
           >
-            <StyledLink to='/' style={{fontFamily: 'Caveat, cursive', fontSize: '30px'}}>--DASH--></StyledLink>
+            <StyledLink
+              to='/'
+              style={{ fontFamily: 'Caveat, cursive', fontSize: '30px' }}
+            >
+              --DASH-->
+            </StyledLink>
           </Typography>
 
-          {isAuthenticated ? (
+          {!isLoading && (
             <Fragment>
-              <Button color='inherit' href='/dashboard'>
-                My Dashboard
-              </Button>
-              <Button color='inherit' onClick={logoutUser}>
-                Logout
-              </Button>
-            </Fragment>
-          ) : (
-            <Fragment>
-              <Button color='inherit' href='/login'>
-                Login
-              </Button>
-              <Button color='inherit' href='/register'>
-                Register
-              </Button>
-              <Button color='inherit' href='/'>Demo</Button>
+              {isAuthenticated ? (
+                <Fragment>
+                  <Button color='inherit' href='/dashboard'>
+                    My Dashboard
+                  </Button>
+                  <Button color='inherit' href='/login'>
+                    Developers
+                  </Button>
+                  <Button color='inherit' href='/forum'>
+                    Forum
+                  </Button>
+                  <Button color='inherit' onClick={logoutUser}>
+                    Logout
+                  </Button>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Button color='inherit' href='/login'>
+                    Login
+                  </Button>
+                  <Button color='inherit' href='/register'>
+                    Register
+                  </Button>
+                  <Button color='inherit' href='/'>
+                    Demo
+                  </Button>
+                </Fragment>
+              )}
             </Fragment>
           )}
         </Toolbar>
