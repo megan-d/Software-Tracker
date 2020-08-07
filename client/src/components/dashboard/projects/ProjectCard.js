@@ -27,17 +27,14 @@ const useStyles = makeStyles({
 
 export default function ProjectCard({name, description}) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.root}>
-        {console.log(name)}
       <CardContent>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" component="h2">
           {name}
         </Typography>
         <Typography variant="body2" component="p">
-          well meaning and kindly.
           <br />
           {description}
         </Typography>

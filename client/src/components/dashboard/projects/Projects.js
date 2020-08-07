@@ -13,25 +13,24 @@ const StyledCards = styled.div`
   width: 100%;
 `;
 
-
-
 const Projects = (props) => {
   const { projects, isLoading, errors, getUserProjects } = useContext(
     ProjectContext,
   );
-  const { user } = useContext(
-    AuthContext,
-  );
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     getUserProjects();
   }, []);
 
-  let myProjects = projects.filter(el => el.manager === user._id || el.owner === user._id);
+  let myProjects = projects.filter(
+    (el) => el.manager === user._id || el.owner === user._id,
+  );
+  let collabProjects = projects.filter((el) => el.developers.some((developer) => developer === user._id));
 
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
-      <Wrapper>
+    <Wrapper>
       <h2>Projects</h2>
       <p>
         View your own projects as well as projects you are a collaborator on
@@ -46,17 +45,32 @@ const Projects = (props) => {
         <Fragment>
           <h3>My Projects</h3>
           <StyledCards>
-            {
-            myProjects.map((el) => {
-              return <ProjectCard name={el.name} description={el.description}/>;
+            {myProjects.map((el) => {
+              return (
+                <ProjectCard
+                  key={el._id}
+                  name={el.name}
+                  description={el.description}
+                />
+              );
             })}
           </StyledCards>
 
           <h3>Projects I'm collaborating on</h3>
+          <StyledCards>
+            {collabProjects.map((el) => {
+              return (
+                <ProjectCard
+                  key={el._id}
+                  name={el.name}
+                  description={el.description}
+                />
+              );
+            })}
+          </StyledCards>
         </Fragment>
       )}
     </Wrapper>
-    
   );
 };
 
