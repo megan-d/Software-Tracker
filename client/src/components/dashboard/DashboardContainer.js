@@ -8,6 +8,7 @@ export default function Dashboard(props) {
 
   return (
     // if developer or manager role, display regular dashboard (will need to modify this later). if admin role display admin dashboard.
+
     user.role === 'admin' ? <AdminDashboard /> : <DeveloperDashboard />
   );
 }

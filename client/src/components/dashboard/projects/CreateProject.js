@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
@@ -56,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateProject = (props) => {
+const CreateProject = ({history}) => {
   const classes = useStyles();
 
   const [formData, updateFormData] = useState({
@@ -94,7 +93,8 @@ const CreateProject = (props) => {
       liveLink: liveLink,
     };
     //call add project action
-    await createProject(project);
+    await createProject(project, history);
+    
   };
 
   return (

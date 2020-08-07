@@ -1,6 +1,5 @@
 import React, { useContext, createContext, useReducer } from 'react';
 import ProjectReducer from './ProjectReducer';
-import { Redirect } from 'react-router-dom';
 import { AlertContext } from '../alerts/AlertContext';
 import axios from 'axios';
 
@@ -76,6 +75,7 @@ export const ProjectProvider = ({ children }) => {
         type: 'CREATE_PROJECT_SUCCESS',
         payload: res.data,
       });
+      history.push('/projects');
     } catch (err) {
       let error = err.response.data;
       if (error) {

@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-  }
+  },
 }));
 
 const SideDrawer = (props) => {
@@ -62,7 +62,10 @@ const SideDrawer = (props) => {
       <Drawer
         variant='permanent'
         classes={{
-          paper: clsx(classes.drawerPaper, !props.open && classes.drawerPaperClose),
+          paper: clsx(
+            classes.drawerPaper,
+            !props.open && classes.drawerPaperClose,
+          ),
         }}
         open={props.open}
       >
@@ -73,7 +76,7 @@ const SideDrawer = (props) => {
         </div>
         <Divider />
         <List>
-          <DrawerListItems />
+            <DrawerListItems />
         </List>
       </Drawer>
     </div>
@@ -81,8 +84,7 @@ const SideDrawer = (props) => {
 };
 
 SideDrawer.propTypes = {
-    
-    open: PropTypes.bool.isRequired,
+  open: PropTypes.bool.isRequired,
 };
 
 export default SideDrawer;
