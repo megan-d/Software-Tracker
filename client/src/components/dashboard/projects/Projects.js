@@ -14,7 +14,7 @@ const StyledCards = styled.div`
 `;
 
 const Projects = (props) => {
-  const { projects, isLoading, errors, getUserProjects } = useContext(
+  const { projects, isLoading, getUserProjects } = useContext(
     ProjectContext,
   );
   const { user } = useContext(AuthContext);
@@ -23,9 +23,11 @@ const Projects = (props) => {
     getUserProjects();
   }, []);
 
+  //Get projects where user is the manager or owner and put them under "My Projects"
   let myProjects = projects.filter(
     (el) => el.manager === user._id || el.owner === user._id,
   );
+  //Get projects where user is a collaborating developer and put them under "Projects I'm collaborating on"
   let collabProjects = projects.filter((el) => el.developers.some((developer) => developer === user._id));
 
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component

@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { Redirect } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';

@@ -7,8 +7,6 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import PersonIcon from '@material-ui/icons/Person';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
-// import SettingsIcon from '@material-ui/icons/Settings';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Divider from '@material-ui/core/Divider';
