@@ -15,6 +15,7 @@
     "axios": "^0.19.2",
     "date-fns": "^2.15.0",
     "fibers": "^5.0.0",
+    "material-table": "^1.68.0",
     "moment": "^2.27.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",

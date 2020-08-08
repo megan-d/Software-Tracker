@@ -142,9 +142,10 @@ router.post(
     ticketItems.priority = priority;
     const date = new Date(dateDue);
     ticketItems.dateDue = date;
+    ticketItems.status = 'Assigned';
 
     let historyItem = {
-      typeOfChange: 'Create ticket',
+      typeOfChange: 'Ticket Created',
     };
 
     //Once all fields are prepared, update and populate the data

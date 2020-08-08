@@ -20,7 +20,7 @@ router.get('/me', verify, async (req, res) => {
         { manager: req.user.id },
         { owner: req.user.id },
       ],
-    });
+    }).populate('tickets');
 
     //If there is no profile, return an error
     if (projects.length === 0) {
