@@ -23,6 +23,7 @@ const Projects = (props) => {
     getUserProjects();
   }, []);
 
+
   //Get projects where user is the manager or owner and put them under "My Projects"
   let myProjects = projects.filter(
     (el) => el.manager === user._id || el.owner === user._id,

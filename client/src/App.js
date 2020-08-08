@@ -10,6 +10,7 @@ import Error from './components/views/Error';
 import { AuthContext } from './context/auth/AuthContext';
 import DeveloperDashboard from './components/dashboard/developer/DeveloperDashboard';
 import Projects from './components/dashboard/projects/Projects';
+import Project from './components/dashboard/projects/Project';
 import CreateProject from './components/dashboard/projects/CreateProject';
 import Tickets from './components/dashboard/tickets/Tickets';
 import Sprints from './components/dashboard/sprints/Sprints';
@@ -42,9 +43,10 @@ const App = () => {
             exact
           />
           <PrivateRoute path='/projects' component={Projects} exact />
+          <PrivateRoute path='/project/:id' component={Project} exact />
           <PrivateRoute path='/createproject' component={CreateProject} exact />
           <PrivateRoute path='/tickets' component={Tickets} exact />
-          <PrivateRoute path='/ticket' component={Ticket} exact />
+          <PrivateRoute path='/ticket/:id' component={Ticket} exact />
           <PrivateRoute path='/submit' component={SubmitTicket} exact />
           <PrivateRoute path='/sprints' component={Sprints} exact />
           <PrivateRoute path='/profile' component={Profile} exact />

@@ -1,21 +1,27 @@
-import React, { useContext, useState, useEffect } from 'react';
-import axios from 'axios';
-import { AlertContext } from '../../../context/alerts/AlertContext';
+import React, { useContext, useEffect } from 'react';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
-import MaterialTable from 'material-table';
+import { TicketContext } from '../../../context/tickets/TicketContext';
 
-const Ticket = ({ ticket }) => {
-  const { showAlert } = useContext(AlertContext);
+const Ticket = (props) => {
+ 
+  const { tickets, ticket, isLoading, errors, getUserTickets, getTicketDetails } = useContext(TicketContext);
 
   const deleteTicket = () => {
     console.log('deleted');
   };
 
-  console.log(ticket);
+  useEffect(() => {
+    getTicketDetails(props.match.params.id);
+  }, []);
+
   return (
-  <div>This is a ticket.
-  </div>
+    <Wrapper>
+      {!ticket ? (<Spinner />) : (
+        <div>{ticket.title}</div>
+      )}
+    </Wrapper>
+  
   );
 };
 

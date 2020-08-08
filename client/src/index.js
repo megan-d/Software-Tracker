@@ -5,13 +5,16 @@ import * as serviceWorker from './serviceWorker';
 import { AuthProvider } from '../src/context/auth/AuthContext';
 import { AlertProvider } from '../src/context/alerts/AlertContext';
 import { ProjectProvider } from './context/projects/ProjectContext';
+import { TicketProvider } from './context/tickets/TicketContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <AlertProvider>
       <AuthProvider>
         <ProjectProvider>
-          <App />
+          <TicketProvider>
+            <App />
+          </TicketProvider>
         </ProjectProvider>
       </AuthProvider>
     </AlertProvider>
