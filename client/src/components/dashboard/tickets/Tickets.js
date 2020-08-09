@@ -27,7 +27,7 @@ const Tickets = () => {
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
-      {isLoading && !tickets ? (
+      {isLoading && !ticket ? (
         <Fragment>
           <h2>My Tickets</h2>
           <p>

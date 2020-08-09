@@ -83,7 +83,7 @@ const PlainHeader = (props) => {
                   <Button color='inherit' href='/dashboard'>
                     My Dashboard
                   </Button>
-                  <Button color='inherit' href='/login'>
+                  <Button color='inherit' href='/profiles'>
                     Developers
                   </Button>
                   <Button color='inherit' href='/forum'>

@@ -106,7 +106,7 @@ const Header = (props) => {
               --DASH-->
             </StyledLink>
           </Typography>
-          <Button color='inherit' href='/register'>
+          <Button color='inherit' href='/profiles'>
             Developers
           </Button>
           <Button color='inherit' href='/forum'>
