@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { ProjectContext } from '../../../context/projects/ProjectContext';
 
 const useStyles = makeStyles({
   root: {
@@ -25,8 +26,15 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ProjectCard({name, description}) {
+
+  
+
+export default function ProjectCard({name, description, history, id}) {
   const classes = useStyles();
+
+  const { projects, isLoading, getUserProjects, getProjectDetails, clearProject } = useContext(
+    ProjectContext,
+  );
 
   return (
     <Card className={classes.root}>

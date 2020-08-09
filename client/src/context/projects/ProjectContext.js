@@ -8,6 +8,7 @@ import axios from 'axios';
 const initialState = {
   isLoading: true,
   projects: [],
+  project: null,
   errors: [],
 };
 
@@ -56,6 +57,39 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
+  //*****GET PROJECT BY ID ACTION************
+  const getProjectDetails = async (id) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+    try {
+      const res = await axios.get(`/api/projects/${id}`, config);
+
+      dispatch({
+        type: 'LOAD_PROJECT_SUCCESS',
+        payload: res.data,
+      });
+    } catch (err) {
+      let error = err.response.data;
+      if (error) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        await showAlert(error.msg, 'error');
+      }
+      dispatch({
+        type: 'LOAD_PROJECT_FAILURE',
+        payload: {
+          msg: err.response.data.msg,
+          status: err.response.status,
+        },
+      });
+    }
+  };
+
+  
   //*****CREATE NEW PROJECT ACTION************
   const createProject = async (project, history) => {
     //Create config with headers
@@ -92,6 +126,14 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
+  //*******CLEAR PROJECT ACTION**********
+  //Clear the project so the previously loaded profject doesn't flash first
+  const clearProject = async() => {
+    dispatch({
+        type: 'CLEAR_PROJECT',
+      });
+  }
+
   //Return Project Provider
   return (
     <ProjectContext.Provider
@@ -100,7 +142,9 @@ export const ProjectProvider = ({ children }) => {
         isLoading: state.isLoading,
         errors: state.errors,
         getUserProjects,
-        createProject
+        createProject,
+        clearProject,
+        getProjectDetails
       }}
     >
       {children}

@@ -89,7 +89,8 @@ export const TicketProvider = ({ children }) => {
     }
   };
 
-  //CLEAR TICKET ACTION
+  //*******CLEAR TICKET ACTION**********
+  //Clear the ticket so the previously loaded ticket doesn't flash first
   const clearTicket = async() => {
     dispatch({
         type: 'CLEAR_TICKET',

@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, Fragment } from 'react';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
+import { useHistory } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Button from '@material-ui/core/Button';
 import Spinner from '../../layout/Spinner';
@@ -14,15 +15,17 @@ const StyledCards = styled.div`
 `;
 
 const Projects = (props) => {
-  const { projects, isLoading, getUserProjects } = useContext(
+  const { projects, isLoading, getUserProjects, getProjectDetails, clearProject } = useContext(
     ProjectContext,
   );
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     getUserProjects();
+    clearProject();
   }, []);
 
+  let history = useHistory();
 
   //Get projects where user is the manager or owner and put them under "My Projects"
   let myProjects = projects.filter(
@@ -54,6 +57,8 @@ const Projects = (props) => {
                   key={el._id}
                   name={el.name}
                   description={el.description}
+                  projects={projects}
+                  history={history}
                 />
               );
             })}
@@ -67,6 +72,8 @@ const Projects = (props) => {
                   key={el._id}
                   name={el.name}
                   description={el.description}
+                  projects={projects}
+                  history={history}
                 />
               );
             })}

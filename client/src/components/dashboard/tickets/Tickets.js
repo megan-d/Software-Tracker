@@ -4,14 +4,12 @@ import { TicketContext } from '../../../context/tickets/TicketContext';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
-import Ticket from './Ticket';
 
 const Tickets = () => {
 
   const { tickets, ticket, isLoading, errors, getUserTickets, clearTicket } = useContext(TicketContext);
 
   useEffect(() => {
-    
     getUserTickets();
     clearTicket();
   }, []);
