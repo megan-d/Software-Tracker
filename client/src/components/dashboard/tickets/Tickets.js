@@ -7,7 +7,7 @@ import MaterialTable from 'material-table';
 
 const Tickets = () => {
 
-  const { tickets, ticket, isLoading, errors, getUserTickets, clearTicket } = useContext(TicketContext);
+  const { tickets, ticket, isLoading, getUserTickets, clearTicket } = useContext(TicketContext);
 
   useEffect(() => {
     getUserTickets();

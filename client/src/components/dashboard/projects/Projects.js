@@ -3,7 +3,6 @@ import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { useHistory, Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
-import Button from '@material-ui/core/Button';
 import Spinner from '../../layout/Spinner';
 import ProjectCard from './ProjectCard';
 import styled from 'styled-components';
@@ -14,8 +13,22 @@ const StyledCards = styled.div`
   width: 100%;
 `;
 
+const StyledLink = styled(Link)`
+  color: white;
+  background: #dc064e;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  max-width: 100px;
+  text-align: center;
+  margin: 10px 0px;
+  display: block;
+  font-weight: bold;
+`;
+
 const Projects = (props) => {
-  const { projects, isLoading, getUserProjects, getProjectDetails, clearProject } = useContext(
+  const { projects, isLoading, getUserProjects, clearProject } = useContext(
     ProjectContext,
   );
   const { user } = useContext(AuthContext);
@@ -41,9 +54,9 @@ const Projects = (props) => {
       <p>
         View your own projects as well as projects you are a collaborator on
       </p>
-      <Link variant='contained' color='secondary' to='/createproject'>
+      <StyledLink to='/createproject'>
         Add Project
-      </Link>
+      </StyledLink>
       <hr></hr>
       {isLoading ? (
         <Spinner />
@@ -57,6 +70,7 @@ const Projects = (props) => {
                   key={el._id}
                   name={el.name}
                   description={el.description}
+                  id={el._id}
                 />
               );
             })}
@@ -70,6 +84,7 @@ const Projects = (props) => {
                   key={el._id}
                   name={el.name}
                   description={el.description}
+                  id={el._id}
                 />
               );
             })}

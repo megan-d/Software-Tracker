@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -42,13 +43,9 @@ export default function ProjectCard({name, description, history, id}) {
         <Typography variant="h6" component="h2">
           {name}
         </Typography>
-        <Typography variant="body2" component="p">
-          <br />
-          {description}
-        </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">View Details</Button>
+        <Link to={`/projects/${id}`}>View Details</Link>
       </CardActions>
     </Card>
   );

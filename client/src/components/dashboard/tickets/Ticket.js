@@ -5,7 +5,7 @@ import { TicketContext } from '../../../context/tickets/TicketContext';
 
 const Ticket = (props) => {
  
-  const { tickets, ticket, isLoading, errors, getUserTickets, getTicketDetails } = useContext(TicketContext);
+  const { ticket, isLoading, getTicketDetails } = useContext(TicketContext);
 
   const deleteTicket = () => {
     console.log('deleted');
