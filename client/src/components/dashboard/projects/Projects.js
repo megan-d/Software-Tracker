@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, Fragment } from 'react';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Button from '@material-ui/core/Button';
 import Spinner from '../../layout/Spinner';
@@ -41,9 +41,9 @@ const Projects = (props) => {
       <p>
         View your own projects as well as projects you are a collaborator on
       </p>
-      <Button variant='contained' color='secondary' href='/createproject'>
+      <Link variant='contained' color='secondary' to='/createproject'>
         Add Project
-      </Button>
+      </Link>
       <hr></hr>
       {isLoading ? (
         <Spinner />
@@ -57,8 +57,6 @@ const Projects = (props) => {
                   key={el._id}
                   name={el.name}
                   description={el.description}
-                  projects={projects}
-                  history={history}
                 />
               );
             })}
@@ -72,8 +70,6 @@ const Projects = (props) => {
                   key={el._id}
                   name={el.name}
                   description={el.description}
-                  projects={projects}
-                  history={history}
                 />
               );
             })}
