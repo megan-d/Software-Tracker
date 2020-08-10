@@ -139,6 +139,7 @@ export const ProjectProvider = ({ children }) => {
     <ProjectContext.Provider
       value={{
         projects: state.projects,
+        project: state.project,
         isLoading: state.isLoading,
         errors: state.errors,
         getUserProjects,

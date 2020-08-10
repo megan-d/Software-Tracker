@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -28,14 +28,16 @@ const useStyles = makeStyles({
 });
 
 
-  
 
-export default function ProjectCard({name, description, history, id}) {
+
+export default function ProjectCard({name, description, id}) {
   const classes = useStyles();
 
   const { projects, isLoading, getUserProjects, getProjectDetails, clearProject } = useContext(
     ProjectContext,
   );
+
+  let history = useHistory();
 
   return (
     <Card className={classes.root}>
@@ -45,7 +47,8 @@ export default function ProjectCard({name, description, history, id}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`/projects/${id}`}>View Details</Link>
+        <Button onClick={async() => {
+          history.push(`/projects/${id}`)}}>View Details</Button>
       </CardActions>
     </Card>
   );

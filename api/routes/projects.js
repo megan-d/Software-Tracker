@@ -42,7 +42,7 @@ router.get('/me', verify, async (req, res) => {
 
 router.get('/:project_id', verify, async (req, res) => {
   try {
-    const project = await Project.findOne({
+    let project = await Project.findOne({
       _id: req.params.project_id,
     });
 
