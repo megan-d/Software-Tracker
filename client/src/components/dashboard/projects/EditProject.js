@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import AlertBanner from '../../layout/AlertBanner';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import Wrapper from '../../layout/Wrapper';
 
@@ -14,11 +15,12 @@ export default function EditProject(props) {
   let history = useHistory();
 
   const edits = {
-    name: "Let's edit this again"
+    developer: "Benji"
   }
 
   return (
     <Wrapper>
+        <AlertBanner />
       <Button
         variant='contained'
         color='primary'

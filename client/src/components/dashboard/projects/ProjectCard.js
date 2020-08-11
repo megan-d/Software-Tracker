@@ -33,10 +33,6 @@ const useStyles = makeStyles({
 export default function ProjectCard({name, description, id}) {
   const classes = useStyles();
 
-  const { projects, isLoading, getUserProjects, getProjectDetails, clearProject } = useContext(
-    ProjectContext,
-  );
-
   let history = useHistory();
 
   return (
