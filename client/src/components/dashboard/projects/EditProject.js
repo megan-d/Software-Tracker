@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import AlertBanner from '../../layout/AlertBanner';
@@ -9,14 +9,19 @@ export default function EditProject(props) {
   const {
     projects,
     project,
-    updateProject
+    updateProject,
+    getProjectDetails
   } = useContext(ProjectContext);
 
   let history = useHistory();
 
   const edits = {
-    developer: "Benji"
+    developer: "megab"
   }
+
+  useEffect(() => {
+    getProjectDetails(props.match.params.id);
+  }, []);
 
   return (
     <Wrapper>

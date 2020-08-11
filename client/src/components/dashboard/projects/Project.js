@@ -40,7 +40,7 @@ const Project = (props) => {
           >
             Delete Project
           </Button>
-          <Link variant='contained' color='primary' to='/editproject'>
+          <Link variant='contained' color='primary' to={`/projects/${project._id}/edit`}>
             Edit Project Details or Add Developer to Project
           </Link>
         </Fragment>
