@@ -28,8 +28,10 @@ export default (state, action) => {
     case 'LOAD_USER_PROJECTS_FAILURE':
     case 'CREATE_PROJECT_FAILURE':
     case 'LOAD_PROJECT_FAILURE':
+    case 'PROJECT_DELETED':
       return {
         ...state,
+        project: null,
         isLoading: false,
         errors: action.payload,
       };

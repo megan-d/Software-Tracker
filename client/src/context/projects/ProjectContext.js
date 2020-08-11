@@ -134,6 +134,58 @@ export const ProjectProvider = ({ children }) => {
       });
   }
 
+  //*****DELETE PROJECT ACTION************
+  const deleteProject = async (id, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    try {
+      await axios.delete(`/api/projects/${id}`, config);
+      dispatch({
+        type: 'PROJECT_DELETED'
+      });
+      history.push('/projects');
+    } catch (err) {
+      let error = err.response.data;
+      if (error) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        showAlert(error.msg, 'error');
+      }
+    }
+  };
+
+  //*****UPDATE PROJECT DETAILS ACTION************
+  const updateProject = async (edits, id, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    const body = JSON.stringify(edits);
+
+    try {
+      await axios.put(`/api/projects/${id}`, body, config);
+      dispatch({
+        type: 'PROJECT_DELETED'
+      });
+      history.push('/projects');
+    } catch (err) {
+      let error = err.response.data;
+      if (error) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        showAlert(error.msg, 'error');
+      }
+    }
+  };
+
   //Return Project Provider
   return (
     <ProjectContext.Provider
@@ -145,7 +197,8 @@ export const ProjectProvider = ({ children }) => {
         getUserProjects,
         createProject,
         clearProject,
-        getProjectDetails
+        getProjectDetails,
+        deleteProject
       }}
     >
       {children}
