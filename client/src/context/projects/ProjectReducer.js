@@ -8,6 +8,7 @@ export default (state, action) => {
         errors: null,
       };
     case 'LOAD_PROJECT_SUCCESS':
+    case 'UPDATE_PROJECT_SUCCESS':
       return {
         ...state,
         project: action.payload,

@@ -11,6 +11,7 @@ import { AuthContext } from './context/auth/AuthContext';
 import DeveloperDashboard from './components/dashboard/developer/DeveloperDashboard';
 import Projects from './components/dashboard/projects/Projects';
 import Project from './components/dashboard/projects/Project';
+import EditProject from './components/dashboard/projects/EditProject';
 import CreateProject from './components/dashboard/projects/CreateProject';
 import Tickets from './components/dashboard/tickets/Tickets';
 import Sprints from './components/dashboard/sprints/Sprints';
@@ -46,6 +47,7 @@ const App = () => {
           <PrivateRoute path='/createproject' component={CreateProject} exact />
           <PrivateRoute path='/projects' component={Projects} exact />
           <PrivateRoute path='/projects/:id' component={Project} exact />
+          <PrivateRoute path='/editproject' component={EditProject} exact />
           <PrivateRoute path='/tickets' component={Tickets} exact />
           <PrivateRoute path='/ticket/:id' component={Ticket} exact />
           <PrivateRoute path='/submit' component={SubmitTicket} exact />

@@ -172,17 +172,25 @@ export const ProjectProvider = ({ children }) => {
     const body = JSON.stringify(edits);
 
     try {
-      await axios.put(`/api/projects/${id}`, body, config);
+      const res = await axios.put(`/api/projects/${id}`, body, config);
       dispatch({
-        type: 'PROJECT_DELETED'
+        type: 'UPDATE_PROJECT_SUCCESS',
+        payload: res.data
       });
-      history.push('/projects');
+      history.push(`/projects/${id}`);
     } catch (err) {
       let error = err.response.data;
       if (error) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
         showAlert(error.msg, 'error');
       }
+      dispatch({
+        type: 'UPDATE_PROJECT_FAILURE',
+        payload: {
+          msg: err.response.data.msg,
+          status: err.response.status,
+        },
+      });
     }
   };
 
@@ -198,6 +206,7 @@ export const ProjectProvider = ({ children }) => {
         createProject,
         clearProject,
         getProjectDetails,
+        updateProject,
         deleteProject
       }}
     >
