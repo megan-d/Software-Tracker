@@ -21,7 +21,7 @@ const AlertBanner = () => {
     <div className={classes.root}>
       {alerts !== null &&
         alerts.length > 0 &&
-        alerts.map((el, index) => (
+        alerts.map((el) => (
           <Alert severity={el.alertType} key={el.id}>
             {el.msg}
           </Alert>
