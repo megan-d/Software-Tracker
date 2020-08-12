@@ -6,13 +6,28 @@ import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
 import AlertBanner from '../../layout/AlertBanner';
+import styled from 'styled-components';
+import MaterialTable from 'material-table';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+const StyledLink = styled(Link)`
+  color: white;
+  background: grey;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  max-width: 100px;
+  text-align: center;
+  margin: 10px 0px;
+  display: block;
+  font-weight: bold;
+`;
 
 const Project = (props) => {
   const {
     project,
-    isLoading,
     getProjectDetails,
-    updateProject,
     deleteProject,
   } = useContext(ProjectContext);
 
@@ -34,27 +49,46 @@ const Project = (props) => {
           <h2>{project.name}</h2>
           <h3>{project.description}</h3>
           <h4>Developers on project:</h4>
-          {project.developers.map((el, index) => 
+          {project.developers.map((el, index) => (
             <p key={index}>{el}</p>
-          )}
-          {(user._id === project.owner) || (user._id === project.manager) ? (
-            <Fragment>
-              <Button
+          ))}
+          <StyledLink
                 variant='contained'
-                color='secondary'
-                onClick={async () => deleteProject(project._id, props.history)}
+                color='primary'
+                to={`/projects/${project._id}/submitticket`}
               >
-                Delete Project
-              </Button>
-              <Link
+                Add Ticket
+              </StyledLink>
+          {user._id === project.owner ? (
+            <Fragment>
+              <StyledLink
                 variant='contained'
                 color='primary'
                 to={`/projects/${project._id}/edit`}
               >
-                Edit Project Details or Add Developer to Project
-              </Link>
+                Edit Project
+              </StyledLink>
+              <Button
+                variant='contained'
+                color='secondary'
+                startIcon={<DeleteIcon />}
+                onClick={async () => deleteProject(project._id, props.history)}
+              >
+                Delete Project
+              </Button>
             </Fragment>
-          ): null}
+          ) : null}
+          {user._id === project.manager && user._id !== project.owner ? (
+            <Fragment>
+              <StyledLink
+                variant='contained'
+                color='primary'
+                to={`/projects/${project._id}/edit`}
+              >
+                Edit Project
+              </StyledLink>
+            </Fragment>
+          ) : null}
         </Fragment>
       )}
     </Wrapper>

@@ -89,13 +89,53 @@ export const TicketProvider = ({ children }) => {
     }
   };
 
+  //*****CREATE NEW TICKET ACTION************
+  const createTicket = async (ticket, projectId, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    //Create body variable and stringify
+    const body = JSON.stringify(ticket);
+
+    try {
+      const res = await axios.post(
+        `api/projects/tickets/${projectId}`,
+        body,
+        config,
+      );
+      dispatch({
+        type: 'CREATE_TICKET_SUCCESS',
+        payload: res.data,
+      });
+      history.push(`/projects/${projectId}`);
+    } catch (err) {
+      let error = err.response.data;
+      if (error) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        showAlert(error.msg, 'error');
+      }
+      dispatch({
+        type: 'CREATE_TICKET_FAILURE',
+        payload: {
+          msg: err.response.data.msg,
+          status: err.response.status,
+        },
+      });
+    }
+  };
+
   //*******CLEAR TICKET ACTION**********
   //Clear the ticket so the previously loaded ticket doesn't flash first
-  const clearTicket = async() => {
+  const clearTicket = async () => {
     dispatch({
-        type: 'CLEAR_TICKET',
-      });
-  }
+      type: 'CLEAR_TICKET',
+    });
+  };
 
   //Return Ticket Provider
   return (
@@ -107,7 +147,8 @@ export const TicketProvider = ({ children }) => {
         errors: state.errors,
         getUserTickets,
         getTicketDetails,
-        clearTicket
+        createTicket,
+        clearTicket,
       }}
     >
       {children}

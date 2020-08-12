@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, Fragment } from 'react';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import ProjectCard from './ProjectCard';
@@ -38,7 +38,7 @@ const Projects = (props) => {
     clearProject();
   }, []);
 
-  let history = useHistory();
+  // let history = useHistory();
 
   //Get projects where user is the manager or owner and put them under "My Projects"
   let myProjects = projects.filter(
@@ -53,7 +53,7 @@ const Projects = (props) => {
     <Wrapper>
       <h2>Projects</h2>
       <p>
-        View your own projects as well as projects you are a collaborator on
+        View your own projects as well as projects you are managing and collaborating on
       </p>
       <StyledLink to='/createproject'>
         Add Project

@@ -44,7 +44,7 @@ router.get('/:project_id', verify, async (req, res) => {
   try {
     let project = await Project.findOne({
       _id: req.params.project_id,
-    });
+    }).populate('tickets');
 
     if (!project) return res.status(400).json({ msg: 'Project not found' });
 

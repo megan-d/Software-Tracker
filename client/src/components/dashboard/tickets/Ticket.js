@@ -5,11 +5,11 @@ import { TicketContext } from '../../../context/tickets/TicketContext';
 
 const Ticket = (props) => {
  
-  const { ticket, isLoading, getTicketDetails } = useContext(TicketContext);
+  const { ticket, getTicketDetails } = useContext(TicketContext);
 
-  const deleteTicket = () => {
-    console.log('deleted');
-  };
+  // const deleteTicket = () => {
+  //   console.log('deleted');
+  // };
 
   useEffect(() => {
     getTicketDetails(props.match.params.id);
