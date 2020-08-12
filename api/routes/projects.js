@@ -76,6 +76,9 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
+      check('access', 'Please select private or public for project access.')
+        .not()
+        .isEmpty(),
       check(
         'targetCompletionDate',
         'Please provide a target date in the future.',
@@ -105,6 +108,7 @@ router.post(
     const {
       name,
       description,
+      access,
       targetCompletionDate,
       manager,
       repoLink,
@@ -117,6 +121,7 @@ router.post(
     projectItems.owner = req.user.id;
     projectItems.name = name;
     projectItems.description = description;
+    projectItems.access = access;
     projectItems.targetCompletionDate = targetCompletionDate;
     if (manager) {
       projectItems.manager = manager;
@@ -199,6 +204,7 @@ router.put(
     const {
       name,
       description,
+      access,
       targetCompletionDate,
       manager,
       developer,
@@ -211,6 +217,7 @@ router.put(
     const updatedProjectFields = {};
     if (name) updatedProjectFields.name = name;
     if (description) updatedProjectFields.description = description;
+    if (access) updatedProjectFields.access = access;
     if (targetCompletionDate)
       updatedProjectFields.targetCompletionDate = targetCompletionDate;
     if (completionDate) updatedProjectFields.completionDate = completionDate;
@@ -226,7 +233,7 @@ router.put(
           .status(400)
           .json({ msg: 'This project could not be found.' });
       }
-      
+
       if (
         currentUser.role === 'admin' ||
         project.manager.toString() === req.user.id ||
@@ -360,10 +367,7 @@ router.delete('/:project_id', verify, async (req, res) => {
     const project = await Project.findById(req.params.project_id);
 
     //If the user is not an admin or the owner for the project, deny access.
-    if (
-      req.user.role === 'admin' ||
-      project.owner.toString() === req.user.id
-    ) {
+    if (req.user.role === 'admin' || project.owner.toString() === req.user.id) {
       //TODO: also delete tickets associated with project when a project is deleted
       await Project.findOneAndRemove({ _id: req.params.project_id });
       res.json({ msg: 'This project has been deleted.' });

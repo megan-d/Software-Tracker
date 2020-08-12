@@ -12,6 +12,11 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateProject = ({history}) => {
+const CreateProject = ({ history }) => {
   const classes = useStyles();
 
   const [formData, updateFormData] = useState({
@@ -64,6 +69,12 @@ const CreateProject = ({history}) => {
     repoLink: '',
     liveLink: '',
   });
+
+  const [access, setAccess] = useState('public');
+
+  const handleChange = (event) => {
+    setAccess(event.target.value);
+  };
 
   const [targetCompletionDate, setSelectedDate] = useState(Date.now());
 
@@ -90,6 +101,7 @@ const CreateProject = ({history}) => {
       manager: manager,
       repoLink: repoLink,
       liveLink: liveLink,
+      access: access,
     };
     //call add project action
     await createProject(project, history);
@@ -133,6 +145,26 @@ const CreateProject = ({history}) => {
                 onChange={(e) => onChange(e)}
                 margin='normal'
               />
+              <FormControl component='fieldset'>
+                <FormLabel component='legend'>Select project access</FormLabel>
+                <RadioGroup
+                  aria-label='gender'
+                  name='gender1'
+                  value={access}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value='public'
+                    control={<Radio />}
+                    label='Public'
+                  />
+                  <FormControlLabel
+                    value='private'
+                    control={<Radio />}
+                    label='Private'
+                  />
+                </RadioGroup>
+              </FormControl>
 
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify='flex-start'>

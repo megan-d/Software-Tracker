@@ -1,6 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import AlertBanner from '../../layout/AlertBanner';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
@@ -15,6 +13,12 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,6 +80,12 @@ export default function EditProject(props) {
     liveLink: '',
     developer: '',
   });
+
+  //   const [access, setAccess] = useState('public');
+
+  //   const handleChange = (event) => {
+  //     setAccess(event.target.value);
+  //   };
 
   //TODO: Need to fix how target completion date is shown in placeholder text.
   //TODO: Need to find way to display username rather than id. Try populate.
@@ -176,6 +186,27 @@ export default function EditProject(props) {
                     shrink: true,
                   }}
                 />
+
+                {/* <FormControl component='fieldset'>
+                <FormLabel component='legend'>Select project access</FormLabel>
+                <RadioGroup
+                  aria-label='gender'
+                  name='gender1'
+                  value={access}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value='public'
+                    control={<Radio />}
+                    label='Public'
+                  />
+                  <FormControlLabel
+                    value='private'
+                    control={<Radio />}
+                    label='Private'
+                  />
+                </RadioGroup>
+              </FormControl> */}
 
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container justify='flex-start'>
