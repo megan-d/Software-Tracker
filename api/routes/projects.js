@@ -85,10 +85,10 @@ router.post(
       check('manager', 'Please provide the username for a manager.')
         .optional({ checkFalsy: true })
         .trim(),
-        check('repoLink', 'Please provide a link to the project repo.')
+      check('repoLink', 'Please provide a link to the project repo.')
         .optional({ checkFalsy: true })
         .trim(),
-        check('liveLink', 'Please provide a link to the live application.')
+      check('liveLink', 'Please provide a link to the live application.')
         .optional({ checkFalsy: true })
         .trim(),
     ],
@@ -129,14 +129,16 @@ router.post(
 
     //Once all fields are prepared, update and populate the data
     try {
-      //Check if a project with that name already exists.
-      //Decide if want to do it this way or only require unique projects for owner
-      let project = await Project.findOne({ name: name });
-      // if (project) {
-      //   return res
-      //       .status(400)
-      //       .json({ msg: 'A project with that name already exists.' });
-      // }
+      //Check if a project with that name already exists for that user. If a project with that name exists where the owner is the user creating the project, say that project name has already been used.
+      let projects = await Project.find({
+        name: req.body.name,
+        owner: req.user.id,
+      });
+      if (projects.length > 0) {
+        return res
+          .status(400)
+          .json({ msg: 'You already own a project with that name.' });
+      }
       //Match the username entered for manager to the user id in the database
       if (projectItems.manager !== req.user.id) {
         let user = await User.findOne({ username: projectItems.manager });
@@ -149,10 +151,9 @@ router.post(
           projectItems.manager = user._id;
         }
       }
-
-      //If project isn't found, create a new one
-      if (!project) {
-        project = await new Project(projectItems);
+      //If project name isn't found or doesn't already exist, create a new one
+      if (projects.length === 0) {
+        let project = await new Project(projectItems);
         await project.save();
         res.json(project);
       }
@@ -178,6 +179,11 @@ router.put(
       .trim(),
     check('description', 'Please provide a description')
       .optional({ checkFalsy: true })
+      .trim(),
+    check('developer', 'Please provide a developer')
+      .optional({ checkFalsy: true })
+      .trim(),
+    check('manager', 'Please provide a manager')
       .optional({ checkFalsy: true })
       .trim(),
   ],
@@ -213,25 +219,40 @@ router.put(
 
     try {
       let project = await Project.findOne({ _id: req.params.project_id });
+      let currentUser = await User.findById(req.user.id).select('-password');
       //Only allow project to be updated if admin user or manager on project
       if (!project) {
         return res
           .status(400)
           .json({ msg: 'This project could not be found.' });
       }
+      
       if (
-        req.user.role === 'admin' ||
+        currentUser.role === 'admin' ||
         project.manager.toString() === req.user.id ||
         project.owner.toString() === req.user.id
       ) {
+        if (name) {
+          //If changing name, check if a project with that name already exists for that user. If a project with that name exists where the owner is the user creating the project, say that project name has already been used.
+          let projects = await Project.find({
+            name: req.body.name,
+            owner: req.user.id,
+          });
+          if (projects.length > 0) {
+            return res
+              .status(400)
+              .json({ msg: 'You already own a project with that name.' });
+          }
+        }
+
         //If adding developer or manager, check to make sure they are in the system. User can be submitted by username.
         //If adding a developer, first add that to project. Before adding, check to make sure developer doesn't already exist in developers array.
         if (developer) {
           let user = await User.findOne({ username: developer });
           if (!user) {
-            return res
-              .status(400)
-              .json({ msg: 'The user selected for developer could not be found.' });
+            return res.status(400).json({
+              msg: 'The user selected for developer could not be found.',
+            });
           }
           let developerId = user._id;
           let isExistingDeveloper = project.developers.filter(
@@ -338,10 +359,9 @@ router.delete('/:project_id', verify, async (req, res) => {
     //Find project based on the project id from request parameters
     const project = await Project.findById(req.params.project_id);
 
-    //If the user is not an admin or the manager for the project, deny access.
+    //If the user is not an admin or the owner for the project, deny access.
     if (
       req.user.role === 'admin' ||
-      project.manager.toString() === req.user.id ||
       project.owner.toString() === req.user.id
     ) {
       //TODO: also delete tickets associated with project when a project is deleted

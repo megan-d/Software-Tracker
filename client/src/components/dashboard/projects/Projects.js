@@ -42,7 +42,7 @@ const Projects = (props) => {
 
   //Get projects where user is the manager or owner and put them under "My Projects"
   let myProjects = projects.filter(
-    (el) => el.manager === user._id || el.owner === user._id,
+    (el) => el.owner === user._id,
   );
   //Get projects where user is a collaborating developer and put them under "Projects I'm collaborating on"
   let collabProjects = projects.filter((el) => el.developers.some((developer) => developer === user._id));
