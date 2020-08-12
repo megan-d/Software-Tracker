@@ -37,7 +37,7 @@ const Project = (props) => {
           {project.developers.map((el, index) => 
             <p key={index}>{el}</p>
           )}
-          {user._id === project.owner && (
+          {(user._id === project.owner) || (user._id === project.manager) ? (
             <Fragment>
               <Button
                 variant='contained'
@@ -54,7 +54,7 @@ const Project = (props) => {
                 Edit Project Details or Add Developer to Project
               </Link>
             </Fragment>
-          )}
+          ): null}
         </Fragment>
       )}
     </Wrapper>

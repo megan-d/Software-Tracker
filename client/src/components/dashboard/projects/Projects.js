@@ -44,6 +44,7 @@ const Projects = (props) => {
   let myProjects = projects.filter(
     (el) => el.owner === user._id,
   );
+  let managing = projects.filter((el) => el.manager === user._id && el.owner !== user._id);
   //Get projects where user is a collaborating developer and put them under "Projects I'm collaborating on"
   let collabProjects = projects.filter((el) => el.developers.some((developer) => developer === user._id));
 
@@ -65,6 +66,20 @@ const Projects = (props) => {
           <h3>My Projects</h3>
           <StyledCards>
             {myProjects.map((el) => {
+              return (
+                <ProjectCard
+                  key={el._id}
+                  name={el.name}
+                  description={el.description}
+                  id={el._id}
+                />
+              );
+            })}
+          </StyledCards>
+
+          <h3>Projects I'm managing</h3>
+          <StyledCards>
+            {managing.map((el) => {
               return (
                 <ProjectCard
                   key={el._id}
