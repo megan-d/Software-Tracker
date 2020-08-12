@@ -130,13 +130,13 @@ router.post(
     //Once all fields are prepared, update and populate the data
     try {
       //Check if a project with that name already exists.
-      //TODO: Decide if want to do it this way or only require unique projects for owner
+      //Decide if want to do it this way or only require unique projects for owner
       let project = await Project.findOne({ name: name });
-      if (project) {
-        return res
-            .status(400)
-            .json({ msg: 'A project with that name already exists.' });
-      }
+      // if (project) {
+      //   return res
+      //       .status(400)
+      //       .json({ msg: 'A project with that name already exists.' });
+      // }
       //Match the username entered for manager to the user id in the database
       if (projectItems.manager !== req.user.id) {
         let user = await User.findOne({ username: projectItems.manager });
@@ -231,7 +231,7 @@ router.put(
           if (!user) {
             return res
               .status(400)
-              .json({ msg: 'This user could not be found.' });
+              .json({ msg: 'The user selected for developer could not be found.' });
           }
           let developerId = user._id;
           let isExistingDeveloper = project.developers.filter(

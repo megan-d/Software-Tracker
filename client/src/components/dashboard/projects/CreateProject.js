@@ -93,7 +93,6 @@ const CreateProject = ({history}) => {
     };
     //call add project action
     await createProject(project, history);
-    
   };
 
   return (
@@ -159,7 +158,8 @@ const CreateProject = ({history}) => {
                 variant='outlined'
                 fullWidth
                 name='manager'
-                label='Project Manager username. You will be assigned as manager if left blank.'
+                label='Project Manager username'
+                helperText='You will be assigned as manager if left blank. Select the button below to find users.'
                 id='manager'
                 value={manager}
                 onChange={(e) => onChange(e)}
