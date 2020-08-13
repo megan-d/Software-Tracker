@@ -25,11 +25,9 @@ const StyledLink = styled(Link)`
 `;
 
 const Project = (props) => {
-  const {
-    project,
-    getProjectDetails,
-    deleteProject,
-  } = useContext(ProjectContext);
+  const { project, getProjectDetails, deleteProject } = useContext(
+    ProjectContext,
+  );
 
   const { user } = useContext(AuthContext);
 
@@ -48,17 +46,22 @@ const Project = (props) => {
           <AlertBanner />
           <h2>{project.name}</h2>
           <h3>{project.description}</h3>
-          <h4>Developers on project:</h4>
-          {project.developers.map((el, index) => (
-            <p key={index}>{el}</p>
+          <ul>Project tickets:</ul>
+          {project.tickets.map((el) => (
+            <li key={el._id}>{el.title}</li>
           ))}
+          <ul>Developers on project:</ul>
+          {project.developers.map((el, index) => (
+            <li key={index}>{el}</li>
+          ))}
+
           <StyledLink
-                variant='contained'
-                color='primary'
-                to={`/projects/${project._id}/submitticket`}
-              >
-                Add Ticket
-              </StyledLink>
+            variant='contained'
+            color='primary'
+            to={`/projects/${project._id}/submitticket`}
+          >
+            Add Ticket
+          </StyledLink>
           {user._id === project.owner ? (
             <Fragment>
               <StyledLink
