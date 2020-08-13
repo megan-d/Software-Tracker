@@ -1,20 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Wrapper from '../../layout/Wrapper';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
+import Select from '@material-ui/core/Select';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
+    margin: theme.spacing(1, 0),
+    minWidth: '100%',
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -58,25 +58,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubmitTicket = ({ history }) => {
+const SubmitTicket = (props) => {
   const classes = useStyles();
+
+  const { createTicket } = useContext(TicketContext);
+  const { project, getProjectDetails } = useContext(ProjectContext);
+
+  useEffect(() => {
+    getProjectDetails(props.match.params.id);
+  }, []);
 
   const [formData, updateFormData] = useState({
     title: '',
     type: '',
     description: '',
     priority: '',
-    assignedDeveloper: ''
+    assignedDeveloper: '',
   });
 
-  const [dateDue, setSelectedDate] = useState(Date.now());
+  const [dateDue, setSelectedDate] = useState(null);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
-  const { createTicket } = useContext(TicketContext);
-  const { project } = useContext(ProjectContext);
+
 
   //Pull out variables from formData and userData
   const { title, type, description, priority, assignedDeveloper } = formData;
@@ -94,10 +100,10 @@ const SubmitTicket = ({ history }) => {
       description: description,
       priority: priority,
       dateDue: dateDue,
-      assignedDeveloper: assignedDeveloper
+      assignedDeveloper: assignedDeveloper,
     };
     //call add project action
-    await createTicket(ticket, project._id, history);
+    await createTicket(ticket, project._id, props.history);
   };
 
   return (
@@ -119,7 +125,7 @@ const SubmitTicket = ({ history }) => {
                 required
                 fullWidth
                 id='title'
-                label='Project title'
+                label='Ticket title'
                 autoFocus
                 value={title}
                 onChange={(e) => onChange(e)}
@@ -128,22 +134,45 @@ const SubmitTicket = ({ history }) => {
                   shrink: true,
                 }}
               />
-              <TextField
-                autoComplete='type'
-                name='type'
-                variant='outlined'
+              <FormControl variant='outlined' className={classes.formControl}>
+                <InputLabel htmlFor='type'>Type</InputLabel>
+                <Select
                 required
-                fullWidth
-                id='type'
-                label='Ticket type'
-                autoFocus
-                value={type}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+                  native
+                  value={type}
+                  onChange={(e) => onChange(e)}
+                  label='Type'
+                  inputProps={{
+                    name: 'type',
+                    id: 'type',
+                  }}
+                >
+                  <option aria-label='None' value='' />
+                  <option value={'Bug'}>Bug</option>
+                  <option value={'Task'}>Task</option>
+                  <option value={'Other'}>Other</option>
+                </Select>
+              </FormControl>
+              <FormControl variant='outlined' className={classes.formControl}>
+                <InputLabel htmlFor='priority'>Priority</InputLabel>
+                <Select
+                required
+                  native
+                  value={priority}
+                  onChange={(e) => onChange(e)}
+                  label='Priority'
+                  inputProps={{
+                    name: 'priority',
+                    id: 'priority',
+                  }}
+                >
+                  <option aria-label='None' value='' />
+                  <option value={'Low'}>Low</option>
+                  <option value={'Medium'}>Medium</option>
+                  <option value={'High'}>High</option>
+                  <option value={'Critical'}>Critical</option>
+                </Select>
+              </FormControl>
               <TextField
                 autoComplete='description'
                 name='description'
@@ -151,7 +180,7 @@ const SubmitTicket = ({ history }) => {
                 required
                 fullWidth
                 id='description'
-                label='Project description'
+                label='Ticket description'
                 value={description}
                 onChange={(e) => onChange(e)}
                 margin='normal'
@@ -163,17 +192,15 @@ const SubmitTicket = ({ history }) => {
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify='flex-start'>
                   <KeyboardDatePicker
+                  required
                     disableToolbar
-                    required
                     variant='inline'
                     format='MM/dd/yyyy'
                     margin='normal'
                     id='date-picker-inline'
                     label='Due Date'
                     value={dateDue}
-                    onChange={(dateDue) =>
-                      handleDateChange(dateDue)
-                    }
+                    onChange={(dateDue) => handleDateChange(dateDue)}
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
@@ -185,7 +212,7 @@ const SubmitTicket = ({ history }) => {
                 variant='outlined'
                 fullWidth
                 name='assignedDeveloper'
-                label='Assigned Developer'
+                label='Assigned Developer Username'
                 required
                 id='assignedDeveloper'
                 value={assignedDeveloper}

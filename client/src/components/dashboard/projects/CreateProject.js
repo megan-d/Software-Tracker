@@ -145,7 +145,7 @@ const CreateProject = ({ history }) => {
                 onChange={(e) => onChange(e)}
                 margin='normal'
               />
-              <FormControl component='fieldset'>
+              {/* <FormControl component='fieldset'>
                 <FormLabel component='legend'>Select project access</FormLabel>
                 <RadioGroup
                   aria-label='gender'
@@ -164,7 +164,7 @@ const CreateProject = ({ history }) => {
                     label='Private'
                   />
                 </RadioGroup>
-              </FormControl>
+              </FormControl> */}
 
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify='flex-start'>

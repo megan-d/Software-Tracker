@@ -101,8 +101,7 @@ router.post(
         .trim(),
       check('dateDue', 'Please provide a due date in the future.')
         .not()
-        .isEmpty()
-        .trim(),
+        .isEmpty(),
       check(
         'assignedDeveloper',
         'A developer is required for the project. Search for developers by username and assign one to the ticket.',
@@ -153,26 +152,32 @@ router.post(
       //Populate ticket titles. Check if a ticket with that title already exists for the project. If so, give error. If not, create new ticket.
       const project = await Project.findOne({
         _id: req.params.project_id,
-      }).populate('tickets', 'title');
+      }).populate('tickets');
 
       let isExistingTicketTitle = project.tickets.filter(
         (ticket) => ticket.title === title,
       );
       if (isExistingTicketTitle.length > 0) {
         return res.status(400).json({
-          msg:
-            'A ticket with that title already exists. Please select another title for the ticket.',
+          errors: [
+            {
+              msg:
+                'A ticket with that title already exists. Please select another title for the ticket.',
+            },
+          ],
         });
       }
 
       let user = await User.findOne({ username: assignedDeveloper });
-      let developerId = user._id;
-      ticketItems.assignedDeveloper = developerId;
       if (!user) {
         return res
           .status(400)
-          .json({ msg: 'The assigned developer could not be found.' });
+          .json({
+            errors: [{ msg: 'The assigned developer could not be found.' }],
+          });
       }
+      let developerId = user._id;
+      ticketItems.assignedDeveloper = developerId;
 
       let ticket = await new Ticket(ticketItems);
       await ticket.history.push(historyItem);

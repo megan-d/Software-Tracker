@@ -42,10 +42,10 @@ export const TicketProvider = ({ children }) => {
         payload: res.data,
       });
     } catch (err) {
-      let error = err.response.data;
-      if (error) {
+      let errors = err.response.data.errors;
+      if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
-        await showAlert(error.msg, 'error');
+        await errors.forEach((el) => showAlert(el.msg, 'error'));
       }
       dispatch({
         type: 'LOAD_USER_TICKETS_FAILURE',
@@ -90,7 +90,7 @@ export const TicketProvider = ({ children }) => {
   };
 
   //*****CREATE NEW TICKET ACTION************
-  const createTicket = async (ticket, projectId, history) => {
+  const createTicket = async (ticket, id, history) => {
     //Create config with headers
     const config = {
       headers: {
@@ -103,21 +103,18 @@ export const TicketProvider = ({ children }) => {
     const body = JSON.stringify(ticket);
 
     try {
-      const res = await axios.post(
-        `api/projects/tickets/${projectId}`,
-        body,
-        config,
-      );
+      const res = await axios.post(`/api/projects/tickets/${id}`, body, config);
       dispatch({
         type: 'CREATE_TICKET_SUCCESS',
         payload: res.data,
       });
-      history.push(`/projects/${projectId}`);
+      history.push(`/projects/${id}`);
     } catch (err) {
-      let error = err.response.data;
-      if (error) {
+      let errors = err.response.data.errors;
+      console.log(errors);
+      if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
-        showAlert(error.msg, 'error');
+        errors.forEach((el) => showAlert(el.msg, 'error'));
       }
       dispatch({
         type: 'CREATE_TICKET_FAILURE',
