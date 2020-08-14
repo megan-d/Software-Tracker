@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -226,7 +227,7 @@ const SubmitTicket = (props) => {
                 variant='contained'
                 size='small'
                 color='default'
-                href='/developers'
+                href='/profiles'
                 className={classes.findButton}
               >
                 Search for user...

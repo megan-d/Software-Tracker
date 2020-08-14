@@ -22,11 +22,11 @@ router.get('/me', verify, async (req, res) => {
       ],
     }).populate('tickets');
 
-    //If there is no profile, return an error
+    //If there is no project, return an error
     if (projects.length === 0) {
       return res
         .status(400)
-        .json({ msg: 'There are no projects available for this user.' });
+        .json({ errors: [{msg: 'There are no projects available for this user.'}] });
     }
     //If there are projects, send those projects
     res.json(projects);
@@ -46,7 +46,7 @@ router.get('/:project_id', verify, async (req, res) => {
       _id: req.params.project_id,
     }).populate('tickets');
 
-    if (!project) return res.status(400).json({ msg: 'Project not found' });
+    if (!project) return res.status(400).json({ errors: [{msg: 'Project not found'}] });
 
     res.json(project);
   } catch (err) {
@@ -142,7 +142,7 @@ router.post(
       if (projects.length > 0) {
         return res
           .status(400)
-          .json({ msg: 'You already own a project with that name.' });
+          .json({ errors: [{msg: 'You already own a project with that name.'}] });
       }
       //Match the username entered for manager to the user id in the database
       if (projectItems.manager !== req.user.id) {
@@ -150,7 +150,7 @@ router.post(
         if (!user) {
           return res
             .status(400)
-            .json({ msg: 'The user selected for manager could not be found.' });
+            .json({ errors: [{msg: 'The user selected for manager could not be found.'}] });
         } else {
           //convert username to id
           projectItems.manager = user._id;
@@ -231,7 +231,7 @@ router.put(
       if (!project) {
         return res
           .status(400)
-          .json({ msg: 'This project could not be found.' });
+          .json({ errors: [{msg: 'This project could not be found.'}] });
       }
 
       if (
@@ -248,7 +248,7 @@ router.put(
           if (projects.length > 0) {
             return res
               .status(400)
-              .json({ msg: 'You already own a project with that name.' });
+              .json({ errors: [{msg: 'You already own a project with that name.'}] });
           }
         }
 
@@ -257,8 +257,7 @@ router.put(
         if (developer) {
           let user = await User.findOne({ username: developer });
           if (!user) {
-            return res.status(400).json({
-              msg: 'The user selected for developer could not be found.',
+            return res.status(400).json({ errors: [{ msg: 'The user selected for developer could not be found.'}]
             });
           }
           let developerId = user._id;
@@ -270,8 +269,8 @@ router.put(
             await project.save();
           } else {
             return res.status(400).json({
-              msg:
-                'That user is already on the project. Please select another user to add to the project.',
+              errors: [{msg:
+                'That user is already on the project. Please select another user to add to the project.'}]
             });
           }
         }
@@ -279,7 +278,7 @@ router.put(
           let user = await User.findOne({ username: manager });
           if (!user) {
             return res.status(400).json({
-              msg: 'The user selected for manager could not be found.',
+              errors: [{msg: 'The user selected for manager could not be found.'}]
             });
           } else {
             updatedProjectFields.manager = user._id;
@@ -298,7 +297,7 @@ router.put(
       } else {
         return res
           .status(401)
-          .json({ msg: 'You are not permitted to perform this action.' });
+          .json({ errors: [{msg: 'You are not permitted to perform this action.'}] });
       }
     } catch (err) {
       console.error(err.message);
@@ -374,7 +373,7 @@ router.delete('/:project_id', verify, async (req, res) => {
     } else {
       return res
         .status(401)
-        .json({ msg: 'You are not permitted to perform this action.' });
+        .json({ errors: [{msg: 'You are not permitted to perform this action.'}] });
     }
   } catch (err) {
     console.error(err.message);

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,11 +13,61 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import styled from 'styled-components';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+
+const StyledGreyLink = styled(Link)`
+  color: white;
+  background-color: #808080;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  max-width: 160px;
+  text-align: center;
+  margin: 10px 0px;
+  display: block;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+`;
+
+const StyledRedLink = styled(Link)`
+  color: white;
+  font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f50757;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  max-width: 150px;
+  text-align: center;
+  margin: 10px 0px;
+  display: block;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+`;
+
+const StyledBlueLink = styled(Link)`
+  color: white;
+  background-color: #3f51b5;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  max-width: 150px;
+  text-align: center;
+  margin: 10px 0px;
+  display: block;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,11 +102,6 @@ const useStyles = makeStyles((theme) => ({
   buttons: {
     marginRight: '10px',
     marginTop: '20px',
-  },
-  findButton: {
-    fontSize: '11px',
-    marginBottom: '10px',
-    marginTop: '1px',
   },
 }));
 
@@ -121,7 +167,7 @@ const CreateProject = ({ history }) => {
               onSubmit={(e) => onSubmit(e)}
             >
               <TextField
-                autoComplete='name'
+                
                 name='name'
                 variant='outlined'
                 required
@@ -134,7 +180,7 @@ const CreateProject = ({ history }) => {
                 margin='normal'
               />
               <TextField
-                autoComplete='description'
+                
                 name='description'
                 variant='outlined'
                 required
@@ -170,6 +216,7 @@ const CreateProject = ({ history }) => {
                 <Grid container justify='flex-start'>
                   <KeyboardDatePicker
                     disableToolbar
+                    required
                     variant='inline'
                     format='MM/dd/yyyy'
                     margin='normal'
@@ -197,15 +244,11 @@ const CreateProject = ({ history }) => {
                 onChange={(e) => onChange(e)}
                 margin='normal'
               />
-              <Button
-                variant='contained'
-                size='small'
-                color='default'
-                href='/developers'
-                className={classes.findButton}
+              <StyledGreyLink
+                to='/profiles'
               >
                 Search for user...
-              </Button>
+              </StyledGreyLink>
               <TextField
                 variant='outlined'
                 fullWidth
@@ -227,30 +270,27 @@ const CreateProject = ({ history }) => {
                 margin='normal'
               />
               <AlertBanner />
-              <Button
+              <StyledBlueLink
                 type='submit'
                 variant='contained'
                 color='primary'
                 className={classes.buttons}
+                onClick={(e) => onSubmit(e)}
               >
-                Submit
-              </Button>
-              <Button
-                variant='contained'
-                color='secondary'
-                href='/projects'
+                SUBMIT
+              </StyledBlueLink>
+              <StyledRedLink
+                to='/projects'
                 className={classes.buttons}
               >
-                Cancel
-              </Button>
-              <Button
-                variant='contained'
-                color='default'
-                href='/projects'
+                CANCEL
+              </StyledRedLink>
+              <StyledGreyLink
+                to='/projects'
                 className={classes.buttons}
               >
-                Back to Projects
-              </Button>
+                BACK TO PROJECTS
+              </StyledGreyLink>
             </form>
           </div>
         </Grid>

@@ -23,7 +23,7 @@ router.get('/me', verify, async (req, res) => {
     if (assignedTickets.length === 0) {
       return res
         .status(400)
-        .json({ msg: 'There are no tickets available for this user.' });
+        .json({ errors: [{msg: 'There are no tickets available for this user.'}]});
     }
     res.json(assignedTickets);
   } catch (err) {
@@ -47,7 +47,7 @@ router.get('/:project_id', verify, async (req, res) => {
     if (tickets.length === 0) {
       return res
         .status(400)
-        .json({ msg: 'There are no tickets available for this project.' });
+        .json({ errors: [{msg: 'There are no tickets available for this project.'}] });
     }
     res.json(tickets);
   } catch (err) {
@@ -65,7 +65,7 @@ router.get('/ticket/:ticket_id', verify, async (req, res) => {
 
     //If there are no tickets, return an error
     if (!ticket) {
-      return res.status(400).json({ msg: 'This ticket could not be found.' });
+      return res.status(400).json({ errors: [{ msg: 'This ticket could not be found.'}] });
     }
     res.json(ticket);
   } catch (err) {
@@ -173,7 +173,7 @@ router.post(
         return res
           .status(400)
           .json({
-            errors: [{ msg: 'The assigned developer could not be found.' }],
+            errors: [{ errors: [{msg: 'The assigned developer could not be found.'}] }],
           });
       }
       let developerId = user._id;
@@ -283,7 +283,7 @@ router.put(
       if (!project) {
         return res
           .status(400)
-          .json({ msg: 'This project could not be found.' });
+          .json({ errors: [{msg: 'This project could not be found.'}] });
       }
 
       //Go through array of assigned developers and filter by current user to see if they are one
@@ -307,9 +307,9 @@ router.put(
 
           if (isExistingTicketTitle.length > 0) {
             return res.status(400).json({
-              msg:
-                'A ticket with that title already exists. Please select another title for the ticket.',
-            });
+              errors: [{msg:
+                'A ticket with that title already exists. Please select another title for the ticket.'
+            }]});
           }
         }
 
@@ -320,7 +320,7 @@ router.put(
           if (!user) {
             return res
               .status(400)
-              .json({ msg: 'The assigned developer could not be found.' });
+              .json({ errors: [{msg: 'The assigned developer could not be found.'}] });
           }
           //Check to see if assigned developer is a developer on the project yet. If not, add them with request.
           let isExistingProjectDeveloper = project.developers.filter(
@@ -349,7 +349,7 @@ router.put(
       } else {
         return res
           .status(401)
-          .json({ msg: 'You are not permitted to perform this action.' });
+          .json({ errors: [{msg: 'You are not permitted to perform this action.'}] });
       }
     } catch (err) {
       console.error(err);
@@ -432,7 +432,7 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
       let index = tickets.map((el) => el._id).indexOf(req.params.ticket_id);
       if (index === -1) {
         return res.status(400).json({
-          msg: 'This ticket could not be found.',
+          errors: [{msg: 'This ticket could not be found.'}]
         });
       }
       let deletedTicket = project.tickets.splice(index, 1);
@@ -443,7 +443,7 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
     } else {
       return res
         .status(401)
-        .json({ msg: 'You are not permitted to perform this action.' });
+        .json({ errors: [{msg: 'You are not permitted to perform this action.'}] });
     }
   } catch (err) {
     console.error(err.message);

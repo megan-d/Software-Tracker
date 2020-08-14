@@ -26,7 +26,9 @@ router.get('/me', verify, async (req, res) => {
     if (assignedSprints.length === 0) {
       return res
         .status(400)
-        .json({ msg: 'There are no sprints assigned to this user.' });
+        .json({
+          errors: [{ msg: 'There are no sprints assigned to this user.' }],
+        });
     }
     res.json(assignedSprints);
   } catch (err) {
@@ -50,7 +52,9 @@ router.get('/:project_id', verify, async (req, res) => {
     if (sprints.length === 0) {
       return res
         .status(400)
-        .json({ msg: 'There are no sprints available for this project.' });
+        .json({
+          errors: [{ msg: 'There are no sprints available for this project.' }],
+        });
     }
     res.json(sprints);
   } catch (err) {
@@ -68,7 +72,9 @@ router.get('/sprint/:sprint_id', verify, async (req, res) => {
 
     //If there are no sprints, return an error
     if (!sprint) {
-      return res.status(400).json({ msg: 'This sprint could not be found.' });
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'This sprint could not be found.' }] });
     }
     res.json(sprint);
   } catch (err) {
@@ -154,7 +160,7 @@ router.post(
       if (!project) {
         return res
           .status(400)
-          .json({ msg: 'This project could not be found.' });
+          .json({ errors: [{ msg: 'This project could not be found.' }] });
       }
       //Only allow project to be updated if admin user or manager on project
       if (
@@ -167,8 +173,12 @@ router.post(
         );
         if (isExistingSprintTitle.length > 0) {
           return res.status(400).json({
-            msg:
-              'A sprint with that title already exists for this project. Please select another title for the sprint.',
+            errors: [
+              {
+                msg:
+                  'A sprint with that title already exists for this project. Please select another title for the sprint.',
+              },
+            ],
           });
         }
         //Create new sprint instance and save to database
@@ -181,7 +191,9 @@ router.post(
       } else {
         return res
           .status(401)
-          .json({ msg: 'You are not permitted to perform this action.' });
+          .json({
+            errors: [{ msg: 'You are not permitted to perform this action.' }],
+          });
       }
     } catch (err) {
       console.error(err);
@@ -261,8 +273,12 @@ router.put(
       }).populate(['sprints', 'tickets']);
       if (!project) {
         return res.status(400).json({
-          msg:
-            'This project could not be found. A sprint must be associated with an existing project. Please create a new project to add a sprint.',
+          errors: [
+            {
+              msg:
+                'This project could not be found. A sprint must be associated with an existing project. Please create a new project to add a sprint.',
+            },
+          ],
         });
       }
 
@@ -279,8 +295,12 @@ router.put(
           );
           if (isExistingSprintTitle.length > 0) {
             return res.status(400).json({
-              msg:
-                'A sprint with that title already exists for this project. Please select another title for the sprint.',
+              errors: [
+                {
+                  msg:
+                    'A sprint with that title already exists for this project. Please select another title for the sprint.',
+                },
+              ],
             });
           }
         }
@@ -292,7 +312,7 @@ router.put(
           if (!user) {
             return res
               .status(400)
-              .json({ msg: 'This user could not be found.' });
+              .json({ errors: [{ msg: 'This user could not be found.' }] });
           }
           let developerId = user._id;
           let isExistingSprintDeveloper = sprint.developers.filter(
@@ -302,8 +322,12 @@ router.put(
             sprint.developers.push(developerId);
           } else {
             return res.status(400).json({
-              msg:
-                'That user is already on the sprint. Please select another user to add to the sprint.',
+              errors: [
+                {
+                  msg:
+                    'That user is already on the sprint. Please select another user to add to the sprint.',
+                },
+              ],
             });
           }
           //Check to see if this developer is a developer on the project yet. If not, add them with request.
@@ -331,7 +355,9 @@ router.put(
       } else {
         return res
           .status(401)
-          .json({ msg: 'You are not permitted to perform this action.' });
+          .json({
+            errors: [{ msg: 'You are not permitted to perform this action.' }],
+          });
       }
     } catch (err) {
       console.error(err);
@@ -355,7 +381,7 @@ router.put('/tickets/:sprint_id/:ticket_id', verify, async (req, res) => {
     );
     if (isExistingTicket.length > 0) {
       return res.status(400).json({
-        msg: 'This ticket has already been added to the sprint.',
+        errors: [{ msg: 'This ticket has already been added to the sprint.' }],
       });
     }
 
@@ -448,7 +474,7 @@ router.delete('/:project_id/:sprint_id', verify, async (req, res) => {
       let index = sprints.map((el) => el._id).indexOf(req.params.sprint_id);
       if (index === -1) {
         return res.status(400).json({
-          msg: 'This sprint could not be found.',
+          errors: [{ msg: 'This sprint could not be found.' }],
         });
       }
 
@@ -458,7 +484,9 @@ router.delete('/:project_id/:sprint_id', verify, async (req, res) => {
     } else {
       return res
         .status(401)
-        .json({ msg: 'You are not permitted to perform this action.' });
+        .json({
+          errors: [{ msg: 'You are not permitted to perform this action.' }],
+        });
     }
   } catch (err) {
     console.error(err.message);

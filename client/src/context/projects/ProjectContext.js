@@ -9,7 +9,7 @@ const initialState = {
   isLoading: true,
   projects: [],
   project: null,
-  errors: [],
+  errors: null,
 };
 
 //Initiate context
@@ -43,16 +43,14 @@ export const ProjectProvider = ({ children }) => {
       });
     } catch (err) {
       let errors = err.response.data.errors;
+      console.log(err.response.data.errors)
       if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
         errors.forEach((error) => showAlert(error.msg, 'error'));
       }
       dispatch({
         type: 'LOAD_USER_PROJECTS_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        payload: err.response.data.errors
       });
     }
   };
@@ -74,22 +72,18 @@ export const ProjectProvider = ({ children }) => {
         payload: res.data,
       });
     } catch (err) {
-      let error = err.response.data;
-      if (error) {
+      let errors = err.response.data.errors;
+      if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
-        await showAlert(error.msg, 'error');
+        errors.forEach((el) => showAlert(el.msg, 'error'));
       }
       dispatch({
         type: 'LOAD_PROJECT_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        payload: err.response.data.errors
       });
     }
   };
 
-  
   //*****CREATE NEW PROJECT ACTION************
   const createProject = async (project, history) => {
     //Create config with headers
@@ -102,6 +96,7 @@ export const ProjectProvider = ({ children }) => {
 
     //Create body variable and stringify
     const body = JSON.stringify(project);
+    
 
     try {
       const res = await axios.post('/api/projects', body, config);
@@ -111,28 +106,27 @@ export const ProjectProvider = ({ children }) => {
       });
       history.push('/projects');
     } catch (err) {
-      let error = err.response.data;
-      if (error) {
+      let errors = err.response.data.errors;
+      
+      if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
-        showAlert(error.msg, 'error');
+        errors.forEach((el) => showAlert(el.msg, 'error'));
       }
+      
       dispatch({
         type: 'CREATE_PROJECT_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        payload: err.response.data.errors
       });
     }
   };
 
   //*******CLEAR PROJECT ACTION**********
   //Clear the project so the previously loaded profject doesn't flash first
-  const clearProject = async() => {
+  const clearProject = async () => {
     dispatch({
-        type: 'CLEAR_PROJECT',
-      });
-  }
+      type: 'CLEAR_PROJECT',
+    });
+  };
 
   //*****DELETE PROJECT ACTION************
   const deleteProject = async (id, history) => {
@@ -147,14 +141,14 @@ export const ProjectProvider = ({ children }) => {
     try {
       await axios.delete(`/api/projects/${id}`, config);
       dispatch({
-        type: 'PROJECT_DELETED'
+        type: 'PROJECT_DELETED',
       });
       history.push('/projects');
     } catch (err) {
-      let error = err.response.data;
-      if (error) {
+      let errors = err.response.data.errors;
+      if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
-        showAlert(error.msg, 'error');
+        errors.forEach((el) => showAlert(el.msg, 'error'));
       }
     }
   };
@@ -175,21 +169,18 @@ export const ProjectProvider = ({ children }) => {
       const res = await axios.put(`/api/projects/${id}`, body, config);
       dispatch({
         type: 'UPDATE_PROJECT_SUCCESS',
-        payload: res.data
+        payload: res.data,
       });
       history.push(`/projects/${id}`);
     } catch (err) {
-      let error = err.response.data;
-      if (error) {
+      let errors = err.response.data.errors;
+      if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
-        showAlert(error.msg, 'error');
+        errors.forEach((el) => showAlert(el.msg, 'error'));
       }
       dispatch({
         type: 'UPDATE_PROJECT_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        payload: err.response.data.errors
       });
     }
   };
@@ -201,13 +192,13 @@ export const ProjectProvider = ({ children }) => {
         projects: state.projects,
         project: state.project,
         isLoading: state.isLoading,
-        errors: state.errors,
+        error: state.error,
         getUserProjects,
         createProject,
         clearProject,
         getProjectDetails,
         updateProject,
-        deleteProject
+        deleteProject,
       }}
     >
       {children}

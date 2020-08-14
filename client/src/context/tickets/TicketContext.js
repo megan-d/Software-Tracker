@@ -49,10 +49,7 @@ export const TicketProvider = ({ children }) => {
       }
       dispatch({
         type: 'LOAD_USER_TICKETS_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        payload: err.response.data.errors,
       });
     }
   };
@@ -74,17 +71,14 @@ export const TicketProvider = ({ children }) => {
         payload: res.data,
       });
     } catch (err) {
-      let error = err.response.data;
-      if (error) {
+      let errors = err.response.data.errors;
+      if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
-        await showAlert(error.msg, 'error');
+        await errors.forEach((el) => showAlert(el.msg, 'error'));
       }
       dispatch({
         type: 'LOAD_TICKET_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        payload: err.response.data.errors,
       });
     }
   };
@@ -111,17 +105,13 @@ export const TicketProvider = ({ children }) => {
       history.push(`/projects/${id}`);
     } catch (err) {
       let errors = err.response.data.errors;
-      console.log(errors);
       if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
         errors.forEach((el) => showAlert(el.msg, 'error'));
       }
       dispatch({
         type: 'CREATE_TICKET_FAILURE',
-        payload: {
-          msg: err.response.data.msg,
-          status: err.response.status,
-        },
+        payload: err.response.data.errors,
       });
     }
   };

@@ -152,7 +152,7 @@ router.put(
       } else {
         return res
           .status(401)
-          .json({ msg: 'You are not permitted to perform this action.' });
+          .json({ errors: [{msg: 'You are not permitted to perform this action.'}] });
       }
     }
 
@@ -183,7 +183,7 @@ router.put(
       if (!user) {
         return res
           .status(400)
-          .json({ msg: 'The profile for this user could not be found.' });
+          .json({ errors: [{msg: 'The profile for this user could not be found.'}] });
       } else {
         //if user is found, update it
         user = await User.findOneAndUpdate(
@@ -211,7 +211,7 @@ router.delete('/', verify, async (req, res) => {
     if (user) {
       res.json({ msg: 'This user has been deleted.' });
     } else {
-      res.status(400).json({ msg: 'This user could not be found.' });
+      res.status(400).json({ errors: [{msg: 'This user could not be found.'}] });
     }
   } catch (err) {
     console.error(err.message);

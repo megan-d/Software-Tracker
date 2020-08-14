@@ -51,8 +51,12 @@ router.post(
       );
       if (isExistingTeam.length > 0) {
         return res.json({
-          msg:
-            'A team with that name already exists for your account. Please choose another name.',
+          errors: [
+            {
+              msg:
+                'A team with that name already exists for your account. Please choose another name.',
+            },
+          ],
         });
       }
       //If team isn't found, create a new one
@@ -103,7 +107,7 @@ router.put(
       let user = await User.findOne({ _id: req.user.id }).select('-password');
       //If user isn't found throw error because user making request isn't valid
       if (!user) {
-        return res.status(400).json({ msg: 'Invalid user.' });
+        return res.status(400).json({ errors: [{ msg: 'Invalid user.' }] });
       }
       //TODO: change to profile.teams and make related changes
       let teams = user.teams;
@@ -111,34 +115,48 @@ router.put(
       let index = teams.map((el) => el._id).indexOf(req.params.team_id);
       if (index === -1) {
         return res.status(400).json({
-          msg: 'A team with this name is not associated with your account.',
+          errors: [
+            {
+              msg: 'A team with this name is not associated with your account.',
+            },
+          ],
         });
       }
       if (name) {
         user.teams[index].name = name;
       }
       if (description) {
-       user.teams[index].description = description;
+        user.teams[index].description = description;
       }
       if (username) {
-        let foundMember = await User.findOne({ username: username }).select('-password');;
+        let foundMember = await User.findOne({ username: username }).select(
+          '-password',
+        );
         if (!foundMember) {
           return res
             .status(400)
-            .json({ msg: 'A user with that username could not be found.' });
+            .json({
+              errors: [
+                { msg: 'A user with that username could not be found.' },
+              ],
+            });
         }
         //check if username is already an existig team member for that team
         let isExistingTeamMember = teams[index].members.filter(
-          (el) => el._id.toString() === foundMember._id.toString()
+          (el) => el._id.toString() === foundMember._id.toString(),
         );
-        
+
         const member = {
           _id: foundMember._id,
         };
         if (isExistingTeamMember.length > 0) {
           return res.json({
-            msg:
-              'This username is already a member of this team. Please choose another user.',
+            errors: [
+              {
+                msg:
+                  'This username is already a member of this team. Please choose another user.',
+              },
+            ],
           });
         } else {
           await user.teams[index].members.push(member);
@@ -156,39 +174,39 @@ router.put(
   },
 );
 
-
 //ROUTE: DELETE api/projects/:team_id
 //DESCRIPTION: Delete a team by team's id
 //ACCESS LEVEL: Private
 //Must be logged in user to delete a team
 router.delete('/:team_id', verify, async (req, res) => {
-    try {
-      //Find user based on id
-      let user = await User.findOne({ _id: req.user.id }).select('-password');
-      if(!user) {
-        return res
+  try {
+    //Find user based on id
+    let user = await User.findOne({ _id: req.user.id }).select('-password');
+    if (!user) {
+      return res
         .status(400)
-        .json({ msg: 'This user could not be found.' });
-      }
-      //Find the team in the user's teams array based on team_id
-      let teams = user.teams;
-      //if user is found, find the relevant team by id and update the name and/or description depending on what's provided
-      let index = teams.map((el) => el._id).indexOf(req.params.team_id);
-      if (index === -1) {
-        return res.status(400).json({
-          msg: 'A team with this name is not associated with your account.',
-        });
-      } else {
-          //Remove team from user's account
-        let deletedTeam = user.teams.splice(index, 1);
-        user.save();
-          return res.json({ msg: 'This team has been deleted.' });
-      }
-        
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
+        .json({ errors: [{ msg: 'This user could not be found.' }] });
     }
-  });
+    //Find the team in the user's teams array based on team_id
+    let teams = user.teams;
+    //if user is found, find the relevant team by id and update the name and/or description depending on what's provided
+    let index = teams.map((el) => el._id).indexOf(req.params.team_id);
+    if (index === -1) {
+      return res.status(400).json({
+        errors: [
+          { msg: 'A team with this name is not associated with your account.' },
+        ],
+      });
+    } else {
+      //Remove team from user's account
+      let deletedTeam = user.teams.splice(index, 1);
+      user.save();
+      return res.json({ msg: 'This team has been deleted.' });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
