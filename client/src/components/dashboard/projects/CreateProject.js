@@ -22,6 +22,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 
 const StyledGreyLink = styled(Link)`
   color: white;
+  font-family: Roboto, sans-serif;
   background-color: #808080;
   text-decoration: none;
   border-radius: 3px;
@@ -38,7 +39,7 @@ const StyledGreyLink = styled(Link)`
 
 const StyledRedLink = styled(Link)`
   color: white;
-  font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: Roboto, sans-serif;
   background-color: #f50757;
   text-decoration: none;
   border-radius: 3px;
@@ -53,10 +54,13 @@ const StyledRedLink = styled(Link)`
   display: inline-block;
 `;
 
-const StyledBlueLink = styled(Link)`
+const StyledBlueButton = styled.button`
   color: white;
+  font-family: Roboto, sans-serif;
+  cursor: pointer;
   background-color: #3f51b5;
   text-decoration: none;
+  border: none;
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
@@ -180,7 +184,7 @@ const CreateProject = ({ history }) => {
                 margin='normal'
               />
               <TextField
-                
+                autoComplete='description'
                 name='description'
                 variant='outlined'
                 required
@@ -270,15 +274,13 @@ const CreateProject = ({ history }) => {
                 margin='normal'
               />
               <AlertBanner />
-              <StyledBlueLink
+              <StyledBlueButton
                 type='submit'
-                variant='contained'
-                color='primary'
                 className={classes.buttons}
                 onClick={(e) => onSubmit(e)}
               >
                 SUBMIT
-              </StyledBlueLink>
+              </StyledBlueButton>
               <StyledRedLink
                 to='/projects'
                 className={classes.buttons}

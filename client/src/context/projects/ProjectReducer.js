@@ -9,6 +9,7 @@ export default (state, action) => {
       };
     case 'LOAD_PROJECT_SUCCESS':
     case 'UPDATE_PROJECT_SUCCESS':
+      case 'ADD_COMMENT_SUCCESS':
       return {
         ...state,
         project: action.payload,
@@ -30,6 +31,7 @@ export default (state, action) => {
     case 'CREATE_PROJECT_FAILURE':
     case 'LOAD_PROJECT_FAILURE':
     case 'PROJECT_DELETED':
+      case 'ADD_COMMENT_FAILURE':
       return {
         ...state,
         project: null,

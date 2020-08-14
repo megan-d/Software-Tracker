@@ -314,7 +314,7 @@ router.put(
   [
     verify,
     [
-      check('text', 'Please provide text in the comment field.')
+      check('comment', 'Please provide text in the comment field.')
         .not()
         .isEmpty()
         .trim(),
@@ -334,8 +334,8 @@ router.put(
       const project = await Project.findById(req.params.project_id);
       //Create object for new comment. It's not a collection in database so just an object.
       const newComment = {
-        name: user.name,
-        text: req.body.text,
+        name: user.username,
+        comment: req.body.comment,
         user: req.user.id,
       };
 
@@ -345,8 +345,8 @@ router.put(
       //Save to database
       await project.save();
 
-      //Send back all comments
-      res.json(project.comments);
+      //Send back project
+      res.json(project);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

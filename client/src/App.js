@@ -18,6 +18,7 @@ import Sprints from './components/dashboard/sprints/Sprints';
 import SubmitTicket from './components/dashboard/tickets/SubmitTicket';
 import Ticket from './components/dashboard/tickets/Ticket';
 import Profile from './components/profile/Profile';
+import CommentProject from './components/dashboard/projects/CommentProject';
 import Profiles from './components/profiles/Profiles';
 import Forum from './components/forum/Forum';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -49,6 +50,7 @@ const App = () => {
           <PrivateRoute path='/projects/:id' component={Project} exact />
           <PrivateRoute path='/projects/:id/edit' component={EditProject} exact />
           <PrivateRoute path='/projects/:id/submitticket' component={SubmitTicket} exact />
+          <PrivateRoute path='/projects/comment/:id' component={CommentProject} exact />
           <PrivateRoute path='/tickets' component={Tickets} exact />
           <PrivateRoute path='/ticket/:id' component={Ticket} exact />
           <PrivateRoute path='/sprints' component={Sprints} exact />

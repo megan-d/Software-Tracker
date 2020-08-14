@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import AlertBanner from '../../layout/AlertBanner';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import Wrapper from '../../layout/Wrapper';
@@ -13,12 +14,66 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import styled from 'styled-components';
 // import FormGroup from '@material-ui/core/FormGroup';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import FormLabel from '@material-ui/core/FormLabel';
 // import FormControl from '@material-ui/core/FormControl';
 // import Radio from '@material-ui/core/Radio';
 // import RadioGroup from '@material-ui/core/RadioGroup';
+
+const StyledGreyLink = styled(Link)`
+  color: white;
+  font-family: Roboto, sans-serif;
+  background-color: #808080;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  max-width: 160px;
+  text-align: center;
+  margin: 10px 0px;
+  display: block;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+`;
+
+const StyledRedLink = styled(Link)`
+  color: white;
+  font-family: Roboto, sans-serif;
+  background-color: #f50757;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  max-width: 150px;
+  text-align: center;
+  margin: 10px 0px;
+  display: block;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+`;
+
+const StyledBlueButton = styled.button`
+  color: white;
+  font-family: Roboto, sans-serif;
+  cursor: pointer;
+  background-color: #3f51b5;
+  text-decoration: none;
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  max-width: 150px;
+  text-align: center;
+  margin: 10px 0px;
+  display: block;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +144,7 @@ export default function EditProject(props) {
 
   //TODO: Need to fix how target completion date is shown in placeholder text.
   //TODO: Need to find way to display username rather than id. Try populate.
-  const [targetCompletionDate, setSelectedTargetDate] = useState(null);
+  const [targetCompletionDate, setSelectedTargetDate] = useState(new Date());
   const [completionDate, setSelectedCompletionDate] = useState(null);
 
   const handleTargetDateChange = (date) => {
@@ -287,15 +342,9 @@ export default function EditProject(props) {
                     shrink: true,
                   }}
                 />
-                <Button
-                  variant='contained'
-                  size='small'
-                  color='default'
-                  href='/developers'
-                  className={classes.findButton}
-                >
+                <StyledGreyLink to='/profiles'>
                   Search for user...
-                </Button>
+                </StyledGreyLink>
                 <TextField
                   placeholder={project.repoLink ? project.repoLink : null}
                   variant='outlined'
@@ -325,30 +374,19 @@ export default function EditProject(props) {
                   }}
                 />
                 <AlertBanner />
-                <Button
+                <StyledBlueButton
                   type='submit'
-                  variant='contained'
-                  color='primary'
                   className={classes.buttons}
+                  onClick={(e) => onSubmit(e)}
                 >
-                  Submit
-                </Button>
-                <Button
-                  variant='contained'
-                  color='secondary'
-                  href='/projects'
-                  className={classes.buttons}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant='contained'
-                  color='default'
-                  href='/projects'
-                  className={classes.buttons}
-                >
-                  Back to Projects
-                </Button>
+                  SUBMIT
+                </StyledBlueButton>
+                <StyledRedLink to='/projects' className={classes.buttons}>
+                  CANCEL
+                </StyledRedLink>
+                <StyledGreyLink to='/projects' className={classes.buttons}>
+                  BACK TO PROJECTS
+                </StyledGreyLink>
               </form>
             </div>
           </Grid>
