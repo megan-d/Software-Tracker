@@ -51,16 +51,18 @@ const Project = (props) => {
           <ul>Project tickets:</ul>
           {project.tickets.map((el, index) => (
             <li key={index}>{el.title}</li>
-          )
-          )}
+          ))}
           <ul>Developers on project:</ul>
           {project.developers.map((el, index) => (
             <li key={index}>{el}</li>
           ))}
+
           <ul>Project comments:</ul>
-          {project.comments.map((el) => (
-            <li key={el._id}>{el.comment}</li>
-          ))}
+          {project.comments.length === 0 ? (
+            <p>There are no comments for this project</p>
+          ) : (
+            project.comments.map((el) => <li key={el._id}>{el.comment}</li>)
+          )}
 
           <StyledLink
             variant='contained'
