@@ -1,7 +1,8 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
+import { TicketContext } from '../../../context/tickets/TicketContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
@@ -36,6 +37,16 @@ const Project = (props) => {
     getProjectDetails(props.match.params.id);
   }, []);
 
+  const columns = [
+    { title: 'Title', field: 'title' },
+    { title: 'Type', field: 'type' },
+    { title: 'Priority', field: 'priority' },
+    { title: 'Due date', field: 'dateDue', type: 'date' },
+    { title: 'Status', field: 'status' },
+  ];
+
+  let history = useHistory();
+
   //Put the add ticket functionality here where tickets are shown for the project.
   //Only show delete and edit buttons if the user owns the project or is an admin
   return (
@@ -48,10 +59,31 @@ const Project = (props) => {
           <h2>{project.name}</h2>
           <p>Description: {project.description}</p>
           <p>Target completion date: {project.targetCompletionDate}</p>
-          <ul>Project tickets:</ul>
-          {project.tickets.map((el, index) => (
-            <li key={index}>{el.title}</li>
-          ))}
+          <MaterialTable
+            localization={{
+              header: {
+                actions: '',
+              },
+            }}
+            title='Tickets'
+            columns={columns}
+            data={project.tickets}
+            onRowClick={async (event, rowData) => {
+              history.push(`/ticket/${rowData._id}`)
+            }}
+            actions={[
+              {
+                icon: 'edit',
+                tooltip: 'Edit Ticket',
+                onClick: (event, rowData) => history.push(`/ticket/${rowData._id}`)
+              },
+              {
+                icon: 'delete',
+                tooltip: 'Delete Ticket',
+                onClick: (event, rowData) => console.log("You want to delete " + rowData.name)
+              }
+            ]}
+          />
           <ul>Developers on project:</ul>
           {project.developers.map((el, index) => (
             <li key={index}>{el}</li>
