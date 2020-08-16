@@ -47,7 +47,6 @@ const Project = (props) => {
     };
     try {
       const user = await axios.get(`/api/users/${assignedDevId}`,config,);
-      console.log(user);
       return user;
   } catch(error) {
     console.log(error);
