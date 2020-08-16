@@ -28,6 +28,7 @@ export default (state, action) => {
     case 'LOAD_USER_TICKETS_FAILURE':
     case 'LOAD_TICKET_FAILURE':
     case 'CREATE_TICKET_FAILURE':
+    case 'TICKET_DELETED':
       return {
         ...state,
         isLoading: false,

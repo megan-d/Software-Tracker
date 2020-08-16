@@ -124,6 +124,33 @@ export const TicketProvider = ({ children }) => {
     });
   };
 
+  //*******DELETE TICKET ACTION**********
+  //Clear the ticket so the previously loaded ticket doesn't flash first
+  const deleteTicket = async (projectId, ticketId, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+    try {
+      const res = await axios.delete(`/api/projects/tickets/${projectId}/${ticketId}`,config,
+      );
+
+      dispatch({
+        type: 'TICKET_DELETED',
+      });
+      history.push(`/projects/${projectId}`);
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+    }
+  };
+
   //Return Ticket Provider
   return (
     <TicketContext.Provider
@@ -135,6 +162,7 @@ export const TicketProvider = ({ children }) => {
         getUserTickets,
         getTicketDetails,
         createTicket,
+        deleteTicket,
         clearTicket,
       }}
     >

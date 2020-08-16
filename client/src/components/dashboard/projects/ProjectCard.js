@@ -11,7 +11,10 @@ const useStyles = makeStyles({
   root: {
     minWidth: 250,
     width: 160,
-    margin: '5px'
+    margin: '5px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   bullet: {
     display: 'inline-block',
@@ -25,9 +28,6 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
 });
-
-
-
 
 export default function ProjectCard({name, description, id}) {
   const classes = useStyles();

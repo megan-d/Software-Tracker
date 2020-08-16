@@ -32,11 +32,13 @@ const Project = (props) => {
     ProjectContext,
   );
 
+  const { deleteTicket } = useContext(TicketContext);
+
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     getProjectDetails(props.match.params.id);
-  }, []);
+  }, [project]);
 
   const columns = [
     { title: 'Title', field: 'title' },
@@ -46,7 +48,6 @@ const Project = (props) => {
     { title: 'Status', field: 'status' },
     { title: 'Assigned Dev', field: 'assignedDeveloper' },
   ];
-
 
   let history = useHistory();
 
@@ -70,34 +71,39 @@ const Project = (props) => {
             }}
             title='Tickets'
             columns={columns}
-            data={
-              project.tickets.map(el => {
-                return {
-                  id: el._id,
-                  title: el.title,
-                  type: el.type,
-                  priority: el.priority,
-                  dateDue: el.dateDue,
-                  status: el.status,
-                  assignedDeveloper: <div>
-                    <AvatarIcon  />
+            data={project.tickets.map((el) => {
+              return {
+                id: el._id,
+                title: el.title,
+                type: el.type,
+                priority: el.priority,
+                dateDue: el.dateDue,
+                status: el.status,
+                assignedDeveloper: (
+                  <div>
+                    <AvatarIcon />
                   </div>
-                }
-              })}
+                ),
+              };
+            })}
             onRowClick={async (event, rowData) => {
-              history.push(`/ticket/${rowData.id}`)
+              history.push(`/ticket/${rowData.id}`);
             }}
             actions={[
               {
                 icon: 'edit',
                 tooltip: 'Edit Ticket',
-                onClick: (event, rowData) => history.push(`/ticket/${rowData._id}`)
+                onClick: (event, rowData) =>
+                  history.push(`/ticket/${rowData.id}`),
               },
               {
                 icon: 'delete',
                 tooltip: 'Delete Ticket',
-                onClick: (event, rowData) => console.log("You want to delete " + rowData.name)
-              }
+                onClick: async (event, rowData) => {
+                  await deleteTicket(project._id, rowData.id, props.history);
+                  history.push(`/projects/${project._id}`);
+                },
+              },
             ]}
           />
           <ul>Developers on project:</ul>
@@ -106,7 +112,7 @@ const Project = (props) => {
           ))}
 
           <ul>Project comments:</ul>
-          {project.comments.length === 0 && !isLoading ?(
+          {project.comments.length === 0 && !isLoading ? (
             <p>There are no comments for this project</p>
           ) : (
             project.comments.map((el) => <li key={el._id}>{el.comment}</li>)
