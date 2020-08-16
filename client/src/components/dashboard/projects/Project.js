@@ -10,6 +10,7 @@ import AlertBanner from '../../layout/AlertBanner';
 import styled from 'styled-components';
 import MaterialTable from 'material-table';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AvatarIcon from '../../layout/AvatarIcon';
 
 const StyledLink = styled(Link)`
   color: white;
@@ -27,7 +28,7 @@ const StyledLink = styled(Link)`
 `;
 
 const Project = (props) => {
-  const { project, getProjectDetails, deleteProject } = useContext(
+  const { project, getProjectDetails, deleteProject, isLoading } = useContext(
     ProjectContext,
   );
 
@@ -43,7 +44,9 @@ const Project = (props) => {
     { title: 'Priority', field: 'priority' },
     { title: 'Due date', field: 'dateDue', type: 'date' },
     { title: 'Status', field: 'status' },
+    { title: 'Assigned Dev', field: 'assignedDeveloper' },
   ];
+
 
   let history = useHistory();
 
@@ -51,7 +54,7 @@ const Project = (props) => {
   //Only show delete and edit buttons if the user owns the project or is an admin
   return (
     <Wrapper>
-      {!project ? (
+      {!project || isLoading ? (
         <Spinner />
       ) : (
         <Fragment>
@@ -67,9 +70,22 @@ const Project = (props) => {
             }}
             title='Tickets'
             columns={columns}
-            data={project.tickets}
+            data={
+              project.tickets.map(el => {
+                return {
+                  id: el._id,
+                  title: el.title,
+                  type: el.type,
+                  priority: el.priority,
+                  dateDue: el.dateDue,
+                  status: el.status,
+                  assignedDeveloper: <div>
+                    <AvatarIcon  />
+                  </div>
+                }
+              })}
             onRowClick={async (event, rowData) => {
-              history.push(`/ticket/${rowData._id}`)
+              history.push(`/ticket/${rowData.id}`)
             }}
             actions={[
               {
@@ -90,7 +106,7 @@ const Project = (props) => {
           ))}
 
           <ul>Project comments:</ul>
-          {project.comments.length === 0 ? (
+          {project.comments.length === 0 && !isLoading ?(
             <p>There are no comments for this project</p>
           ) : (
             project.comments.map((el) => <li key={el._id}>{el.comment}</li>)

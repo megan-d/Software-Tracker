@@ -354,7 +354,7 @@ router.put(
   },
 );
 
-//Add Route to delete comments?
+//TODO: Add Route to delete comments and delete developer
 
 //ROUTE: DELETE api/projects/:project_id
 //DESCRIPTION: Delete a project by project's id
