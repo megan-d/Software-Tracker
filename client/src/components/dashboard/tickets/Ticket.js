@@ -8,7 +8,7 @@ import { ProjectContext } from '../../../context/projects/ProjectContext';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 
 const Ticket = (props) => {
-  const { ticket, getTicketDetails, deleteTicket } = useContext(TicketContext);
+  const { ticket, getTicketDetails, deleteTicket, clearTicket } = useContext(TicketContext);
   const { project } = useContext(ProjectContext);
 
   // const deleteTicket = () => {

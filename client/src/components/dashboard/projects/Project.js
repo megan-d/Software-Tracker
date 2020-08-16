@@ -32,9 +32,10 @@ const Project = (props) => {
   const { project, getProjectDetails, deleteProject, isLoading } = useContext(
     ProjectContext,
   );
-
-  const { deleteTicket } = useContext(TicketContext);
-
+  
+  const { clearTicket } = useContext(
+    TicketContext,
+  );
   const { user } = useContext(AuthContext);
 
   const getAssignedDevUsername = async (assignedDevId) => {
@@ -53,11 +54,9 @@ const Project = (props) => {
   }
 }
 
-
-
-
   useEffect(() => {
     getProjectDetails(props.match.params.id);
+    clearTicket();
   }, []);
 
   const columns = [
