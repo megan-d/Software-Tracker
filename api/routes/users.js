@@ -40,11 +40,15 @@ router.post(
   '/',
   [
     //Use express-validator to validate the inputs
-    check('name', 'Please provide name')
+    check('firstName', 'Please provide a first name')
       .not()
       .isEmpty()
       .trim(),
-    check(
+      check('lastName', 'Please provide a last name')
+      .not()
+      .isEmpty()
+      .trim(),
+      check(
       'username',
       'Please provide a username that is at least 5 characters.',
     )
@@ -71,7 +75,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, username, email, password } = req.body;
+    const { firstName, lastName, username, email, password } = req.body;
 
     try {
       //If user already exists in database, give error
@@ -90,7 +94,8 @@ router.post(
 
       //If user doesn't already exist, encrypt password with bcrypt and create new user. Hash password.
       user = new User({
-        name,
+        firstName,
+        lastName,
         username,
         email,
         password,
@@ -133,7 +138,10 @@ router.put(
   verify,
   [
     //Use express-validator to validate the inputs
-    check('name', 'Please provide an updated name')
+    check('firstName', 'Please provide an updated first name')
+      .optional({ checkFalsy: true })
+      .trim(),
+      check('lastName', 'Please provide an updated last name')
       .optional({ checkFalsy: true })
       .trim(),
     check('email', 'Please provide a valid email')
@@ -151,12 +159,13 @@ router.put(
 
   async (req, res) => {
     //pull all fields out of req.body using destructuring
-    const { name, email, role, username, team, organization } = req.body;
+    const { firstName, lastName, email, role, username, team, organization } = req.body;
 
     //Build user object
     const updatedUserFields = {};
     //if the field is provided, add to profileFields object
-    if (name) updatedUserFields.name = name;
+    if (firstName) updatedUserFields.firstName = firstName;
+    if (lastName) updatedUserFields.lastName = lastName;
     if (email) updatedUserFields.email = email;
     if (username) updatedUserFields.username = username;
     if (role) {

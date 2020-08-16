@@ -232,6 +232,8 @@ const SubmitTicket = (props) => {
                 variant='outlined'
                 required
                 fullWidth
+                multiline
+                rows={6}
                 id='description'
                 label='Ticket description'
                 value={description}

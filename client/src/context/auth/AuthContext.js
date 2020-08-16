@@ -36,7 +36,8 @@ export const AuthProvider = ({ children }) => {
     };
     //Create body and stringify user object
     const data = {
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       username: user.username,
       email: user.email,
       password: user.password,

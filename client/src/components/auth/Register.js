@@ -57,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
 const Register = (props, value) => {
   const classes = useStyles();
   const [formData, updateFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     username: '',
     email: '',
     password: '',
@@ -71,7 +72,7 @@ const Register = (props, value) => {
   );
 
   //Pull out variables from formData and userData
-  const { name, username, email, password, confirmPassword, role } = formData;
+  const { firstName, lastName, username, email, password, confirmPassword, role } = formData;
 
   //Function to update state on change using updateFormData
   const onChange = (e) =>
@@ -81,7 +82,8 @@ const Register = (props, value) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const user = {
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
       username: username,
       email: email,
       password: password,
@@ -117,15 +119,28 @@ const Register = (props, value) => {
             onSubmit={(e) => onSubmit(e)}
           >
             <TextField
-              autoComplete='name'
-              name='name'
+              autoComplete='firstName'
+              name='firstName'
               variant='outlined'
               required
               fullWidth
-              id='name'
-              label='Name'
+              id='firstName'
+              label='First Name'
               autoFocus
-              value={name}
+              value={firstName}
+              onChange={(e) => onChange(e)}
+              margin='normal'
+            />
+            <TextField
+              autoComplete='lastName'
+              name='lastName'
+              variant='outlined'
+              required
+              fullWidth
+              id='lastName'
+              label='Last Name'
+              autoFocus
+              value={lastName}
               onChange={(e) => onChange(e)}
               margin='normal'
             />

@@ -61,6 +61,8 @@ const Projects = (props) => {
       <hr></hr>
       {isLoading ? (
         <Spinner />
+      ) : projects.length === 0 ? (
+        <p>There are no projects available. Please select the Add Project button to add a project.</p>
       ) : (
         <Fragment>
           <h3>My Projects</h3>

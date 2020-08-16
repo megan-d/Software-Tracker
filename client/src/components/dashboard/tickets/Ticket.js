@@ -5,9 +5,9 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
+import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 
 const Ticket = (props) => {
- 
   const { ticket, getTicketDetails, deleteTicket } = useContext(TicketContext);
   const { project } = useContext(ProjectContext);
 
@@ -21,22 +21,26 @@ const Ticket = (props) => {
 
   return (
     <Wrapper>
-      {!ticket ? (<Spinner />) : (
+      {!ticket ? (
+        <Spinner />
+      ) : (
         <Fragment>
+          <ConfirmationNumberIcon />
           <div>{ticket.title}</div>
-        <Button
-                variant='contained'
-                color='secondary'
-                startIcon={<DeleteIcon />}
-                onClick={async () => deleteTicket(project._id, ticket._id, props.history)}
-              >
-                Delete Ticket
-              </Button>
+          <div>{ticket.description}</div>
+          <Button
+            variant='contained'
+            color='secondary'
+            startIcon={<DeleteIcon />}
+            onClick={async () =>
+              deleteTicket(project._id, ticket._id, props.history)
+            }
+          >
+            Delete Ticket
+          </Button>
         </Fragment>
-        
       )}
     </Wrapper>
-  
   );
 };
 
