@@ -20,6 +20,19 @@ router.get('/', verify, async (req, res) => {
   }
 });
 
+//ROUTE: GET api/users/:userid
+//DESCRIPTION: Find user based on id
+//ACCESS LEVEL: Private
+router.get('/:userid', verify, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userid).select('-password');
+    res.json(user);
+  } catch (err) {
+    console.err(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 //ROUTE: POST api/users
 //DESCRIPTION: Register new user
 //ACCESS LEVEL: Public (make request so can get access to private routes)

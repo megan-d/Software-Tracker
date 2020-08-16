@@ -18,7 +18,7 @@ export default function AvatarIcon(props) {
 
   return (
     <div className={classes.root}>
-      <Avatar>H</Avatar>
+      <Avatar>{props.user}</Avatar>
     </div>
   );
 }

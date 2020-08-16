@@ -43,10 +43,10 @@ export const TicketProvider = ({ children }) => {
       });
     } catch (err) {
       let errors = err.response.data.errors;
-      if (errors) {
-        //if errors, loop through them and dispatch the showAlert action from AlertContext
-        await errors.forEach((el) => showAlert(el.msg, 'error'));
-      }
+      // if (errors) {
+      //   //if errors, loop through them and dispatch the showAlert action from AlertContext
+      //   await errors.forEach((el) => showAlert(el.msg, 'error'));
+      // }
       dispatch({
         type: 'LOAD_USER_TICKETS_FAILURE',
         payload: err.response.data.errors,

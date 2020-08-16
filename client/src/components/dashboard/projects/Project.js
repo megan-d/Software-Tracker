@@ -3,6 +3,7 @@ import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
@@ -36,9 +37,28 @@ const Project = (props) => {
 
   const { user } = useContext(AuthContext);
 
+  const getAssignedDevUsername = async (assignedDevId) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+    try {
+      const user = await axios.get(`/api/users/${assignedDevId}`,config,);
+      console.log(user);
+      return user;
+  } catch(error) {
+    console.log(error);
+  }
+}
+
+
+
+
   useEffect(() => {
     getProjectDetails(props.match.params.id);
-  }, [project]);
+  }, []);
 
   const columns = [
     { title: 'Title', field: 'title' },
@@ -79,32 +99,28 @@ const Project = (props) => {
                 priority: el.priority,
                 dateDue: el.dateDue,
                 status: el.status,
-                assignedDeveloper: (
-                  <div>
-                    <AvatarIcon />
-                  </div>
-                ),
+                assignedDeveloper: 
+                    <AvatarIcon user={'H'}/>
               };
             })}
             onRowClick={async (event, rowData) => {
               history.push(`/ticket/${rowData.id}`);
             }}
-            actions={[
-              {
-                icon: 'edit',
-                tooltip: 'Edit Ticket',
-                onClick: (event, rowData) =>
-                  history.push(`/ticket/${rowData.id}`),
-              },
-              {
-                icon: 'delete',
-                tooltip: 'Delete Ticket',
-                onClick: async (event, rowData) => {
-                  await deleteTicket(project._id, rowData.id, props.history);
-                  history.push(`/projects/${project._id}`);
-                },
-              },
-            ]}
+            // actions={[
+            //   {
+            //     icon: 'edit',
+            //     tooltip: 'Edit Ticket',
+            //     onClick: (event, rowData) =>
+            //       history.push(`/ticket/${rowData.id}`),
+            //   },
+            //   {
+            //     icon: 'delete',
+            //     tooltip: 'Delete Ticket',
+            //     onClick: async (event, rowData) => {
+            //       await deleteTicket(project._id, rowData.id, props.history);
+            //     },
+            //   },
+            // ]}
           />
           <ul>Developers on project:</ul>
           {project.developers.map((el, index) => (

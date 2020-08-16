@@ -1,11 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { TicketContext } from '../../../context/tickets/TicketContext';
+import { ProjectContext } from '../../../context/projects/ProjectContext';
 
 const Ticket = (props) => {
  
-  const { ticket, getTicketDetails } = useContext(TicketContext);
+  const { ticket, getTicketDetails, deleteTicket } = useContext(TicketContext);
+  const { project } = useContext(ProjectContext);
 
   // const deleteTicket = () => {
   //   console.log('deleted');
@@ -18,7 +22,18 @@ const Ticket = (props) => {
   return (
     <Wrapper>
       {!ticket ? (<Spinner />) : (
-        <div>{ticket.title}</div>
+        <Fragment>
+          <div>{ticket.title}</div>
+        <Button
+                variant='contained'
+                color='secondary'
+                startIcon={<DeleteIcon />}
+                onClick={async () => deleteTicket(project._id, ticket._id, props.history)}
+              >
+                Delete Ticket
+              </Button>
+        </Fragment>
+        
       )}
     </Wrapper>
   
