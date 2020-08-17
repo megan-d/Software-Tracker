@@ -25,7 +25,7 @@ const StyledLink = styled(Link)`
 `;
 
 const Ticket = (props) => {
-  const { ticket, getTicketDetails, deleteTicket, clearTicket } = useContext(TicketContext);
+  const { ticket, getTicketDetails, deleteTicket, clearTicket, isLoading } = useContext(TicketContext);
   const { project } = useContext(ProjectContext);
 
   useEffect(() => {
@@ -41,6 +41,12 @@ const Ticket = (props) => {
           <ConfirmationNumberIcon />
           <div>{ticket.title}</div>
           <div>{ticket.description}</div>
+          <ul>Ticket comments:</ul>
+          {ticket.comments.length === 0 && !isLoading ? (
+            <p>There are no comments for this ticket</p>
+          ) : (
+            ticket.comments.map((el) => <li key={el._id}>{el.text}</li>)
+          )}
           <StyledLink
             variant='contained'
             color='primary'
