@@ -91,11 +91,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
+    margin: theme.spacing(0),
+    minWidth: 220,
   },
   selectEmpty: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(0),
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -110,6 +110,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '11px',
     marginBottom: '10px',
     marginTop: '1px',
+  },
+  dropdown: {
+    minWidth: '120px',
   },
 }));
 
@@ -130,17 +133,24 @@ export default function UpdateTicket(props) {
     status: '',
     resolutionSummary: '',
     dateDue: '',
-    dateCompleted: '',
   });
+
+  const [dateDue, setDueDate] = useState(null);
+
+  const handleDueDateChange = (date) => {
+    setDueDate(date);
+  };
+
+  const [dateCompleted, setCompletedDate] = useState(null);
+
+  const handleCompletionDateChange = (date) => {
+    setCompletedDate(date);
+  };
 
   //TODO: Need to fix how target completion date is shown in placeholder text.
   //TODO: Need to find way to display username rather than id. Try populate.
-  // const [dateDue, setSelectedDueDate] = useState(new Date());
-  // const [completionDate, setSelectedCompletionDate] = useState(null);
 
-  // const handleTargetDateChange = (date) => {
-  //   setSelectedTargetDate(date);
-  // };
+  // const [completionDate, setSelectedCompletionDate] = useState(null);
 
   // const handleCompletionDateChange = (date) => {
   //   setSelectedCompletionDate(date);
@@ -156,8 +166,6 @@ export default function UpdateTicket(props) {
     history,
     status,
     resolutionSummary,
-    dateDue,
-    dateCompleted,
   } = formData;
 
   // Function to update state on change using updateFormData
@@ -187,7 +195,10 @@ export default function UpdateTicket(props) {
     <Wrapper>
       <h2>Update Ticket</h2>
       <hr></hr>
-
+      <p>
+        Please ensure that you provide a type of change for the ticket's
+        history.
+      </p>
       {!ticket ? (
         <Spinner />
       ) : (
@@ -207,6 +218,51 @@ export default function UpdateTicket(props) {
                 action=''
                 onSubmit={(e) => onSubmit(e)}
               >
+                <FormControl variant='outlined' className={classes.formControl}>
+                  <InputLabel htmlFor='history'>Type of Change</InputLabel>
+                  <Select
+                    required
+                    native
+                    value={history}
+                    onChange={(e) => onChange(e)}
+                    label='Type of Change'
+                    inputProps={{
+                      name: 'history',
+                      id: 'history',
+                    }}
+                  >
+                    <option aria-label='None' value='' />
+                    <option value={'Update Details'}>
+                      Update Ticket Details
+                    </option>
+                    <option value={'Update AssignedDev'}>
+                      Update Assigned Dev
+                    </option>
+                    <option value={'Update Status'}>Update Status</option>
+                    <option value={'Info for Completion'}>Add Info for Completion</option>
+                    <option value={'Other'}>Other</option>
+                  </Select>
+                </FormControl>
+                <FormControl variant='outlined' className={classes.formControl}>
+                  <InputLabel htmlFor='type'>Ticket Type</InputLabel>
+                  <Select
+                    required
+                    placeholder={ticket.type}
+                    native
+                    value={type}
+                    onChange={(e) => onChange(e)}
+                    label='Ticket Type'
+                    inputProps={{
+                      name: 'type',
+                      id: 'type',
+                    }}
+                  >
+                    <option aria-label='None' value='' />
+                    <option value={'Bug'}>Bug</option>
+                    <option value={'Task'}>Task</option>
+                    <option value={'Other'}>Other</option>
+                  </Select>
+                </FormControl>
                 <TextField
                   autoComplete='title'
                   label='Title'
@@ -224,30 +280,135 @@ export default function UpdateTicket(props) {
                   }}
                 />
                 <FormControl variant='outlined' className={classes.formControl}>
-                  <InputLabel htmlFor='history'>Change Type</InputLabel>
+                  <InputLabel htmlFor='priority'>Priority</InputLabel>
                   <Select
                     required
+                    placeholder={ticket.priority}
                     native
-                    value={history}
+                    value={priority}
                     onChange={(e) => onChange(e)}
-                    label='Type of Change'
+                    label='Priority'
                     inputProps={{
-                      name: 'history',
-                      id: 'history',
+                      name: 'priority',
+                      id: 'priority',
                     }}
                   >
                     <option aria-label='None' value='' />
-                    <option value={'UpdateDetails'}>
-                      Update Ticket Details
-                    </option>
-                    <option value={'UpdateAssignedDev'}>
-                      Update Assigned Dev
-                    </option>
-                    <option value={'UpdateStatus'}>Update Status</option>
-                    <option value={'Completed'}>Add Info for Completion</option>
-                    <option value={'Other'}>Other</option>
+                    <option value={'Low'}>Low</option>
+                    <option value={'Medium'}>Medium</option>
+                    <option value={'High'}>High</option>
+                    <option value={'Critical'}>Critical</option>
                   </Select>
                 </FormControl>
+                <TextField
+                  autoComplete='description'
+                  label='Ticket Description'
+                  placeholder={ticket.description}
+                  name='description'
+                  variant='outlined'
+                  fullWidth
+                  id='description'
+                  autoFocus
+                  value={description}
+                  onChange={(e) => onChange(e)}
+                  margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <FormControl variant='outlined' className={classes.formControl}>
+                  <InputLabel htmlFor='status'>Status</InputLabel>
+                  <Select
+                    required
+                    placeholder={ticket.status}
+                    native
+                    value={status}
+                    onChange={(e) => onChange(e)}
+                    label='status'
+                    inputProps={{
+                      name: 'status',
+                      id: 'status',
+                    }}
+                  >
+                    <option aria-label='None' value='' />
+                    <option value={'Assigned'}>Assigned</option>
+                    <option value={'In Progress'}>In Progress</option>
+                    <option value={'Under Review'}>Under Review</option>
+                    <option value={'Completed'}>Completed</option>
+                  </Select>
+                </FormControl>
+                <TextField
+                  variant='outlined'
+                  placeholder={ticket.assignedDeveloper}
+                  fullWidth
+                  name='assignedDeveloper'
+                  label='Assigned Developer Username'
+                  required
+                  id='assignedDeveloper'
+                  value={assignedDeveloper}
+                  onChange={(e) => onChange(e)}
+                  margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+
+                <StyledGreyLink to='/profiles'>
+                  Search for user...
+                </StyledGreyLink>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify='flex-start'>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      placeholder={ticket.dateDue}
+                      variant='inline'
+                      format='MM/dd/yyyy'
+                      margin='normal'
+                      id='dateDue'
+                      label='Due Date'
+                      value={dateDue}
+                      onChange={(dateDue) => handleDueDateChange(dateDue)}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify='flex-start'>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      placeholder={ticket.dateCompleted}
+                      variant='inline'
+                      format='MM/dd/yyyy'
+                      margin='normal'
+                      id='dateCompleted'
+                      label='Date Completed'
+                      value={dateCompleted}
+                      onChange={(dateCompleted) =>
+                        handleCompletionDateChange(dateCompleted)
+                      }
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+
+                <TextField
+                    name='resolutionSummary'
+                    placeholder={resolutionSummary}
+                    variant='outlined'
+                    fullWidth
+                    id='resolutionSummary'
+                    label='Summary of Ticket Resolution'
+                    autoFocus
+                    value={resolutionSummary}
+                    onChange={(e) => onChange(e)}
+                    multiline
+                    rows={6}
+                    margin='normal'
+                  />
                 <AlertBanner />
                 <StyledBlueButton
                   type='submit'
