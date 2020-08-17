@@ -21,11 +21,9 @@ router.get('/me', verify, async (req, res) => {
 
     //If there are no tickets, return an error
     if (assignedTickets.length === 0) {
-      return res
-        .status(400)
-        .json({
-          errors: [{ msg: 'There are no tickets available for this user.' }],
-        });
+      return res.status(400).json({
+        errors: [{ msg: 'There are no tickets available for this user.' }],
+      });
     }
     res.json(assignedTickets);
   } catch (err) {
@@ -47,11 +45,9 @@ router.get('/:project_id', verify, async (req, res) => {
 
     //If there are no tickets, return an error
     if (tickets.length === 0) {
-      return res
-        .status(400)
-        .json({
-          errors: [{ msg: 'There are no tickets available for this project.' }],
-        });
+      return res.status(400).json({
+        errors: [{ msg: 'There are no tickets available for this project.' }],
+      });
     }
     res.json(tickets);
   } catch (err) {
@@ -206,6 +202,54 @@ router.post(
   },
 );
 
+//ROUTE: PUT api/projects/tickets/comment/:ticket_id
+//DESCRIPTION: Comment on an existing ticket
+//ACCESS LEVEL: Private
+router.put(
+  '/comment/:ticket_id',
+  [
+    verify,
+    [
+      check('comment', 'Please provide text in the comment field.')
+        .not()
+        .isEmpty()
+        .trim(),
+    ],
+  ],
+  async (req, res) => {
+    //Do error checking
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      //Create variable called user to get user. Since we are logged in, we have the id from the token.
+      let user = await User.findById(req.user.id).select('-password');
+      //Get the ticket
+      let ticket = await Ticket.findById(req.params.ticket_id);
+      //Create object for new comment. It's not a collection in database so just an object.
+      const newComment = {
+        name: user.username,
+        text: req.body.comment,
+        user: req.user.id,
+      };
+
+      //Add newComment onto ticket comments at the end of array (want chronological order in this case)
+      ticket.comments.push(newComment);
+
+      //Save to database
+      await ticket.save();
+
+      //Send back all comments
+      res.json(ticket.comments);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  },
+);
+
 //ROUTE: PUT api/projects/tickets/:project_id/:ticket_id
 //DESCRIPTION: Update an existing ticket
 //ACCESS LEVEL: Private
@@ -326,11 +370,9 @@ router.put(
           let developerId = user._id;
           updatedTicketItems.assignedDeveloper = developerId;
           if (!user) {
-            return res
-              .status(400)
-              .json({
-                errors: [{ msg: 'The assigned developer could not be found.' }],
-              });
+            return res.status(400).json({
+              errors: [{ msg: 'The assigned developer could not be found.' }],
+            });
           }
           //Check to see if assigned developer is a developer on the project yet. If not, add them with request.
           let isExistingProjectDeveloper = project.developers.filter(
@@ -357,11 +399,9 @@ router.put(
         //Send back the updated ticket
         return res.json(updatedTicket);
       } else {
-        return res
-          .status(401)
-          .json({
-            errors: [{ msg: 'You are not permitted to perform this action.' }],
-          });
+        return res.status(401).json({
+          errors: [{ msg: 'You are not permitted to perform this action.' }],
+        });
       }
     } catch (err) {
       console.error(err);
@@ -371,54 +411,6 @@ router.put(
 );
 
 //TODO: Add tickets to sprint
-
-//ROUTE: PUT api/projects/tickets/comment/:ticket_id
-//DESCRIPTION: Comment on an existing ticket
-//ACCESS LEVEL: Private
-router.post(
-  '/comment/:ticket_id',
-  [
-    verify,
-    [
-      check('text', 'Please provide text in the comment field.')
-        .not()
-        .isEmpty()
-        .trim(),
-    ],
-  ],
-  async (req, res) => {
-    //Do error checking
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    try {
-      //Create variable called user to get user. Since we are logged in, we have the id from the token.
-      let user = await User.findById(req.user.id).select('-password');
-      //Get the ticket
-      let ticket = await Ticket.findById(req.params.ticket_id);
-      //Create object for new comment. It's not a collection in database so just an object.
-      const newComment = {
-        name: user.name,
-        text: req.body.text,
-        user: req.user.id,
-      };
-
-      //Add newComment onto ticket comments at the end of array (want chronological order in this case)
-      ticket.comments.push(newComment);
-
-      //Save to database
-      await ticket.save();
-
-      //Send back all comments
-      res.json(ticket.comments);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
-  },
-);
 
 //ROUTE: DELETE api/projects/tickets/:project_id/:ticket_id
 //DESCRIPTION: Delete a ticket on given project by ticket id
@@ -453,11 +445,9 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
 
       //When ticket is deleted, also need to delete it from project (remove from array)
     } else {
-      return res
-        .status(401)
-        .json({
-          errors: [{ msg: 'You are not permitted to perform this action.' }],
-        });
+      return res.status(401).json({
+        errors: [{ msg: 'You are not permitted to perform this action.' }],
+      });
     }
   } catch (err) {
     console.error(err.message);

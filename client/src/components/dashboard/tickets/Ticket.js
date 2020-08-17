@@ -44,7 +44,7 @@ const Ticket = (props) => {
           <StyledLink
             variant='contained'
             color='primary'
-            to={`/projects/tickets/${ticket._id}/comment`}
+            to={`/projects/tickets/comment/${ticket._id}`}
           >
             Comment on Ticket
           </StyledLink>

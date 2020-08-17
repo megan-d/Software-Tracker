@@ -151,6 +151,38 @@ export const TicketProvider = ({ children }) => {
     }
   };
 
+  //*****ADD PROJECT COMMENT ACTION************
+  const addTicketComment = async (comment, ticketId, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    const body = JSON.stringify(comment);
+
+    try {
+      const res = await axios.put(`/api/projects/tickets/comment/${ticketId}`, body, config);
+      // dispatch({
+      //   type: 'ADD_COMMENT_SUCCESS',
+      //   payload: res.data,
+      // });
+      history.push(`/ticket/${ticketId}`);
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+      // dispatch({
+      //   type: 'ADD_COMMENT_FAILURE',
+      //   payload: err.response.data.errors
+      // });
+    }
+  };
+
   //Return Ticket Provider
   return (
     <TicketContext.Provider
@@ -164,6 +196,7 @@ export const TicketProvider = ({ children }) => {
         createTicket,
         deleteTicket,
         clearTicket,
+        addTicketComment
       }}
     >
       {children}
