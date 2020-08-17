@@ -290,8 +290,6 @@ router.put(
       dateDue,
       assignedDeveloper,
       history,
-      prevValue,
-      newValue,
       status,
       dateCompleted,
       resolutionSummary,
@@ -319,8 +317,6 @@ router.put(
 
     let historyItem = {
       typeOfChange: history,
-      prevValue: prevValue,
-      newValue: newValue,
     };
 
     //Once all fields are prepared, update and populate the data
@@ -349,11 +345,7 @@ router.put(
       ) {
         //Need to decide if only want project manager or admin user to update tickets, or if anybody can update tickets
         if (title) {
-          let isExistingTicketTitle = ticket.filter(
-            (ticket) => ticket.title === title,
-          );
-
-          if (isExistingTicketTitle.length > 0) {
+          if (ticket.title === title) {
             return res.status(400).json({
               errors: [
                 {

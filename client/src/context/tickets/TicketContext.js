@@ -116,6 +116,42 @@ export const TicketProvider = ({ children }) => {
     }
   };
 
+  //*****UPDATE TICKET DETAILS ACTION************
+  const updateTicket = async (edits, projectId, ticketId, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    const body = JSON.stringify(edits);
+
+    try {
+      const res = await axios.put(
+        `/api/projects/tickets/${projectId}/${ticketId}`,
+        body,
+        config,
+      );
+      dispatch({
+        type: 'UPDATE_TICKET_SUCCESS',
+        payload: res.data,
+      });
+      history.push(`/ticket/${ticketId}`);
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+      dispatch({
+        type: 'UPDATE_PROJECT_FAILURE',
+        payload: err.response.data.errors,
+      });
+    }
+  };
+
   //*******CLEAR TICKET ACTION**********
   //Clear the ticket so the previously loaded ticket doesn't flash first
   const clearTicket = async () => {
@@ -135,7 +171,9 @@ export const TicketProvider = ({ children }) => {
       },
     };
     try {
-      const res = await axios.delete(`/api/projects/tickets/${projectId}/${ticketId}`,config,
+      const res = await axios.delete(
+        `/api/projects/tickets/${projectId}/${ticketId}`,
+        config,
       );
 
       dispatch({
@@ -151,7 +189,7 @@ export const TicketProvider = ({ children }) => {
     }
   };
 
-  //*****ADD PROJECT COMMENT ACTION************
+  //*****ADD TICKET COMMENT ACTION************
   const addTicketComment = async (comment, ticketId, history) => {
     //Create config with headers
     const config = {
@@ -164,7 +202,11 @@ export const TicketProvider = ({ children }) => {
     const body = JSON.stringify(comment);
 
     try {
-      const res = await axios.put(`/api/projects/tickets/comment/${ticketId}`, body, config);
+      const res = await axios.put(
+        `/api/projects/tickets/comment/${ticketId}`,
+        body,
+        config,
+      );
       // dispatch({
       //   type: 'ADD_COMMENT_SUCCESS',
       //   payload: res.data,
@@ -196,7 +238,8 @@ export const TicketProvider = ({ children }) => {
         createTicket,
         deleteTicket,
         clearTicket,
-        addTicketComment
+        addTicketComment,
+        updateTicket
       }}
     >
       {children}

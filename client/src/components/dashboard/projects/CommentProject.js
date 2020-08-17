@@ -2,24 +2,13 @@ import React, { useState, useContext, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 import styled from 'styled-components';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 
 const StyledGreyLink = styled(Link)`
   color: white;

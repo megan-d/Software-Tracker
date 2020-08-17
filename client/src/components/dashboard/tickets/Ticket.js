@@ -51,7 +51,7 @@ const Ticket = (props) => {
               <StyledLink
                 variant='contained'
                 color='primary'
-                to={`/projects/tickets/${ticket._id}/updateticket`}
+                to={`/projects/tickets/updateticket/${ticket._id}`}
               >
                 Edit Ticket
               </StyledLink>

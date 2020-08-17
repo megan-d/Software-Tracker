@@ -32,6 +32,7 @@ export default (state, action) => {
     case 'LOAD_PROJECT_FAILURE':
     case 'PROJECT_DELETED':
       case 'ADD_COMMENT_FAILURE':
+        case 'UPDATE_PROJECT_FAILURE':
       return {
         ...state,
         project: null,

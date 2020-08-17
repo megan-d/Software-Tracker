@@ -52,7 +52,7 @@ const App = () => {
           <PrivateRoute path='/projects/:id' component={Project} exact />
           <PrivateRoute path='/projects/:id/edit' component={EditProject} exact />
           <PrivateRoute path='/projects/:id/submitticket' component={SubmitTicket} exact />
-          <PrivateRoute path='/projects/tickets/:ticketid/updateticket' component={UpdateTicket} exact />
+          <PrivateRoute path='/projects/tickets/updateticket/:ticketid' component={UpdateTicket} exact />
           <PrivateRoute path='/projects/tickets/comment/:ticketid' component={CommentTicket} exact />
           <PrivateRoute path='/projects/comment/:id' component={CommentProject} exact />
           <PrivateRoute path='/tickets' component={Tickets} exact />

@@ -8,6 +8,7 @@ export default (state, action) => {
         errors: null,
       };
     case 'LOAD_TICKET_SUCCESS':
+    case 'UPDATE_TICKET_SUCCESS':
       return {
         ...state,
         ticket: action.payload,
@@ -29,6 +30,7 @@ export default (state, action) => {
     case 'LOAD_TICKET_FAILURE':
     case 'CREATE_TICKET_FAILURE':
     case 'TICKET_DELETED':
+    case 'UPDATE_TICKET_FAILURE':
       return {
         ...state,
         isLoading: false,
