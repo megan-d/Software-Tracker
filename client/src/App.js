@@ -15,6 +15,7 @@ import EditProject from './components/dashboard/projects/EditProject';
 import CreateProject from './components/dashboard/projects/CreateProject';
 import Tickets from './components/dashboard/tickets/Tickets';
 import Sprints from './components/dashboard/sprints/Sprints';
+import Sprint from './components/dashboard/sprints/Sprint';
 import SubmitTicket from './components/dashboard/tickets/SubmitTicket';
 import Ticket from './components/dashboard/tickets/Ticket';
 import UpdateTicket from './components/dashboard/tickets/UpdateTicket';
@@ -24,6 +25,7 @@ import CommentProject from './components/dashboard/projects/CommentProject';
 import Profiles from './components/profiles/Profiles';
 import Forum from './components/forum/Forum';
 import PrivateRoute from './components/routing/PrivateRoute';
+import CreateSprint from './components/dashboard/sprints/CreateSprint';
 
 const App = () => {
   const { loadUser } = useContext(AuthContext);
@@ -58,6 +60,8 @@ const App = () => {
           <PrivateRoute path='/tickets' component={Tickets} exact />
           <PrivateRoute path='/ticket/:id' component={Ticket} exact />
           <PrivateRoute path='/sprints' component={Sprints} exact />
+          <PrivateRoute path='/sprint/:id' component={Sprint} exact />
+          <PrivateRoute path='/projects/:id/createsprint' component={CreateSprint} exact />
           <PrivateRoute path='/profile' component={Profile} exact />
           <PrivateRoute path='/profiles' component={Profiles} exact />
           <PrivateRoute path='/forum' component={Forum} exact />

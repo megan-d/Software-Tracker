@@ -57,6 +57,12 @@ const Tickets = () => {
             onRowClick={async (event, rowData) => {
               history.push(`/ticket/${rowData._id}`)
             }}
+            options={{
+              pageSize: 5,
+              pageSizeOptions: [5, 10, 20, 30],
+              toolbar: true,
+              paging: true,
+          }}
           />
         </Fragment>
       )}

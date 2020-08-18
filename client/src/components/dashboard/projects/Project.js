@@ -32,10 +32,8 @@ const Project = (props) => {
   const { project, getProjectDetails, deleteProject, isLoading } = useContext(
     ProjectContext,
   );
-  
-  const { clearTicket } = useContext(
-    TicketContext,
-  );
+
+  const { clearTicket } = useContext(TicketContext);
   const { user } = useContext(AuthContext);
 
   const getAssignedDevUsername = async (assignedDevId) => {
@@ -46,25 +44,32 @@ const Project = (props) => {
       },
     };
     try {
-      const user = await axios.get(`/api/users/${assignedDevId}`,config,);
+      const user = await axios.get(`/api/users/${assignedDevId}`, config);
       return user;
-  } catch(error) {
-    console.log(error);
-  }
-}
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getProjectDetails(props.match.params.id);
     clearTicket();
   }, []);
 
-  const columns = [
+  const ticketColumns = [
     { title: 'Title', field: 'title' },
     { title: 'Type', field: 'type' },
     { title: 'Priority', field: 'priority' },
     { title: 'Due date', field: 'dateDue', type: 'date' },
     { title: 'Status', field: 'status' },
     { title: 'Assigned Dev', field: 'assignedDeveloper' },
+  ];
+
+  const sprintColumns = [
+    { title: 'Title', field: 'title' },
+    { title: 'StartDate', field: 'startDate' },
+    { title: 'Planned End Date', field: 'plannedEndDate' },
+    { title: 'Status', field: 'status' },
   ];
 
   let history = useHistory();
@@ -88,7 +93,7 @@ const Project = (props) => {
               },
             }}
             title='Tickets'
-            columns={columns}
+            columns={ticketColumns}
             data={project.tickets.map((el) => {
               return {
                 id: el._id,
@@ -97,28 +102,55 @@ const Project = (props) => {
                 priority: el.priority,
                 dateDue: el.dateDue,
                 status: el.status,
-                assignedDeveloper: 
-                    <AvatarIcon user={'H'}/>
+                assignedDeveloper: <AvatarIcon user={'H'} />,
               };
             })}
+            options={{
+              pageSize: 5,
+              pageSizeOptions: [5, 10, 20, 30],
+              toolbar: true,
+              paging: true,
+              options: {
+                rowStyle: {
+                  padding: '0px',
+                },
+              },
+            }}
             onRowClick={async (event, rowData) => {
               history.push(`/ticket/${rowData.id}`);
             }}
-            // actions={[
-            //   {
-            //     icon: 'edit',
-            //     tooltip: 'Edit Ticket',
-            //     onClick: (event, rowData) =>
-            //       history.push(`/ticket/${rowData.id}`),
-            //   },
-            //   {
-            //     icon: 'delete',
-            //     tooltip: 'Delete Ticket',
-            //     onClick: async (event, rowData) => {
-            //       await deleteTicket(project._id, rowData.id, props.history);
-            //     },
-            //   },
-            // ]}
+          />
+          <MaterialTable
+            localization={{
+              header: {
+                actions: '',
+              },
+            }}
+            title='Sprints'
+            columns={sprintColumns}
+            data={project.sprints.map((el) => {
+              return {
+                id: el._id,
+                title: el.title,
+                startDate: el.startDate,
+                plannedEndDate: el.plannedEndDate,
+                status: el.status,
+              };
+            })}
+            options={{
+              pageSize: 5,
+              pageSizeOptions: [5, 10, 20, 30],
+              toolbar: true,
+              paging: true,
+              options: {
+                rowStyle: {
+                  padding: '0px',
+                },
+              },
+            }}
+            onRowClick={async (event, rowData) => {
+              history.push(`/sprint/${rowData.id}`);
+            }}
           />
           <ul>Developers on project:</ul>
           {project.developers.map((el, index) => (
@@ -138,6 +170,13 @@ const Project = (props) => {
             to={`/projects/${project._id}/submitticket`}
           >
             Add Ticket
+          </StyledLink>
+          <StyledLink
+            variant='contained'
+            color='primary'
+            to={`/projects/${project._id}/createsprint`}
+          >
+            Add Sprint
           </StyledLink>
           <StyledLink
             variant='contained'
