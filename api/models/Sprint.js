@@ -26,11 +26,9 @@ const sprintSchema = new Schema({
   },
   startDate: {
     type: Date,
-    required: true,
   },
   plannedEndDate: {
     type: Date,
-    required: true,
   },
   status: {
     type: String,

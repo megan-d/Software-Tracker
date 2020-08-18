@@ -6,6 +6,7 @@ import { AuthProvider } from '../src/context/auth/AuthContext';
 import { AlertProvider } from '../src/context/alerts/AlertContext';
 import { ProjectProvider } from './context/projects/ProjectContext';
 import { TicketProvider } from './context/tickets/TicketContext';
+import { SprintProvider } from './context/sprints/SprintContext';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,7 +14,9 @@ ReactDOM.render(
       <AuthProvider>
         <ProjectProvider>
           <TicketProvider>
-            <App />
+            <SprintProvider>
+              <App />
+            </SprintProvider>
           </TicketProvider>
         </ProjectProvider>
       </AuthProvider>

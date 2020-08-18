@@ -100,20 +100,6 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
-      check(
-        'startDate',
-        'Please provide an approximate start date for the sprint. This may be edited later as needed.',
-      )
-        .not()
-        .isEmpty()
-        .trim(),
-      check(
-        'plannedEndDate',
-        'Please provide a planned end date in the future.',
-      )
-        .not()
-        .isEmpty()
-        .trim(),
     ],
   ],
   async (req, res) => {
@@ -127,10 +113,6 @@ router.post(
     const {
       title,
       description,
-      startDate,
-      plannedEndDate,
-      resolutionSummary,
-      status,
     } = req.body;
 
     //Build the sprintItems object. If the value is there, add it to the sprintItems object.
@@ -140,11 +122,6 @@ router.post(
     sprintItems.project = req.params.project_id;
     sprintItems.title = title;
     sprintItems.description = description;
-    const date = new Date(startDate);
-    sprintItems.startDate = date;
-    const endDate = new Date(plannedEndDate);
-    sprintItems.plannedEndDate = endDate;
-    sprintItems.resolutionSummary = resolutionSummary;
     sprintItems.status = 'Sprint Created';
     sprintItems.statusLog = {
       status: 'Sprint Created',
