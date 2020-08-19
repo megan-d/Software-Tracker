@@ -8,8 +8,10 @@ export default (state, action) => {
         errors: null,
       };
     case 'LOAD_PROJECT_SUCCESS':
+    case 'LOAD_PROJECT_FOR_TICKET_SUCCESS':
+    case 'LOAD_PROJECT_FOR_SPRINT_SUCCESS':
     case 'UPDATE_PROJECT_SUCCESS':
-      case 'ADD_COMMENT_SUCCESS':
+    case 'ADD_COMMENT_SUCCESS':
       return {
         ...state,
         project: action.payload,
@@ -30,9 +32,11 @@ export default (state, action) => {
     case 'LOAD_USER_PROJECTS_FAILURE':
     case 'CREATE_PROJECT_FAILURE':
     case 'LOAD_PROJECT_FAILURE':
+    case 'LOAD_PROJECT_FOR_TICKET_FAILURE':
+    case 'LOAD_PROJECT_FOR_SPRINT_FAILURE':
     case 'PROJECT_DELETED':
-      case 'ADD_COMMENT_FAILURE':
-        case 'UPDATE_PROJECT_FAILURE':
+    case 'ADD_COMMENT_FAILURE':
+    case 'UPDATE_PROJECT_FAILURE':
       return {
         ...state,
         project: null,

@@ -5,7 +5,7 @@ import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
 
-const Tickets = () => {
+const Tickets = (props) => {
 
   const { tickets, ticket, isLoading, getUserTickets, clearTicket } = useContext(TicketContext);
 

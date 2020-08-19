@@ -25,11 +25,12 @@ const StyledLink = styled(Link)`
 `;
 
 const Ticket = (props) => {
-  const { ticket, getTicketDetails, deleteTicket, clearTicket, isLoading } = useContext(TicketContext);
-  const { project } = useContext(ProjectContext);
+  const { ticket, getTicketDetails, deleteTicket, isLoading } = useContext(TicketContext);
+  const { project, getProjectForTicket } = useContext(ProjectContext);
 
   useEffect(() => {
     getTicketDetails(props.match.params.id);
+    getProjectForTicket(props.match.params.id);
   }, []);
 
   return (

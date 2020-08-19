@@ -4,7 +4,7 @@ import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { TicketContext } from '../../../context/tickets/TicketContext';
+import { SprintContext } from '../../../context/sprints/SprintContext';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import styled from 'styled-components';
@@ -25,51 +25,54 @@ const StyledLink = styled(Link)`
 `;
 
 const Sprint = (props) => {
-  const { ticket, getTicketDetails, deleteTicket, clearTicket, isLoading } = useContext(TicketContext);
-  const { project } = useContext(ProjectContext);
+  const { sprint, getSprintDetails, deleteSprint, isLoading } = useContext(
+    SprintContext,
+  );
+  const { project, getProjectForSprint } = useContext(ProjectContext);
 
   useEffect(() => {
-    getTicketDetails(props.match.params.id);
+    getSprintDetails(props.match.params.id);
+    getProjectForSprint(props.match.params.id);
   }, []);
 
   return (
     <Wrapper>
-      {!ticket ? (
+      {!sprint ? (
         <Spinner />
       ) : (
         <Fragment>
           <ConfirmationNumberIcon />
-          <div>{ticket.title}</div>
-          <div>{ticket.description}</div>
-          <ul>Ticket comments:</ul>
-          {ticket.comments.length === 0 && !isLoading ? (
-            <p>There are no comments for this ticket</p>
+          <div>{sprint.title}</div>
+          <div>{sprint.description}</div>
+          <ul>Sprint comments:</ul>
+          {sprint.comments.length === 0 && !isLoading ? (
+            <p>There are no comments for this sprint</p>
           ) : (
-            ticket.comments.map((el) => <li key={el._id}>{el.text}</li>)
+            sprint.comments.map((el) => <li key={el._id}>{el.text}</li>)
           )}
           <StyledLink
             variant='contained'
             color='primary'
-            to={`/projects/tickets/comment/${ticket._id}`}
+            to={`/projects/sprints/comment/${sprint._id}`}
           >
-            Comment on Ticket
+            Comment on Sprint
           </StyledLink>
-              <StyledLink
-                variant='contained'
-                color='primary'
-                to={`/projects/tickets/updateticket/${ticket._id}`}
-              >
-                Edit Ticket
-              </StyledLink>
+          <StyledLink
+            variant='contained'
+            color='primary'
+            to={`/projects/sprints/updatesprint/${sprint._id}`}
+          >
+            Edit Sprint
+          </StyledLink>
           <Button
             variant='contained'
             color='secondary'
             startIcon={<DeleteIcon />}
             onClick={async () =>
-              deleteTicket(project._id, ticket._id, props.history)
+              deleteSprint(project._id, sprint._id, props.history)
             }
           >
-            Delete Ticket
+            Delete Sprint
           </Button>
         </Fragment>
       )}

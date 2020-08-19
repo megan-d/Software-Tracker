@@ -146,7 +146,7 @@ export const TicketProvider = ({ children }) => {
         errors.forEach((el) => showAlert(el.msg, 'error'));
       }
       dispatch({
-        type: 'UPDATE_PROJECT_FAILURE',
+        type: 'UPDATE_TICKET_FAILURE',
         payload: err.response.data.errors,
       });
     }

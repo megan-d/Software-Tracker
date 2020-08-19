@@ -44,10 +44,54 @@ router.get('/:project_id', verify, async (req, res) => {
   try {
     let project = await Project.findOne({
       _id: req.params.project_id,
-    }).populate('tickets').populate('sprints');
+    }).populate('tickets sprints');
 
     if (!project) return res.status(400).json({ errors: [{msg: 'Project not found'}] });
 
+    res.json(project);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Project not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// ROUTE:  GET api/projects/ticket/:ticket_id
+// DESCRIPTION:    Get project for associated ticket
+// ACCESS LEVEL:  Private
+
+router.get('/ticket/:ticket_id', verify, async (req, res) => {
+  try {
+    let project = await Project.findOne({
+      tickets: {
+        _id: req.params.ticket_id}
+    }).populate('tickets');
+
+    if (!project) return res.status(400).json({ errors: [{msg: 'Project not found'}] });
+    res.json(project);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Project not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// ROUTE:  GET api/projects/sprint/:sprint_id
+// DESCRIPTION:    Get project for associated sprint
+// ACCESS LEVEL:  Private
+
+router.get('/sprint/:sprint_id', verify, async (req, res) => {
+  try {
+    let project = await Project.findOne({
+      sprints: {
+        _id: req.params.sprint_id}
+    }).populate('sprints');
+
+    if (!project) return res.status(400).json({ errors: [{msg: 'Project not found'}] });
     res.json(project);
   } catch (err) {
     console.error(err.message);
