@@ -14,6 +14,10 @@ const sprintSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
   developers: [
     {
         type: Schema.Types.ObjectId,

@@ -17,10 +17,8 @@ router.get('/me', verify, async (req, res) => {
   try {
     //   Find the all sprints assigned to the user based on the id that comes in with the request's token.
     //TODO: Test if this will work as written
-    const assignedSprints = await Sprint.find({
-      developers: { _id: req.user.id },
+    const assignedSprints = await Sprint.find({$or: [ {developers: { _id: req.user.id }}, {owner: { _id: req.user.id }}]
     });
-    console.log();
 
     //If there are no sprints, return an error
     if (assignedSprints.length === 0) {
@@ -119,6 +117,7 @@ router.post(
     const sprintItems = {};
 
     sprintItems.submitter = req.user.id;
+    sprintItems.owner = req.user.id;
     sprintItems.project = req.params.project_id;
     sprintItems.title = title;
     sprintItems.description = description;
@@ -193,7 +192,7 @@ router.put(
       check('title', 'Please provide a sprint title.')
         .optional({ checkFalsy: true })
         .trim(),
-      check('type', 'Please provide a sprint description.')
+      check('description', 'Please provide a sprint description.')
         .optional({ checkFalsy: true })
         .trim(),
       check('status', 'Please provide the current status for the sprint.')
@@ -260,11 +259,12 @@ router.put(
       }
 
       let sprint = await Sprint.findOne({ _id: req.params.sprint_id });
-      //Make so you can only update sprint if you are an admin user or the project manager
+      //Make so you can only update sprint if you are an admin user or the project manager or sprint owner
       if (
         req.user.role === 'admin' ||
         project.manager.toString() === req.user.id ||
         project.owner.toString() === req.user.id
+        || sprint.owner.toString() === req.user.id
       ) {
         if (title) {
           let isExistingSprintTitle = project.sprints.filter(
@@ -282,6 +282,7 @@ router.put(
           }
         }
         if (status) {
+          updatedSprintItems.status = status;
           sprint.statusLog.push({ status: status });
         }
         if (developer) {

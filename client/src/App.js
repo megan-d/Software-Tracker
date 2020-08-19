@@ -16,6 +16,7 @@ import CreateProject from './components/dashboard/projects/CreateProject';
 import Tickets from './components/dashboard/tickets/Tickets';
 import Sprints from './components/dashboard/sprints/Sprints';
 import Sprint from './components/dashboard/sprints/Sprint';
+import UpdateSprint from './components/dashboard/sprints/UpdateSprint';
 import SubmitTicket from './components/dashboard/tickets/SubmitTicket';
 import Ticket from './components/dashboard/tickets/Ticket';
 import UpdateTicket from './components/dashboard/tickets/UpdateTicket';
@@ -62,6 +63,7 @@ const App = () => {
           <PrivateRoute path='/sprints' component={Sprints} exact />
           <PrivateRoute path='/sprint/:id' component={Sprint} exact />
           <PrivateRoute path='/projects/:id/createsprint' component={CreateSprint} exact />
+          <PrivateRoute path='/projects/sprints/updatesprint/:id' component={UpdateSprint} exact />
           <PrivateRoute path='/profile' component={Profile} exact />
           <PrivateRoute path='/profiles' component={Profiles} exact />
           <PrivateRoute path='/forum' component={Forum} exact />

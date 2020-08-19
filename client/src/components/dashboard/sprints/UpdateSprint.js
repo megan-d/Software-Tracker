@@ -1,41 +1,22 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
-import { TicketContext } from '../../../context/tickets/TicketContext';
-import { AuthContext } from '../../../context/auth/AuthContext';
-import Select from '@material-ui/core/Select';
+import { SprintContext } from '../../../context/sprints/SprintContext';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 import styled from 'styled-components';
-
-const StyledGreyLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #808080;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  max-width: 160px;
-  text-align: center;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
 
 const StyledRedLink = styled(Link)`
   color: white;
@@ -114,12 +95,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubmitTicket = (props) => {
+const UpdateSprint = (props) => {
   const classes = useStyles();
 
-  const { user } = useContext(AuthContext);
-  const { createTicket } = useContext(TicketContext);
   const { project, getProjectDetails } = useContext(ProjectContext);
+  const { sprint, addSprint, updateSprint } = useContext(SprintContext);
 
   useEffect(() => {
     getProjectDetails(props.match.params.id);
@@ -127,48 +107,57 @@ const SubmitTicket = (props) => {
 
   const [formData, updateFormData] = useState({
     title: '',
-    type: '',
     description: '',
-    priority: '',
-    assignedDeveloper: ''
+    status: '',
+    developer: '',
+    resolutionSummary: '',
   });
 
-  const [dateDue, setSelectedDate] = useState(null);
+  //Pull out variables from formData and userData
+  const { title, description, status, developer, resolutionSummary } = formData;
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const [startDate, setStartDate] = useState(null);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
   };
 
-  //Pull out variables from formData and userData
-  let { title, type, description, priority, assignedDeveloper} = formData;
+  const [plannedEndDate, setEndDate] = useState(null);
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
+
+  const [dateCompleted, setCompletedDate] = useState(null);
+
+  const handleCompletionDateChange = (date) => {
+    setCompletedDate(date);
+  };
 
   // Function to update state on change using updateFormData
   const onChange = (e) =>
     updateFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const assignSelf = (e) => {
-    e.preventDefault();
-    updateFormData({...formData, assignedDeveloper: user.username})
-  }
-
   //Function to send data that's in formData to database endpoint when submit is clicked
   const onSubmit = async (e) => {
     e.preventDefault();
-    const ticket = {
+    const edits = {
       title: title,
-      type: type,
       description: description,
-      priority: priority,
-      dateDue: dateDue,
-      assignedDeveloper: assignedDeveloper,
+      status: status,
+      developer: developer,
+      resolutionSummary: resolutionSummary,
+      startDate: startDate,
+      plannedEndDate: plannedEndDate,
+      dateCompleted: dateCompleted,
     };
-    //call add project action
-    await createTicket(ticket, project._id, props.history);
+    //call add sprint action
+    await updateSprint(edits, project._id, sprint._id, props.history);
   };
 
   return (
     <Wrapper>
-      <h2>Create a New Ticket</h2>
+      <h2>Update Sprint</h2>
       <hr></hr>
       <Grid container component='main' className={classes.root}>
         <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
@@ -185,7 +174,7 @@ const SubmitTicket = (props) => {
                 required
                 fullWidth
                 id='title'
-                label='Ticket title'
+                label='Sprint Title'
                 autoFocus
                 value={title}
                 onChange={(e) => onChange(e)}
@@ -194,45 +183,6 @@ const SubmitTicket = (props) => {
                   shrink: true,
                 }}
               />
-              <FormControl variant='outlined' className={classes.formControl}>
-                <InputLabel htmlFor='type'>Type</InputLabel>
-                <Select
-                  required
-                  native
-                  value={type}
-                  onChange={(e) => onChange(e)}
-                  label='Type'
-                  inputProps={{
-                    name: 'type',
-                    id: 'type',
-                  }}
-                >
-                  <option aria-label='None' value='' />
-                  <option value={'Bug'}>Bug</option>
-                  <option value={'Task'}>Task</option>
-                  <option value={'Other'}>Other</option>
-                </Select>
-              </FormControl>
-              <FormControl variant='outlined' className={classes.formControl}>
-                <InputLabel htmlFor='priority'>Priority</InputLabel>
-                <Select
-                  required
-                  native
-                  value={priority}
-                  onChange={(e) => onChange(e)}
-                  label='Priority'
-                  inputProps={{
-                    name: 'priority',
-                    id: 'priority',
-                  }}
-                >
-                  <option aria-label='None' value='' />
-                  <option value={'Low'}>Low</option>
-                  <option value={'Medium'}>Medium</option>
-                  <option value={'High'}>High</option>
-                  <option value={'Critical'}>Critical</option>
-                </Select>
-              </FormControl>
               <TextField
                 autoComplete='description'
                 name='description'
@@ -242,7 +192,8 @@ const SubmitTicket = (props) => {
                 multiline
                 rows={6}
                 id='description'
-                label='Ticket description'
+                label='Sprint Description'
+                autoFocus
                 value={description}
                 onChange={(e) => onChange(e)}
                 margin='normal'
@@ -250,59 +201,112 @@ const SubmitTicket = (props) => {
                   shrink: true,
                 }}
               />
-
+              <FormControl variant='outlined' className={classes.formControl}>
+                <InputLabel htmlFor='status'>Status</InputLabel>
+                <Select
+                  required
+                  placeholder={sprint.status}
+                  native
+                  value={status}
+                  onChange={(e) => onChange(e)}
+                  label='status'
+                  inputProps={{
+                    name: 'status',
+                    id: 'status',
+                  }}
+                >
+                  <option aria-label='None' value='' />
+                  <option value={'Sprint Created'}>Sprint Created</option>
+                  <option value={'In Progress'}>In Progress</option>
+                  <option value={'Completed'}>Completed</option>
+                </Select>
+              </FormControl>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify='flex-start'>
                   <KeyboardDatePicker
-                    required
                     disableToolbar
+                    placeholder={sprint.startDate}
                     variant='inline'
                     format='MM/dd/yyyy'
                     margin='normal'
-                    id='date-picker-inline'
-                    label='Due Date'
-                    value={dateDue}
-                    onChange={(dateDue) => handleDateChange(dateDue)}
+                    id='startDate'
+                    label='Start Date'
+                    value={startDate}
+                    onChange={(startDate) => handleStartDateChange(startDate)}
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
                   />
                 </Grid>
               </MuiPickersUtilsProvider>
-
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify='flex-start'>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    placeholder={sprint.plannedEndDate}
+                    variant='inline'
+                    format='MM/dd/yyyy'
+                    margin='normal'
+                    id='plannedEndDate'
+                    label='Planned End Date'
+                    value={plannedEndDate}
+                    onChange={(plannedEndDate) =>
+                      handleEndDateChange(plannedEndDate)
+                    }
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify='flex-start'>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    placeholder={sprint.dateCompleted}
+                    variant='inline'
+                    format='MM/dd/yyyy'
+                    margin='normal'
+                    id='dateCompleted'
+                    label='Date Completed'
+                    value={dateCompleted}
+                    onChange={(dateCompleted) =>
+                      handleCompletionDateChange(dateCompleted)
+                    }
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
               <TextField
+                name='resolutionSummary'
+                placeholder={resolutionSummary}
                 variant='outlined'
                 fullWidth
-                name='assignedDeveloper'
-                label='Assigned Developer Username'
-                id='assignedDeveloper'
-                value={assignedDeveloper}
+                id='resolutionSummary'
+                label='Summary of Ticket Resolution'
+                autoFocus
+                value={resolutionSummary}
                 onChange={(e) => onChange(e)}
+                multiline
+                rows={6}
                 margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
               />
-              <StyledBlueButton
-                  className={classes.buttons}
-                  onClick={(e) => assignSelf(e)}
-                >
-                  Assign to Self
-                </StyledBlueButton>
-              <StyledGreyLink to='/profiles'>
-                  Search for user...
-                </StyledGreyLink>
               <AlertBanner />
               <StyledBlueButton
-                  type='submit'
-                  className={classes.buttons}
-                  onClick={(e) => onSubmit(e)}
-                >
-                  SUBMIT
-                </StyledBlueButton>
-                <StyledRedLink to={`/projects/${project._id}`} className={classes.buttons}>
-                  CANCEL
-                </StyledRedLink>
+                type='submit'
+                className={classes.buttons}
+                onClick={(e) => onSubmit(e)}
+              >
+                SUBMIT
+              </StyledBlueButton>
+              <StyledRedLink
+                to={`/projects/${project._id}`}
+                className={classes.buttons}
+              >
+                CANCEL
+              </StyledRedLink>
             </form>
           </div>
         </Grid>
@@ -311,4 +315,4 @@ const SubmitTicket = (props) => {
   );
 };
 
-export default SubmitTicket;
+export default UpdateSprint;

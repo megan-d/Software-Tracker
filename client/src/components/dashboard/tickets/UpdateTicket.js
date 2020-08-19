@@ -132,7 +132,6 @@ export default function UpdateTicket(props) {
     history: '',
     status: '',
     resolutionSummary: '',
-    dateDue: '',
   });
 
   const [dateDue, setDueDate] = useState(null);

@@ -51,7 +51,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
             <ListItemIcon>
               <ConfirmationNumberIcon />
             </ListItemIcon>
-            <ListItemText primary='Tickets' />
+            <ListItemText primary='My Assigned Tickets' />
           </ListItem>
         </StyledLink>
 
@@ -60,7 +60,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
             <ListItemIcon>
               <GroupWorkIcon />
             </ListItemIcon>
-            <ListItemText primary='Sprints' />
+            <ListItemText primary='My Assigned Sprints' />
           </ListItem>
         </StyledLink>
       </div>

@@ -238,7 +238,8 @@ export const SprintProvider = ({ children }) => {
         getSprintDetails,
         deleteSprint,
         clearSprint,
-        addSprintComment
+        addSprintComment,
+        updateSprint
       }}
     >
       {children}
