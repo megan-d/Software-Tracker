@@ -27,6 +27,7 @@ import Profiles from './components/profiles/Profiles';
 import Forum from './components/forum/Forum';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateSprint from './components/dashboard/sprints/CreateSprint';
+import CommentSprint from './components/dashboard/sprints/CommentSprint';
 
 const App = () => {
   const { loadUser } = useContext(AuthContext);
@@ -52,18 +53,51 @@ const App = () => {
           />
           <PrivateRoute path='/createproject' component={CreateProject} exact />
           <PrivateRoute path='/projects' component={Projects} exact />
-          <PrivateRoute path='/projects/:id' component={Project} exact />
-          <PrivateRoute path='/projects/:id/edit' component={EditProject} exact />
-          <PrivateRoute path='/projects/:id/submitticket' component={SubmitTicket} exact />
-          <PrivateRoute path='/projects/tickets/updateticket/:ticketid' component={UpdateTicket} exact />
-          <PrivateRoute path='/projects/tickets/comment/:ticketid' component={CommentTicket} exact />
-          <PrivateRoute path='/projects/comment/:id' component={CommentProject} exact />
+          <PrivateRoute path='/projects/:projectid' component={Project} exact />
+          <PrivateRoute
+            path='/projects/:projectid/edit'
+            component={EditProject}
+            exact
+          />
+          <PrivateRoute
+            path='/projects/submitticket/:projectid'
+            component={SubmitTicket}
+            exact
+          />
+          <PrivateRoute
+            path='/projects/tickets/updateticket/:ticketid'
+            component={UpdateTicket}
+            exact
+          />
+          <PrivateRoute
+            path='/projects/tickets/comment/:ticketid'
+            component={CommentTicket}
+            exact
+          />
+          <PrivateRoute
+            path='/projects/comment/:projectid'
+            component={CommentProject}
+            exact
+          />
           <PrivateRoute path='/tickets' component={Tickets} exact />
-          <PrivateRoute path='/ticket/:id' component={Ticket} exact />
+          <PrivateRoute path='/ticket/:ticketid' component={Ticket} exact />
           <PrivateRoute path='/sprints' component={Sprints} exact />
-          <PrivateRoute path='/sprint/:id' component={Sprint} exact />
-          <PrivateRoute path='/projects/:id/createsprint' component={CreateSprint} exact />
-          <PrivateRoute path='/projects/sprints/updatesprint/:id' component={UpdateSprint} exact />
+          <PrivateRoute path='/sprint/:sprintid' component={Sprint} exact />
+          <PrivateRoute
+            path='/projects/sprints/comment/:sprintid'
+            component={CommentSprint}
+            exact
+          />
+          <PrivateRoute
+            path='/projects/createsprint/:projectid'
+            component={CreateSprint}
+            exact
+          />
+          <PrivateRoute
+            path='/projects/sprints/updatesprint/:sprintid'
+            component={UpdateSprint}
+            exact
+          />
           <PrivateRoute path='/profile' component={Profile} exact />
           <PrivateRoute path='/profiles' component={Profiles} exact />
           <PrivateRoute path='/forum' component={Forum} exact />

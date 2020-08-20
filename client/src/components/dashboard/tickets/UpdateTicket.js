@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AlertBanner from '../../layout/AlertBanner';
 import { TicketContext } from '../../../context/tickets/TicketContext';
-import { ProjectContext } from '../../../context/projects/ProjectContext';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
@@ -119,9 +118,7 @@ const useStyles = makeStyles((theme) => ({
 export default function UpdateTicket(props) {
   const classes = useStyles();
 
-  const { ticket, updateTicket } = useContext(TicketContext);
-
-  const { project } = useContext(ProjectContext);
+  const { ticket, updateTicket, getTicketDetails, getProjectForTicket, project } = useContext(TicketContext);
 
   const [formData, updateFormData] = useState({
     title: '',
@@ -145,6 +142,11 @@ export default function UpdateTicket(props) {
   const handleCompletionDateChange = (date) => {
     setCompletedDate(date);
   };
+
+  useEffect(() => {
+    getTicketDetails(props.match.params.ticketid);
+    getProjectForTicket(props.match.params.ticketid);
+  }, []);
 
   //TODO: Need to fix how target completion date is shown in placeholder text.
   //TODO: Need to find way to display username rather than id. Try populate.
@@ -187,6 +189,7 @@ export default function UpdateTicket(props) {
       dateCompleted: dateCompleted,
     };
     //call add project action
+    console.log(project);
     await updateTicket(ticketUpdates, project._id, ticket._id, props.history);
   };
 
@@ -221,6 +224,7 @@ export default function UpdateTicket(props) {
                   <InputLabel htmlFor='history'>Type of Change</InputLabel>
                   <Select
                     required
+                    autoFocus
                     native
                     value={history}
                     onChange={(e) => onChange(e)}
@@ -270,7 +274,6 @@ export default function UpdateTicket(props) {
                   variant='outlined'
                   fullWidth
                   id='title'
-                  autoFocus
                   value={title}
                   onChange={(e) => onChange(e)}
                   margin='normal'
@@ -307,7 +310,6 @@ export default function UpdateTicket(props) {
                   variant='outlined'
                   fullWidth
                   id='description'
-                  autoFocus
                   value={description}
                   onChange={(e) => onChange(e)}
                   margin='normal'
@@ -401,7 +403,6 @@ export default function UpdateTicket(props) {
                     fullWidth
                     id='resolutionSummary'
                     label='Summary of Ticket Resolution'
-                    autoFocus
                     value={resolutionSummary}
                     onChange={(e) => onChange(e)}
                     multiline

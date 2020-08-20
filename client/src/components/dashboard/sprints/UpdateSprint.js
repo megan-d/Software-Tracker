@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
+import Spinner from '../../layout/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
@@ -98,11 +99,11 @@ const useStyles = makeStyles((theme) => ({
 const UpdateSprint = (props) => {
   const classes = useStyles();
 
-  const { project, getProjectDetails } = useContext(ProjectContext);
-  const { sprint, addSprint, updateSprint } = useContext(SprintContext);
+  const { sprint, addSprint, updateSprint, getSprintDetails, getProjectForSprint, project } = useContext(SprintContext);
 
   useEffect(() => {
-    getProjectDetails(props.match.params.id);
+    getSprintDetails(props.match.params.sprintid);
+    getProjectForSprint(props.match.params.sprintid);
   }, []);
 
   const [formData, updateFormData] = useState({
@@ -159,158 +160,184 @@ const UpdateSprint = (props) => {
     <Wrapper>
       <h2>Update Sprint</h2>
       <hr></hr>
-      <Grid container component='main' className={classes.root}>
-        <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            <form
-              className={classes.form}
-              action=''
-              onSubmit={(e) => onSubmit(e)}
-            >
-              <TextField
-                autoComplete='title'
-                name='title'
-                variant='outlined'
-                required
-                fullWidth
-                id='title'
-                label='Sprint Title'
-                autoFocus
-                value={title}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <TextField
-                autoComplete='description'
-                name='description'
-                variant='outlined'
-                required
-                fullWidth
-                multiline
-                rows={6}
-                id='description'
-                label='Sprint Description'
-                autoFocus
-                value={description}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <FormControl variant='outlined' className={classes.formControl}>
-                <InputLabel htmlFor='status'>Status</InputLabel>
-                <Select
-                  required
-                  placeholder={sprint.status}
-                  native
-                  value={status}
+      <p>Please ensure that you provide a status for the sprint's history.</p>
+      {!sprint ? (
+        <Spinner />
+      ) : (
+        <Grid container component='main' className={classes.root}>
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={8}
+            component={Paper}
+            elevation={6}
+            square
+          >
+            <div className={classes.paper}>
+              <form
+                className={classes.form}
+                action=''
+                onSubmit={(e) => onSubmit(e)}
+              >
+                <TextField
+                  autoComplete='title'
+                  placeholder={sprint.title}
+                  name='title'
+                  variant='outlined'
+                  fullWidth
+                  id='title'
+                  label='Sprint Title'
+                  autoFocus
+                  value={title}
                   onChange={(e) => onChange(e)}
-                  label='status'
-                  inputProps={{
-                    name: 'status',
-                    id: 'status',
+                  margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
                   }}
+                />
+                <TextField
+                  autoComplete='description'
+                  placeholder={sprint.description}
+                  name='description'
+                  variant='outlined'
+                  fullWidth
+                  multiline
+                  rows={6}
+                  id='description'
+                  label='Sprint Description'
+                  value={description}
+                  onChange={(e) => onChange(e)}
+                  margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <FormControl variant='outlined' className={classes.formControl}>
+                  <InputLabel htmlFor='status'>Status</InputLabel>
+                  <Select
+                    required
+                    placeholder={sprint.status}
+                    native
+                    value={status}
+                    onChange={(e) => onChange(e)}
+                    label='status'
+                    inputProps={{
+                      name: 'status',
+                      id: 'status',
+                    }}
+                  >
+                    <option aria-label='None' value='' />
+                    <option value={'Sprint Created'}>Sprint Created</option>
+                    <option value={'In Progress'}>In Progress</option>
+                    <option value={'Completed'}>Completed</option>
+                  </Select>
+                </FormControl>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify='flex-start'>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      placeholder={sprint.startDate}
+                      variant='inline'
+                      format='MM/dd/yyyy'
+                      margin='normal'
+                      id='startDate'
+                      label='Start Date'
+                      value={startDate}
+                      onChange={(startDate) => handleStartDateChange(startDate)}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify='flex-start'>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      placeholder={sprint.plannedEndDate}
+                      variant='inline'
+                      format='MM/dd/yyyy'
+                      margin='normal'
+                      id='plannedEndDate'
+                      label='Planned End Date'
+                      value={plannedEndDate}
+                      onChange={(plannedEndDate) =>
+                        handleEndDateChange(plannedEndDate)
+                      }
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+                <TextField
+                  variant='outlined'
+                  fullWidth
+                  name='developer'
+                  label='Add Developer to Sprint (Username)'
+                  required
+                  id='developer'
+                  value={developer}
+                  onChange={(e) => onChange(e)}
+                  margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify='flex-start'>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      placeholder={sprint.dateCompleted}
+                      variant='inline'
+                      format='MM/dd/yyyy'
+                      margin='normal'
+                      id='dateCompleted'
+                      label='Date Completed'
+                      value={dateCompleted}
+                      onChange={(dateCompleted) =>
+                        handleCompletionDateChange(dateCompleted)
+                      }
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+                <TextField
+                  name='resolutionSummary'
+                  placeholder={sprint.resolutionSummary}
+                  variant='outlined'
+                  fullWidth
+                  id='resolutionSummary'
+                  label='Summary of Ticket Resolution'
+                  value={resolutionSummary}
+                  onChange={(e) => onChange(e)}
+                  multiline
+                  rows={6}
+                  margin='normal'
+                />
+                <AlertBanner />
+                <StyledBlueButton
+                  type='submit'
+                  className={classes.buttons}
+                  onClick={(e) => onSubmit(e)}
                 >
-                  <option aria-label='None' value='' />
-                  <option value={'Sprint Created'}>Sprint Created</option>
-                  <option value={'In Progress'}>In Progress</option>
-                  <option value={'Completed'}>Completed</option>
-                </Select>
-              </FormControl>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify='flex-start'>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    placeholder={sprint.startDate}
-                    variant='inline'
-                    format='MM/dd/yyyy'
-                    margin='normal'
-                    id='startDate'
-                    label='Start Date'
-                    value={startDate}
-                    onChange={(startDate) => handleStartDateChange(startDate)}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </Grid>
-              </MuiPickersUtilsProvider>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify='flex-start'>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    placeholder={sprint.plannedEndDate}
-                    variant='inline'
-                    format='MM/dd/yyyy'
-                    margin='normal'
-                    id='plannedEndDate'
-                    label='Planned End Date'
-                    value={plannedEndDate}
-                    onChange={(plannedEndDate) =>
-                      handleEndDateChange(plannedEndDate)
-                    }
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </Grid>
-              </MuiPickersUtilsProvider>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify='flex-start'>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    placeholder={sprint.dateCompleted}
-                    variant='inline'
-                    format='MM/dd/yyyy'
-                    margin='normal'
-                    id='dateCompleted'
-                    label='Date Completed'
-                    value={dateCompleted}
-                    onChange={(dateCompleted) =>
-                      handleCompletionDateChange(dateCompleted)
-                    }
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </Grid>
-              </MuiPickersUtilsProvider>
-              <TextField
-                name='resolutionSummary'
-                placeholder={resolutionSummary}
-                variant='outlined'
-                fullWidth
-                id='resolutionSummary'
-                label='Summary of Ticket Resolution'
-                autoFocus
-                value={resolutionSummary}
-                onChange={(e) => onChange(e)}
-                multiline
-                rows={6}
-                margin='normal'
-              />
-              <AlertBanner />
-              <StyledBlueButton
-                type='submit'
-                className={classes.buttons}
-                onClick={(e) => onSubmit(e)}
-              >
-                SUBMIT
-              </StyledBlueButton>
-              <StyledRedLink
-                to={`/projects/${project._id}`}
-                className={classes.buttons}
-              >
-                CANCEL
-              </StyledRedLink>
-            </form>
-          </div>
+                  SUBMIT
+                </StyledBlueButton>
+                <StyledRedLink
+                  to={`/sprint/${sprint._id}`}
+                  className={classes.buttons}
+                >
+                  CANCEL
+                </StyledRedLink>
+              </form>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Wrapper>
   );
 };

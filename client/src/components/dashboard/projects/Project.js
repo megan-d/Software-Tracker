@@ -52,7 +52,7 @@ const Project = (props) => {
   };
 
   useEffect(() => {
-    getProjectDetails(props.match.params.id);
+    getProjectDetails(props.match.params.projectid);
     clearTicket();
   }, []);
 
@@ -167,14 +167,14 @@ const Project = (props) => {
           <StyledLink
             variant='contained'
             color='primary'
-            to={`/projects/${project._id}/submitticket`}
+            to={`/projects/submitticket/${project._id}`}
           >
             Add Ticket
           </StyledLink>
           <StyledLink
             variant='contained'
             color='primary'
-            to={`/projects/${project._id}/createsprint`}
+            to={`/projects/createsprint/${project._id}`}
           >
             Add Sprint
           </StyledLink>

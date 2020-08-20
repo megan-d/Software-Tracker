@@ -381,12 +381,12 @@ router.put('/tickets/:sprint_id/:ticket_id', verify, async (req, res) => {
 //ROUTE: PUT api/projects/sprints/comment/:sprint_id
 //DESCRIPTION: Comment on an existing sprint
 //ACCESS LEVEL: Private
-router.post(
+router.put(
   '/comment/:sprint_id',
   [
     verify,
     [
-      check('text', 'Please provide text in the comment field.')
+      check('comment', 'Please provide text in the comment field.')
         .not()
         .isEmpty()
         .trim(),
@@ -406,8 +406,8 @@ router.post(
       let sprint = await Sprint.findById(req.params.sprint_id);
       //Create object for new comment. It's not a collection in database so just an object.
       const newComment = {
-        name: user.name,
-        text: req.body.text,
+        name: user.username,
+        text: req.body.comment,
         user: req.user.id,
       };
 

@@ -25,19 +25,19 @@ const StyledLink = styled(Link)`
 `;
 
 const Sprint = (props) => {
-  const { sprint, getSprintDetails, deleteSprint, isLoading } = useContext(
+  const { sprint, getSprintDetails, deleteSprint, isLoading, getProjectForSprint } = useContext(
     SprintContext,
   );
-  const { project, getProjectForSprint } = useContext(ProjectContext);
+  const { project } = useContext(ProjectContext);
 
   useEffect(() => {
-    getSprintDetails(props.match.params.id);
-    getProjectForSprint(props.match.params.id);
+    getSprintDetails(props.match.params.sprintid);
+    getProjectForSprint(props.match.params.sprintid);
   }, []);
 
   return (
     <Wrapper>
-      {!sprint ? (
+      {!sprint || isLoading ? (
         <Spinner />
       ) : (
         <Fragment>

@@ -10,6 +10,10 @@ const sprintSchema = new Schema({
     type: String,
     required: true,
   },
+  project: {
+    type: Schema.Types.ObjectId,
+    ref: 'Project',
+  },
   submitter: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -20,8 +24,8 @@ const sprintSchema = new Schema({
   },
   developers: [
     {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
   ],
   dateCreated: {
@@ -36,7 +40,7 @@ const sprintSchema = new Schema({
   },
   status: {
     type: String,
-    required: true
+    required: true,
   },
   statusLog: [
     {

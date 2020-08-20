@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
+import Spinner from '../../layout/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
@@ -95,8 +96,8 @@ const CreateSprint = (props) => {
   const { addSprint } = useContext(SprintContext);
 
   useEffect(() => {
-    getProjectDetails(props.match.params.id);
-  }, []);
+    getProjectDetails(props.match.params.projectid);
+  }, [project, props.match.params.projectid]);
 
   const [formData, updateFormData] = useState({
     title: '',
@@ -125,66 +126,77 @@ const CreateSprint = (props) => {
     <Wrapper>
       <h2>Create a New Sprint</h2>
       <hr></hr>
-      <Grid container component='main' className={classes.root}>
-        <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            <form
-              className={classes.form}
-              action=''
-              onSubmit={(e) => onSubmit(e)}
-            >
-              <TextField
-                autoComplete='title'
-                name='title'
-                variant='outlined'
-                required
-                fullWidth
-                id='title'
-                label='Sprint Title'
-                autoFocus
-                value={title}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <TextField
-                autoComplete='description'
-                name='description'
-                variant='outlined'
-                required
-                fullWidth
-                multiline
-                rows={6}
-                id='description'
-                label='Sprint Description'
-                autoFocus
-                value={description}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <AlertBanner />
-              <StyledBlueButton
-                type='submit'
-                className={classes.buttons}
-                onClick={(e) => onSubmit(e)}
+      {!project ? (
+        <Spinner />
+      ) : (
+        <Grid container component='main' className={classes.root}>
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={8}
+            component={Paper}
+            elevation={6}
+            square
+          >
+            <div className={classes.paper}>
+              <form
+                className={classes.form}
+                action=''
+                onSubmit={(e) => onSubmit(e)}
               >
-                SUBMIT
-              </StyledBlueButton>
-              <StyledRedLink
-                to={`/projects/${project._id}`}
-                className={classes.buttons}
-              >
-                CANCEL
-              </StyledRedLink>
-            </form>
-          </div>
+                <TextField
+                  autoComplete='title'
+                  name='title'
+                  variant='outlined'
+                  required
+                  fullWidth
+                  id='title'
+                  label='Sprint Title'
+                  autoFocus
+                  value={title}
+                  onChange={(e) => onChange(e)}
+                  margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  autoComplete='description'
+                  name='description'
+                  variant='outlined'
+                  required
+                  fullWidth
+                  multiline
+                  rows={6}
+                  id='description'
+                  label='Sprint Description'
+                  value={description}
+                  onChange={(e) => onChange(e)}
+                  margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <AlertBanner />
+                <StyledBlueButton
+                  type='submit'
+                  className={classes.buttons}
+                  onClick={(e) => onSubmit(e)}
+                >
+                  SUBMIT
+                </StyledBlueButton>
+                <StyledRedLink
+                  to={`/projects/${project._id}`}
+                  className={classes.buttons}
+                >
+                  CANCEL
+                </StyledRedLink>
+              </form>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Wrapper>
   );
 };

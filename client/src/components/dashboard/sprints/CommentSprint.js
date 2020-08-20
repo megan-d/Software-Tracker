@@ -7,7 +7,7 @@ import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import { TicketContext } from '../../../context/tickets/TicketContext';
+import { SprintContext } from '../../../context/sprints/SprintContext';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import styled from 'styled-components';
 
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CommentTicket = (props) => {
+const CommentSprint = (props) => {
   const classes = useStyles();
 
   const [formData, updateFormData] = useState({
@@ -95,14 +95,14 @@ const CommentTicket = (props) => {
   //Pull out variables from formData and userData
   const { comment } = formData;
 
-  const { ticket, isLoading, addTicketComment, getTicketDetails, getProjectForTicket } = useContext(
-    TicketContext,
+  const { sprint, isLoading, addSprintComment, getSprintDetails, getProjectForSprint } = useContext(
+    SprintContext,
   );
 
 
   useEffect(() => {
-    getTicketDetails(props.match.params.ticketid);
-    getProjectForTicket(props.match.params.ticketid);
+    getSprintDetails(props.match.params.sprintid);
+    getProjectForSprint(props.match.params.sprintid);
   }, []);
 
   // Function to update state on change using updateFormData
@@ -116,17 +116,17 @@ const CommentTicket = (props) => {
       comment: comment,
     };
     //call add comment action
-    await addTicketComment(newComment, ticket._id, props.history);
+    await addSprintComment(newComment, sprint._id, props.history);
   };
 
   return (
     <Wrapper>
-      {!ticket ? (
+      {!sprint ? (
         <Spinner />
       ) : (
         <Fragment>
-          <h2>Comment on Ticket</h2>
-          <p>Ticket: {ticket.title}</p>
+          <h2>Comment on Sprint</h2>
+          <p>Sprint: {sprint.title}</p>
           <hr></hr>
 
           <Grid container component='main' className={classes.root}>
@@ -169,7 +169,7 @@ const CommentTicket = (props) => {
                     SUBMIT
                   </StyledBlueButton>
                   <StyledRedLink
-                    to={`/ticket/${ticket._id}`}
+                    to={`/sprint/${sprint._id}`}
                     className={classes.buttons}
                   >
                     CANCEL
@@ -184,4 +184,4 @@ const CommentTicket = (props) => {
   );
 };
 
-export default CommentTicket;
+export default CommentSprint;

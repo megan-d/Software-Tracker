@@ -114,7 +114,7 @@ const CommentProject = (props) => {
   );
 
   useEffect(() => {
-    getProjectDetails(props.match.params.id);
+    getProjectDetails(props.match.params.projectid);
   }, []);
 
   // Function to update state on change using updateFormData

@@ -124,7 +124,7 @@ export default function EditProject(props) {
   );
 
   useEffect(() => {
-    getProjectDetails(props.match.params.id);
+    getProjectDetails(props.match.params.projectid);
   }, []);
 
   const [formData, updateFormData] = useState({

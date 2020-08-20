@@ -25,17 +25,17 @@ const StyledLink = styled(Link)`
 `;
 
 const Ticket = (props) => {
-  const { ticket, getTicketDetails, deleteTicket, isLoading } = useContext(TicketContext);
-  const { project, getProjectForTicket } = useContext(ProjectContext);
+  const { ticket, getTicketDetails, deleteTicket, isLoading, getProjectForTicket } = useContext(TicketContext);
+  const { project } = useContext(ProjectContext);
 
   useEffect(() => {
-    getTicketDetails(props.match.params.id);
-    getProjectForTicket(props.match.params.id);
+    getTicketDetails(props.match.params.ticketid);
+    getProjectForTicket(props.match.params.ticketid);
   }, []);
 
   return (
     <Wrapper>
-      {!ticket ? (
+      {!ticket || isLoading ? (
         <Spinner />
       ) : (
         <Fragment>
