@@ -21,13 +21,13 @@ export default (state, action) => {
           isLoading: false,
           errors: null,
         };
-        case 'LOAD_PROJECT_FOR_SPRINT_SUCCESS':
-        return {
-          ...state,
-          isLoading: false,
-          project: action.payload,
-          errors: null,
-        };
+        // case 'LOAD_PROJECT_FOR_SPRINT_SUCCESS':
+        // return {
+        //   ...state,
+        //   isLoading: false,
+        //   project: action.payload,
+        //   errors: null,
+        // };
       case 'CLEAR_SPRINT':
         return {
           ...state,
@@ -43,13 +43,13 @@ export default (state, action) => {
           isLoading: false,
           errors: action.payload,
         };
-        case 'LOAD_PROJECT_FOR_SPRINT_FAILURE':
-            return {
-                ...state,
-                isLoading: false,
-                project: null,
-                errors: null,
-              };
+        // case 'LOAD_PROJECT_FOR_SPRINT_FAILURE':
+        //     return {
+        //         ...state,
+        //         isLoading: false,
+        //         project: null,
+        //         errors: null,
+        //       };
       default:
         return state;
     }

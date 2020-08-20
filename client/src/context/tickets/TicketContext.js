@@ -9,7 +9,7 @@ const initialState = {
   isLoading: true,
   tickets: [],
   ticket: null,
-  project: null,
+  // project: null,
   errors: [],
 };
 
@@ -203,7 +203,7 @@ export const TicketProvider = ({ children }) => {
     const body = JSON.stringify(comment);
 
     try {
-      const res = await axios.put(
+      const res = await axios.post(
         `/api/projects/tickets/comment/${ticketId}`,
         body,
         config,
@@ -227,32 +227,32 @@ export const TicketProvider = ({ children }) => {
   };
 
   //*****GET PROJECT BY ASSOCIATED TICKET ACTION************
-  const getProjectForTicket = async (ticketId) => {
-    //Create config with headers
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': localStorage.getItem('token'),
-      },
-    };
-    try {
-      const res = await axios.get(`/api/projects/ticket/${ticketId}`, config);
-      dispatch({
-        type: 'LOAD_PROJECT_FOR_TICKET_SUCCESS',
-        payload: res.data,
-      });
-    } catch (err) {
-      let errors = err.response.data.errors;
-      if (errors) {
-        //if errors, loop through them and dispatch the showAlert action from AlertContext
-        errors.forEach((el) => showAlert(el.msg, 'error'));
-      }
-      dispatch({
-        type: 'LOAD_PROJECT_FOR_TICKET_FAILURE',
-        payload: err.response.data.errors
-      });
-    }
-  };
+  // const getProjectForTicket = async (ticketId) => {
+  //   //Create config with headers
+  //   const config = {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'x-access-token': localStorage.getItem('token'),
+  //     },
+  //   };
+  //   try {
+  //     const res = await axios.get(`/api/projects/ticket/${ticketId}`, config);
+  //     dispatch({
+  //       type: 'LOAD_PROJECT_FOR_TICKET_SUCCESS',
+  //       payload: res.data,
+  //     });
+  //   } catch (err) {
+  //     let errors = err.response.data.errors;
+  //     if (errors) {
+  //       //if errors, loop through them and dispatch the showAlert action from AlertContext
+  //       errors.forEach((el) => showAlert(el.msg, 'error'));
+  //     }
+  //     dispatch({
+  //       type: 'LOAD_PROJECT_FOR_TICKET_FAILURE',
+  //       payload: err.response.data.errors
+  //     });
+  //   }
+  // };
 
   //Return Ticket Provider
   return (
@@ -270,7 +270,6 @@ export const TicketProvider = ({ children }) => {
         clearTicket,
         addTicketComment,
         updateTicket,
-        getProjectForTicket
       }}
     >
       {children}

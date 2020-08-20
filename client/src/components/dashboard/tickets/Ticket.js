@@ -25,12 +25,10 @@ const StyledLink = styled(Link)`
 `;
 
 const Ticket = (props) => {
-  const { ticket, getTicketDetails, deleteTicket, isLoading, getProjectForTicket } = useContext(TicketContext);
-  const { project } = useContext(ProjectContext);
+  const { ticket, getTicketDetails, deleteTicket, isLoading } = useContext(TicketContext);
 
   useEffect(() => {
     getTicketDetails(props.match.params.ticketid);
-    getProjectForTicket(props.match.params.ticketid);
   }, []);
 
   return (
@@ -67,7 +65,7 @@ const Ticket = (props) => {
             color='secondary'
             startIcon={<DeleteIcon />}
             onClick={async () =>
-              deleteTicket(project._id, ticket._id, props.history)
+              deleteTicket(ticket.project._id, ticket._id, props.history)
             }
           >
             Delete Ticket

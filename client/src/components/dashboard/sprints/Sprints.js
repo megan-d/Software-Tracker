@@ -16,8 +16,8 @@ const Sprints = () => {
 
   const columns = [
     { title: 'Title', field: 'title' },
-    { title: 'Start Date', field: 'startDate' },
-    { title: 'Planned End Date', field: 'plannedEndDate' },
+    { title: 'Start Date', field: 'startDate', type: 'date' },
+    { title: 'Planned End Date', field: 'plannedEndDate', type: 'date' },
     { title: 'Status', field: 'status' },
   ];
 

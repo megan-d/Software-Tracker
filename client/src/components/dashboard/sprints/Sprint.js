@@ -28,11 +28,9 @@ const Sprint = (props) => {
   const { sprint, getSprintDetails, deleteSprint, isLoading, getProjectForSprint } = useContext(
     SprintContext,
   );
-  const { project } = useContext(ProjectContext);
 
   useEffect(() => {
     getSprintDetails(props.match.params.sprintid);
-    getProjectForSprint(props.match.params.sprintid);
   }, []);
 
   return (
@@ -69,7 +67,7 @@ const Sprint = (props) => {
             color='secondary'
             startIcon={<DeleteIcon />}
             onClick={async () =>
-              deleteSprint(project._id, sprint._id, props.history)
+              deleteSprint(sprint.project._id, sprint._id, props.history)
             }
           >
             Delete Sprint

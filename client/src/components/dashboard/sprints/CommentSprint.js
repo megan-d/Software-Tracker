@@ -8,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { SprintContext } from '../../../context/sprints/SprintContext';
-import { ProjectContext } from '../../../context/projects/ProjectContext';
 import styled from 'styled-components';
 
 const StyledGreyLink = styled(Link)`
@@ -95,14 +94,13 @@ const CommentSprint = (props) => {
   //Pull out variables from formData and userData
   const { comment } = formData;
 
-  const { sprint, isLoading, addSprintComment, getSprintDetails, getProjectForSprint } = useContext(
+  const { sprint, isLoading, addSprintComment, getSprintDetails } = useContext(
     SprintContext,
   );
 
 
   useEffect(() => {
     getSprintDetails(props.match.params.sprintid);
-    getProjectForSprint(props.match.params.sprintid);
   }, []);
 
   // Function to update state on change using updateFormData

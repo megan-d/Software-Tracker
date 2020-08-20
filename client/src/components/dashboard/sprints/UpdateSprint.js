@@ -99,11 +99,10 @@ const useStyles = makeStyles((theme) => ({
 const UpdateSprint = (props) => {
   const classes = useStyles();
 
-  const { sprint, addSprint, updateSprint, getSprintDetails, getProjectForSprint, project } = useContext(SprintContext);
+  const { sprint, updateSprint, getSprintDetails } = useContext(SprintContext);
 
   useEffect(() => {
     getSprintDetails(props.match.params.sprintid);
-    getProjectForSprint(props.match.params.sprintid);
   }, []);
 
   const [formData, updateFormData] = useState({
@@ -153,7 +152,7 @@ const UpdateSprint = (props) => {
       dateCompleted: dateCompleted,
     };
     //call add sprint action
-    await updateSprint(edits, project._id, sprint._id, props.history);
+    await updateSprint(edits, sprint.project._id, sprint._id, props.history);
   };
 
   return (

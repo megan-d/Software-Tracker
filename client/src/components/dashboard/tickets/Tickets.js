@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
@@ -54,6 +55,13 @@ const Tickets = (props) => {
             title='Tickets'
             columns={columns}
             data={tickets}
+            actions={[
+              {
+                icon: 'visibility',
+                tooltip: 'View Project',
+                onClick: (event, rowData) => <Link to={`/projects/${rowData.project._id}`}></Link>
+              }
+            ]}
             onRowClick={async (event, rowData) => {
               history.push(`/ticket/${rowData._id}`)
             }}

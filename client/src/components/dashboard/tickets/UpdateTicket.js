@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
 export default function UpdateTicket(props) {
   const classes = useStyles();
 
-  const { ticket, updateTicket, getTicketDetails, getProjectForTicket, project } = useContext(TicketContext);
+  const { ticket, updateTicket, getTicketDetails } = useContext(TicketContext);
 
   const [formData, updateFormData] = useState({
     title: '',
@@ -145,7 +145,6 @@ export default function UpdateTicket(props) {
 
   useEffect(() => {
     getTicketDetails(props.match.params.ticketid);
-    getProjectForTicket(props.match.params.ticketid);
   }, []);
 
   //TODO: Need to fix how target completion date is shown in placeholder text.
@@ -189,8 +188,7 @@ export default function UpdateTicket(props) {
       dateCompleted: dateCompleted,
     };
     //call add project action
-    console.log(project);
-    await updateTicket(ticketUpdates, project._id, ticket._id, props.history);
+    await updateTicket(ticketUpdates, ticket.project._id, ticket._id, props.history);
   };
 
   return (

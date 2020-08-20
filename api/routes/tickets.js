@@ -61,7 +61,7 @@ router.get('/:project_id', verify, async (req, res) => {
 //ACCESS LEVEL: Private
 router.get('/ticket/:ticket_id', verify, async (req, res) => {
   try {
-    let ticket = await Ticket.findOne({ _id: req.params.ticket_id });
+    let ticket = await Ticket.findOne({ _id: req.params.ticket_id }).populate('project');
 
     //If there are no tickets, return an error
     if (!ticket) {
@@ -202,10 +202,10 @@ router.post(
   },
 );
 
-//ROUTE: PUT api/projects/tickets/comment/:ticket_id
+//ROUTE: POST api/projects/tickets/comment/:ticket_id
 //DESCRIPTION: Comment on an existing ticket
 //ACCESS LEVEL: Private
-router.put(
+router.post(
   '/comment/:ticket_id',
   [
     verify,

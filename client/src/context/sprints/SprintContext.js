@@ -9,7 +9,7 @@ const initialState = {
   isLoading: true,
   sprints: [],
   sprint: null,
-  project: null,
+//   project: null,
   errors: [],
 };
 
@@ -166,7 +166,7 @@ export const SprintProvider = ({ children }) => {
     const body = JSON.stringify(comment);
 
     try {
-      const res = await axios.put(
+      const res = await axios.post(
         `/api/projects/sprints/comment/${sprintId}`,
         body,
         config,
@@ -227,33 +227,33 @@ export const SprintProvider = ({ children }) => {
   };
 
   //*****GET PROJECT BY ASSOCIATED SPRINT ACTION************
-  const getProjectForSprint = async (sprintId) => {
-    //Create config with headers
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': localStorage.getItem('token'),
-      },
-    };
-    try {
-      const res = await axios.get(`/api/projects/sprint/${sprintId}`, config);
+//   const getProjectForSprint = async (sprintId) => {
+//     //Create config with headers
+//     const config = {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'x-access-token': localStorage.getItem('token'),
+//       },
+//     };
+//     try {
+//       const res = await axios.get(`/api/projects/sprint/${sprintId}`, config);
 
-      dispatch({
-        type: 'LOAD_PROJECT_FOR_SPRINT_SUCCESS',
-        payload: res.data,
-      });
-    } catch (err) {
-      let errors = err.response.data.errors;
-      if (errors) {
-        //if errors, loop through them and dispatch the showAlert action from AlertContext
-        errors.forEach((el) => showAlert(el.msg, 'error'));
-      }
-      dispatch({
-        type: 'LOAD_PROJECT_FOR_SPRINT_FAILURE',
-        payload: err.response.data.errors
-      });
-    }
-  };
+//       dispatch({
+//         type: 'LOAD_PROJECT_FOR_SPRINT_SUCCESS',
+//         payload: res.data,
+//       });
+//     } catch (err) {
+//       let errors = err.response.data.errors;
+//       if (errors) {
+//         //if errors, loop through them and dispatch the showAlert action from AlertContext
+//         errors.forEach((el) => showAlert(el.msg, 'error'));
+//       }
+//       dispatch({
+//         type: 'LOAD_PROJECT_FOR_SPRINT_FAILURE',
+//         payload: err.response.data.errors
+//       });
+//     }
+//   };
 
   //Return Sprint Provider
   return (
@@ -270,8 +270,7 @@ export const SprintProvider = ({ children }) => {
         deleteSprint,
         clearSprint,
         addSprintComment,
-        updateSprint,
-        getProjectForSprint
+        updateSprint
       }}
     >
       {children}

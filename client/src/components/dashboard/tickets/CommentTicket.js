@@ -8,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { TicketContext } from '../../../context/tickets/TicketContext';
-import { ProjectContext } from '../../../context/projects/ProjectContext';
 import styled from 'styled-components';
 
 const StyledGreyLink = styled(Link)`
@@ -95,14 +94,13 @@ const CommentTicket = (props) => {
   //Pull out variables from formData and userData
   const { comment } = formData;
 
-  const { ticket, isLoading, addTicketComment, getTicketDetails, getProjectForTicket } = useContext(
+  const { ticket, isLoading, addTicketComment, getTicketDetails } = useContext(
     TicketContext,
   );
 
 
   useEffect(() => {
     getTicketDetails(props.match.params.ticketid);
-    getProjectForTicket(props.match.params.ticketid);
   }, []);
 
   // Function to update state on change using updateFormData

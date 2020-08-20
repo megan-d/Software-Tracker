@@ -18,7 +18,7 @@ router.get('/me', verify, async (req, res) => {
     //   Find the all sprints assigned to the user based on the id that comes in with the request's token.
     //TODO: Test if this will work as written
     const assignedSprints = await Sprint.find({$or: [ {developers: { _id: req.user.id }}, {owner: { _id: req.user.id }}]
-    });
+    }).populate('project');
 
     //If there are no sprints, return an error
     if (assignedSprints.length === 0) {
@@ -66,7 +66,7 @@ router.get('/:project_id', verify, async (req, res) => {
 //ACCESS LEVEL: Private
 router.get('/sprint/:sprint_id', verify, async (req, res) => {
   try {
-    let sprint = await Sprint.findOne({ _id: req.params.sprint_id });
+    let sprint = await Sprint.findOne({ _id: req.params.sprint_id }).populate('project');;
 
     //If there are no sprints, return an error
     if (!sprint) {
@@ -378,10 +378,10 @@ router.put('/tickets/:sprint_id/:ticket_id', verify, async (req, res) => {
   }
 });
 
-//ROUTE: PUT api/projects/sprints/comment/:sprint_id
+//ROUTE: POST api/projects/sprints/comments/comment/:sprint_id
 //DESCRIPTION: Comment on an existing sprint
 //ACCESS LEVEL: Private
-router.put(
+router.post(
   '/comment/:sprint_id',
   [
     verify,
