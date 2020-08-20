@@ -49,19 +49,20 @@ const Tickets = (props) => {
           <MaterialTable
             localization={{
               header: {
-                actions: '',
+                actions: 'View Project',
               },
             }}
             title='Tickets'
             columns={columns}
-            data={tickets}
             actions={[
               {
                 icon: 'visibility',
                 tooltip: 'View Project',
-                onClick: (event, rowData) => <Link to={`/projects/${rowData.project._id}`}></Link>
+                onClick: (event, rowData) => props.history.push(`/projects/${rowData.project._id}`)
               }
             ]}
+            data={tickets}
+            
             onRowClick={async (event, rowData) => {
               history.push(`/ticket/${rowData._id}`)
             }}
@@ -70,6 +71,7 @@ const Tickets = (props) => {
               pageSizeOptions: [5, 10, 20, 30],
               toolbar: true,
               paging: true,
+              actionsColumnIndex: -1
           }}
           />
         </Fragment>
