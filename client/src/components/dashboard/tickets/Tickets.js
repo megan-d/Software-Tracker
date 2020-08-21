@@ -49,7 +49,7 @@ const Tickets = (props) => {
           <MaterialTable
             localization={{
               header: {
-                actions: 'View Project',
+                actions: 'Project',
               },
             }}
             title='Tickets'

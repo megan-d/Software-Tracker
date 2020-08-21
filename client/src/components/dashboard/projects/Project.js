@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
@@ -36,20 +36,7 @@ const Project = (props) => {
   const { clearTicket } = useContext(TicketContext);
   const { user } = useContext(AuthContext);
 
-  const getAssignedDevUsername = async (assignedDevId) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': localStorage.getItem('token'),
-      },
-    };
-    try {
-      const user = await axios.get(`/api/users/${assignedDevId}`, config);
-      return user;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [assignedDev, updateAssignedDev] = useState();
 
   useEffect(() => {
     getProjectDetails(props.match.params.projectid);

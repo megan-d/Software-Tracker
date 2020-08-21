@@ -5,7 +5,7 @@ import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
 
-const Sprints = () => {
+const Sprints = (props) => {
 
   const { sprints, sprint, isLoading, getUserSprints, clearSprint } = useContext(SprintContext);
 
@@ -45,11 +45,18 @@ const Sprints = () => {
           <MaterialTable
             localization={{
               header: {
-                actions: '',
+                actions: 'Project',
               },
             }}
             title='Sprints'
             columns={columns}
+            actions={[
+              {
+                icon: 'visibility',
+                tooltip: 'View Project',
+                onClick: (event, rowData) => props.history.push(`/projects/${rowData.project._id}`)
+              }
+            ]}
             data={sprints}
             onRowClick={async (event, rowData) => {
               history.push(`/sprint/${rowData._id}`)
@@ -59,6 +66,7 @@ const Sprints = () => {
               pageSizeOptions: [5, 10, 20, 30],
               toolbar: true,
               paging: true,
+              actionsColumnIndex: -1
           }}
           />
         </Fragment>
