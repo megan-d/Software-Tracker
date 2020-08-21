@@ -36,7 +36,7 @@ const Project = (props) => {
   const { clearTicket } = useContext(TicketContext);
   const { user } = useContext(AuthContext);
 
-  const [assignedDev, updateAssignedDev] = useState();
+  // const [assignedDev, updateAssignedDev] = useState();
 
   useEffect(() => {
     getProjectDetails(props.match.params.projectid);
@@ -49,13 +49,13 @@ const Project = (props) => {
     { title: 'Priority', field: 'priority' },
     { title: 'Due date', field: 'dateDue', type: 'date' },
     { title: 'Status', field: 'status' },
-    { title: 'Assigned Dev', field: 'assignedDeveloper' },
+    // { title: 'Assigned Dev', field: 'assignedDeveloper' },
   ];
 
   const sprintColumns = [
     { title: 'Title', field: 'title' },
-    { title: 'StartDate', field: 'startDate' },
-    { title: 'Planned End Date', field: 'plannedEndDate' },
+    { title: 'StartDate', field: 'startDate', type: 'date' },
+    { title: 'Planned End Date', field: 'plannedEndDate', type: 'date' },
     { title: 'Status', field: 'status' },
   ];
 
@@ -89,7 +89,7 @@ const Project = (props) => {
                 priority: el.priority,
                 dateDue: el.dateDue,
                 status: el.status,
-                assignedDeveloper: <AvatarIcon user={'H'} />,
+                // assignedDeveloper: <AvatarIcon user={'H'} />,
               };
             })}
             options={{

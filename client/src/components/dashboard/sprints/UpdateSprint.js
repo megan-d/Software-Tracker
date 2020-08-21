@@ -284,7 +284,7 @@ const UpdateSprint = (props) => {
                     shrink: true,
                   }}
                 />
-
+                
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container justify='flex-start'>
                     <KeyboardDatePicker

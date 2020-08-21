@@ -402,8 +402,6 @@ router.put(
   },
 );
 
-//TODO: Add tickets to sprint
-
 //ROUTE: DELETE api/projects/tickets/:project_id/:ticket_id
 //DESCRIPTION: Delete a ticket on given project by ticket id
 //ACCESS LEVEL: Private

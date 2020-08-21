@@ -1,12 +1,13 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useHistory } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
+import MaterialTable from 'material-table';
 import { SprintContext } from '../../../context/sprints/SprintContext';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
-import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import styled from 'styled-components';
 
 const StyledLink = styled(Link)`
@@ -29,6 +30,17 @@ const Sprint = (props) => {
     SprintContext,
   );
 
+  const ticketColumns = [
+    { title: 'Title', field: 'title' },
+    { title: 'Type', field: 'type' },
+    { title: 'Priority', field: 'priority' },
+    { title: 'Due date', field: 'dateDue', type: 'date' },
+    { title: 'Status', field: 'status' },
+    // { title: 'Assigned Dev', field: 'assignedDeveloper' },
+  ];
+
+  // let history = useHistory();
+
   useEffect(() => {
     getSprintDetails(props.match.params.sprintid);
   }, []);
@@ -39,7 +51,7 @@ const Sprint = (props) => {
         <Spinner />
       ) : (
         <Fragment>
-          <ConfirmationNumberIcon />
+          <GroupWorkIcon />
           <div>{sprint.title}</div>
           <div>{sprint.description}</div>
           <ul>Sprint comments:</ul>
@@ -48,6 +60,40 @@ const Sprint = (props) => {
           ) : (
             sprint.comments.map((el) => <li key={el._id}>{el.text}</li>)
           )}
+          <MaterialTable
+            localization={{
+              header: {
+                actions: '',
+              },
+            }}
+            title='Tickets'
+            columns={ticketColumns}
+            data={sprint.tickets.map((el) => {
+              return {
+                id: el._id,
+                title: el.title,
+                type: el.type,
+                priority: el.priority,
+                dateDue: el.dateDue,
+                status: el.status,
+                // assignedDeveloper: <AvatarIcon user={'H'} />,
+              };
+            })}
+            options={{
+              pageSize: 5,
+              pageSizeOptions: [5, 10, 20, 30],
+              toolbar: true,
+              paging: true,
+              options: {
+                rowStyle: {
+                  padding: '0px',
+                },
+              },
+            }}
+            onRowClick={async (event, rowData) => {
+              props.history.push(`/ticket/${rowData.id}`);
+            }}
+          />
           <StyledLink
             variant='contained'
             color='primary'

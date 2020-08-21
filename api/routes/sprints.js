@@ -17,16 +17,18 @@ router.get('/me', verify, async (req, res) => {
   try {
     //   Find the all sprints assigned to the user based on the id that comes in with the request's token.
     //TODO: Test if this will work as written
-    const assignedSprints = await Sprint.find({$or: [ {developers: { _id: req.user.id }}, {owner: { _id: req.user.id }}]
+    const assignedSprints = await Sprint.find({
+      $or: [
+        { developers: { _id: req.user.id } },
+        { owner: { _id: req.user.id } },
+      ],
     }).populate('project');
 
     //If there are no sprints, return an error
     if (assignedSprints.length === 0) {
-      return res
-        .status(400)
-        .json({
-          errors: [{ msg: 'There are no sprints assigned to this user.' }],
-        });
+      return res.status(400).json({
+        errors: [{ msg: 'There are no sprints assigned to this user.' }],
+      });
     }
     res.json(assignedSprints);
   } catch (err) {
@@ -48,13 +50,34 @@ router.get('/:project_id', verify, async (req, res) => {
 
     //If there are no sprints, return an error
     if (sprints.length === 0) {
-      return res
-        .status(400)
-        .json({
-          errors: [{ msg: 'There are no sprints available for this project.' }],
-        });
+      return res.status(400).json({
+        errors: [{ msg: 'There are no sprints available for this project.' }],
+      });
     }
     res.json(sprints);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//ROUTE: GET api/projects/sprints/tickets/:sprint_id
+//DESCRIPTION: Get all tickets for a sprint
+//ACCESS LEVEL: Private
+router.get('/tickets/:sprint_id', verify, async (req, res) => {
+  try {
+    //   Find the sprint. Populate ticket information.
+    let sprint = await Sprint.findOne({
+      _id: req.params.sprint_id,
+    }).populate('tickets');
+
+    //If there is no sprint, return an error
+    if (!sprint) {
+      return res.status(400).json({
+        errors: [{ msg: 'This sprint could not be found.' }],
+      });
+    }
+    res.json(sprint.tickets);
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');
@@ -66,7 +89,9 @@ router.get('/:project_id', verify, async (req, res) => {
 //ACCESS LEVEL: Private
 router.get('/sprint/:sprint_id', verify, async (req, res) => {
   try {
-    let sprint = await Sprint.findOne({ _id: req.params.sprint_id }).populate('project');;
+    let sprint = await Sprint.findOne({ _id: req.params.sprint_id }).populate(
+      'project tickets',
+    );
 
     //If there are no sprints, return an error
     if (!sprint) {
@@ -108,10 +133,7 @@ router.post(
     }
 
     //Pull all of the fields out into variables from req.body.
-    const {
-      title,
-      description,
-    } = req.body;
+    const { title, description } = req.body;
 
     //Build the sprintItems object. If the value is there, add it to the sprintItems object.
     const sprintItems = {};
@@ -165,11 +187,9 @@ router.post(
         await project.save();
         return res.json(sprint);
       } else {
-        return res
-          .status(401)
-          .json({
-            errors: [{ msg: 'You are not permitted to perform this action.' }],
-          });
+        return res.status(401).json({
+          errors: [{ msg: 'You are not permitted to perform this action.' }],
+        });
       }
     } catch (err) {
       console.error(err);
@@ -194,10 +214,6 @@ router.put(
         .trim(),
       check('description', 'Please provide a sprint description.')
         .optional({ checkFalsy: true })
-        .trim(),
-      check('status', 'Please provide the current status for the sprint.')
-        .not()
-        .isEmpty()
         .trim(),
     ],
   ],
@@ -263,8 +279,8 @@ router.put(
       if (
         req.user.role === 'admin' ||
         project.manager.toString() === req.user.id ||
-        project.owner.toString() === req.user.id
-        || sprint.owner.toString() === req.user.id
+        project.owner.toString() === req.user.id ||
+        sprint.owner.toString() === req.user.id
       ) {
         if (title) {
           let isExistingSprintTitle = project.sprints.filter(
@@ -331,11 +347,9 @@ router.put(
         //Send back the updated sprint
         return res.json(updatedSprint);
       } else {
-        return res
-          .status(401)
-          .json({
-            errors: [{ msg: 'You are not permitted to perform this action.' }],
-          });
+        return res.status(401).json({
+          errors: [{ msg: 'You are not permitted to perform this action.' }],
+        });
       }
     } catch (err) {
       console.error(err);
@@ -357,21 +371,44 @@ router.put('/tickets/:sprint_id/:ticket_id', verify, async (req, res) => {
     let isExistingTicket = tickets.filter(
       (ticket) => ticket._id.toString() === req.params.ticket_id,
     );
+    //Check if ticket already exists for sprint
     if (isExistingTicket.length > 0) {
       return res.status(400).json({
         errors: [{ msg: 'This ticket has already been added to the sprint.' }],
       });
     }
+    // if (
+    //   req.user.role === 'admin' ||
+    //   project.manager.toString() === req.user.id ||
+    //   project.owner.toString() === req.user.id
+    //   || sprint.owner.toString() === req.user.id
+    // ) {
+    //Get assigned developer from ticket and see if they are currently a developer on the sprint. If not, add them.
+    const ticket = await Ticket.findById(req.params.ticket_id);
+    const assignedDev = ticket.assignedDeveloper;
+
+    let isExistingSprintDeveloper = sprint.developers.filter(
+      (el) => el.toString() === assignedDev.toString(),
+    );
+
+    if (isExistingSprintDeveloper.length === 0) {
+      //Add to developers array for sprint
+      await sprint.developers.push(assignedDev);
+    }
 
     //Add ticket ID onto sprint at the end of array (want chronological order in this case)
-    //Check if ticket already exists for sprint
-    sprint.tickets.push(req.params.ticket_id);
+    await sprint.tickets.push(req.params.ticket_id);
 
     //Save to database
     await sprint.save();
 
     //Send back all tickets
     res.json(sprint);
+    // } else
+    
+      // return res.status(401).json({
+      //   errors: [{ msg: 'You are not permitted to perform this action.' }],
+      // });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -460,11 +497,9 @@ router.delete('/:project_id/:sprint_id', verify, async (req, res) => {
       await project.save();
       res.json({ msg: 'This sprint has been deleted.' });
     } else {
-      return res
-        .status(401)
-        .json({
-          errors: [{ msg: 'You are not permitted to perform this action.' }],
-        });
+      return res.status(401).json({
+        errors: [{ msg: 'You are not permitted to perform this action.' }],
+      });
     }
   } catch (err) {
     console.error(err.message);
