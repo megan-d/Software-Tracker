@@ -153,6 +153,40 @@ export const SprintProvider = ({ children }) => {
     }
   };
 
+  //*****ADD TICKET TO SPRINT ACTION************
+  const addTicketToSprint = async (sprintId, ticketId) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    // const body = JSON.stringify(sprint);
+
+    try {
+      const res = await axios.put(
+        `/api/projects/sprints/tickets/${sprintId}/${ticketId}`, config
+      );
+      dispatch({
+        type: 'UPDATE_SPRINT_SUCCESS',
+        payload: res.data,
+      });
+    //   history.push(`/ticket/${ticketId}`);
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+      dispatch({
+        type: 'UPDATE_SPRINT_FAILURE',
+        payload: err.response.data.errors,
+      });
+    }
+  };
+
   //*****ADD SPRINT COMMENT ACTION************
   const addSprintComment = async (comment, sprintId, history) => {
     //Create config with headers
@@ -270,7 +304,8 @@ export const SprintProvider = ({ children }) => {
         deleteSprint,
         clearSprint,
         addSprintComment,
-        updateSprint
+        updateSprint,
+        addTicketToSprint
       }}
     >
       {children}

@@ -28,7 +28,6 @@ const StyledGreyLink = styled(Link)`
   font-size: 14px;
   max-width: 160px;
   text-align: center;
-  margin: 10px 0px;
   display: block;
   font-weight: bold;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
@@ -90,8 +89,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   formControl: {
-    margin: theme.spacing(0),
-    minWidth: 220,
+    margin: theme.spacing(1),
+    minWidth: '85%',
+    maxWidth: '85%',
   },
   selectEmpty: {
     marginTop: theme.spacing(0),
@@ -99,7 +99,8 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 200,
+    minWidth: '85%',
+    maxWidth: '85%',
   },
   buttons: {
     marginRight: '10px',
@@ -109,9 +110,19 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '11px',
     marginBottom: '10px',
     marginTop: '1px',
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
   dropdown: {
     minWidth: '120px',
+  },
+  datePicker: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  searchButton: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -188,7 +199,12 @@ export default function UpdateTicket(props) {
       dateCompleted: dateCompleted,
     };
     //call add project action
-    await updateTicket(ticketUpdates, ticket.project._id, ticket._id, props.history);
+    await updateTicket(
+      ticketUpdates,
+      ticket.project._id,
+      ticket._id,
+      props.history,
+    );
   };
 
   return (
@@ -240,7 +256,9 @@ export default function UpdateTicket(props) {
                       Update Assigned Dev
                     </option>
                     <option value={'Update Status'}>Update Status</option>
-                    <option value={'Info for Completion'}>Add Info for Completion</option>
+                    <option value={'Info for Completion'}>
+                      Add Info for Completion
+                    </option>
                     <option value={'Other'}>Other</option>
                   </Select>
                 </FormControl>
@@ -265,12 +283,12 @@ export default function UpdateTicket(props) {
                   </Select>
                 </FormControl>
                 <TextField
+                  className={classes.textField}
                   autoComplete='title'
                   label='Title'
                   placeholder={ticket.title}
                   name='title'
                   variant='outlined'
-                  fullWidth
                   id='title'
                   value={title}
                   onChange={(e) => onChange(e)}
@@ -301,12 +319,14 @@ export default function UpdateTicket(props) {
                   </Select>
                 </FormControl>
                 <TextField
+                  className={classes.textField}
                   autoComplete='description'
                   label='Ticket Description'
+                  multiline
+                  rows={6}
                   placeholder={ticket.description}
                   name='description'
                   variant='outlined'
-                  fullWidth
                   id='description'
                   value={description}
                   onChange={(e) => onChange(e)}
@@ -337,9 +357,9 @@ export default function UpdateTicket(props) {
                   </Select>
                 </FormControl>
                 <TextField
+                  className={classes.textField}
                   variant='outlined'
                   placeholder={ticket.assignedDeveloper}
-                  fullWidth
                   name='assignedDeveloper'
                   label='Assigned Developer Username'
                   required
@@ -352,12 +372,13 @@ export default function UpdateTicket(props) {
                   }}
                 />
 
-                <StyledGreyLink to='/profiles'>
+                <StyledGreyLink to='/profiles' className={classes.searchButton}>
                   Search for user...
                 </StyledGreyLink>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container justify='flex-start'>
                     <KeyboardDatePicker
+                      className={classes.datePicker}
                       disableToolbar
                       placeholder={ticket.dateDue}
                       variant='inline'
@@ -376,6 +397,7 @@ export default function UpdateTicket(props) {
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container justify='flex-start'>
                     <KeyboardDatePicker
+                      className={classes.datePicker}
                       disableToolbar
                       placeholder={ticket.dateCompleted}
                       variant='inline'
@@ -395,18 +417,18 @@ export default function UpdateTicket(props) {
                 </MuiPickersUtilsProvider>
 
                 <TextField
-                    name='resolutionSummary'
-                    placeholder={resolutionSummary}
-                    variant='outlined'
-                    fullWidth
-                    id='resolutionSummary'
-                    label='Summary of Ticket Resolution'
-                    value={resolutionSummary}
-                    onChange={(e) => onChange(e)}
-                    multiline
-                    rows={6}
-                    margin='normal'
-                  />
+                  className={classes.textField}
+                  name='resolutionSummary'
+                  placeholder={resolutionSummary}
+                  variant='outlined'
+                  id='resolutionSummary'
+                  label='Summary of Ticket Resolution'
+                  value={resolutionSummary}
+                  onChange={(e) => onChange(e)}
+                  multiline
+                  rows={6}
+                  margin='normal'
+                />
                 <AlertBanner />
                 <StyledBlueButton
                   type='submit'

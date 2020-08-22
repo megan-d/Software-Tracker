@@ -61,7 +61,12 @@ router.get('/:project_id', verify, async (req, res) => {
 //ACCESS LEVEL: Private
 router.get('/ticket/:ticket_id', verify, async (req, res) => {
   try {
-    let ticket = await Ticket.findOne({ _id: req.params.ticket_id }).populate('project');
+    let ticket = await Ticket.findOne({ _id: req.params.ticket_id }).populate('project').populate({
+      path : 'project',
+      populate : {
+        path : 'sprints'
+      }
+    });
 
     //If there are no tickets, return an error
     if (!ticket) {

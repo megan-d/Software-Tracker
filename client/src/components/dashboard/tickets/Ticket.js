@@ -1,13 +1,18 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles } from '@material-ui/core/styles';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
+import { SprintContext } from '../../../context/sprints/SprintContext';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import styled from 'styled-components';
+import { Select } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const StyledLink = styled(Link)`
   color: white;
@@ -24,8 +29,85 @@ const StyledLink = styled(Link)`
   font-family: Roboto, sans-serif;
 `;
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    // height: '100vh',
+  },
+  paper: {
+    margin: theme.spacing(4, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    maxWidth: '300px',
+    display: 'block'
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(0),
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    minWidth: '85%',
+    maxWidth: '85%',
+  },
+  buttons: {
+    marginRight: '10px',
+    marginTop: '20px',
+  },
+  findButton: {
+    fontSize: '11px',
+    marginBottom: '10px',
+    marginTop: '1px',
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  dropdown: {
+    minWidth: '300px',
+  },
+  datePicker: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  searchButton: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(1),
+  },
+}));
+
 const Ticket = (props) => {
-  const { ticket, getTicketDetails, deleteTicket, isLoading } = useContext(TicketContext);
+  const classes = useStyles();
+
+  const { ticket, getTicketDetails, deleteTicket, isLoading } = useContext(
+    TicketContext,
+  );
+
+  const { project, getProjectDetails } = useContext(
+    ProjectContext,
+  );
+
+  const { addTicketToSprint } = useContext(
+    SprintContext,
+  );
+
+  const [formData, updateFormData] = useState({
+    sprint: '',
+  });
+
+  const { sprint } = formData;
+
+  const onChange = (e) =>
+    updateFormData({ ...formData, [e.target.name]: e.target.value });
 
   useEffect(() => {
     getTicketDetails(props.match.params.ticketid);
@@ -33,7 +115,7 @@ const Ticket = (props) => {
 
   return (
     <Wrapper>
-      {!ticket || isLoading ? (
+      {!ticket || isLoading || !ticket.project ? (
         <Spinner />
       ) : (
         <Fragment>
@@ -53,13 +135,40 @@ const Ticket = (props) => {
           >
             Comment on Ticket
           </StyledLink>
-              <StyledLink
-                variant='contained'
-                color='primary'
-                to={`/projects/tickets/updateticket/${ticket._id}`}
-              >
-                Edit Ticket
-              </StyledLink>
+          <StyledLink
+            variant='contained'
+            color='primary'
+            to={`/projects/tickets/updateticket/${ticket._id}`}
+          >
+            Edit Ticket
+          </StyledLink>
+          {/* <FormControl variant='outlined' className={classes.formControl}>
+            <InputLabel htmlFor='sprint'>Add Ticket to Sprint:</InputLabel>
+            <Select
+              native
+              value={sprint}
+              onChange={(e) => onChange(e)}
+              label='Type of Change'
+              inputProps={{
+                name: 'sprint',
+                id: 'sprint',
+              }}
+            >
+              <option aria-label='None' value='' />
+              {ticket.project.sprints.map((el) => 
+                  <option value={el._id} key={el._id}>{el.title}</option>
+              )}
+            </Select>
+          </FormControl> */}
+          {/* <Button
+            variant='contained'
+            color='primary'
+            onClick={async () =>
+              await addTicketToSprint("5f403116b0fe8173ef098184", ticket._id)
+            }
+          >
+            Add to Selected Sprint
+          </Button> */}
           <Button
             variant='contained'
             color='secondary'
