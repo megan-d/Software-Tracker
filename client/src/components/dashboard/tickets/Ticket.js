@@ -142,13 +142,13 @@ const Ticket = (props) => {
           >
             Edit Ticket
           </StyledLink>
-          {/* <FormControl variant='outlined' className={classes.formControl}>
+          <FormControl variant='outlined' className={classes.formControl}>
             <InputLabel htmlFor='sprint'>Add Ticket to Sprint:</InputLabel>
             <Select
               native
               value={sprint}
               onChange={(e) => onChange(e)}
-              label='Type of Change'
+              label='Select Sprint'
               inputProps={{
                 name: 'sprint',
                 id: 'sprint',
@@ -159,16 +159,17 @@ const Ticket = (props) => {
                   <option value={el._id} key={el._id}>{el.title}</option>
               )}
             </Select>
-          </FormControl> */}
-          {/* <Button
+          </FormControl>
+          <Button
             variant='contained'
             color='primary'
-            onClick={async () =>
-              await addTicketToSprint("5f403116b0fe8173ef098184", ticket._id)
+            onClick={async () => {
+              await addTicketToSprint("5f403116b0fe8173ef098184", "5f4147105aae0983a6689c9c", props.history)
+            }
             }
           >
             Add to Selected Sprint
-          </Button> */}
+          </Button>
           <Button
             variant='contained'
             color='secondary'

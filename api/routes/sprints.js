@@ -358,10 +358,10 @@ router.put(
   },
 );
 
-//ROUTE: PUT api/projects/sprints/tickets/:sprint_id/:ticket_id
+//ROUTE: POST api/projects/sprints/tickets/:sprint_id/:ticket_id
 //DESCRIPTION: Add a ticket to existing sprint
 //ACCESS LEVEL: Private
-router.put('/tickets/:sprint_id/:ticket_id', verify, async (req, res) => {
+router.post('/tickets/:sprint_id/:ticket_id', verify, async (req, res) => {
   try {
     //Get the sprint
     let sprint = await Sprint.findById(req.params.sprint_id).populate(

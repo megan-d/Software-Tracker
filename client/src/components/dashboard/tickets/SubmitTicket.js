@@ -285,6 +285,7 @@ const SubmitTicket = (props) => {
                 <TextField
                   variant='outlined'
                   fullWidth
+                  required
                   name='assignedDeveloper'
                   label='Assigned Developer Username'
                   id='assignedDeveloper'

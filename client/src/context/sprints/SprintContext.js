@@ -154,26 +154,25 @@ export const SprintProvider = ({ children }) => {
   };
 
   //*****ADD TICKET TO SPRINT ACTION************
-  const addTicketToSprint = async (sprintId, ticketId) => {
+  const addTicketToSprint = async (sprintId, ticketId, history) => {
     //Create config with headers
     const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': localStorage.getItem('token'),
-      },
-    };
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': localStorage.getItem('token'),
+        },
+      };
 
     // const body = JSON.stringify(sprint);
 
     try {
-      const res = await axios.put(
-        `/api/projects/sprints/tickets/${sprintId}/${ticketId}`, config
-      );
+        
+      const res = await axios.post(`/api/projects/sprints/tickets/${sprintId}/${ticketId}`, config)
       dispatch({
         type: 'UPDATE_SPRINT_SUCCESS',
         payload: res.data,
       });
-    //   history.push(`/ticket/${ticketId}`);
+      history.push(`/ticket/${ticketId}`);
     } catch (err) {
       let errors = err.response.data.errors;
       if (errors) {

@@ -64,7 +64,7 @@ export default function Landing() {
               color='textPrimary'
               gutterBottom
             >
-              Project Management, Issue Tracking, and Community Collaboration
+              Manage-Track-Collaborate
             </Typography>
             <Typography
               variant='h6'
