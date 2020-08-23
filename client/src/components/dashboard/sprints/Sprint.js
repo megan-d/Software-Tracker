@@ -1,4 +1,10 @@
-import React, { Fragment, useContext, useEffect, useHistory, useState } from 'react';
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useHistory,
+  useState,
+} from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
@@ -51,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     maxWidth: '300px',
-    display: 'block'
+    display: 'block',
   },
   selectEmpty: {
     marginTop: theme.spacing(0),
@@ -89,15 +95,15 @@ const useStyles = makeStyles((theme) => ({
 const Sprint = (props) => {
   const classes = useStyles();
 
-  const { sprint, getSprintDetails, deleteSprint, isLoading, getProjectForSprint } = useContext(
-    SprintContext,
-  );
-
-  const { tickets } = useContext(
-    TicketContext,
-  );
-
-  
+  const {
+    sprint,
+    getSprintDetails,
+    deleteSprint,
+    isLoading,
+    getProjectForSprint,
+    removeTicketFromSprint,
+    clearSprint,
+  } = useContext(SprintContext);
 
   const ticketColumns = [
     { title: 'Title', field: 'title' },
@@ -112,6 +118,7 @@ const Sprint = (props) => {
 
   useEffect(() => {
     getSprintDetails(props.match.params.sprintid);
+    return () => clearSprint();
   }, []);
 
   return (
@@ -132,7 +139,7 @@ const Sprint = (props) => {
           <MaterialTable
             localization={{
               header: {
-                actions: '',
+                actions: 'Remove',
               },
             }}
             title='Tickets'
@@ -148,6 +155,17 @@ const Sprint = (props) => {
                 // assignedDeveloper: <AvatarIcon user={'H'} />,
               };
             })}
+            actions={[
+              {
+                icon: 'remove_circle',
+                tooltip: 'Remove Ticket from Sprint',
+                onClick: (event, rowData) => {
+                  //CREATE FUNCTION TO REMOVE TICKET FROM SPRINT
+                  removeTicketFromSprint(sprint._id, rowData.id, props.history);
+                  props.history.push(`/sprint/${sprint._id}`);
+                },
+              },
+            ]}
             options={{
               pageSize: 5,
               pageSizeOptions: [5, 10, 20, 30],
@@ -158,6 +176,7 @@ const Sprint = (props) => {
                   padding: '0px',
                 },
               },
+              actionsColumnIndex: -1,
             }}
             onRowClick={async (event, rowData) => {
               props.history.push(`/ticket/${rowData.id}`);
@@ -177,7 +196,7 @@ const Sprint = (props) => {
           >
             Edit Sprint
           </StyledLink>
-          
+
           <Button
             variant='contained'
             color='secondary'

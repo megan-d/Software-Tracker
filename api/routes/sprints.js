@@ -415,6 +415,35 @@ router.get('/:sprint_id/:ticket_id', verify, async (req, res) => {
   }
 });
 
+//ROUTE: DELETE api/projects/sprints/:sprint_id/:ticket_id
+//DESCRIPTION: Remove a ticket from an existing sprint
+//ACCESS LEVEL: Private
+router.delete('/:sprint_id/:ticket_id', verify, async (req, res) => {
+  try {
+    //Get the sprint
+    let sprint = await Sprint.findById(req.params.sprint_id).populate(
+      'tickets',
+    );
+    
+    //Find index of ticket. Remove that element from array.
+    let tickets = sprint.tickets;
+    let index = tickets.map((el) => el._id).indexOf(req.params.ticket_id);
+      if (index === -1) {
+        return res.status(400).json({
+          errors: [{ msg: 'This ticket could not be found.' }],
+        });
+      }
+
+      let deletedSprint = sprint.tickets.splice(index, 1);
+      await sprint.save();
+      res.json(sprint);
+    
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 //ROUTE: POST api/projects/sprints/comments/comment/:sprint_id
 //DESCRIPTION: Comment on an existing sprint
 //ACCESS LEVEL: Private

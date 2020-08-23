@@ -153,38 +153,7 @@ export const SprintProvider = ({ children }) => {
     }
   };
 
-//   //*****ADD TICKET TO SPRINT ACTION************
-//   const addTicketToSprint = async (newTicket, sprintId, history) => {
-//     //Create config with headers
-//     const config = {
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'x-access-token': localStorage.getItem('token'),
-//         },
-//       };
 
-//       const body = JSON.stringify(newTicket);
-
-//     try {
-        
-//         const res = await axios.post(`/api/projects/sprints/addTicket/${sprintId}`, body, config);
-//       dispatch({
-//         type: 'UPDATE_SPRINT_SUCCESS',
-//         payload: res.data,
-//       });
-//       history.push(`/sprint/${sprintId}`);
-//     } catch (err) {
-//       let errors = err.response.data.errors;
-//       if (errors) {
-//         //if errors, loop through them and dispatch the showAlert action from AlertContext
-//         errors.forEach((el) => showAlert(el.msg, 'error'));
-//       }
-//       dispatch({
-//         type: 'UPDATE_SPRINT_FAILURE',
-//         payload: err.response.data.errors,
-//       });
-//     }
-//   };
 
   //*****ADD SPRINT COMMENT ACTION************
   const addSprintComment = async (comment, sprintId, history) => {
@@ -259,6 +228,38 @@ export const SprintProvider = ({ children }) => {
     }
   };
 
+  //*****REMOVE TICKET FROM SPRINT ACTION************
+const removeTicketFromSprint = async (sprintId, ticketId, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+  
+    try {
+      const res = await axios.delete(
+        `/api/projects/sprints/${sprintId}/${ticketId}`,
+        config,
+      );
+      dispatch({
+        type: 'UPDATE_SPRINT_SUCCESS',
+        payload: res.data,
+      });
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+      dispatch({
+        type: 'UPDATE_SPRINT_FAILURE',
+        payload: err.response.data.errors,
+      });
+    }
+  };
+
   
   //Return Sprint Provider
   return (
@@ -276,6 +277,7 @@ export const SprintProvider = ({ children }) => {
         clearSprint,
         addSprintComment,
         updateSprint,
+        removeTicketFromSprint
       }}
     >
       {children}

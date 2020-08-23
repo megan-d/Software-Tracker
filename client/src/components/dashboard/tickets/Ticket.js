@@ -7,14 +7,12 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import { TicketContext } from '../../../context/tickets/TicketContext';
-import { ProjectContext } from '../../../context/projects/ProjectContext';
-import { SprintContext } from '../../../context/sprints/SprintContext';
+import AlertBanner from '../../layout/AlertBanner';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import styled from 'styled-components';
 import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-
 
 const StyledLink = styled(Link)`
   color: white;
@@ -52,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     maxWidth: '300px',
-    display: 'block'
+    display: 'block',
   },
   selectEmpty: {
     marginTop: theme.spacing(0),
@@ -87,40 +85,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//*****ADD TICKET TO SPRINT ACTION************
-const addTicketToSprint = async (sprintId, ticketId, projectId, history) => {
-  //Create config with headers
-  const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': localStorage.getItem('token'),
-      },
-    };
-
-  try {
-      
-      const res = await axios.get(`/api/projects/sprints/${sprintId}/${ticketId}`, config);
-    
-    history.push(`/projects/${projectId}`);
-  } catch (err) {
-    let errors = err.response.data.errors;
-    // if (errors) {
-    //   //if errors, loop through them and dispatch the showAlert action from AlertContext
-    //   errors.forEach((el) => showAlert(el.msg, 'error'));
-    // }
-  }
-};
-
 const Ticket = (props) => {
   const classes = useStyles();
 
-  const { ticket, getTicketDetails, deleteTicket, isLoading } = useContext(
-    TicketContext,
-  );
-
-  const { project, getProjectDetails } = useContext(
-    ProjectContext,
-  );
+  const {
+    ticket,
+    getTicketDetails,
+    deleteTicket,
+    isLoading,
+    addTicketToSprint,
+    clearTicket
+  } = useContext(TicketContext);
 
   const [formData, updateFormData] = useState({
     sprint: '',
@@ -131,21 +106,20 @@ const Ticket = (props) => {
   const onChange = (e) =>
     updateFormData({ ...formData, [e.target.name]: e.target.value });
 
-
   useEffect(() => {
     getTicketDetails(props.match.params.ticketid);
+    return () => clearTicket();
   }, []);
 
   return (
     <Wrapper>
-      {!ticket || isLoading || !ticket.project ? (
+      {!ticket || isLoading || !ticket.project.sprints ? (
         <Spinner />
       ) : (
         <Fragment>
           <ConfirmationNumberIcon />
           <div>{ticket.title}</div>
           <div>{ticket.description}</div>
-          <button onClick={() => addTicketToSprint("5f403120b0fe8173ef098188", ticket._id, ticket.project._id, props.history)}>Add ticket to sprint</button>
           <ul>Ticket comments:</ul>
           {ticket.comments.length === 0 && !isLoading ? (
             <p>There are no comments for this ticket</p>
@@ -166,34 +140,46 @@ const Ticket = (props) => {
           >
             Edit Ticket
           </StyledLink>
-          <FormControl variant='outlined' className={classes.formControl}>
-            <InputLabel htmlFor='sprint'>Add Ticket to Sprint:</InputLabel>
-            <Select
-              native
-              value={sprint}
-              onChange={(e) => onChange(e)}
-              label='Select Ticket'
-              inputProps={{
-                name: 'sprint',
-                id: 'sprint',
-              }}
-            >
-              <option aria-label='None' value='' />
-              {ticket.project.sprints.map((el) => 
-                  <option value={el._id} key={el._id}>{el.title}</option>
-              )}
-            </Select>
-          </FormControl>
-          <Button
-            variant='contained'
-            color='primary'
-            onClick={async () => {
-              await addTicketToSprint(sprint, ticket._id, ticket.project._id, props.history)
-            }
-            }
-          >
-            Add Selected Ticket
-          </Button>
+          {ticket.project.sprints.length === 0 ? (
+            ''
+          ) : (
+            <Fragment>
+              <FormControl variant='outlined' className={classes.formControl}>
+                <InputLabel htmlFor='sprint'>Add Ticket to Sprint:</InputLabel>
+                <Select
+                  native
+                  value={sprint}
+                  onChange={(e) => onChange(e)}
+                  label='Select Ticket'
+                  inputProps={{
+                    name: 'sprint',
+                    id: 'sprint',
+                  }}
+                >
+                  <option aria-label='None' value='' />
+                  {ticket.project.sprints.map((el) => (
+                    <option value={el._id} key={el._id}>
+                      {el.title}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={async () => {
+                  await addTicketToSprint(
+                    sprint,
+                    ticket._id,
+                    ticket.project._id,
+                    props.history,
+                  );
+                }}
+              >
+                Add Selected Ticket
+              </Button>
+            </Fragment>
+          )}
           <Button
             variant='contained'
             color='secondary'
@@ -204,6 +190,7 @@ const Ticket = (props) => {
           >
             Delete Ticket
           </Button>
+          <AlertBanner />
         </Fragment>
       )}
     </Wrapper>

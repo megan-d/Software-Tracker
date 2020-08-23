@@ -226,6 +226,38 @@ export const TicketProvider = ({ children }) => {
     }
   };
 
+  //*****ADD TICKET TO SPRINT ACTION************
+const addTicketToSprint = async (sprintId, ticketId, projectId, history) => {
+  //Create config with headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': localStorage.getItem('token'),
+    },
+  };
+
+  try {
+    const res = await axios.get(
+      `/api/projects/sprints/${sprintId}/${ticketId}`,
+      config,
+    );
+    dispatch({
+      type: 'UPDATE_TICKET_SUCCESS',
+      payload: res.data,
+    });
+    history.push(`/projects/${projectId}`);
+  } catch (err) {
+    let errors = err.response.data.errors;
+    if (errors) {
+      //if errors, loop through them and dispatch the showAlert action from AlertContext
+      errors.forEach((el) => showAlert(el.msg, 'error'));
+    }
+    dispatch({
+      type: 'UPDATE_TICKET_FAILURE',
+      payload: err.response.data.errors,
+    });
+  }
+};
   
 
   //Return Ticket Provider
@@ -244,6 +276,7 @@ export const TicketProvider = ({ children }) => {
         clearTicket,
         addTicketComment,
         updateTicket,
+        addTicketToSprint,
       }}
     >
       {children}

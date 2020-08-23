@@ -275,7 +275,6 @@ const UpdateSprint = (props) => {
                   fullWidth
                   name='developer'
                   label='Add Developer to Sprint (Username)'
-                  required
                   id='developer'
                   value={developer}
                   onChange={(e) => onChange(e)}
@@ -284,7 +283,7 @@ const UpdateSprint = (props) => {
                     shrink: true,
                   }}
                 />
-                
+
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container justify='flex-start'>
                     <KeyboardDatePicker
