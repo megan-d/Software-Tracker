@@ -7,11 +7,11 @@ import MaterialTable from 'material-table';
 
 const Sprints = (props) => {
 
-  const { sprints, sprint, isLoading, getUserSprints, clearSprint } = useContext(SprintContext);
+  const { sprints, sprint, isLoading, getUserSprints, clearSprints } = useContext(SprintContext);
 
   useEffect(() => {
     getUserSprints();
-    clearSprint();
+    return () => clearSprints();
   }, []);
 
   const columns = [
@@ -26,7 +26,7 @@ const Sprints = (props) => {
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
-      {isLoading && !sprint ? (
+      {isLoading || !sprints ? (
         <Fragment>
           <h2>My Sprints</h2>
           <p>

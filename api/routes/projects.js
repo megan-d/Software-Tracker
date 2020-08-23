@@ -5,6 +5,7 @@ const verify = require('../middleware/verifyToken');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
+const Ticket = require('../models/Ticket');
 
 //*****OVERALL PROJECT ROUTES */
 
@@ -26,7 +27,9 @@ router.get('/me', verify, async (req, res) => {
     if (projects.length === 0) {
       return res
         .status(400)
-        .json({ errors: [{msg: 'There are no projects available for this user.'}] });
+        .json({
+          errors: [{ msg: 'There are no projects available for this user.' }],
+        });
     }
     //If there are projects, send those projects
     res.json(projects);
@@ -46,7 +49,8 @@ router.get('/:project_id', verify, async (req, res) => {
       _id: req.params.project_id,
     }).populate('sprints tickets');
 
-    if (!project) return res.status(400).json({ errors: [{msg: 'Project not found'}] });
+    if (!project)
+      return res.status(400).json({ errors: [{ msg: 'Project not found' }] });
 
     res.json(project);
   } catch (err) {
@@ -142,7 +146,9 @@ router.post(
       if (projects.length > 0) {
         return res
           .status(400)
-          .json({ errors: [{msg: 'You already own a project with that name.'}] });
+          .json({
+            errors: [{ msg: 'You already own a project with that name.' }],
+          });
       }
       //Match the username entered for manager to the user id in the database
       if (projectItems.manager !== req.user.id) {
@@ -150,7 +156,11 @@ router.post(
         if (!user) {
           return res
             .status(400)
-            .json({ errors: [{msg: 'The user selected for manager could not be found.'}] });
+            .json({
+              errors: [
+                { msg: 'The user selected for manager could not be found.' },
+              ],
+            });
         } else {
           //convert username to id
           projectItems.manager = user._id;
@@ -231,7 +241,7 @@ router.put(
       if (!project) {
         return res
           .status(400)
-          .json({ errors: [{msg: 'This project could not be found.'}] });
+          .json({ errors: [{ msg: 'This project could not be found.' }] });
       }
 
       if (
@@ -248,7 +258,9 @@ router.put(
           if (projects.length > 0) {
             return res
               .status(400)
-              .json({ errors: [{msg: 'You already own a project with that name.'}] });
+              .json({
+                errors: [{ msg: 'You already own a project with that name.' }],
+              });
           }
         }
 
@@ -257,8 +269,15 @@ router.put(
         if (developer) {
           let user = await User.findOne({ username: developer });
           if (!user) {
-            return res.status(400).json({ errors: [{ msg: 'The user selected for developer could not be found.'}]
-            });
+            return res
+              .status(400)
+              .json({
+                errors: [
+                  {
+                    msg: 'The user selected for developer could not be found.',
+                  },
+                ],
+              });
           }
           let developerId = user._id;
           let isExistingDeveloper = project.developers.filter(
@@ -269,8 +288,12 @@ router.put(
             await project.save();
           } else {
             return res.status(400).json({
-              errors: [{msg:
-                'That user is already on the project. Please select another user to add to the project.'}]
+              errors: [
+                {
+                  msg:
+                    'That user is already on the project. Please select another user to add to the project.',
+                },
+              ],
             });
           }
         }
@@ -278,7 +301,9 @@ router.put(
           let user = await User.findOne({ username: manager });
           if (!user) {
             return res.status(400).json({
-              errors: [{msg: 'The user selected for manager could not be found.'}]
+              errors: [
+                { msg: 'The user selected for manager could not be found.' },
+              ],
             });
           } else {
             updatedProjectFields.manager = user._id;
@@ -297,7 +322,9 @@ router.put(
       } else {
         return res
           .status(401)
-          .json({ errors: [{msg: 'You are not permitted to perform this action.'}] });
+          .json({
+            errors: [{ msg: 'You are not permitted to perform this action.' }],
+          });
       }
     } catch (err) {
       console.error(err.message);
@@ -369,11 +396,26 @@ router.delete('/:project_id', verify, async (req, res) => {
     if (req.user.role === 'admin' || project.owner.toString() === req.user.id) {
       //TODO: also delete tickets associated with project when a project is deleted
       await Project.findOneAndRemove({ _id: req.params.project_id });
-      res.json({ msg: 'This project has been deleted.' });
+      await Ticket.deleteMany({
+        project: {
+          _id: req.params.project_id,
+        },
+      });
+      await Sprint.deleteMany({
+        project: {
+          _id: req.params.project_id,
+        },
+      });
+      res.json({
+        msg:
+          'This project and its associated tickets and sprints have been deleted.',
+      });
     } else {
       return res
         .status(401)
-        .json({ errors: [{msg: 'You are not permitted to perform this action.'}] });
+        .json({
+          errors: [{ msg: 'You are not permitted to perform this action.' }],
+        });
     }
   } catch (err) {
     console.error(err.message);

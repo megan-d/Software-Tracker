@@ -33,6 +33,11 @@ export default (state, action) => {
           ...state,
           sprint: null,
         };
+        case 'CLEAR_SPRINTS':
+        return {
+          ...state,
+          sprints: null,
+        };
       case 'LOAD_USER_SPRINTS_FAILURE':
       case 'LOAD_SPRINT_FAILURE':
       case 'CREATE_SPRINT_FAILURE':

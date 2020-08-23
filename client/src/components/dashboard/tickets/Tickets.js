@@ -8,11 +8,11 @@ import MaterialTable from 'material-table';
 
 const Tickets = (props) => {
 
-  const { tickets, ticket, isLoading, getUserTickets, clearTicket } = useContext(TicketContext);
+  const { tickets, ticket, isLoading, getUserTickets, clearTickets } = useContext(TicketContext);
 
   useEffect(() => {
     getUserTickets();
-    clearTicket();
+    return () => clearTickets();
   }, []);
 
   const columns = [
@@ -28,7 +28,7 @@ const Tickets = (props) => {
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
-      {isLoading && !ticket ? (
+      {isLoading || !tickets ? (
         <Fragment>
           <h2>My Tickets</h2>
           <p>

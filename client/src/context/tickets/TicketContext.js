@@ -161,6 +161,14 @@ export const TicketProvider = ({ children }) => {
     });
   };
 
+  //*******CLEAR TICKETS ACTION**********
+  //Clear the ticket so the previously loaded ticket doesn't flash first
+  const clearTickets = async () => {
+    dispatch({
+      type: 'CLEAR_TICKETS',
+    });
+  };
+
   //*******DELETE TICKET ACTION**********
   //Clear the ticket so the previously loaded ticket doesn't flash first
   const deleteTicket = async (projectId, ticketId, history) => {
@@ -274,6 +282,7 @@ const addTicketToSprint = async (sprintId, ticketId, projectId, history) => {
         createTicket,
         deleteTicket,
         clearTicket,
+        clearTickets,
         addTicketComment,
         updateTicket,
         addTicketToSprint,

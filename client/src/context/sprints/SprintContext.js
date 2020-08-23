@@ -199,6 +199,14 @@ export const SprintProvider = ({ children }) => {
     });
   };
 
+  //*******CLEAR SPRINTS ACTION**********
+  //Clear the sprint so the previously loaded sprint doesn't flash first
+  const clearSprints = async () => {
+    dispatch({
+      type: 'CLEAR_SPRINTS',
+    });
+  };
+
   //*******DELETE SPRINT ACTION**********
   //Clear the sprint so the previously loaded sprint doesn't flash first
   const deleteSprint = async (projectId, sprintId, history) => {
@@ -275,6 +283,7 @@ const removeTicketFromSprint = async (sprintId, ticketId, history) => {
         getSprintDetails,
         deleteSprint,
         clearSprint,
+        clearSprints,
         addSprintComment,
         updateSprint,
         removeTicketFromSprint

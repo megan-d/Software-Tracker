@@ -33,6 +33,11 @@ export default (state, action) => {
         ...state,
         ticket: null
       };
+      case 'CLEAR_TICKETS':
+        return {
+          ...state,
+          tickets: null,
+        }
     case 'LOAD_USER_TICKETS_FAILURE':
     case 'LOAD_TICKET_FAILURE':
     case 'CREATE_TICKET_FAILURE':
