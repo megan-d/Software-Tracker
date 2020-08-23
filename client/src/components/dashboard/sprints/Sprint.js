@@ -136,6 +136,12 @@ const Sprint = (props) => {
           ) : (
             sprint.comments.map((el) => <li key={el._id}>{el.text}</li>)
           )}
+          <ul>Sprint developers:</ul>
+          {sprint.developers.length === 0 && !isLoading ? (
+            <p>There are no developers on this sprint yet</p>
+          ) : (
+            sprint.developers.map((el) => <li key={el._id}>{el}</li>)
+          )}
           <MaterialTable
             localization={{
               header: {

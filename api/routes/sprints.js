@@ -415,10 +415,10 @@ router.get('/:sprint_id/:ticket_id', verify, async (req, res) => {
   }
 });
 
-//ROUTE: DELETE api/projects/sprints/:sprint_id/:ticket_id
+//ROUTE: DELETE api/projects/sprints/ticket/:sprint_id/:ticket_id
 //DESCRIPTION: Remove a ticket from an existing sprint
 //ACCESS LEVEL: Private
-router.delete('/:sprint_id/:ticket_id', verify, async (req, res) => {
+router.delete('/ticket/:sprint_id/:ticket_id', verify, async (req, res) => {
   try {
     //Get the sprint
     let sprint = await Sprint.findById(req.params.sprint_id).populate(
@@ -510,8 +510,8 @@ router.delete('/:project_id/:sprint_id', verify, async (req, res) => {
       project.manager.toString() === req.user.id ||
       project.owner.toString() === req.user.id
     ) {
-      //TODO: Also delete sprints associated with project when a project is deleted
-      await Sprint.findOneAndRemove({ _id: req.params.ticket_id });
+      
+      await Sprint.findOneAndRemove({ _id: req.params.sprint_id });
 
       //When sprint is deleted, also need to delete it from project (remove from array)
       let sprints = project.sprints;

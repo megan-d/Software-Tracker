@@ -208,7 +208,6 @@ export const SprintProvider = ({ children }) => {
   };
 
   //*******DELETE SPRINT ACTION**********
-  //Clear the sprint so the previously loaded sprint doesn't flash first
   const deleteSprint = async (projectId, sprintId, history) => {
     //Create config with headers
     const config = {
@@ -248,7 +247,7 @@ const removeTicketFromSprint = async (sprintId, ticketId, history) => {
   
     try {
       const res = await axios.delete(
-        `/api/projects/sprints/${sprintId}/${ticketId}`,
+        `/api/projects/sprints/ticket/${sprintId}/${ticketId}`,
         config,
       );
       dispatch({
