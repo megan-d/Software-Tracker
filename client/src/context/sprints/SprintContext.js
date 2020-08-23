@@ -153,38 +153,38 @@ export const SprintProvider = ({ children }) => {
     }
   };
 
-  //*****ADD TICKET TO SPRINT ACTION************
-  const addTicketToSprint = async (sprintId, ticketId, history) => {
-    //Create config with headers
-    const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': localStorage.getItem('token'),
-        },
-      };
+//   //*****ADD TICKET TO SPRINT ACTION************
+//   const addTicketToSprint = async (newTicket, sprintId, history) => {
+//     //Create config with headers
+//     const config = {
+//         headers: {
+//           'Content-Type': 'application/json',
+//           'x-access-token': localStorage.getItem('token'),
+//         },
+//       };
 
-    // const body = JSON.stringify(sprint);
+//       const body = JSON.stringify(newTicket);
 
-    try {
+//     try {
         
-      const res = await axios.post(`/api/projects/sprints/tickets/${sprintId}/${ticketId}`, config)
-      dispatch({
-        type: 'UPDATE_SPRINT_SUCCESS',
-        payload: res.data,
-      });
-      history.push(`/ticket/${ticketId}`);
-    } catch (err) {
-      let errors = err.response.data.errors;
-      if (errors) {
-        //if errors, loop through them and dispatch the showAlert action from AlertContext
-        errors.forEach((el) => showAlert(el.msg, 'error'));
-      }
-      dispatch({
-        type: 'UPDATE_SPRINT_FAILURE',
-        payload: err.response.data.errors,
-      });
-    }
-  };
+//         const res = await axios.post(`/api/projects/sprints/addTicket/${sprintId}`, body, config);
+//       dispatch({
+//         type: 'UPDATE_SPRINT_SUCCESS',
+//         payload: res.data,
+//       });
+//       history.push(`/sprint/${sprintId}`);
+//     } catch (err) {
+//       let errors = err.response.data.errors;
+//       if (errors) {
+//         //if errors, loop through them and dispatch the showAlert action from AlertContext
+//         errors.forEach((el) => showAlert(el.msg, 'error'));
+//       }
+//       dispatch({
+//         type: 'UPDATE_SPRINT_FAILURE',
+//         payload: err.response.data.errors,
+//       });
+//     }
+//   };
 
   //*****ADD SPRINT COMMENT ACTION************
   const addSprintComment = async (comment, sprintId, history) => {
@@ -259,35 +259,7 @@ export const SprintProvider = ({ children }) => {
     }
   };
 
-  //*****GET PROJECT BY ASSOCIATED SPRINT ACTION************
-//   const getProjectForSprint = async (sprintId) => {
-//     //Create config with headers
-//     const config = {
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'x-access-token': localStorage.getItem('token'),
-//       },
-//     };
-//     try {
-//       const res = await axios.get(`/api/projects/sprint/${sprintId}`, config);
-
-//       dispatch({
-//         type: 'LOAD_PROJECT_FOR_SPRINT_SUCCESS',
-//         payload: res.data,
-//       });
-//     } catch (err) {
-//       let errors = err.response.data.errors;
-//       if (errors) {
-//         //if errors, loop through them and dispatch the showAlert action from AlertContext
-//         errors.forEach((el) => showAlert(el.msg, 'error'));
-//       }
-//       dispatch({
-//         type: 'LOAD_PROJECT_FOR_SPRINT_FAILURE',
-//         payload: err.response.data.errors
-//       });
-//     }
-//   };
-
+  
   //Return Sprint Provider
   return (
     <SprintContext.Provider
@@ -304,7 +276,6 @@ export const SprintProvider = ({ children }) => {
         clearSprint,
         addSprintComment,
         updateSprint,
-        addTicketToSprint
       }}
     >
       {children}

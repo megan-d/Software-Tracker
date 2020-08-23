@@ -1,5 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
@@ -13,6 +14,7 @@ import styled from 'styled-components';
 import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+
 
 const StyledLink = styled(Link)`
   color: white;
@@ -85,6 +87,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//*****ADD TICKET TO SPRINT ACTION************
+const addTicketToSprint = async (sprintId, ticketId, projectId, history) => {
+  //Create config with headers
+  const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+  try {
+      
+      const res = await axios.get(`/api/projects/sprints/${sprintId}/${ticketId}`, config);
+    
+    history.push(`/projects/${projectId}`);
+  } catch (err) {
+    let errors = err.response.data.errors;
+    // if (errors) {
+    //   //if errors, loop through them and dispatch the showAlert action from AlertContext
+    //   errors.forEach((el) => showAlert(el.msg, 'error'));
+    // }
+  }
+};
+
 const Ticket = (props) => {
   const classes = useStyles();
 
@@ -96,10 +122,6 @@ const Ticket = (props) => {
     ProjectContext,
   );
 
-  const { addTicketToSprint } = useContext(
-    SprintContext,
-  );
-
   const [formData, updateFormData] = useState({
     sprint: '',
   });
@@ -108,6 +130,7 @@ const Ticket = (props) => {
 
   const onChange = (e) =>
     updateFormData({ ...formData, [e.target.name]: e.target.value });
+
 
   useEffect(() => {
     getTicketDetails(props.match.params.ticketid);
@@ -122,6 +145,7 @@ const Ticket = (props) => {
           <ConfirmationNumberIcon />
           <div>{ticket.title}</div>
           <div>{ticket.description}</div>
+          <button onClick={() => addTicketToSprint("5f403120b0fe8173ef098188", ticket._id, ticket.project._id, props.history)}>Add ticket to sprint</button>
           <ul>Ticket comments:</ul>
           {ticket.comments.length === 0 && !isLoading ? (
             <p>There are no comments for this ticket</p>
@@ -148,7 +172,7 @@ const Ticket = (props) => {
               native
               value={sprint}
               onChange={(e) => onChange(e)}
-              label='Select Sprint'
+              label='Select Ticket'
               inputProps={{
                 name: 'sprint',
                 id: 'sprint',
@@ -164,11 +188,11 @@ const Ticket = (props) => {
             variant='contained'
             color='primary'
             onClick={async () => {
-              await addTicketToSprint("5f403116b0fe8173ef098184", "5f4147105aae0983a6689c9c", props.history)
+              await addTicketToSprint(sprint, ticket._id, ticket.project._id, props.history)
             }
             }
           >
-            Add to Selected Sprint
+            Add Selected Ticket
           </Button>
           <Button
             variant='contained'

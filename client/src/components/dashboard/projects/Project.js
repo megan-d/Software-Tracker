@@ -28,6 +28,8 @@ const StyledLink = styled(Link)`
   font-family: Roboto, sans-serif;
 `;
 
+  
+
 const Project = (props) => {
   const { project, getProjectDetails, deleteProject, isLoading } = useContext(
     ProjectContext,
@@ -73,6 +75,7 @@ const Project = (props) => {
           <h2>{project.name}</h2>
           <p>Description: {project.description}</p>
           <p>Target completion date: {project.targetCompletionDate}</p>
+          
           <MaterialTable
             localization={{
               header: {
