@@ -182,8 +182,8 @@ router.post(
         let sprint = await new Sprint(sprintItems);
         await sprint.save();
         //Add sprint to project
-        await project.sprints.push(sprint);
-        await project.save();
+        await Project.updateOne({ _id: req.params.project_id }, { $push: { sprints: sprint }});
+       
         return res.json(sprint);
       } else {
         return res.status(401).json({
@@ -298,7 +298,8 @@ router.put(
         }
         if (status) {
           updatedSprintItems.status = status;
-          sprint.statusLog.push({ status: status });
+          await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { statusLog: {status: status }}});
+          // sprint.statusLog.push({ status: status });
         }
         if (developer) {
           let user = await User.findOne({ username: developer });
@@ -312,7 +313,8 @@ router.put(
             (dev) => dev._id.toString() === developerId.toString(),
           );
           if (isExistingSprintDeveloper.length === 0) {
-            sprint.developers.push(developerId);
+            await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { developers: developerId }});
+            // sprint.developers.push(developerId);
           } else {
             return res.status(400).json({
               errors: [
@@ -330,7 +332,8 @@ router.put(
 
           if (isExistingProjectDeveloper.length === 0) {
             //Add to developers array for project
-            await project.developers.push(developerId);
+            await Project.updateOne({ _id: req.params.project_id }, { $push: { developers: developerId }});
+            // await project.developers.push(developerId);
           }
         }
 
@@ -392,11 +395,13 @@ router.get('/:sprint_id/:ticket_id', verify, async (req, res) => {
 
     if (isExistingSprintDeveloper.length === 0) {
       //Add to developers array for sprint
-      await sprint.developers.push(assignedDev);
+      await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { developers: assignedDev }});
+      // await sprint.developers.push(assignedDev);
     }
 
     //Add ticket ID onto sprint at the end of array (want chronological order in this case)
-    await sprint.tickets.push(req.params.ticket_id);
+    await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { tickets: req.params.ticket_id }});
+    // await sprint.tickets.push(req.params.ticket_id);
 
     //Save to database
     await sprint.save();
@@ -477,7 +482,8 @@ router.post(
       };
 
       //Add newComment onto sprint comments at the end of array (want chronological order in this case)
-      sprint.comments.push(newComment);
+      await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { comments: newComment }});
+      // sprint.comments.push(newComment);
 
       //Save to database
       await sprint.save();

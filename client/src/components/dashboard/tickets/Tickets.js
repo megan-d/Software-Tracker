@@ -41,7 +41,7 @@ const Tickets = (props) => {
     {
       title: 'Priority',
       field: 'priority',
-      customSort: (a, b) => sortedPriority(a) - sortedPriority(b),
+      customSort: (a, b) => sortedPriority(a) > sortedPriority(b) ? 1 : -1,
     },
     { title: 'Due date', field: 'dateDue', type: 'date' },
     { title: 'Status', field: 'status' },
