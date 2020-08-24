@@ -118,11 +118,12 @@ const Ticket = (props) => {
       ) : (
         <Fragment>
           <ConfirmationNumberIcon />
-          <div>{ticket.title}</div>
-          <div>{ticket.description}</div>
+          <div>Title: {ticket.title}</div>
+          <div>Description: {ticket.description}</div>
+          <div>Assigned Dev: {ticket.assignedDeveloper.username}</div>
           <ul>Ticket comments:</ul>
           {ticket.comments.length === 0 && !isLoading ? (
-            <p>There are no comments for this ticket</p>
+            <li>There are no comments for this ticket</li>
           ) : (
             ticket.comments.map((el) => <li key={el._id}>{el.text}</li>)
           )}

@@ -65,8 +65,7 @@ router.get('/ticket/:ticket_id', verify, async (req, res) => {
       path : 'project',
       populate : {
         path : 'sprints'
-      }
-    });
+      }}).populate('assignedDeveloper', 'username');
 
     //If there are no tickets, return an error
     if (!ticket) {

@@ -22,7 +22,7 @@ router.get('/me', verify, async (req, res) => {
         { developers: { _id: req.user.id } },
         { owner: { _id: req.user.id } },
       ],
-    }).populate('project');
+    }).populate('project').populate('developers');
 
     //If there are no sprints, return an error
     if (assignedSprints.length === 0) {
@@ -90,8 +90,7 @@ router.get('/tickets/:sprint_id', verify, async (req, res) => {
 router.get('/sprint/:sprint_id', verify, async (req, res) => {
   try {
     let sprint = await Sprint.findOne({ _id: req.params.sprint_id }).populate(
-      'project tickets',
-    );
+      'project tickets');
 
     //If there are no sprints, return an error
     if (!sprint) {

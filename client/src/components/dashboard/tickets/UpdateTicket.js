@@ -359,7 +359,7 @@ export default function UpdateTicket(props) {
                 <TextField
                   className={classes.textField}
                   variant='outlined'
-                  placeholder={ticket.assignedDeveloper}
+                  placeholder={ticket.assignedDeveloper.username}
                   name='assignedDeveloper'
                   label='Assigned Developer Username'
                   required

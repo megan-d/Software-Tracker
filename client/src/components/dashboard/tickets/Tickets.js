@@ -7,8 +7,28 @@ import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
 
 const Tickets = (props) => {
+  const sortedPriority = (priority) => {
+    switch (priority) {
+      case 'Low':
+        return 1;
+      case 'Medium':
+        return 2;
+      case 'High':
+        return 3;
+      case 'Critical':
+        return 4;
+      default:
+        return 1;
+    }
+  };
 
-  const { tickets, ticket, isLoading, getUserTickets, clearTickets } = useContext(TicketContext);
+  const {
+    tickets,
+    ticket,
+    isLoading,
+    getUserTickets,
+    clearTickets,
+  } = useContext(TicketContext);
 
   useEffect(() => {
     getUserTickets();
@@ -18,7 +38,11 @@ const Tickets = (props) => {
   const columns = [
     { title: 'Title', field: 'title' },
     { title: 'Type', field: 'type' },
-    { title: 'Priority', field: 'priority' },
+    {
+      title: 'Priority',
+      field: 'priority',
+      customSort: (a, b) => sortedPriority(a) - sortedPriority(b),
+    },
     { title: 'Due date', field: 'dateDue', type: 'date' },
     { title: 'Status', field: 'status' },
   ];
@@ -58,21 +82,22 @@ const Tickets = (props) => {
               {
                 icon: 'visibility',
                 tooltip: 'View Project',
-                onClick: (event, rowData) => props.history.push(`/projects/${rowData.project._id}`)
-              }
+                onClick: (event, rowData) =>
+                  props.history.push(`/projects/${rowData.project._id}`),
+              },
             ]}
             data={tickets}
-            
             onRowClick={async (event, rowData) => {
-              history.push(`/ticket/${rowData._id}`)
+              history.push(`/ticket/${rowData._id}`);
             }}
             options={{
               pageSize: 5,
               pageSizeOptions: [5, 10, 20, 30],
               toolbar: true,
               paging: true,
-              actionsColumnIndex: -1
-          }}
+              actionsColumnIndex: -1,
+              sorting: true,
+            }}
           />
         </Fragment>
       )}
