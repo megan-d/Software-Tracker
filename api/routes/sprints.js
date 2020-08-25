@@ -22,7 +22,9 @@ router.get('/me', verify, async (req, res) => {
         { developers: { _id: req.user.id } },
         { owner: { _id: req.user.id } },
       ],
-    }).populate('project').populate('developers');
+    })
+      .populate('project')
+      .populate('developers');
 
     //If there are no sprints, return an error
     if (assignedSprints.length === 0) {
@@ -90,7 +92,8 @@ router.get('/tickets/:sprint_id', verify, async (req, res) => {
 router.get('/sprint/:sprint_id', verify, async (req, res) => {
   try {
     let sprint = await Sprint.findOne({ _id: req.params.sprint_id }).populate(
-      'project tickets');
+      'project tickets',
+    );
 
     //If there are no sprints, return an error
     if (!sprint) {
@@ -182,8 +185,11 @@ router.post(
         let sprint = await new Sprint(sprintItems);
         await sprint.save();
         //Add sprint to project
-        await Project.updateOne({ _id: req.params.project_id }, { $push: { sprints: sprint }});
-       
+        await Project.updateOne(
+          { _id: req.params.project_id },
+          { $push: { sprints: sprint } },
+        );
+
         return res.json(sprint);
       } else {
         return res.status(401).json({
@@ -298,7 +304,10 @@ router.put(
         }
         if (status) {
           updatedSprintItems.status = status;
-          await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { statusLog: {status: status }}});
+          await Sprint.updateOne(
+            { _id: req.params.sprint_id },
+            { $push: { statusLog: { status: status } } },
+          );
           // sprint.statusLog.push({ status: status });
         }
         if (developer) {
@@ -313,7 +322,10 @@ router.put(
             (dev) => dev._id.toString() === developerId.toString(),
           );
           if (isExistingSprintDeveloper.length === 0) {
-            await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { developers: developerId }});
+            await Sprint.updateOne(
+              { _id: req.params.sprint_id },
+              { $push: { developers: developerId } },
+            );
             // sprint.developers.push(developerId);
           } else {
             return res.status(400).json({
@@ -332,7 +344,10 @@ router.put(
 
           if (isExistingProjectDeveloper.length === 0) {
             //Add to developers array for project
-            await Project.updateOne({ _id: req.params.project_id }, { $push: { developers: developerId }});
+            await Project.updateOne(
+              { _id: req.params.project_id },
+              { $push: { developers: developerId } },
+            );
             // await project.developers.push(developerId);
           }
         }
@@ -395,12 +410,18 @@ router.get('/:sprint_id/:ticket_id', verify, async (req, res) => {
 
     if (isExistingSprintDeveloper.length === 0) {
       //Add to developers array for sprint
-      await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { developers: assignedDev }});
+      await Sprint.updateOne(
+        { _id: req.params.sprint_id },
+        { $push: { developers: assignedDev } },
+      );
       // await sprint.developers.push(assignedDev);
     }
 
     //Add ticket ID onto sprint at the end of array (want chronological order in this case)
-    await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { tickets: req.params.ticket_id }});
+    await Sprint.updateOne(
+      { _id: req.params.sprint_id },
+      { $push: { tickets: req.params.ticket_id } },
+    );
     // await sprint.tickets.push(req.params.ticket_id);
 
     //Save to database
@@ -409,10 +430,10 @@ router.get('/:sprint_id/:ticket_id', verify, async (req, res) => {
     //Send back all tickets
     res.json(sprint);
     // } else
-    
-      // return res.status(401).json({
-      //   errors: [{ msg: 'You are not permitted to perform this action.' }],
-      // });
+
+    // return res.status(401).json({
+    //   errors: [{ msg: 'You are not permitted to perform this action.' }],
+    // });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -428,20 +449,23 @@ router.delete('/ticket/:sprint_id/:ticket_id', verify, async (req, res) => {
     let sprint = await Sprint.findById(req.params.sprint_id).populate(
       'tickets',
     );
-    
+
     //Find index of ticket. Remove that element from array.
     let tickets = sprint.tickets;
     let index = tickets.map((el) => el._id).indexOf(req.params.ticket_id);
-      if (index === -1) {
-        return res.status(400).json({
-          errors: [{ msg: 'This ticket could not be found.' }],
-        });
-      }
+    if (index === -1) {
+      return res.status(400).json({
+        errors: [{ msg: 'This ticket could not be found.' }],
+      });
+    }
 
-      await Sprint.findByIdAndUpdate({ _id: req.params.sprint_id}, { $pull: { tickets: req.params.ticket_id } })
-      // let deletedSprint = sprint.tickets.splice(index, 1);
-      await sprint.save();
-      res.json(sprint);
+    // await Sprint.findByIdAndUpdate(req.params.sprint_id, {
+    //   $pull: { "tickets": { _id: req.params.ticket_id } },
+    // });
+    // let deletedTicket = sprint.tickets.splice(index, 1);
+    sprint.tickets.pull({_id: req.params.ticket_id});
+    await sprint.save();
+    res.json(sprint);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -482,7 +506,10 @@ router.post(
       };
 
       //Add newComment onto sprint comments at the end of array (want chronological order in this case)
-      await Sprint.updateOne({ _id: req.params.sprint_id }, { $push: { comments: newComment }});
+      await Sprint.updateOne(
+        { _id: req.params.sprint_id },
+        { $push: { comments: newComment } },
+      );
       // sprint.comments.push(newComment);
 
       //Save to database
@@ -498,7 +525,7 @@ router.post(
 );
 
 //ROUTE: DELETE api/projects/sprints/:project_id/:sprint_id
-//DESCRIPTION: Delete a sprint on given project by sprint id
+//DESCRIPTION: Delete a sprint by sprint id
 //ACCESS LEVEL: Private
 //Must be Manager on the project or admin to delete it
 router.delete('/:project_id/:sprint_id', verify, async (req, res) => {
@@ -515,7 +542,6 @@ router.delete('/:project_id/:sprint_id', verify, async (req, res) => {
       project.manager.toString() === req.user.id ||
       project.owner.toString() === req.user.id
     ) {
-      
       await Sprint.findOneAndRemove({ _id: req.params.sprint_id });
 
       //When sprint is deleted, also need to delete it from project (remove from array)
@@ -527,8 +553,8 @@ router.delete('/:project_id/:sprint_id', verify, async (req, res) => {
         });
       }
 
-      await Project.findByIdAndUpdate({ _id: req.params.project_id}, { $pull: { sprints: req.params.sprint_id } })
-      // let deletedSprint = project.sprints.splice(index, 1);
+      // await Project.findByIdAndUpdate({ _id: req.params.project_id}, { $pull: { sprints: req.params.sprint_id } })
+      let deletedSprint = project.sprints.splice(index, 1);
       await project.save();
       res.json({ msg: 'This sprint has been deleted.' });
     } else {

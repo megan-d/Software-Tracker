@@ -168,7 +168,7 @@ const Sprint = (props) => {
                 onClick: (event, rowData) => {
                   //CREATE FUNCTION TO REMOVE TICKET FROM SPRINT
                   removeTicketFromSprint(sprint._id, rowData.id, props.history);
-                  // props.history.push(`/sprint/${sprint._id}`);
+                  props.history.push(`/sprint/${sprint._id}`);
                 },
               },
             ]}
