@@ -61,7 +61,11 @@ router.post(
       }
       //If team isn't found, create a new one
       else {
-        user.teams.push(teamItems);
+        await User.updateOne(
+          { _id: req.user.id },
+          { $push: { teams: teamItems } },
+        );
+        // user.teams.push(teamItems);
         await user.save();
         //Send back the entire user
         return res.json(user);
@@ -159,6 +163,7 @@ router.put(
             ],
           });
         } else {
+          //TODO: Convert to use mongoose push method
           await user.teams[index].members.push(member);
         }
       }
@@ -199,7 +204,8 @@ router.delete('/:team_id', verify, async (req, res) => {
       });
     } else {
       //Remove team from user's account
-      let deletedTeam = user.teams.splice(index, 1);
+      await user.teams.pull(req.params.team_id);
+      // let deletedTeam = user.teams.splice(index, 1);
       user.save();
       return res.json({ msg: 'This team has been deleted.' });
     }
