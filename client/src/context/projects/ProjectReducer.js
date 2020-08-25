@@ -35,7 +35,7 @@ export default (state, action) => {
     case 'UPDATE_PROJECT_FAILURE':
       return {
         ...state,
-        project: null,
+        // project: null,
         isLoading: false,
         errors: action.payload,
       };

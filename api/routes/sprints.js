@@ -438,10 +438,10 @@ router.delete('/ticket/:sprint_id/:ticket_id', verify, async (req, res) => {
         });
       }
 
-      let deletedSprint = sprint.tickets.splice(index, 1);
+      await Sprint.findByIdAndUpdate({ _id: req.params.sprint_id}, { $pull: { tickets: req.params.ticket_id } })
+      // let deletedSprint = sprint.tickets.splice(index, 1);
       await sprint.save();
       res.json(sprint);
-    
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -527,7 +527,8 @@ router.delete('/:project_id/:sprint_id', verify, async (req, res) => {
         });
       }
 
-      let deletedSprint = project.sprints.splice(index, 1);
+      await Project.findByIdAndUpdate({ _id: req.params.project_id}, { $pull: { sprints: req.params.sprint_id } })
+      // let deletedSprint = project.sprints.splice(index, 1);
       await project.save();
       res.json({ msg: 'This sprint has been deleted.' });
     } else {

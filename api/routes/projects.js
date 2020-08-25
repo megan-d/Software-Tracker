@@ -284,7 +284,10 @@ router.put(
             (dev) => dev._id.toString() === developerId.toString(),
           );
           if (isExistingDeveloper.length === 0) {
-            project.developers.push(developerId);
+            await Project.updateOne(
+              { _id: req.params.project_id },
+              { $push: { developers: developerId } },
+            );
             await project.save();
           } else {
             return res.status(400).json({
@@ -367,7 +370,8 @@ router.put(
       };
 
       //Add newComment onto project comments at the end of array (want chronological order in this case)
-      project.comments.push(newComment);
+      await Project.updateOne({ _id: req.params.project_id }, { $push: { comments: newComment }});
+      // project.comments.push(newComment);
 
       //Save to database
       await project.save();

@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
 export default function EditProject(props) {
   const classes = useStyles();
 
-  const { project, updateProject, getProjectDetails } = useContext(
+  const { project, isLoading, updateProject, getProjectDetails } = useContext(
     ProjectContext,
   );
 
@@ -144,7 +144,7 @@ export default function EditProject(props) {
 
   //TODO: Need to fix how target completion date is shown in placeholder text.
   //TODO: Need to find way to display username rather than id. Try populate.
-  const [targetCompletionDate, setSelectedTargetDate] = useState(new Date());
+  const [targetCompletionDate, setSelectedTargetDate] = useState(null);
   const [completionDate, setSelectedCompletionDate] = useState(null);
 
   const handleTargetDateChange = (date) => {
@@ -191,7 +191,7 @@ export default function EditProject(props) {
       <h2>Edit Project</h2>
       <hr></hr>
 
-      {!project ? (
+      {!project || isLoading ? (
         <Spinner />
       ) : (
         <Grid container component='main' className={classes.root}>
@@ -266,7 +266,7 @@ export default function EditProject(props) {
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container justify='flex-start'>
                     <KeyboardDatePicker
-                      placeholder={project.targetCompletionDate}
+                      // placeholder={project.targetCompletionDate}
                       disableToolbar
                       variant='inline'
                       format='MM/dd/yyyy'

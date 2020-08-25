@@ -254,6 +254,7 @@ const removeTicketFromSprint = async (sprintId, ticketId, history) => {
         type: 'UPDATE_SPRINT_SUCCESS',
         payload: res.data,
       });
+      history.push(`/sprint/${sprintId}`);
     } catch (err) {
       let errors = err.response.data.errors;
       if (errors) {
