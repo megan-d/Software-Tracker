@@ -62,7 +62,14 @@ const Tickets = (props) => {
           <hr></hr>
           <Spinner />
         </Fragment>
-      ) : (
+      ) : !isLoading && !tickets ? (<Fragment>
+        <h2>My Tickets</h2>
+        <p>
+        You do not have any assigned tickets.
+        </p>
+        <hr></hr>
+      </Fragment>
+      ) :(
         <Fragment>
           <h2>My Tickets</h2>
           <p>

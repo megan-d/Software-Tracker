@@ -462,7 +462,8 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
           errors: [{ msg: 'This ticket could not be found.' }],
         });
       }
-      let deletedTicket = project.tickets.splice(index, 1);
+      await project.tickets.pull(req.params.ticket_id);
+      // let deletedTicket = project.tickets.splice(index, 1);
       await project.save();
       res.json({ msg: 'This ticket has been deleted.' });
 

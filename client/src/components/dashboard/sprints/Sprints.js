@@ -26,7 +26,7 @@ const Sprints = (props) => {
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
-      {isLoading || !sprints ? (
+      {isLoading && !sprints ? (
         <Fragment>
           <h2>My Sprints</h2>
           <p>
@@ -35,6 +35,13 @@ const Sprints = (props) => {
           <hr></hr>
           <Spinner />
         </Fragment>
+      ) : !sprints ? (<Fragment>
+        <h2>My Sprints</h2>
+        <p>
+        You do not have any assigned sprints.
+        </p>
+        <hr></hr>
+      </Fragment>
       ) : (
         <Fragment>
           <h2>My Sprints</h2>
