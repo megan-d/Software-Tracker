@@ -61,11 +61,15 @@ router.get('/:project_id', verify, async (req, res) => {
 //ACCESS LEVEL: Private
 router.get('/ticket/:ticket_id', verify, async (req, res) => {
   try {
-    let ticket = await Ticket.findOne({ _id: req.params.ticket_id }).populate('project').populate({
-      path : 'project',
-      populate : {
-        path : 'sprints'
-      }}).populate('assignedDeveloper', 'username');
+    let ticket = await Ticket.findOne({ _id: req.params.ticket_id })
+      .populate('project')
+      .populate({
+        path: 'project',
+        populate: {
+          path: 'sprints',
+        },
+      })
+      .populate('assignedDeveloper', 'username');
 
     //If there are no tickets, return an error
     if (!ticket) {
@@ -184,7 +188,11 @@ router.post(
       ticketItems.assignedDeveloper = developerId;
 
       let ticket = await new Ticket(ticketItems);
-      await ticket.history.push(historyItem);
+      await Ticket.updateOne(
+        { _id: ticket._id },
+        { $push: { history: historyItem } },
+      );
+      // await ticket.history.push(historyItem);
       await ticket.save();
 
       //Check to see if assigned developer is a developer on the project yet. If not, add them with request.
@@ -194,9 +202,17 @@ router.post(
 
       if (isExistingProjectDeveloper.length === 0) {
         //Add to developers array for project
-        await project.developers.push(developerId);
+        await Project.updateOne(
+          { _id: req.params.project_id },
+          { $push: { developers: developerId } },
+        );
+        // await project.developers.push(developerId);
       }
-      await project.tickets.push(ticket);
+      await Project.updateOne(
+        { _id: req.params.project_id },
+        { $push: { tickets: ticket } },
+      );
+      // await project.tickets.push(ticket);
       await project.save();
       return res.json(ticket);
     } catch (err) {
@@ -240,7 +256,11 @@ router.post(
       };
 
       //Add newComment onto ticket comments at the end of array (want chronological order in this case)
-      ticket.comments.push(newComment);
+      await Ticket.updateOne(
+        { _id: req.params.ticket_id },
+        { $push: { comments: newComment } },
+      );
+      // ticket.comments.push(newComment);
 
       //Save to database
       await ticket.save();
@@ -363,13 +383,14 @@ router.put(
 
         if (assignedDeveloper) {
           let user = await User.findOne({ username: assignedDeveloper });
-          let developerId = user._id;
-          updatedTicketItems.assignedDeveloper = developerId;
           if (!user) {
             return res.status(400).json({
               errors: [{ msg: 'The assigned developer could not be found.' }],
             });
           }
+          let developerId = user._id;
+          updatedTicketItems.assignedDeveloper = developerId;
+
           //Check to see if assigned developer is a developer on the project yet. If not, add them with request.
           let isExistingProjectDeveloper = project.developers.filter(
             (dev) => dev._id.toString() === developerId.toString(),
@@ -377,12 +398,20 @@ router.put(
 
           if (isExistingProjectDeveloper.length === 0) {
             //Add to developers array for project
-            await project.developers.push(developerId);
+            await Project.updateOne(
+              { _id: req.params.project_id },
+              { $push: { developers: developerId } },
+            );
+            // await project.developers.push(developerId);
           }
         }
 
         //When update ticket, push type of change to history array so have a log of ticket history.
-        await ticket.history.push(historyItem);
+        await Ticket.updateOne(
+          { _id: ticket._id },
+          { $push: { history: historyItem } },
+        );
+        // await ticket.history.push(historyItem);
         await ticket.save();
         await project.save();
 
