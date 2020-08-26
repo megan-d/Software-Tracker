@@ -124,6 +124,7 @@ const Register = (props, value) => {
               variant='outlined'
               required
               fullWidth
+              autoFocus
               id='firstName'
               label='First Name'
               autoFocus
@@ -139,7 +140,6 @@ const Register = (props, value) => {
               fullWidth
               id='lastName'
               label='Last Name'
-              autoFocus
               value={lastName}
               onChange={(e) => onChange(e)}
               margin='normal'
@@ -152,7 +152,6 @@ const Register = (props, value) => {
               fullWidth
               id='username'
               label='Username'
-              autoFocus
               value={username}
               onChange={(e) => onChange(e)}
               margin='normal'

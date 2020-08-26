@@ -30,7 +30,7 @@ export default (state, action) => {
     case 'LOAD_USER_PROJECTS_FAILURE':
     case 'CREATE_PROJECT_FAILURE':
     case 'LOAD_PROJECT_FAILURE':
-    case 'PROJECT_DELETED':
+    
     case 'ADD_COMMENT_FAILURE':
     case 'UPDATE_PROJECT_FAILURE':
       return {
@@ -39,6 +39,13 @@ export default (state, action) => {
         isLoading: false,
         errors: action.payload,
       };
+      case 'PROJECT_DELETED':
+        return {
+          ...state,
+          project: null,
+          isLoading: false,
+          errors: action.payload,
+        };
     default:
       return state;
   }

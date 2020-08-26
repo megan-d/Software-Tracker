@@ -146,7 +146,7 @@ const Project = (props) => {
           />
           <ul>Developers on project:</ul>
           {project.developers.map((el, index) => (
-            <li key={index}>{el}</li>
+            <li key={index}>{el.username}</li>
           ))}
 
           <ul>Project comments:</ul>

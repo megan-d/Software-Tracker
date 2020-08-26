@@ -41,7 +41,7 @@ const Tickets = (props) => {
     {
       title: 'Priority',
       field: 'priority',
-      customSort: (a, b) => sortedPriority(a) > sortedPriority(b) ? 1 : -1,
+      customSort: (a, b) => (sortedPriority(a) > sortedPriority(b) ? 1 : -1),
     },
     { title: 'Due date', field: 'dateDue', type: 'date' },
     { title: 'Status', field: 'status' },
@@ -52,24 +52,17 @@ const Tickets = (props) => {
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
-      {isLoading ? (
-        <Fragment>
-          <h2>My Tickets</h2>
+      <h2>My Tickets</h2>
           <p>
             View your assigned tickets. Select a ticket to view the ticket
             details.
           </p>
           <hr></hr>
+      {isLoading ? (   
           <Spinner />
-        </Fragment>
-      ) : !isLoading && !tickets ? (<Fragment>
-        <h2>My Tickets</h2>
-        <p>
-        You do not have any assigned tickets.
-        </p>
-        <hr></hr>
-      </Fragment>
-      ) :(
+      ) : tickets.length === 0 ? (
+        <p>There are no assigned tickets.</p>
+      ) : (
         <Fragment>
           <h2>My Tickets</h2>
           <p>

@@ -10,7 +10,7 @@ const initialState = {
   tickets: [],
   ticket: null,
   // project: null,
-  errors: [],
+  errors: null,
 };
 
 //Initiate context
