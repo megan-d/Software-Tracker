@@ -410,6 +410,7 @@ router.get('/:sprint_id/:ticket_id', verify, async (req, res) => {
 
     if (isExistingSprintDeveloper.length === 0) {
       //Add to developers array for sprint
+      
       await Sprint.updateOne(
         { _id: req.params.sprint_id },
         { $push: { developers: assignedDev } },

@@ -34,7 +34,6 @@ router.get('/me', verify, async (req, res) => {
     //If there are projects, send those projects
     res.json(projects);
   } catch (err) {
-    console.log(err.message);
     res.status(500).send('Server Error');
   }
 });
@@ -279,9 +278,9 @@ router.put(
                 ],
               });
           }
-          let developerId = user._id;
+          let developerId = {_id: user._id};
           let isExistingDeveloper = project.developers.filter(
-            (dev) => dev._id.toString() === developerId.toString(),
+            (dev) => dev._id.toString() === developerId._id.toString(),
           );
           if (isExistingDeveloper.length === 0) {
             await Project.updateOne(

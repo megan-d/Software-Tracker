@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import MaterialTable from 'material-table';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AvatarIcon from '../../layout/AvatarIcon';
+import moment from 'moment';
 
 const StyledLink = styled(Link)`
   color: white;
@@ -62,6 +63,7 @@ const Project = (props) => {
   ];
 
   let history = useHistory();
+  
 
   //Put the add ticket functionality here where tickets are shown for the project.
   //Only show delete and edit buttons if the user owns the project or is an admin

@@ -43,11 +43,11 @@ export const ProjectProvider = ({ children }) => {
       });
     } catch (err) {
       let errors = err.response.data.errors;
-      console.log(err.response.data.errors)
-      if (errors) {
-        //if errors, loop through them and dispatch the showAlert action from AlertContext
-        errors.forEach((error) => showAlert(error.msg, 'error'));
-      }
+      
+      // if (errors) {
+      //   //if errors, loop through them and dispatch the showAlert action from AlertContext
+      //   errors.forEach((error) => showAlert(error.msg, 'error'));
+      // }
       dispatch({
         type: 'LOAD_USER_PROJECTS_FAILURE',
         payload: err.response.data.errors
