@@ -78,8 +78,8 @@ const Project = (props) => {
   useEffect(() => {
     getProjectDetails(props.match.params.projectid);
     return () => {
-      clearTicket();
       clearProject();
+      clearTicket();
     };
   }, []);
 
@@ -182,8 +182,7 @@ const Project = (props) => {
           />
 
           <h4>Developers on Project:</h4>
-          {project.developers &&
-            !isLoading ? 
+          {project.developers[0].username ?
             (project.developers.map((el, index) => {
               return (
                 <ListItem button key={el._id}>
@@ -206,7 +205,7 @@ const Project = (props) => {
                   </ListItemLink>
                 </ListItem>
               );
-            })) : ('')}
+            })): ('')}
 
           <h4>Project Tech Stack:</h4>
           {!project.techStack ? ('') : project.techStack.length === 0 && !isLoading ? (
