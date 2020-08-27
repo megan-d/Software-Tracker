@@ -182,7 +182,7 @@ const Project = (props) => {
           />
 
           <h4>Developers on Project:</h4>
-          {project.developers[0].username ?
+          {project.developers.length > 0 && project.developers[0].username ?
             (project.developers.map((el, index) => {
               return (
                 <ListItem button key={el._id}>
