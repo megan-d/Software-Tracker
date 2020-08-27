@@ -74,6 +74,9 @@ const projectSchema = new Schema({
       ref: 'Sprint',
     },
   ],
+  techStack: [
+    
+  ],
   repoLink: {
     type: String,
   },

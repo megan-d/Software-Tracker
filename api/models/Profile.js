@@ -10,6 +10,12 @@ const profileSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  bio: {
+    type: String,
+  },
+  skills: {
+    type: [String]
+  },
   teams: [
     {
       name: {
@@ -35,24 +41,34 @@ const profileSchema = new Schema({
       type: String,
     },
   ],
-//   myProjects: [
-//     {
-//         type: Schema.Types.ObjectId,
-//         ref: 'Project',
-//     },
-//   ],
-//   collaboratingProjects: [
-//     {
-//         type: Schema.Types.ObjectId,
-//         ref: 'Project',
-//     },
-//   ],
+  myProjects: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Project',
+    },
+  ],
+  comments: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+      comment: {
+        type: String,
+        required: true,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
   created: {
     type: Date,
     default: Date.now,
   },
 });
 
-profileSchema.plugin(passportLocalMongoose);
+// profileSchema.plugin(passportLocalMongoose);
 
 module.exports = Profile = mongoose.model('Profile', profileSchema);

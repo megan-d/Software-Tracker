@@ -119,9 +119,13 @@ const useStyles = makeStyles((theme) => ({
 export default function EditProject(props) {
   const classes = useStyles();
 
-  const { project, isLoading, updateProject, getProjectDetails, clearProject } = useContext(
-    ProjectContext,
-  );
+  const {
+    project,
+    isLoading,
+    updateProject,
+    getProjectDetails,
+    clearProject,
+  } = useContext(ProjectContext);
 
   useEffect(() => {
     getProjectDetails(props.match.params.projectid);
@@ -135,6 +139,7 @@ export default function EditProject(props) {
     repoLink: '',
     liveLink: '',
     developer: '',
+    techStack: ''
   });
 
   //   const [access, setAccess] = useState('public');
@@ -164,6 +169,7 @@ export default function EditProject(props) {
     developer,
     repoLink,
     liveLink,
+    techStack,
   } = formData;
 
   // Function to update state on change using updateFormData
@@ -182,6 +188,7 @@ export default function EditProject(props) {
       repoLink: repoLink,
       liveLink: liveLink,
       developer: developer,
+      techStack: techStack,
     };
     //call add project action
     await updateProject(projectUpdates, project._id, props.history);
@@ -346,6 +353,17 @@ export default function EditProject(props) {
                 <StyledGreyLink to='/profiles'>
                   Search for user...
                 </StyledGreyLink>
+                <TextField
+                  variant='outlined'
+                  fullWidth
+                  name='techStack'
+                  label='Technologies used'
+                  helperText='Please enter the technologies used for this project separated by a comma. (e.g. JavaScript, Node, React)'
+                  id='techStack'
+                  value={techStack}
+                  onChange={(e) => onChange(e)}
+                  margin='normal'
+                />
                 <TextField
                   placeholder={project.repoLink ? project.repoLink : null}
                   variant='outlined'

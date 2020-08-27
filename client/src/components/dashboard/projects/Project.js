@@ -56,12 +56,7 @@ const StyledLink = styled(Link)`
 `;
 
 function ListItemLink(props) {
-  return (
-    <Link
-      {...props}
-      style={{ textDecoration: 'none', color: 'grey' }}
-    />
-  );
+  return <Link {...props} style={{ textDecoration: 'none', color: 'grey' }} />;
 }
 
 const Project = (props) => {
@@ -186,10 +181,10 @@ const Project = (props) => {
             }}
           />
 
-          {project.developers[0].username &&
-            !isLoading &&
-            // <DevelopersList />
-            project.developers.map((el, index) => {
+          <h4>Developers on Project:</h4>
+          {project.developers &&
+            !isLoading ? 
+            (project.developers.map((el, index) => {
               return (
                 <ListItem button key={el._id}>
                   <ListItemIcon>
@@ -211,7 +206,16 @@ const Project = (props) => {
                   </ListItemLink>
                 </ListItem>
               );
-            })}
+            })) : ('')}
+
+          <h4>Project Tech Stack:</h4>
+          {!project.techStack ? ('') : project.techStack.length === 0 && !isLoading ? (
+            <p>No listed technologies</p>
+          ) : (
+            project.techStack.map((el, index) => {
+              return <p key={index}>{el}</p>;
+            })
+          )}
 
           <ul>Project comments:</ul>
           {project.comments.length === 0 && !isLoading ? (

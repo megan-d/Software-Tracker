@@ -118,6 +118,8 @@ const CreateProject = ({ history }) => {
     manager: '',
     repoLink: '',
     liveLink: '',
+    techStack: '',
+    developers: ''
   });
 
   const [access, setAccess] = useState('public');
@@ -135,7 +137,7 @@ const CreateProject = ({ history }) => {
   const { createProject } = useContext(ProjectContext);
 
   //Pull out variables from formData and userData
-  const { name, description, manager, repoLink, liveLink } = formData;
+  const { name, description, manager, repoLink, liveLink, techStack, developers } = formData;
 
   // Function to update state on change using updateFormData
   const onChange = (e) =>
@@ -152,6 +154,8 @@ const CreateProject = ({ history }) => {
       repoLink: repoLink,
       liveLink: liveLink,
       access: access,
+      techStack: techStack,
+      developers: developers
     };
     //call add project action
     await createProject(project, history);
@@ -253,6 +257,17 @@ const CreateProject = ({ history }) => {
               >
                 Search for user...
               </StyledGreyLink>
+              <TextField
+                variant='outlined'
+                fullWidth
+                name='techStack'
+                label='Technologies used'
+                helperText='Please enter the technologies used for this project separated by a comma. (e.g. JavaScript, Node, React)'
+                id='techStack'
+                value={techStack}
+                onChange={(e) => onChange(e)}
+                margin='normal'
+              />
               <TextField
                 variant='outlined'
                 fullWidth

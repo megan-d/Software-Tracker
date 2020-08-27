@@ -25,11 +25,9 @@ router.get('/me', verify, async (req, res) => {
 
     //If there is no project, return an error
     if (projects.length === 0) {
-      return res
-        .status(400)
-        .json({
-          errors: [{ msg: 'There are no projects available for this user.' }],
-        });
+      return res.status(400).json({
+        errors: [{ msg: 'There are no projects available for this user.' }],
+      });
     }
     //If there are projects, send those projects
     res.json(projects);
@@ -46,7 +44,9 @@ router.get('/:project_id', verify, async (req, res) => {
   try {
     let project = await Project.findOne({
       _id: req.params.project_id,
-    }).populate('sprints tickets').populate('developers', 'username firstName lastName');
+    })
+      .populate('sprints tickets')
+      .populate('developers', 'username firstName lastName');
 
     if (!project)
       return res.status(400).json({ errors: [{ msg: 'Project not found' }] });
@@ -116,6 +116,7 @@ router.post(
       manager,
       repoLink,
       liveLink,
+      techStack,
     } = req.body;
 
     //Build the projectItems object. If the value is there, add it to the profileItems object.
@@ -134,6 +135,11 @@ router.post(
 
     projectItems.repoLink = repoLink;
     projectItems.liveLink = liveLink;
+    if (techStack) {
+      projectItems.techStack = techStack.split(',').map((tech) => tech.trim());
+    } else {
+      projectItems.techStack = [];
+    }
 
     //Once all fields are prepared, update and populate the data
     try {
@@ -143,23 +149,19 @@ router.post(
         owner: req.user.id,
       });
       if (projects.length > 0) {
-        return res
-          .status(400)
-          .json({
-            errors: [{ msg: 'You already own a project with that name.' }],
-          });
+        return res.status(400).json({
+          errors: [{ msg: 'You already own a project with that name.' }],
+        });
       }
       //Match the username entered for manager to the user id in the database
       if (projectItems.manager !== req.user.id) {
         let user = await User.findOne({ username: projectItems.manager });
         if (!user) {
-          return res
-            .status(400)
-            .json({
-              errors: [
-                { msg: 'The user selected for manager could not be found.' },
-              ],
-            });
+          return res.status(400).json({
+            errors: [
+              { msg: 'The user selected for manager could not be found.' },
+            ],
+          });
         } else {
           //convert username to id
           projectItems.manager = user._id;
@@ -220,10 +222,12 @@ router.put(
       completionDate,
       repoLink,
       liveLink,
+      techStack,
     } = req.body;
 
     //Build updatedProjectFields object. If the field is provided, add to profileFields object
     const updatedProjectFields = {};
+    let updatedTechStack = [];
     if (name) updatedProjectFields.name = name;
     if (description) updatedProjectFields.description = description;
     if (access) updatedProjectFields.access = access;
@@ -232,6 +236,9 @@ router.put(
     if (completionDate) updatedProjectFields.completionDate = completionDate;
     if (repoLink) updatedProjectFields.repoLink = repoLink;
     if (liveLink) updatedProjectFields.liveLink = liveLink;
+    if (techStack) {
+      updatedTechStack = techStack.split(',').map((tech) => tech.trim());
+    }
 
     try {
       let project = await Project.findOne({ _id: req.params.project_id });
@@ -255,11 +262,9 @@ router.put(
             owner: req.user.id,
           });
           if (projects.length > 0) {
-            return res
-              .status(400)
-              .json({
-                errors: [{ msg: 'You already own a project with that name.' }],
-              });
+            return res.status(400).json({
+              errors: [{ msg: 'You already own a project with that name.' }],
+            });
           }
         }
 
@@ -268,17 +273,15 @@ router.put(
         if (developer) {
           let user = await User.findOne({ username: developer });
           if (!user) {
-            return res
-              .status(400)
-              .json({
-                errors: [
-                  {
-                    msg: 'The user selected for developer could not be found.',
-                  },
-                ],
-              });
+            return res.status(400).json({
+              errors: [
+                {
+                  msg: 'The user selected for developer could not be found.',
+                },
+              ],
+            });
           }
-          let developerId = {_id: user._id};
+          let developerId = { _id: user._id };
           let isExistingDeveloper = project.developers.filter(
             (dev) => dev._id.toString() === developerId._id.toString(),
           );
@@ -298,6 +301,14 @@ router.put(
               ],
             });
           }
+        }
+        if (techStack) {
+          await Project.updateOne(
+            { _id: req.params.project_id },
+            { $push: { techStack: { $each: updatedTechStack } } },
+            { upsert: true, new: true },
+          );
+          await project.save();
         }
         if (manager) {
           let user = await User.findOne({ username: manager });
@@ -322,11 +333,9 @@ router.put(
         //Send back the entire project
         return res.json(updatedProject);
       } else {
-        return res
-          .status(401)
-          .json({
-            errors: [{ msg: 'You are not permitted to perform this action.' }],
-          });
+        return res.status(401).json({
+          errors: [{ msg: 'You are not permitted to perform this action.' }],
+        });
       }
     } catch (err) {
       console.error(err.message);
@@ -369,7 +378,10 @@ router.put(
       };
 
       //Add newComment onto project comments at the end of array (want chronological order in this case)
-      await Project.updateOne({ _id: req.params.project_id }, { $push: { comments: newComment }});
+      await Project.updateOne(
+        { _id: req.params.project_id },
+        { $push: { comments: newComment } },
+      );
       // project.comments.push(newComment);
 
       //Save to database
@@ -414,11 +426,9 @@ router.delete('/:project_id', verify, async (req, res) => {
           'This project and its associated tickets and sprints have been deleted.',
       });
     } else {
-      return res
-        .status(401)
-        .json({
-          errors: [{ msg: 'You are not permitted to perform this action.' }],
-        });
+      return res.status(401).json({
+        errors: [{ msg: 'You are not permitted to perform this action.' }],
+      });
     }
   } catch (err) {
     console.error(err.message);
