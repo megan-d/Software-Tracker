@@ -119,12 +119,13 @@ const useStyles = makeStyles((theme) => ({
 export default function EditProject(props) {
   const classes = useStyles();
 
-  const { project, isLoading, updateProject, getProjectDetails } = useContext(
+  const { project, isLoading, updateProject, getProjectDetails, clearProject } = useContext(
     ProjectContext,
   );
 
   useEffect(() => {
     getProjectDetails(props.match.params.projectid);
+    return () => clearProject();
   }, []);
 
   const [formData, updateFormData] = useState({

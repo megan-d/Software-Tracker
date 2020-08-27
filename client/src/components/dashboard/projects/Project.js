@@ -3,6 +3,7 @@ import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
@@ -11,8 +12,33 @@ import AlertBanner from '../../layout/AlertBanner';
 import styled from 'styled-components';
 import MaterialTable from 'material-table';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AvatarIcon from '../../layout/AvatarIcon';
+import DevelopersList from '../developer/DevelopersList';
 import moment from 'moment';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+
+const colors = [
+  'orange',
+  'red',
+  'green',
+  'blue',
+  'yellow',
+  'purple',
+  'black',
+  'pink',
+  'lightgreen',
+];
 
 const StyledLink = styled(Link)`
   color: white;
@@ -29,12 +55,25 @@ const StyledLink = styled(Link)`
   font-family: Roboto, sans-serif;
 `;
 
-  
+function ListItemLink(props) {
+  return (
+    <Link
+      {...props}
+      style={{ textDecoration: 'none', color: 'grey' }}
+    />
+  );
+}
 
 const Project = (props) => {
-  const { project, getProjectDetails, deleteProject, isLoading } = useContext(
-    ProjectContext,
-  );
+  const classes = useStyles();
+
+  const {
+    project,
+    getProjectDetails,
+    deleteProject,
+    isLoading,
+    clearProject,
+  } = useContext(ProjectContext);
 
   const { clearTicket } = useContext(TicketContext);
   const { user } = useContext(AuthContext);
@@ -43,7 +82,10 @@ const Project = (props) => {
 
   useEffect(() => {
     getProjectDetails(props.match.params.projectid);
-    clearTicket();
+    return () => {
+      clearTicket();
+      clearProject();
+    };
   }, []);
 
   const ticketColumns = [
@@ -63,7 +105,6 @@ const Project = (props) => {
   ];
 
   let history = useHistory();
-  
 
   //Put the add ticket functionality here where tickets are shown for the project.
   //Only show delete and edit buttons if the user owns the project or is an admin
@@ -77,7 +118,7 @@ const Project = (props) => {
           <h2>{project.name}</h2>
           <p>Description: {project.description}</p>
           <p>Target completion date: {project.targetCompletionDate}</p>
-          
+
           <MaterialTable
             localization={{
               header: {
@@ -144,10 +185,33 @@ const Project = (props) => {
               history.push(`/sprint/${rowData.id}`);
             }}
           />
-          <ul>Developers on project:</ul>
-          {project.developers.map((el, index) => (
-            <li key={index}>{el.username}</li>
-          ))}
+
+          {project.developers[0].username &&
+            !isLoading &&
+            // <DevelopersList />
+            project.developers.map((el, index) => {
+              return (
+                <ListItem button key={el._id}>
+                  <ListItemIcon>
+                    <Avatar
+                      className={classes.root}
+                      style={{
+                        height: '40px',
+                        width: '40px',
+                        color: '#e5e0db',
+                        backgroundColor: colors[index],
+                      }}
+                    >
+                      {el.firstName.charAt(0).toUpperCase()}
+                      {el.lastName.charAt(0).toUpperCase()}
+                    </Avatar>
+                  </ListItemIcon>
+                  <ListItemLink to={'/projects'}>
+                    <ListItemText primary={el.username} />
+                  </ListItemLink>
+                </ListItem>
+              );
+            })}
 
           <ul>Project comments:</ul>
           {project.comments.length === 0 && !isLoading ? (
