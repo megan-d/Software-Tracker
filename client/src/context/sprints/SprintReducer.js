@@ -36,7 +36,7 @@ export default (state, action) => {
         case 'CLEAR_SPRINTS':
         return {
           ...state,
-          sprints: null,
+          sprints: [],
         };
       case 'LOAD_USER_SPRINTS_FAILURE':
       case 'LOAD_SPRINT_FAILURE':

@@ -53,53 +53,42 @@ const Tickets = (props) => {
   return (
     <Wrapper>
       <h2>My Tickets</h2>
-          <p>
-            View your assigned tickets. Select a ticket to view the ticket
-            details.
-          </p>
-          <hr></hr>
-      {isLoading ? (   
-          <Spinner />
-      ) : tickets.length === 0 ? (
-        <p>There are no assigned tickets.</p>
+      <p>
+        View your assigned tickets. Select a ticket to view the ticket details.
+      </p>
+      <hr></hr>
+      {isLoading ? (
+        <Spinner />
       ) : (
-        <Fragment>
-          <h2>My Tickets</h2>
-          <p>
-            View your assigned tickets. Select a ticket to view the ticket
-            details.
-          </p>
-          <hr></hr>
-          <MaterialTable
-            localization={{
-              header: {
-                actions: 'View Project',
-              },
-            }}
-            title='Tickets'
-            columns={columns}
-            actions={[
-              {
-                icon: 'visibility',
-                tooltip: 'View Project',
-                onClick: (event, rowData) =>
-                  props.history.push(`/projects/${rowData.project._id}`),
-              },
-            ]}
-            data={tickets}
-            onRowClick={async (event, rowData) => {
-              history.push(`/ticket/${rowData._id}`);
-            }}
-            options={{
-              pageSize: 5,
-              pageSizeOptions: [5, 10, 20, 30],
-              toolbar: true,
-              paging: true,
-              actionsColumnIndex: -1,
-              sorting: true,
-            }}
-          />
-        </Fragment>
+        <MaterialTable
+          localization={{
+            header: {
+              actions: 'View Project',
+            },
+          }}
+          title='Tickets'
+          columns={columns}
+          actions={[
+            {
+              icon: 'visibility',
+              tooltip: 'View Project',
+              onClick: (event, rowData) =>
+                props.history.push(`/projects/${rowData.project._id}`),
+            },
+          ]}
+          data={tickets}
+          onRowClick={async (event, rowData) => {
+            history.push(`/ticket/${rowData._id}`);
+          }}
+          options={{
+            pageSize: 5,
+            pageSizeOptions: [5, 10, 20, 30],
+            toolbar: true,
+            paging: true,
+            actionsColumnIndex: -1,
+            sorting: true,
+          }}
+        />
       )}
     </Wrapper>
   );

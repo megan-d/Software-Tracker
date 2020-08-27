@@ -36,7 +36,7 @@ export default (state, action) => {
       case 'CLEAR_TICKETS':
         return {
           ...state,
-          tickets: null,
+          tickets: [],
         }
     case 'LOAD_USER_TICKETS_FAILURE':
     case 'LOAD_TICKET_FAILURE':

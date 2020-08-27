@@ -132,6 +132,14 @@ export const ProjectProvider = ({ children }) => {
     });
   };
 
+  //*******CLEAR PROJECTS ACTION**********
+  //Clear the projects
+  const clearProjects = async () => {
+    dispatch({
+      type: 'CLEAR_PROJECTS',
+    });
+  };
+
   //*****DELETE PROJECT ACTION************
   const deleteProject = async (id, history) => {
     //Create config with headers
@@ -232,6 +240,7 @@ export const ProjectProvider = ({ children }) => {
         getUserProjects,
         createProject,
         clearProject,
+        clearProjects,
         getProjectDetails,
         updateProject,
         deleteProject,

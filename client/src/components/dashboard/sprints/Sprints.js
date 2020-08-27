@@ -6,8 +6,13 @@ import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
 
 const Sprints = (props) => {
-
-  const { sprints, sprint, isLoading, getUserSprints, clearSprints } = useContext(SprintContext);
+  const {
+    sprints,
+    sprint,
+    isLoading,
+    getUserSprints,
+    clearSprints,
+  } = useContext(SprintContext);
 
   useEffect(() => {
     getUserSprints();
@@ -26,61 +31,43 @@ const Sprints = (props) => {
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
-      {isLoading && !sprints ? (
-        <Fragment>
-          <h2>My Sprints</h2>
-          <p>
-            View your sprints. Select a sprint to view details.
-          </p>
-          <hr></hr>
-          <Spinner />
-        </Fragment>
-      ) : !sprints ? (<Fragment>
-        <h2>My Sprints</h2>
-        <p>
-        You do not have any assigned sprints.
-        </p>
-        <hr></hr>
-      </Fragment>
+      <h2>My Sprints</h2>
+      <p>View your sprints. Select a sprint to view details.</p>
+      <hr></hr>
+      {isLoading ? (
+        <Spinner />
       ) : (
-        <Fragment>
-          <h2>My Sprints</h2>
-          <p>
-            View your sprints. Select a sprint to view details.
-          </p>
-          <hr></hr>
-          <MaterialTable
-            localization={{
-              header: {
-                actions: 'Project',
-              },
-            }}
-            title='Sprints'
-            columns={columns}
-            actions={[
-              {
-                icon: 'visibility',
-                tooltip: 'View Project',
-                onClick: (event, rowData) => props.history.push(`/projects/${rowData.project._id}`)
-              }
-            ]}
-            data={sprints}
-            onRowClick={async (event, rowData) => {
-              history.push(`/sprint/${rowData._id}`)
-            }}
-            options={{
-              pageSize: 5,
-              pageSizeOptions: [5, 10, 20, 30],
-              toolbar: true,
-              paging: true,
-              actionsColumnIndex: -1
+        <MaterialTable
+          localization={{
+            header: {
+              actions: 'Project',
+            },
           }}
-          />
-        </Fragment>
+          title='Sprints'
+          columns={columns}
+          actions={[
+            {
+              icon: 'visibility',
+              tooltip: 'View Project',
+              onClick: (event, rowData) =>
+                props.history.push(`/projects/${rowData.project._id}`),
+            },
+          ]}
+          data={sprints}
+          onRowClick={async (event, rowData) => {
+            history.push(`/sprint/${rowData._id}`);
+          }}
+          options={{
+            pageSize: 5,
+            pageSizeOptions: [5, 10, 20, 30],
+            toolbar: true,
+            paging: true,
+            actionsColumnIndex: -1,
+          }}
+        />
       )}
     </Wrapper>
   );
 };
 
 export default Sprints;
-

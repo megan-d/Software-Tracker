@@ -21,6 +21,11 @@ export default (state, action) => {
         ...state,
         project: null,
       };
+      case 'CLEAR_PROJECTS':
+      return {
+        ...state,
+        projects: [],
+      };
     case 'CREATE_PROJECT_SUCCESS':
       return {
         ...state,
