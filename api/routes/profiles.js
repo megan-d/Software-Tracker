@@ -13,7 +13,7 @@ const Profile = require('../models/Profile');
 //ROUTE: GET api/profiles
 //DESCRIPTION: Get all developer profiles
 //ACCESS LEVEL: Private
-router.get('/', async (req, res) => {
+router.get('/', verify, async (req, res) => {
   try {
     let profiles = await Profile.find().populate('user', [
       'username',
@@ -29,6 +29,18 @@ router.get('/', async (req, res) => {
 //ROUTE: GET api/profiles/me
 //DESCRIPTION: Get current user's profile
 //ACCESS LEVEL: Private
+router.get('/me', verify, async (req, res) => {
+    try {
+        //Find the profile
+        let profile = await Profile.findOne({ user: req.user.id }).populate('user');
+        if(!profile) {
+            return res.status(400).json({ errors: [{ msg: 'An existing profile could not be found. Please create a profile.' }] })
+        }
+        res.json(profile);
+    } catch (err) {
+        res.status(500).send('Server Error');
+    }
+})
 
 //ROUTE: POST api/profiles
 //DESCRIPTION: Create user profile
