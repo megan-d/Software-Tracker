@@ -35,7 +35,6 @@ export default (state, action) => {
     case 'LOAD_USER_PROJECTS_FAILURE':
     case 'CREATE_PROJECT_FAILURE':
     case 'LOAD_PROJECT_FAILURE':
-    
     case 'ADD_COMMENT_FAILURE':
     case 'UPDATE_PROJECT_FAILURE':
       return {

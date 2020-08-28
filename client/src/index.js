@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import { AuthProvider } from '../src/context/auth/AuthContext';
 import { AlertProvider } from '../src/context/alerts/AlertContext';
 import { ProjectProvider } from './context/projects/ProjectContext';
+import { ProfileProvider } from './context/profiles/ProfileContext';
 import { TicketProvider } from './context/tickets/TicketContext';
 import { SprintProvider } from './context/sprints/SprintContext';
 
@@ -13,11 +14,13 @@ ReactDOM.render(
     <AlertProvider>
       <AuthProvider>
         <ProjectProvider>
-          <TicketProvider>
-            <SprintProvider>
-              <App />
-            </SprintProvider>
-          </TicketProvider>
+          <ProfileProvider>
+            <TicketProvider>
+              <SprintProvider>
+                <App />
+              </SprintProvider>
+            </TicketProvider>
+          </ProfileProvider>
         </ProjectProvider>
       </AuthProvider>
     </AlertProvider>

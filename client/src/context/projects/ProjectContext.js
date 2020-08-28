@@ -84,10 +84,6 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
-  
-
-  
-
   //*****CREATE NEW PROJECT ACTION************
   const createProject = async (project, history) => {
     //Create config with headers

@@ -19,7 +19,8 @@ const StyledLink = styled(Link)`
 `;
 
 const DrawerListItems = ({ sidedrawerClick }) => {
-  const { logoutUser } = useContext(AuthContext);
+  const { logoutUser, user } = useContext(AuthContext);
+
   return (
     <Fragment>
       <div className='main-list-items'>
@@ -77,7 +78,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
     </ListItem>
     </StyledLink>  */}
 
-        <StyledLink to='/profiles/me'>
+        <StyledLink to={`/profiles/${user._id}`}>
           <ListItem button>
             <ListItemIcon>
               <PersonIcon />

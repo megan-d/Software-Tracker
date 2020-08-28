@@ -226,6 +226,8 @@ router.put(
 //ROUTE: DELETE api/users
 //DESCRIPTION: Delete user
 //ACCESS LEVEL: Private
+
+//TODO: Also need to delete user's profile and projects when delete account
 router.delete('/', verify, async (req, res) => {
   try {
     //Find user that corresponds to user id found in token and delete

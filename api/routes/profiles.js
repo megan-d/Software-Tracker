@@ -42,6 +42,22 @@ router.get('/me', verify, async (req, res) => {
     }
 })
 
+//ROUTE: GET api/profiles/user/:user_id
+//DESCRIPTION: Get profile by User ID
+//ACCESS LEVEL: Private
+router.get('/user/:user_id', verify, async (req, res) => {
+    try {
+        //Find the profile
+        let profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['username', 'firstName', 'lastName']);
+        if(!profile) {
+            return res.status(400).json({ errors: [{ msg: 'An existing profile could not be found. Please create a profile.' }] })
+        }
+        res.json(profile);
+    } catch (err) {
+        res.status(500).send('Server Error');
+    }
+})
+
 //ROUTE: POST api/profiles
 //DESCRIPTION: Create user profile
 //ACCESS LEVEL: Private
@@ -124,8 +140,38 @@ router.post(
 //DESCRIPTION: Comment on a profile
 //ACCESS LEVEL: Private
 
-//ROUTE: DELETE api/profiles/me
-//DESCRIPTION: Delete user profile
+//ROUTE: DELETE api/profiles/user/:user_id
+//DESCRIPTION: Delete user profile by userId
 //ACCESS LEVEL: Private
+
+router.delete('/user/:user_id', verify, async (req, res) => {
+    try {
+      //Find profile based on the user id from request parameters
+      const profile = await Profile.findOne({ user: req.params.user_id.toString()});
+
+      if(!profile) {
+          return res.status(400).json({ errors: [{ msg: 'A profile could not be found for this user.' }] })
+      }
+  
+      //If the user is not the one who owns the profile or is not an admin, deny access.
+      if (req.user.role === 'admin' || req.params.user_id.toString() === req.user.id) {
+        
+        await Profile.findOneAndRemove({ user: req.params.user_id });
+
+        res.json({
+          msg:
+            'This profile has been deleted.',
+        });
+      } else {
+        return res.status(401).json({
+          errors: [{ msg: 'You are not permitted to perform this action.' }],
+        });
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
+
 
 module.exports = router;

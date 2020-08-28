@@ -99,7 +99,7 @@ const App = () => {
             exact
           />
           <PrivateRoute path='/profiles' component={Profiles} exact />
-          <PrivateRoute path='/profiles/me' component={Profile} exact />
+          <PrivateRoute path='/profiles/:userid' component={Profile} exact />
           <PrivateRoute path='/forum' component={Forum} exact />
           <Route path='' component={Error} />
         </Switch>
