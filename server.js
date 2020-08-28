@@ -11,6 +11,7 @@ const teams = require('./api/routes/teams');
 const projects = require('./api/routes/projects');
 const tickets = require('./api/routes/tickets');
 const sprints = require('./api/routes/sprints');
+const profiles = require('./api/routes/profiles');
 
 dotenv.config();
 const app = express();
@@ -48,6 +49,8 @@ app.use('/api/users', users);
 app.use('/api/projects/teams', teams);
 // Create, update, and delete projects
 app.use('/api/projects', projects);
+// View, create, update, and delete profiles
+app.use('/api/profiles', profiles);
 // Create, update, and delete tickets.
 app.use('/api/projects/tickets', tickets);
 // Create, update, and delete sprints

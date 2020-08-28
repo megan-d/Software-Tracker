@@ -54,8 +54,7 @@ const profileSchema = new Schema({
         ref: 'User',
       },
       comment: {
-        type: String,
-        required: true,
+        type: String
       },
       date: {
         type: Date,

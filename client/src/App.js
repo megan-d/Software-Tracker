@@ -98,8 +98,8 @@ const App = () => {
             component={UpdateSprint}
             exact
           />
-          <PrivateRoute path='/profile' component={Profile} exact />
           <PrivateRoute path='/profiles' component={Profiles} exact />
+          <PrivateRoute path='/profiles/me' component={Profile} exact />
           <PrivateRoute path='/forum' component={Forum} exact />
           <Route path='' component={Error} />
         </Switch>
