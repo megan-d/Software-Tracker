@@ -90,7 +90,7 @@ const Profile = (props) => {
           {profile.comments.length === 0 && !isLoading ? (
             <li>There are no comments for this profile</li>
           ) : (
-            profile.comments.map((el) => <li key={el.id}>{el.comment}</li>)
+            profile.comments.map((el) => <li key={el._id}>{el.comment}</li>)
           )}
           <StyledGreyLink
             variant='contained'

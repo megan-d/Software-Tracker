@@ -167,6 +167,31 @@ export const ProfileProvider = ({ children }) => {
     });
   };
 
+  //*****DELETE PROFILE ACTION************
+  const deleteProfile = async (id, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    try {
+      await axios.delete(`/api/profiles/${id}`, config);
+      dispatch({
+        type: 'PROFILE_DELETED',
+      });
+      history.push(`/profiles/${id}`);
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+    }
+  };
+
 
   //Return Profile Provider
   return (
@@ -181,7 +206,8 @@ export const ProfileProvider = ({ children }) => {
         clearProfile,
         clearProfiles,
         createProfile,
-        addComment
+        addComment,
+        deleteProfile
       }}
     >
       {children}
