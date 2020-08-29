@@ -25,7 +25,7 @@ import Profile from './components/profile/Profile';
 import CommentProfile from './components/profile/CommentProfile';
 import CreateProfile from './components/profile/CreateProfile';
 import CommentProject from './components/dashboard/projects/CommentProject';
-import Profiles from './components/profiles/Profiles';
+import Profiles from './components/profile/Profiles';
 import Forum from './components/forum/Forum';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateSprint from './components/dashboard/sprints/CreateSprint';

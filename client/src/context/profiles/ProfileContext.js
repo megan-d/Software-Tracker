@@ -26,6 +26,35 @@ export const ProfileProvider = ({ children }) => {
   //Add actions that make calls to reducer
   //******************** */
 
+  //*****GET ALL DEVELOPER PROFILES ACTION************
+  const getProfiles = async (user) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+    try {
+      const res = await axios.get('/api/profiles', config);
+      dispatch({
+        type: 'LOAD_PROFILES_SUCCESS',
+        payload: res.data,
+      });
+    } catch (err) {
+      let errors = err.response.data.errors;
+
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((error) => showAlert(error.msg, 'error'));
+      }
+      dispatch({
+        type: 'LOAD_PROFILES_FAILURE',
+        payload: err.response.data.errors,
+      });
+    }
+  };
+
   //*****GET CURRENT USER'S PROFILE ACTION************
   const getCurrentUserProfile = async (user) => {
     //Create config with headers
@@ -43,19 +72,19 @@ export const ProfileProvider = ({ children }) => {
       });
     } catch (err) {
       let errors = err.response.data.errors;
-      
+
       if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
         errors.forEach((error) => showAlert(error.msg, 'error'));
       }
       dispatch({
         type: 'LOAD_USER_PROFILE_FAILURE',
-        payload: err.response.data.errors
+        payload: err.response.data.errors,
       });
     }
-    };
+  };
 
-    //*****GET PROFILE BY USER ID ACTION************
+  //*****GET PROFILE BY USER ID ACTION************
   const getProfileById = async (userId) => {
     //Create config with headers
     const config = {
@@ -79,7 +108,7 @@ export const ProfileProvider = ({ children }) => {
       }
       dispatch({
         type: 'LOAD_USER_PROFILE_FAILURE',
-        payload: err.response.data.errors
+        payload: err.response.data.errors,
       });
     }
   };
@@ -96,7 +125,7 @@ export const ProfileProvider = ({ children }) => {
 
     //Create body variable and stringify
     const body = JSON.stringify(profile);
-    
+
     try {
       const res = await axios.post('/api/profiles', body, config);
       dispatch({
@@ -106,15 +135,15 @@ export const ProfileProvider = ({ children }) => {
       // history.push(`/profiles/${user._id}`);
     } catch (err) {
       let errors = err.response.data.errors;
-      
+
       if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
         errors.forEach((el) => showAlert(el.msg, 'error'));
       }
-      
+
       dispatch({
         type: 'CREATE_USER_PROFILE_FAILURE',
-        payload: err.response.data.errors
+        payload: err.response.data.errors,
       });
     }
   };
@@ -132,7 +161,11 @@ export const ProfileProvider = ({ children }) => {
     const body = JSON.stringify(comment);
 
     try {
-      const res = await axios.post(`/api/profiles/comment/${profileId}`, body, config);
+      const res = await axios.post(
+        `/api/profiles/comment/${profileId}`,
+        body,
+        config,
+      );
       // dispatch({
       //   type: 'ADD_COMMENT_SUCCESS',
       //   payload: res.data,
@@ -192,7 +225,6 @@ export const ProfileProvider = ({ children }) => {
     }
   };
 
-
   //Return Profile Provider
   return (
     <ProfileContext.Provider
@@ -201,13 +233,14 @@ export const ProfileProvider = ({ children }) => {
         profile: state.profile,
         isLoading: state.isLoading,
         error: state.error,
+        getProfiles,
         getCurrentUserProfile,
         getProfileById,
         clearProfile,
         clearProfiles,
         createProfile,
         addComment,
-        deleteProfile
+        deleteProfile,
       }}
     >
       {children}

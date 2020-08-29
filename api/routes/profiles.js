@@ -16,8 +16,7 @@ const Profile = require('../models/Profile');
 router.get('/', verify, async (req, res) => {
   try {
     let profiles = await Profile.find()
-      .populate('user', ['username', 'firstName', 'lastName'])
-      .populate('myProjects');
+      .populate('user', ['username', 'firstName', 'lastName']);
     res.json(profiles);
   } catch (err) {
     res.status(500).send('Server Error');
