@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../layout/Wrapper';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
@@ -9,17 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
 import { AuthContext } from '../../context/auth/AuthContext';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 import styled from 'styled-components';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 
 const StyledGreyLink = styled(Link)`
   color: white;
@@ -29,10 +18,13 @@ const StyledGreyLink = styled(Link)`
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
+  width: 160px;
   max-width: 160px;
   text-align: center;
+  cursor: pointer;
   margin: 10px 0px;
   display: block;
+  height: 40px;
   font-weight: bold;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   display: inline-block;
@@ -46,11 +38,14 @@ const StyledRedLink = styled(Link)`
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
-  max-width: 150px;
+  width: 80px;
+  max-width: 160px;
   text-align: center;
+  cursor: pointer;
   margin: 10px 0px;
   display: block;
   font-weight: bold;
+  height: 40px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   display: inline-block;
 `;
@@ -65,11 +60,13 @@ const StyledBlueButton = styled.button`
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
-  max-width: 150px;
+  width: 80px;
+  max-width: 160px;
   text-align: center;
   margin: 10px 0px;
   display: block;
   font-weight: bold;
+  height: 40px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   display: inline-block;
 `;
@@ -137,6 +134,7 @@ const CreateProfile = ({ history }) => {
     };
     //call add project action
     await createProfile(profile, history);
+    history.push(`/profiles/${user._id}`)
   };
 
   return (

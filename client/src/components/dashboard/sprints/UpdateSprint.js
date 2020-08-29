@@ -19,6 +19,26 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import styled from 'styled-components';
 
+const StyledGreyLink = styled(Link)`
+  color: white;
+  font-family: Roboto, sans-serif;
+  background-color: #808080;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  width: 160px;
+  max-width: 160px;
+  text-align: center;
+  cursor: pointer;
+  margin: 10px 0px;
+  display: block;
+  height: 40px;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+`;
+
 const StyledRedLink = styled(Link)`
   color: white;
   font-family: Roboto, sans-serif;
@@ -27,11 +47,14 @@ const StyledRedLink = styled(Link)`
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
-  max-width: 150px;
+  width: 80px;
+  max-width: 160px;
   text-align: center;
+  cursor: pointer;
   margin: 10px 0px;
   display: block;
   font-weight: bold;
+  height: 40px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   display: inline-block;
 `;
@@ -46,11 +69,13 @@ const StyledBlueButton = styled.button`
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
-  max-width: 150px;
+  width: 80px;
+  max-width: 160px;
   text-align: center;
   margin: 10px 0px;
   display: block;
   font-weight: bold;
+  height: 40px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   display: inline-block;
 `;

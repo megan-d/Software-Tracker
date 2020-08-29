@@ -29,10 +29,13 @@ const StyledGreyLink = styled(Link)`
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
+  width: 140px;
   max-width: 160px;
   text-align: center;
+  cursor: pointer;
   margin: 10px 0px;
   display: block;
+  height: 40px;
   font-weight: bold;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   display: inline-block;
@@ -46,11 +49,14 @@ const StyledRedLink = styled(Link)`
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
-  max-width: 150px;
+  width: 80px;
+  max-width: 160px;
   text-align: center;
+  cursor: pointer;
   margin: 10px 0px;
   display: block;
   font-weight: bold;
+  height: 40px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   display: inline-block;
 `;
@@ -65,11 +71,34 @@ const StyledBlueButton = styled.button`
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
-  max-width: 150px;
+  width: 80px;
+  max-width: 160px;
   text-align: center;
   margin: 10px 0px;
   display: block;
   font-weight: bold;
+  height: 40px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+`;
+
+const StyledBlueAssignButton = styled.button`
+  color: white;
+  font-family: Roboto, sans-serif;
+  cursor: pointer;
+  background-color: #3f51b5;
+  text-decoration: none;
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 14px;
+  width: 140px;
+  max-width: 160px;
+  text-align: center;
+  margin: 10px 0px;
+  display: block;
+  font-weight: bold;
+  height: 40px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   display: inline-block;
 `;
@@ -296,12 +325,12 @@ const SubmitTicket = (props) => {
                     shrink: true,
                   }}
                 />
-                <StyledBlueButton
+                <StyledBlueAssignButton
                   className={classes.buttons}
                   onClick={(e) => assignSelf(e)}
                 >
                   Assign to Self
-                </StyledBlueButton>
+                </StyledBlueAssignButton>
                 <StyledGreyLink to='/profiles'>
                   Search for user...
                 </StyledGreyLink>
