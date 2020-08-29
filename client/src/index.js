@@ -13,15 +13,15 @@ ReactDOM.render(
   <React.StrictMode>
     <AlertProvider>
       <AuthProvider>
-        <ProjectProvider>
-          <ProfileProvider>
+        <ProfileProvider>
+          <ProjectProvider>
             <TicketProvider>
               <SprintProvider>
                 <App />
               </SprintProvider>
             </TicketProvider>
-          </ProfileProvider>
-        </ProjectProvider>
+          </ProjectProvider>
+        </ProfileProvider>
       </AuthProvider>
     </AlertProvider>
   </React.StrictMode>,

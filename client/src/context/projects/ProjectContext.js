@@ -232,7 +232,7 @@ export const ProjectProvider = ({ children }) => {
         projects: state.projects,
         project: state.project,
         isLoading: state.isLoading,
-        error: state.error,
+        errors: state.errors,
         getUserProjects,
         createProject,
         clearProject,

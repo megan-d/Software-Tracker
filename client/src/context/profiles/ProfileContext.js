@@ -105,6 +105,10 @@ export const ProfileProvider = ({ children }) => {
   return (
     <ProfileContext.Provider
       value={{
+        profiles: state.profiles,
+        profile: state.profile,
+        isLoading: state.isLoading,
+        error: state.error,
         getCurrentUserProfile,
         getProfileById,
         clearProfile,
