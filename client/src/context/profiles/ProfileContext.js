@@ -119,6 +119,38 @@ export const ProfileProvider = ({ children }) => {
     }
   };
 
+  //*****ADD PROFILE COMMENT ACTION************
+  const addComment = async (comment, userId, profileId, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    const body = JSON.stringify(comment);
+
+    try {
+      const res = await axios.post(`/api/profiles/comment/${profileId}`, body, config);
+      // dispatch({
+      //   type: 'ADD_COMMENT_SUCCESS',
+      //   payload: res.data,
+      // });
+      history.push(`/profiles/${userId}`);
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+      // dispatch({
+      //   type: 'ADD_COMMENT_FAILURE',
+      //   payload: err.response.data.errors
+      // });
+    }
+  };
+
   //*******CLEAR PROFILE ACTION**********
   //Clear the project so the previously loaded profject doesn't flash first
   const clearProfile = async () => {
@@ -149,6 +181,7 @@ export const ProfileProvider = ({ children }) => {
         clearProfile,
         clearProfiles,
         createProfile,
+        addComment
       }}
     >
       {children}

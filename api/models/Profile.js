@@ -49,9 +49,12 @@ const profileSchema = new Schema({
   ],
   comments: [
     {
-      user: {
+      userid: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+      },
+      username: {
+        type: String
       },
       comment: {
         type: String
