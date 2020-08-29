@@ -84,6 +84,41 @@ export const ProfileProvider = ({ children }) => {
     }
   };
 
+  //*****CREATE NEW PROFILE ACTION************
+  const createProfile = async (profile, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    //Create body variable and stringify
+    const body = JSON.stringify(profile);
+    
+    try {
+      const res = await axios.post('/api/profiles', body, config);
+      dispatch({
+        type: 'CREATE_USER_PROFILE_SUCCESS',
+        payload: res.data,
+      });
+      // history.push(`/profiles/${user._id}`);
+    } catch (err) {
+      let errors = err.response.data.errors;
+      
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+      
+      dispatch({
+        type: 'CREATE_USER_PROFILE_FAILURE',
+        payload: err.response.data.errors
+      });
+    }
+  };
+
   //*******CLEAR PROFILE ACTION**********
   //Clear the project so the previously loaded profject doesn't flash first
   const clearProfile = async () => {
@@ -112,7 +147,8 @@ export const ProfileProvider = ({ children }) => {
         getCurrentUserProfile,
         getProfileById,
         clearProfile,
-        clearProfiles
+        clearProfiles,
+        createProfile,
       }}
     >
       {children}
