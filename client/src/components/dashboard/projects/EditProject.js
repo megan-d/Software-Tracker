@@ -360,6 +360,9 @@ export default function EditProject(props) {
                   label='Technologies used'
                   helperText='Please enter the technologies used for this project separated by a comma. (e.g. JavaScript, Node, React)'
                   id='techStack'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   value={techStack}
                   onChange={(e) => onChange(e)}
                   margin='normal'

@@ -119,7 +119,7 @@ const CreateProject = ({ history }) => {
     repoLink: '',
     liveLink: '',
     techStack: '',
-    developers: ''
+    developers: '',
   });
 
   const [access, setAccess] = useState('public');
@@ -137,7 +137,15 @@ const CreateProject = ({ history }) => {
   const { createProject } = useContext(ProjectContext);
 
   //Pull out variables from formData and userData
-  const { name, description, manager, repoLink, liveLink, techStack, developers } = formData;
+  const {
+    name,
+    description,
+    manager,
+    repoLink,
+    liveLink,
+    techStack,
+    developers,
+  } = formData;
 
   // Function to update state on change using updateFormData
   const onChange = (e) =>
@@ -155,7 +163,7 @@ const CreateProject = ({ history }) => {
       liveLink: liveLink,
       access: access,
       techStack: techStack,
-      developers: developers
+      developers: developers,
     };
     //call add project action
     await createProject(project, history);
@@ -175,7 +183,6 @@ const CreateProject = ({ history }) => {
               onSubmit={(e) => onSubmit(e)}
             >
               <TextField
-                
                 name='name'
                 variant='outlined'
                 required
@@ -186,6 +193,9 @@ const CreateProject = ({ history }) => {
                 value={name}
                 onChange={(e) => onChange(e)}
                 margin='normal'
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <TextField
                 autoComplete='description'
@@ -198,6 +208,9 @@ const CreateProject = ({ history }) => {
                 value={description}
                 onChange={(e) => onChange(e)}
                 margin='normal'
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               {/* <FormControl component='fieldset'>
                 <FormLabel component='legend'>Select project access</FormLabel>
@@ -251,12 +264,11 @@ const CreateProject = ({ history }) => {
                 value={manager}
                 onChange={(e) => onChange(e)}
                 margin='normal'
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
-              <StyledGreyLink
-                to='/profiles'
-              >
-                Search for user...
-              </StyledGreyLink>
+              <StyledGreyLink to='/profiles'>Search for user...</StyledGreyLink>
               <TextField
                 variant='outlined'
                 fullWidth
@@ -267,6 +279,9 @@ const CreateProject = ({ history }) => {
                 value={techStack}
                 onChange={(e) => onChange(e)}
                 margin='normal'
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <TextField
                 variant='outlined'
@@ -277,6 +292,9 @@ const CreateProject = ({ history }) => {
                 value={repoLink}
                 onChange={(e) => onChange(e)}
                 margin='normal'
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <TextField
                 variant='outlined'
@@ -287,6 +305,9 @@ const CreateProject = ({ history }) => {
                 value={liveLink}
                 onChange={(e) => onChange(e)}
                 margin='normal'
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <AlertBanner />
               <StyledBlueButton
@@ -296,16 +317,10 @@ const CreateProject = ({ history }) => {
               >
                 SUBMIT
               </StyledBlueButton>
-              <StyledRedLink
-                to='/projects'
-                className={classes.buttons}
-              >
+              <StyledRedLink to='/projects' className={classes.buttons}>
                 CANCEL
               </StyledRedLink>
-              <StyledGreyLink
-                to='/projects'
-                className={classes.buttons}
-              >
+              <StyledGreyLink to='/projects' className={classes.buttons}>
                 BACK TO PROJECTS
               </StyledGreyLink>
             </form>

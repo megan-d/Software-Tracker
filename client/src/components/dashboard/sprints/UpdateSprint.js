@@ -316,6 +316,9 @@ const UpdateSprint = (props) => {
                   multiline
                   rows={6}
                   margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
                 <AlertBanner />
                 <StyledBlueButton
