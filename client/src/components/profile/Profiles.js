@@ -28,15 +28,32 @@ const StyledLink = styled(Link)`
 `;
 
 const Profiles = (props) => {
-  const { profiles, profile, isLoading, getProfiles, clearProfile, clearProfiles } = useContext(
-    ProfileContext,
-  );
+  const {
+    profiles,
+    profile,
+    isLoading,
+    getProfiles,
+    clearProfile,
+    clearProfiles,
+  } = useContext(ProfileContext);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     getProfiles();
     return () => clearProfiles();
   }, []);
+
+  const colors = [
+    'orange',
+    'red',
+    'green',
+    'blue',
+    'yellow',
+    'purple',
+    'black',
+    'pink',
+    'lightgreen',
+  ];
 
   // let history = useHistory();
 
@@ -54,7 +71,8 @@ const Profiles = (props) => {
     <Wrapper>
       <h2>Developer Profiles</h2>
       <p>
-        View developer profiles to learn more about the community and find developers to collaborate with
+        View developer profiles to learn more about the community and find
+        developers to collaborate with
       </p>
       {/* <StyledLink to='/createproject'>
         Add Project
@@ -65,13 +83,16 @@ const Profiles = (props) => {
       ) : (
         <Fragment>
           <StyledCards>
-            {profiles.map((el) => {
+            {profiles.map((el, index) => {
               return (
                 <ProfileCard
                   key={el._id}
+                  firstName={el.user.firstName.charAt(0).toUpperCase()}
+                  lastName={el.user.lastName.charAt(0).toUpperCase()}
                   username={el.user.username}
-                  bio={el.bio}
+                  skills={el.skills}
                   id={el.user._id}
+                  color={colors[index]}
                 />
               );
             })}

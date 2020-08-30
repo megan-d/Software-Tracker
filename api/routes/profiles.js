@@ -15,8 +15,11 @@ const Profile = require('../models/Profile');
 //ACCESS LEVEL: Private
 router.get('/', verify, async (req, res) => {
   try {
-    let profiles = await Profile.find()
-      .populate('user', ['username', 'firstName', 'lastName']);
+    let profiles = await Profile.find().populate('user', [
+      'username',
+      'firstName',
+      'lastName',
+    ]);
     res.json(profiles);
   } catch (err) {
     res.status(500).send('Server Error');
@@ -31,16 +34,14 @@ router.get('/me', verify, async (req, res) => {
     //Find the profile
     let profile = await Profile.findOne({ user: req.user.id }).populate('user');
     if (!profile) {
-      return res
-        .status(400)
-        .json({
-          errors: [
-            {
-              msg:
-                'An existing profile could not be found. Please create a profile.',
-            },
-          ],
-        });
+      return res.status(400).json({
+        errors: [
+          {
+            msg:
+              'An existing profile could not be found. Please create a profile.',
+          },
+        ],
+      });
     }
     res.json(profile);
   } catch (err) {
@@ -58,16 +59,14 @@ router.get('/user/:user_id', verify, async (req, res) => {
       user: req.params.user_id,
     }).populate('user', ['username', 'firstName', 'lastName']);
     if (!profile) {
-      return res
-        .status(400)
-        .json({
-          errors: [
-            {
-              msg:
-                'An existing profile could not be found. Please create a profile.',
-            },
-          ],
-        });
+      return res.status(400).json({
+        errors: [
+          {
+            msg:
+              'An existing profile could not be found. Please create a profile.',
+          },
+        ],
+      });
     }
     res.json(profile);
   } catch (err) {
@@ -149,9 +148,82 @@ router.post(
   },
 );
 
-//ROUTE: PUT api/profiles
+//ROUTE: PUT api/profiles/:user_id
 //DESCRIPTION: Edit user profile
 //ACCESS LEVEL: Private
+router.put(
+  '/:user_id',
+  verify,
+  [
+    //Use express-validator to validate the inputs
+    check('bio', 'Please provide a brief bio')
+      .optional({ checkFalsy: true })
+      .trim(),
+    check('skills', 'Please provide your skills')
+      .optional({ checkFalsy: true })
+      .trim(),
+  ],
+
+  async (req, res) => {
+    //Add in logic for express validator error check
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    //pull all fields out of req.body using destructuring. Note on front end that inputs are case sensitive.
+    const { bio, skills } = req.body;
+
+    //Build updatedProjectFields object. If the field is provided, add to profileFields object
+    const updatedProfileFields = {};
+    let updatedSkills;
+    if (bio) updatedProfileFields.bio = bio;
+    
+    try {
+      let profile = await Profile.findOne({ user: req.params.user_id });
+      let currentUser = await User.findOne({ _id: req.user.id }).select(
+        '-password',
+      );
+      if (!profile) {
+        return res
+          .status(400)
+          .json({
+            errors: [{ msg: 'The profile for this user could not be found.' }],
+          });
+      }
+      //Only allow profile to be updated if admin user or owner of profile
+      if (
+        currentUser.role === 'admin' ||
+        req.params.user_id.toString() === req.user.id
+      ) {
+        if (skills) {
+            updatedSkills = skills.split(',').map((tech) => tech.trim());
+            await Profile.findOneAndUpdate(
+                { user: {_id: req.params.user_id }},
+                { $push: { skills: { $each: updatedSkills } } },
+                  { upsert: true, new: true },
+              );
+          }
+
+        //Then, update profile with provided updates from updatedProfileFields
+        let updatedProfile = await Profile.findOneAndUpdate(
+          { user: {_id: req.params.user_id }},
+          { $set: updatedProfileFields },
+        );
+
+        //Send back the entire profile
+        return res.json(updatedProfile);
+      } else {
+        return res.status(401).json({
+          errors: [{ msg: 'You are not permitted to perform this action.' }],
+        });
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  },
+);
 
 //ROUTE: POST api/profiles/comment/:profile_id
 //DESCRIPTION: Comment on an existing profile
@@ -190,7 +262,7 @@ router.post(
       await Profile.updateOne(
         { _id: req.params.profile_id },
         { $push: { comments: newComment } },
-        {new: true}
+        { new: true },
       );
 
       //Save to database
@@ -216,11 +288,9 @@ router.delete('/user/:user_id', verify, async (req, res) => {
     });
 
     if (!profile) {
-      return res
-        .status(400)
-        .json({
-          errors: [{ msg: 'A profile could not be found for this user.' }],
-        });
+      return res.status(400).json({
+        errors: [{ msg: 'A profile could not be found for this user.' }],
+      });
     }
 
     //If the user is not the one who owns the profile or is not an admin, deny access.

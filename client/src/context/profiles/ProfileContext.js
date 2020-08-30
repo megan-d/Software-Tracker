@@ -27,7 +27,7 @@ export const ProfileProvider = ({ children }) => {
   //******************** */
 
   //*****GET ALL DEVELOPER PROFILES ACTION************
-  const getProfiles = async (user) => {
+  const getProfiles = async () => {
     //Create config with headers
     const config = {
       headers: {
@@ -56,7 +56,7 @@ export const ProfileProvider = ({ children }) => {
   };
 
   //*****GET CURRENT USER'S PROFILE ACTION************
-  const getCurrentUserProfile = async (user) => {
+  const getCurrentUserProfile = async () => {
     //Create config with headers
     const config = {
       headers: {

@@ -71,9 +71,7 @@ const Profile = (props) => {
     <Wrapper>
       <p>PROFILE</p>
       <AlertBanner />
-      {isLoading ? (
-        <Spinner />
-      ) : !profile && isLoading ? (
+      {isLoading && profile === null ? (
         <Spinner />
       ) : profile && !isLoading ? (
         <Fragment>
@@ -120,7 +118,7 @@ const Profile = (props) => {
             Delete Profile
           </Button>
         </Fragment>
-      ) : !isLoading && !profile ? (
+      ) : profile === null && !isLoading ? (
         <div>
           <p>Please click the button below to create a profile.</p>
           <StyledGreyLink to={'/createprofile'}>Create Profile</StyledGreyLink>
