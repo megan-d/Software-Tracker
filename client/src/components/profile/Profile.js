@@ -71,7 +71,7 @@ const Profile = (props) => {
     <Wrapper>
       <p>PROFILE</p>
       <AlertBanner />
-      {isLoading && profile === null ? (
+      {isLoading || !profile || !profile.skills ? (
         <Spinner />
       ) : profile && !isLoading ? (
         <Fragment>
@@ -99,24 +99,27 @@ const Profile = (props) => {
           </StyledGreyLink>
 
           {(user._id === profile.user._id || user.role === 'admin') && (
-            <StyledGreyLink
-              variant='contained'
-              color='primary'
-              to={`/profiles/updateprofile/${user._id}`}
-            >
-              Edit Profile
-            </StyledGreyLink>
+            <Fragment>
+              <StyledGreyLink
+                variant='contained'
+                color='primary'
+                to={`/profiles/updateprofile/${user._id}`}
+              >
+                Edit Profile
+              </StyledGreyLink>
+
+              <Button
+                variant='contained'
+                color='secondary'
+                startIcon={<DeleteIcon />}
+                // onClick={async () =>
+                //   deleteSprint(sprint.project._id, sprint._id, props.history)
+                // }
+              >
+                Delete Profile
+              </Button>
+            </Fragment>
           )}
-          <Button
-            variant='contained'
-            color='secondary'
-            startIcon={<DeleteIcon />}
-            // onClick={async () =>
-            //   deleteSprint(sprint.project._id, sprint._id, props.history)
-            // }
-          >
-            Delete Profile
-          </Button>
         </Fragment>
       ) : profile === null && !isLoading ? (
         <div>
