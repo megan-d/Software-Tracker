@@ -69,16 +69,17 @@ const Profile = (props) => {
 
   return (
     <Wrapper>
-      <p>PROFILE</p>
+      <h2>Developer Profile</h2>
+      <hr></hr>
       <AlertBanner />
       {isLoading || !profile || !profile.skills ? (
         <Spinner />
       ) : profile && !isLoading ? (
         <Fragment>
           <p>
-            {user.firstName} {user.lastName}
+            {profile.user.firstName} {profile.user.lastName}
           </p>
-          <p>Username: {user.username}</p>
+          <p>Username: {profile.user.username}</p>
           <p>Bio: {profile.bio}</p>
           <ul>My Technical Skills:</ul>
           {profile.skills.map((el, index) => (
