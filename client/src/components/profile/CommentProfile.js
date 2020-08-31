@@ -122,7 +122,7 @@ const CommentProfile = (props) => {
   );
 
   useEffect(() => {
-    getProfileById(props.match.params.userid);
+    getProfileById(profile.user._id);
   }, []);
 
   // Function to update state on change using updateFormData

@@ -22,6 +22,7 @@ import Ticket from './components/dashboard/tickets/Ticket';
 import UpdateTicket from './components/dashboard/tickets/UpdateTicket';
 import CommentTicket from './components/dashboard/tickets/CommentTicket';
 import Profile from './components/profile/Profile';
+import MyProfile from './components/profile/MyProfile';
 import CommentProfile from './components/profile/CommentProfile';
 import CreateProfile from './components/profile/CreateProfile';
 import UpdateProfile from './components/profile/UpdateProfile';
@@ -103,9 +104,18 @@ const App = () => {
           />
           <PrivateRoute path='/profiles' component={Profiles} exact />
           <PrivateRoute path='/createprofile' component={CreateProfile} exact />
-          <PrivateRoute path='/profiles/updateprofile/:userid' component={UpdateProfile} exact />
+          <PrivateRoute
+            path='/profiles/updateprofile/:userid'
+            component={UpdateProfile}
+            exact
+          />
           <PrivateRoute path='/profiles/:userid' component={Profile} exact />
-          <PrivateRoute path='/profiles/comment/:userid' component={CommentProfile} exact />
+          <PrivateRoute path='/profiles/user/me' component={MyProfile} exact />
+          <PrivateRoute
+            path='/profiles/comment/:userid'
+            component={CommentProfile}
+            exact
+          />
           <PrivateRoute path='/forum' component={Forum} exact />
           <Route path='' component={Error} />
         </Switch>

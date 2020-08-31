@@ -70,8 +70,8 @@ export default function ProfileCard({ username, skills, id, color }) {
           className={(classes.pos, classes.bullet)}
           color='textSecondary'
         >
-          {skillsCut.map((el) => (
-            <li>{el}</li>
+          {skillsCut.map((el, index) => (
+            <li key={index}>{el}</li>
           ))}
         </Typography>
       </CardContent>
