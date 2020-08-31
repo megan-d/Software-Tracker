@@ -11,12 +11,13 @@ import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 250,
-    width: 160,
-    margin: '5px',
+    minWidth: 200,
+    width: 200,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    marginLeft: 10,
+    marginBottom: 10
   },
   bullet: {
     display: 'inline-block',
@@ -27,7 +28,13 @@ const useStyles = makeStyles({
     fontSize: 14,
   },
   pos: {
-    marginBottom: 12,
+    marginBottom: 6,
+  },
+  centered: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '10px',
+    paddingTop: '2px'
   },
 });
 
@@ -36,23 +43,28 @@ export default function ProfileCard({ username, skills, id, color }) {
 
   let history = useHistory();
   let skillsList = skills;
-  let skillsCut = skillsList.slice(0, 4);
+  let skillsCut = skillsList.slice(0, 5);
 
   return (
     <Card className={classes.root}>
-      <CardContent>
-        <Avatar
-          //   className={classes.root}
-          style={{
-            height: '40px',
-            width: '40px',
-            // color: '#e5e0db',
-            backgroundColor: color,
-          }}
-        ></Avatar>
-        <Typography variant='h6' component='h2'>
-          {username}
-        </Typography>
+      <CardContent style={{paddingLeft: '8px', paddingBottom: 0}}>
+        <div className={classes.centered}>
+          <Avatar
+            //   className={classes.root}
+            style={{
+              height: '40px',
+              width: '40px',
+              // color: '#e5e0db',
+              backgroundColor: color,
+              marginRight: '10px',
+              padding: 0
+            }}
+          ></Avatar>
+
+          <Typography variant='h6' component='h2'>
+            {username}
+          </Typography>
+        </div>
 
         <Typography
           className={(classes.pos, classes.bullet)}

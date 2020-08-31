@@ -24,6 +24,7 @@ import CommentTicket from './components/dashboard/tickets/CommentTicket';
 import Profile from './components/profile/Profile';
 import CommentProfile from './components/profile/CommentProfile';
 import CreateProfile from './components/profile/CreateProfile';
+import UpdateProfile from './components/profile/UpdateProfile';
 import CommentProject from './components/dashboard/projects/CommentProject';
 import Profiles from './components/profile/Profiles';
 import Forum from './components/forum/Forum';
@@ -102,6 +103,7 @@ const App = () => {
           />
           <PrivateRoute path='/profiles' component={Profiles} exact />
           <PrivateRoute path='/createprofile' component={CreateProfile} exact />
+          <PrivateRoute path='/profiles/updateprofile/:userid' component={UpdateProfile} exact />
           <PrivateRoute path='/profiles/:userid' component={Profile} exact />
           <PrivateRoute path='/profiles/comment/:userid' component={CommentProfile} exact />
           <PrivateRoute path='/forum' component={Forum} exact />

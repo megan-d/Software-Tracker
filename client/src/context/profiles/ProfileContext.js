@@ -148,6 +148,41 @@ export const ProfileProvider = ({ children }) => {
     }
   };
 
+  //*****UPDATE PROFILE ACTION************
+  const updateProfile = async (edits, userId, history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    //Create body variable and stringify
+    const body = JSON.stringify(edits);
+
+    try {
+      const res = await axios.put(`/api/profiles/${userId}`, body, config);
+      dispatch({
+        type: 'UPDATE_USER_PROFILE_SUCCESS',
+        payload: res.data,
+      });
+      // history.push(`/profiles/${userId}`);
+    } catch (err) {
+      let errors = err.response.data.errors;
+
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+
+      dispatch({
+        type: 'UPDATE_USER_PROFILE_FAILURE',
+        payload: err.response.data.errors,
+      });
+    }
+  };
+
   //*****ADD PROFILE COMMENT ACTION************
   const addComment = async (comment, userId, profileId, history) => {
     //Create config with headers
@@ -239,6 +274,7 @@ export const ProfileProvider = ({ children }) => {
         clearProfile,
         clearProfiles,
         createProfile,
+        updateProfile,
         addComment,
         deleteProfile,
       }}

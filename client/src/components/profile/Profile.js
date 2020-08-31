@@ -102,7 +102,7 @@ const Profile = (props) => {
             <StyledGreyLink
               variant='contained'
               color='primary'
-              to={`/profiles/comment/${user._id}`}
+              to={`/profiles/updateprofile/${user._id}`}
             >
               Edit Profile
             </StyledGreyLink>
