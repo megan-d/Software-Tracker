@@ -5,6 +5,7 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
@@ -13,11 +14,12 @@ const useStyles = makeStyles({
   root: {
     minWidth: 200,
     width: 200,
+    minHeight: 240,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     marginLeft: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   bullet: {
     display: 'inline-block',
@@ -34,11 +36,18 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     marginBottom: '10px',
-    paddingTop: '2px'
+    paddingTop: '2px',
   },
 });
 
-export default function ProfileCard({ username, skills, id, color }) {
+export default function ProfileCard({
+  username,
+  skills,
+  id,
+  color,
+  firstName,
+  lastName,
+}) {
   const classes = useStyles();
 
   let history = useHistory();
@@ -47,7 +56,7 @@ export default function ProfileCard({ username, skills, id, color }) {
 
   return (
     <Card className={classes.root}>
-      <CardContent style={{paddingLeft: '8px', paddingBottom: 0}}>
+      <CardContent style={{ paddingLeft: '8px', paddingBottom: 0 }}>
         <div className={classes.centered}>
           <Avatar
             //   className={classes.root}
@@ -57,7 +66,7 @@ export default function ProfileCard({ username, skills, id, color }) {
               // color: '#e5e0db',
               backgroundColor: color,
               marginRight: '10px',
-              padding: 0
+              padding: 0,
             }}
           ></Avatar>
 
@@ -65,6 +74,7 @@ export default function ProfileCard({ username, skills, id, color }) {
             {username}
           </Typography>
         </div>
+        <Typography>{`${firstName} ${lastName}`}</Typography>
 
         <Typography
           className={(classes.pos, classes.bullet)}
