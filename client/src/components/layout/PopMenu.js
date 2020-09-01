@@ -89,7 +89,7 @@ export default function PopMenu() {
                     id='menu-list-grow'
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem component={Link} onClick={handleClose} to='/profile'>My Profile</MenuItem>
+                    <MenuItem component={Link} onClick={handleClose} to='/profiles/user/me'>My Profile</MenuItem>
                     <MenuItem component={Link} onClick={logoutUser} to='/'>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

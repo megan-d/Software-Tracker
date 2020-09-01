@@ -86,9 +86,6 @@ const PlainHeader = (props) => {
                   <Button color='inherit' href='/profiles'>
                     Developers
                   </Button>
-                  <Button color='inherit' href='/forum'>
-                    Forum
-                  </Button>
                   <Button color='inherit' onClick={logoutUser}>
                     Logout
                   </Button>

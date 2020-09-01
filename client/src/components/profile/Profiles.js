@@ -123,6 +123,7 @@ const Profiles = (props) => {
     'lightgreen',
   ];
 
+  //Filter through which profiles should be shown based on searchTerm state
   const filteredProfiles = profiles.filter((el, index) => {
     let skills = el.skills.filter((skill) =>
       skill.toLowerCase().includes(searchTerm.toLowerCase()),

@@ -78,7 +78,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
     </ListItem>
     </StyledLink>  */}
 
-        <StyledLink to={'/profiles/user/me'}>
+        <StyledLink to={`/profiles/me/${user._id}`}>
           <ListItem button>
             <ListItemIcon>
               <PersonIcon />

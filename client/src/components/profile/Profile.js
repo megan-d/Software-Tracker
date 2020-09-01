@@ -72,7 +72,7 @@ const Profile = (props) => {
       <h2>Developer Profile</h2>
       <hr></hr>
       <AlertBanner />
-      {isLoading || !profile || !profile.skills ? (
+      {isLoading || !profile || !profile._id ? (
         <Spinner />
       ) : profile && !isLoading ? (
         <Fragment>

@@ -55,13 +55,14 @@ const MyProfile = (props) => {
     profile,
     profiles,
     getCurrentUserProfile,
+    getProfileById,
     isLoading,
     clearProfile,
   } = useContext(ProfileContext);
 
   //Load user profile on mount
   useEffect(() => {
-    getCurrentUserProfile();
+    getProfileById(props.match.params.userid);
     return () => {
       clearProfile();
     };
@@ -72,7 +73,7 @@ const MyProfile = (props) => {
       <h2>Developer Profile</h2>
       <hr></hr>
       <AlertBanner />
-      {isLoading || !profile || !profile.skills ? (
+      {isLoading && !profile ? (
         <Spinner />
       ) : profile && !isLoading ? (
         <Fragment>

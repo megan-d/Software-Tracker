@@ -36,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  content: {
+    flexGrow: 1,
+    minHeight: '100vh',
+    overflow: 'auto',
+  },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
   },
@@ -49,10 +54,10 @@ export default function Landing() {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <React.Fragment >
       <CssBaseline />
       <PlainHeader />
-      <main>
+      <main className={classes.content}>
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth='sm'>

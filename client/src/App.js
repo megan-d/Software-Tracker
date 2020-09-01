@@ -110,7 +110,7 @@ const App = () => {
             exact
           />
           <PrivateRoute path='/profiles/:userid' component={Profile} exact />
-          <PrivateRoute path='/profiles/user/me' component={MyProfile} exact />
+          <PrivateRoute path='/profiles/me/:userid' component={MyProfile} exact />
           <PrivateRoute
             path='/profiles/comment/:userid'
             component={CommentProfile}

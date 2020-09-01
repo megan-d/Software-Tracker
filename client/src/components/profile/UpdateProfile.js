@@ -155,7 +155,6 @@ const UpdateProfile = ({ history }) => {
                 name='bio'
                 variant='outlined'
                 autoFocus
-                required
                 fullWidth
                 multiline
                 rows={6}
@@ -173,7 +172,6 @@ const UpdateProfile = ({ history }) => {
               <TextField
                 variant='outlined'
                 fullWidth
-                required
                 name='skills'
                 label='Technologies'
                 helperText='Enter any technologies you would like to add to your existing profile.'
