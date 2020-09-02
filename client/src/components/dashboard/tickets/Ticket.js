@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import MaterialTable from 'material-table';
 
 const StyledLink = styled(Link)`
   color: white;
@@ -111,6 +112,19 @@ const Ticket = (props) => {
     return () => clearTicket();
   }, []);
 
+  const columns = [
+    { title: 'Title', field: 'title' },
+    { title: 'Type', field: 'type' },
+    {
+      title: 'Priority',
+      field: 'priority',
+    },
+    { title: 'Due date', field: 'dateDue', type: 'date' },
+    { title: 'Status', field: 'status' },
+  ];
+
+  let history = useHistory();
+
   return (
     <Wrapper>
       {!ticket || isLoading || !ticket.project.sprints ? (
@@ -127,6 +141,16 @@ const Ticket = (props) => {
           ) : (
             ticket.comments.map((el) => <li key={el._id}>{el.text}</li>)
           )}
+          <MaterialTable
+          localization={{
+            header: {
+              actions: '',
+            },
+          }}
+          title='Ticket History'
+          columns={columns}
+          data={ticket.history}
+        />
           <StyledLink
             variant='contained'
             color='primary'

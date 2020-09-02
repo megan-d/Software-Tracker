@@ -153,7 +153,7 @@ router.post(
     ticketItems.dateDue = date;
     ticketItems.status = 'Assigned';
 
-    let historyItem = {
+    ticketItems.history = {
       typeOfChange: 'Ticket Created',
     };
 
@@ -188,12 +188,14 @@ router.post(
       ticketItems.assignedDeveloper = developerId;
 
       let ticket = await new Ticket(ticketItems);
-      await Ticket.updateOne(
-        { _id: ticket._id },
-        { $push: { history: historyItem } },
-      );
-      // await ticket.history.push(historyItem);
       await ticket.save();
+      // await Ticket.updateOne(
+      //   { _id: ticket._id },
+      //   { $push: { history: historyItem } },
+      // );
+        
+      // // await ticket.history.push(historyItem);
+      // await ticket.save();
 
       //Check to see if assigned developer is a developer on the project yet. If not, add them with request.
       let isExistingProjectDeveloper = project.developers.filter(
