@@ -4,10 +4,24 @@ import AlertBanner from '../layout/AlertBanner';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
+import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 import Spinner from '../layout/Spinner';
 import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import styled from 'styled-components';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
 const StyledGreyLink = styled(Link)`
   color: white;
@@ -49,7 +63,12 @@ const StyledRedLink = styled(Link)`
   display: inline-block;
 `;
 
+function ListItemLink(props) {
+  return <ListItem button component='a' {...props} />;
+}
+
 const MyProfile = (props) => {
+  const classes = useStyles();
   const { user } = useContext(AuthContext);
   const {
     profile,
@@ -73,7 +92,7 @@ const MyProfile = (props) => {
       <h2>Developer Profile</h2>
       <hr></hr>
       <AlertBanner />
-      {isLoading || profile === null && <Spinner />}
+      {isLoading || (profile === null && <Spinner />)}
 
       {!isLoading && profile ? (
         <Fragment>
@@ -82,10 +101,19 @@ const MyProfile = (props) => {
           </p>
           <p>Username: {profile.user.username}</p>
           <p>Bio: {profile.bio}</p>
-          <ul>My Technical Skills:</ul>
-          {profile.skills.map((el, index) => (
-            <li key={index}>{el}</li>
-          ))}
+          <div className={classes.root}>
+          <List component='h3' aria-label="tech items">
+            My technical skills:
+            {profile.skills.map((el, index) => (
+              <ListItem key={index}>
+                <ListItemIcon>
+                  <CheckCircleOutlineOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary={el} />
+              </ListItem>
+            ))}
+            </List>
+          </div>
           <ul>Profile comments:</ul>
           {profile.comments.length === 0 && !isLoading ? (
             <li>There are no comments for this profile</li>
@@ -99,7 +127,6 @@ const MyProfile = (props) => {
           >
             Comment
           </StyledGreyLink>
-
           {(user._id === profile.user._id || user.role === 'admin') && (
             <Fragment>
               <StyledGreyLink

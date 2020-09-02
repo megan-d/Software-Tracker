@@ -258,14 +258,14 @@ export default function UpdateTicket(props) {
                     }}
                   >
                     <option aria-label='None' value='' />
-                    <option value={'Update Details'}>
+                    <option value={'Details Updated'}>
                       Update Ticket Details
                     </option>
-                    <option value={'Update AssignedDev'}>
+                    <option value={'Assigned Dev Updated'}>
                       Update Assigned Dev
                     </option>
-                    <option value={'Update Status'}>Update Status</option>
-                    <option value={'Info for Completion'}>
+                    <option value={'Status Updated'}>Update Status</option>
+                    <option value={'Completion Info Added'}>
                       Add Info for Completion
                     </option>
                     <option value={'Other'}>Other</option>

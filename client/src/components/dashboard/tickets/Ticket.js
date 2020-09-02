@@ -113,14 +113,8 @@ const Ticket = (props) => {
   }, []);
 
   const columns = [
-    { title: 'Title', field: 'title' },
-    { title: 'Type', field: 'type' },
-    {
-      title: 'Priority',
-      field: 'priority',
-    },
-    { title: 'Due date', field: 'dateDue', type: 'date' },
-    { title: 'Status', field: 'status' },
+    { title: 'Type of Change', field: 'typeOfChange', align: 'let' },
+    { title: 'Date', field: 'date', type: 'date', align: 'right' },
   ];
 
   let history = useHistory();
@@ -142,6 +136,7 @@ const Ticket = (props) => {
             ticket.comments.map((el) => <li key={el._id}>{el.text}</li>)
           )}
           <MaterialTable
+          style={{width: '360px'}}
           localization={{
             header: {
               actions: '',
@@ -150,6 +145,11 @@ const Ticket = (props) => {
           title='Ticket History'
           columns={columns}
           data={ticket.history}
+          options={{
+            filtering: false,
+            search: false,
+            align: 'center'
+          }}
         />
           <StyledLink
             variant='contained'

@@ -2,12 +2,18 @@ import React, { useContext, useState, useEffect, Fragment } from 'react';
 import Wrapper from '../layout/Wrapper';
 import AlertBanner from '../layout/AlertBanner';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
 import Spinner from '../layout/Spinner';
+import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import styled from 'styled-components';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const StyledGreyLink = styled(Link)`
   color: white;
@@ -49,7 +55,16 @@ const StyledRedLink = styled(Link)`
   display: inline-block;
 `;
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+
 const Profile = (props) => {
+  const classes = useStyles();
   const { user } = useContext(AuthContext);
   const {
     profile,
@@ -72,7 +87,7 @@ const Profile = (props) => {
       <h2>Developer Profile</h2>
       <hr></hr>
       <AlertBanner />
-      {isLoading || profile === null && <Spinner />}
+      {isLoading || (profile === null && <Spinner />)}
 
       {!isLoading && profile ? (
         <Fragment>
@@ -81,10 +96,19 @@ const Profile = (props) => {
           </p>
           <p>Username: {profile.user.username}</p>
           <p>Bio: {profile.bio}</p>
-          <ul>My Technical Skills:</ul>
-          {profile.skills.map((el, index) => (
-            <li key={index}>{el}</li>
-          ))}
+          <div className={classes.root}>
+            <List component='h3' aria-label='tech items'>
+              My technical skills:
+              {profile.skills.map((el, index) => (
+                <ListItem key={index}>
+                  <ListItemIcon>
+                    <CheckCircleOutlineOutlinedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={el} />
+                </ListItem>
+              ))}
+            </List>
+          </div>
           <ul>Profile comments:</ul>
           {profile.comments.length === 0 && !isLoading ? (
             <li>There are no comments for this profile</li>

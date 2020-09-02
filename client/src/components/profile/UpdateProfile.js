@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../layout/Wrapper';
+import Spinner from '../layout/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
@@ -107,15 +108,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UpdateProfile = ({ history }) => {
+const UpdateProfile = ({ history, match }) => {
   const classes = useStyles();
+
+  //Load user profile on mount
+  useEffect(() => {
+    getProfileById(match.params.userid);
+    return () => {
+      clearProfile();
+    };
+  }, []);
 
   const [formData, updateFormData] = useState({
     bio: '',
     skills: '',
   });
 
-  const { updateProfile } = useContext(ProfileContext);
+  const { updateProfile, profile, getProfileById, clearProfile } = useContext(
+    ProfileContext,
+  );
   const { user } = useContext(AuthContext);
 
   //Pull out variables from formData and userData
@@ -141,66 +152,79 @@ const UpdateProfile = ({ history }) => {
     <Wrapper>
       <h2>Update Your Profile</h2>
       <hr></hr>
-
-      <Grid container component='main' className={classes.root}>
-        <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            <form
-              className={classes.form}
-              action=''
-              onSubmit={(e) => onSubmit(e)}
-            >
-              <TextField
-                autoComplete='bio'
-                name='bio'
-                variant='outlined'
-                autoFocus
-                fullWidth
-                multiline
-                rows={6}
-                id='bio'
-                label='Bio'
-                helperText='Please provide a brief description about yourself as a developer.'
-                value={bio}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-
-              <TextField
-                variant='outlined'
-                fullWidth
-                name='skills'
-                label='Technologies'
-                helperText='Enter any technologies you would like to add to your existing profile.'
-                id='skills'
-                value={skills}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <AlertBanner />
-              <StyledBlueButton
-                type='submit'
-                className={classes.buttons}
-                onClick={(e) => onSubmit(e)}
+      {!profile ? (
+        <Spinner />
+      ) : (
+        <Grid container component='main' className={classes.root}>
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={8}
+            component={Paper}
+            elevation={6}
+            square
+          >
+            <div className={classes.paper}>
+              <form
+                className={classes.form}
+                action=''
+                onSubmit={(e) => onSubmit(e)}
               >
-                SUBMIT
-              </StyledBlueButton>
-              <StyledRedLink
-                to={`/profiles/${user._id}`}
-                className={classes.buttons}
-              >
-                CANCEL
-              </StyledRedLink>
-            </form>
-          </div>
+                <TextField
+                  autoComplete='bio'
+                  placeholder={profile.bio}
+                  name='bio'
+                  variant='outlined'
+                  autoFocus
+                  fullWidth
+                  multiline
+                  rows={6}
+                  id='bio'
+                  label='Bio'
+                  helperText='Please provide a brief description about yourself as a developer.'
+                  value={bio}
+                  onChange={(e) => onChange(e)}
+                  margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+
+                <TextField
+                  variant='outlined'
+                  placeholder={profile.skills}
+                  fullWidth
+                  name='skills'
+                  label='Technologies'
+                  helperText='Enter any technologies you would like to add to your existing profile.'
+                  id='skills'
+                  value={skills}
+                  onChange={(e) => onChange(e)}
+                  margin='normal'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <AlertBanner />
+                <StyledBlueButton
+                  type='submit'
+                  className={classes.buttons}
+                  onClick={(e) => onSubmit(e)}
+                >
+                  SUBMIT
+                </StyledBlueButton>
+                <StyledRedLink
+                  to={`/profiles/${user._id}`}
+                  className={classes.buttons}
+                >
+                  CANCEL
+                </StyledRedLink>
+              </form>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Wrapper>
   );
 };
