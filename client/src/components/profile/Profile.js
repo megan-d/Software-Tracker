@@ -72,9 +72,9 @@ const Profile = (props) => {
       <h2>Developer Profile</h2>
       <hr></hr>
       <AlertBanner />
-      {isLoading || !profile || !profile._id ? (
-        <Spinner />
-      ) : profile && !isLoading ? (
+      {isLoading || profile === null && <Spinner />}
+
+      {!isLoading && profile ? (
         <Fragment>
           <p>
             {profile.user.firstName} {profile.user.lastName}
@@ -109,7 +109,7 @@ const Profile = (props) => {
                 Edit Profile
               </StyledGreyLink>
 
-              <Button
+              {/* <Button
                 variant='contained'
                 color='secondary'
                 startIcon={<DeleteIcon />}
@@ -118,17 +118,15 @@ const Profile = (props) => {
                 // }
               >
                 Delete Profile
-              </Button>
+              </Button> */}
             </Fragment>
           )}
         </Fragment>
-      ) : profile === null && !isLoading ? (
+      ) : (
         <div>
           <p>Please click the button below to create a profile.</p>
           <StyledGreyLink to={'/createprofile'}>Create Profile</StyledGreyLink>
         </div>
-      ) : (
-        ''
       )}
     </Wrapper>
   );

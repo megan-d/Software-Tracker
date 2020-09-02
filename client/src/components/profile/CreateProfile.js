@@ -134,12 +134,13 @@ const CreateProfile = ({ history }) => {
     };
     //call add project action
     await createProfile(profile, history);
-    history.push(`/profiles/${user._id}`)
+    history.push(`/dashboard`);
   };
 
   return (
     <Wrapper>
-      <h2>Create a New Profile</h2>
+      <h2>Create Your User Profile</h2>
+      <p>Before getting started, please create a user profile. This can be updated later.</p>
       <hr></hr>
 
       <Grid container component='main' className={classes.root}>

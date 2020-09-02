@@ -111,6 +111,7 @@ const App = () => {
           />
           <PrivateRoute path='/profiles/:userid' component={Profile} exact />
           <PrivateRoute path='/profiles/me/:userid' component={MyProfile} exact />
+          {/* <PrivateRoute path='/profiles/me/:userid' component={MyProfile} exact /> */}
           <PrivateRoute
             path='/profiles/comment/:userid'
             component={CommentProfile}

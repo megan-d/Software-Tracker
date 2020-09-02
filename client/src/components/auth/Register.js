@@ -94,9 +94,9 @@ const Register = (props, value) => {
     await register(user);
   };
 
-  //If isAuthenticated, redirect to their dashboard. Will need a function to run on mounting of Dashboard that will load the dashboard for that specific user.
+  //If isAuthenticated, redirect to the Create Profile page to have them create their initial profile. 
   if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+    return <Redirect to='/createprofile' />;
   }
 
   return (
