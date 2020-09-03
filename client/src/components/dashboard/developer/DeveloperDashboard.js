@@ -9,6 +9,8 @@ import Table from '../charts/Table';
 import Spinner from '../../layout/Spinner';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import Wrapper from '../../layout/Wrapper';
+import TicketStatusPie from '../charts/TicketStatusPie';
+import TicketStatusPieChart from '../charts/TicketStatusPie';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -55,20 +57,19 @@ export default function DeveloperDashboard(props) {
           <h2>My Dashboard</h2>
           <hr />
           <Grid container spacing={3}>
-            {/* Chart */}
+           
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 <Chart />
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
+            
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <TicketStatusPieChart />
               </Paper>
             </Grid>
-            {/* Recent Orders */}
-            {/* Table */}
+            
             <Grid item xs={12} lg={6}>
               <Paper className={classes.paper}>
                 <Table />
