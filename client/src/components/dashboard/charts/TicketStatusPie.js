@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import PropTypes from 'prop-types';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import styled from 'styled-components';
@@ -9,7 +8,7 @@ const StyledChartDiv = styled.div`
   height: 290px;
 `;
 
-const TicketStatusPieChart = ({ profile }) => {
+const TicketStatusPieChart = () => {
   const {
     ticket,
     tickets,
@@ -30,14 +29,24 @@ const TicketStatusPieChart = ({ profile }) => {
     underReview: 0,
   };
 
-  tickets.forEach((ticket) => {});
+  tickets.forEach((ticket) => {
+    if (ticket.status === 'Assigned') {
+      ticketStatuses.assigned = ticketStatuses.assigned + 1;
+    }
+    if (ticket.status === 'In Progress') {
+      ticketStatuses.inProgress = ticketStatuses.inProgress + 1;
+    }
+    if (ticket.status === 'Under Review') {
+      ticketStatuses.underReview = ticketStatuses.underReview + 1;
+    }
+  });
 
   const chartData = {
     labels: ['Assigned', 'In Progress', 'Under Review'],
     datasets: [
       {
         label: 'Ticket Status',
-        data: [10, 20, 30],
+        data: Object.values(ticketStatuses),
         backgroundColor: ['#eb6e80', '#008f95', '#009f34'],
       },
     ],
@@ -52,7 +61,7 @@ const TicketStatusPieChart = ({ profile }) => {
           responsive: true,
           title: {
             display: true,
-            text: 'Pending Tickets By Type',
+            text: 'My Pending Tickets By Type',
           },
           legend: {
             display: true,

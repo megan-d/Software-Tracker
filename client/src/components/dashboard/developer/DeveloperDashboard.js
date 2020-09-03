@@ -10,7 +10,7 @@ import Spinner from '../../layout/Spinner';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import Wrapper from '../../layout/Wrapper';
 import TicketStatusPie from '../charts/TicketStatusPie';
-import TicketStatusPieChart from '../charts/TicketStatusPie';
+import TicketsByProjectBar from '../charts/TicketsByProjectBar';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,15 +58,15 @@ export default function DeveloperDashboard(props) {
           <hr />
           <Grid container spacing={3}>
            
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                <TicketsByProjectBar />
               </Paper>
             </Grid>
             
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={4} lg={4}>
               <Paper className={fixedHeightPaper}>
-                <TicketStatusPieChart />
+                <TicketStatusPie />
               </Paper>
             </Grid>
             

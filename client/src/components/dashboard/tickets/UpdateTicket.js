@@ -321,10 +321,10 @@ export default function UpdateTicket(props) {
                     }}
                   >
                     <option aria-label='None' value='' />
-                    <option value={'Low'}>Low</option>
-                    <option value={'Medium'}>Medium</option>
-                    <option value={'High'}>High</option>
-                    <option value={'Critical'}>Critical</option>
+                    <option value={'1-Low'}>Low</option>
+                    <option value={'2-Medium'}>Medium</option>
+                    <option value={'3-High'}>High</option>
+                    <option value={'4-Critical'}>Critical</option>
                   </Select>
                 </FormControl>
                 <TextField
