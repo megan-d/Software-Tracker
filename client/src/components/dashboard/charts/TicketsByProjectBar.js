@@ -6,7 +6,7 @@ import { ProjectContext } from '../../../context/projects/ProjectContext';
 import styled from 'styled-components';
 
 const StyledChartDiv = styled.div`
-  height: 220px;
+  height: 260px;
 `;
 
 //Minutes of activity over the last 7 days
@@ -77,7 +77,8 @@ const TicketsByProjectBar = () => {
               responsive: true,
               title: {
                 display: true,
-                text: 'Total Tickets for Projects',
+                text: 'My Total Tickets by Project',
+                fontSize: 14
               },
               legend: {
                 display: false,
@@ -90,6 +91,7 @@ const TicketsByProjectBar = () => {
                     scaleLabel: {
                       display: true,
                       labelString: 'Total Tickets',
+                      fontSize: 14
                     },
                     ticks: {
                       beginAtZero: true,
@@ -102,6 +104,7 @@ const TicketsByProjectBar = () => {
                     scaleLabel: {
                       display: true,
                       labelString: 'Project Name',
+                      fontSize: 14
                     },
                   },
                 ],

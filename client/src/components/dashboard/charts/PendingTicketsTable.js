@@ -17,11 +17,10 @@ const PendingTicketsTable = (props) => {
   }, []);
 
   const pendingTickets = tickets.filter((el) => el.status !== 'Completed');
-  console.log(pendingTickets);
 
   const columns = [
     { title: 'Title', field: 'title' },
-    { title: 'Type', field: 'type' },
+    { title: 'Due Date', field: 'dateDue', type: 'date' },
     {
       title: 'Priority',
       field: 'priority',
@@ -52,6 +51,12 @@ const PendingTicketsTable = (props) => {
         paging: true,
         actionsColumnIndex: -1,
         sorting: true,
+        search: false,
+        headerStyle: {
+          backgroundColor: '#01579b',
+          color: '#FFF'
+        },
+        maxBodyHeight: 400
       }}
     />
   );

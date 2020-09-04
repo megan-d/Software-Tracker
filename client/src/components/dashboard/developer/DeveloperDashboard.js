@@ -11,6 +11,7 @@ import { AuthContext } from '../../../context/auth/AuthContext';
 import Wrapper from '../../layout/Wrapper';
 import TicketStatusPie from '../charts/TicketStatusPie';
 import TicketsByProjectBar from '../charts/TicketsByProjectBar';
+import TicketPriorityPolar from '../charts/TicketPriorityPolar';
 import PendingTicketsTable from '../charts/PendingTicketsTable';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
   },
   fixedHeight: {
-    height: 240,
+    height: 300,
   },
   paper: {
     padding: theme.spacing(2),
@@ -59,15 +60,21 @@ export default function DeveloperDashboard(props) {
           <hr />
           <Grid container spacing={3}>
            
-            <Grid item xs={12} md={8} lg={8}>
+          <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <TicketsByProjectBar />
+                <TicketPriorityPolar />
               </Paper>
             </Grid>
             
-            <Grid item xs={12} md={4} lg={4}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <TicketStatusPie />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={fixedHeightPaper}>
+                <TicketsByProjectBar />
               </Paper>
             </Grid>
             
