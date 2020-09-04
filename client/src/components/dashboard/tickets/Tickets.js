@@ -1,6 +1,5 @@
-import React, { useEffect, useContext, Fragment } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
@@ -24,7 +23,6 @@ const Tickets = (props) => {
 
   const {
     tickets,
-    ticket,
     isLoading,
     getUserTickets,
     clearTickets,

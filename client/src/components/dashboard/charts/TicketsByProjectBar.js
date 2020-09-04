@@ -35,20 +35,22 @@ const TicketsByProjectBar = () => {
     'rgba(42, 27, 61, 0.9)',
   ];
 
+  //filter all of the projects to only include onces that the current user owns (their project)
   let filteredProjects = projects.filter((el) => el.owner === user._id);
-  const projectNames = [];
-  filteredProjects.forEach((el) => {
-    projectNames.push(el.name);
-  });
+  //Create object to keep track of how many tickets for each project
   const projectTickets = {};
+  filteredProjects.forEach((el) => {
+    projectTickets[el.name] = el.tickets.length
+  });
+  
 
   //To display the duration for each category, get the values of each key with Object.values
   const chartData = {
-    labels: [...projectNames],
+    labels: [...Object.keys(projectTickets)],
     datasets: [
       {
         label: ['Number of Tickets'],
-        data: [7],
+        data: Object.values(projectTickets),
         borderWidth: '3',
         //Create function to cycle through colors so if more activities than colors it will loop around and reuse the same colors instead of gray
         backgroundColor: () => {
@@ -75,7 +77,7 @@ const TicketsByProjectBar = () => {
               responsive: true,
               title: {
                 display: true,
-                text: 'Total Tickets by Project',
+                text: 'Total Tickets for Projects',
               },
               legend: {
                 display: false,
@@ -87,7 +89,7 @@ const TicketsByProjectBar = () => {
                   {
                     scaleLabel: {
                       display: true,
-                      labelString: 'Tickets',
+                      labelString: 'Total Tickets',
                     },
                     ticks: {
                       beginAtZero: true,

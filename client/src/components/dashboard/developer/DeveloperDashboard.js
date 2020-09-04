@@ -11,6 +11,7 @@ import { AuthContext } from '../../../context/auth/AuthContext';
 import Wrapper from '../../layout/Wrapper';
 import TicketStatusPie from '../charts/TicketStatusPie';
 import TicketsByProjectBar from '../charts/TicketsByProjectBar';
+import PendingTicketsTable from '../charts/PendingTicketsTable';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -72,7 +73,7 @@ export default function DeveloperDashboard(props) {
             
             <Grid item xs={12} lg={6}>
               <Paper className={classes.paper}>
-                <Table />
+                <PendingTicketsTable />
               </Paper>
             </Grid>
             <Grid item md={12} lg={6}>
