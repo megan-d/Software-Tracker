@@ -5,7 +5,7 @@ import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
 
-const PendingTicketsTable = (props) => {
+const CompletedTicketsTable = (props) => {
   const { tickets, isLoading, getUserTickets, clearTickets } = useContext(
     TicketContext,
   );
@@ -15,7 +15,7 @@ const PendingTicketsTable = (props) => {
     return () => clearTickets();
   }, []);
 
-  const pendingTickets = tickets.filter((el) => el.status !== 'Completed');
+  const completedTickets = tickets.filter((el) => el.status === 'Completed');
 
   const columns = [
     { title: 'Title', field: 'title' },
@@ -41,9 +41,9 @@ const PendingTicketsTable = (props) => {
               actions: '',
             },
           }}
-          title='My Pending Tickets'
+          title='My Completed Tickets'
           columns={columns}
-          data={pendingTickets}
+          data={completedTickets}
           onRowClick={async (event, rowData) => {
             history.push(`/ticket/${rowData._id}`);
           }}
@@ -68,4 +68,4 @@ const PendingTicketsTable = (props) => {
   );
 };
 
-export default PendingTicketsTable;
+export default CompletedTicketsTable;

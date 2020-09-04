@@ -6,7 +6,7 @@ import { ProjectContext } from '../../../context/projects/ProjectContext';
 import styled from 'styled-components';
 
 const StyledChartDiv = styled.div`
-  height: 260px;
+  height: 300px;
 `;
 
 //Minutes of activity over the last 7 days

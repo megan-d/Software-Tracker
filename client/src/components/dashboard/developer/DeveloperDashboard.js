@@ -11,8 +11,9 @@ import { AuthContext } from '../../../context/auth/AuthContext';
 import Wrapper from '../../layout/Wrapper';
 import TicketStatusPie from '../charts/TicketStatusPie';
 import TicketsByProjectBar from '../charts/TicketsByProjectBar';
-import TicketPriorityPolar from '../charts/TicketPriorityPolar';
+import TicketPriorityPie from '../charts/TicketPriorityPie';
 import PendingTicketsTable from '../charts/PendingTicketsTable';
+import CompletedTicketsTable from '../charts/CompletedTicketsTable';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
   },
   fixedHeight: {
-    height: 300,
+    minHeight: 340,
+    height: 340
   },
   paper: {
     padding: theme.spacing(2),
@@ -39,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  }
+  },
 }));
 
 export default function DeveloperDashboard(props) {
@@ -53,19 +55,17 @@ export default function DeveloperDashboard(props) {
     <Wrapper>
       {isLoading && user === null ? (
         <Spinner />
-        
       ) : (
         <Fragment>
           <h2>My Dashboard</h2>
           <hr />
           <Grid container spacing={3}>
-           
-          <Grid item xs={12} md={6} lg={6}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <TicketPriorityPolar />
+                <TicketPriorityPie />
               </Paper>
             </Grid>
-            
+
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <TicketStatusPie />
@@ -77,7 +77,7 @@ export default function DeveloperDashboard(props) {
                 <TicketsByProjectBar />
               </Paper>
             </Grid>
-            
+
             <Grid item xs={12} lg={6}>
               <Paper className={classes.paper}>
                 <PendingTicketsTable />
@@ -85,7 +85,7 @@ export default function DeveloperDashboard(props) {
             </Grid>
             <Grid item md={12} lg={6}>
               <Paper className={classes.paper}>
-                <Table />
+                <CompletedTicketsTable />
               </Paper>
             </Grid>
           </Grid>

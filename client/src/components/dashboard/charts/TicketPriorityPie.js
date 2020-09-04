@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
+import Spinner from '../../layout/Spinner';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import styled from 'styled-components';
@@ -8,7 +9,7 @@ const StyledChartDiv = styled.div`
   height: 290px;
 `;
 
-const TicketPriorityPolar = () => {
+const TicketPriorityPie = () => {
   const {
     ticket,
     tickets,
@@ -27,7 +28,7 @@ const TicketPriorityPolar = () => {
     low: 0,
     medium: 0,
     high: 0,
-    critical: 0
+    critical: 0,
   };
 
   tickets.forEach((ticket) => {
@@ -41,8 +42,8 @@ const TicketPriorityPolar = () => {
       ticketPriorities.high = ticketPriorities.high + 1;
     }
     if (ticket.priority === '4-Critical') {
-        ticketPriorities.critical = ticketPriorities.critical + 1;
-      }
+      ticketPriorities.critical = ticketPriorities.critical + 1;
+    }
   });
 
   const chartData = {
@@ -54,36 +55,38 @@ const TicketPriorityPolar = () => {
         backgroundColor: ['#eb6e80', '#008f95', '#009f34', '#009f76'],
       },
     ],
-    
   };
 
   return (
     <StyledChartDiv>
-      <Pie
-        data={chartData}
-        options={{
-          maintainAspectRatio: false,
-          responsive: true,
-          title: {
-            display: true,
-            text: 'My Assigned Tickets by Priority',
-            fontSize: 14
-          },
-          legend: {
-            display: true,
-            position: 'left',
-            
-          },
-          layout: {
-            padding: {
-              left: 20,
-              right: 20,
+      {isLoading && tickets === null ? (
+        <Spinner />
+      ) : (
+        <Pie
+          data={chartData}
+          options={{
+            maintainAspectRatio: false,
+            responsive: true,
+            title: {
+              display: true,
+              text: 'My Assigned Tickets by Priority',
+              fontSize: 14,
             },
-          },
-        }}
-      />
+            legend: {
+              display: true,
+              position: 'left',
+            },
+            layout: {
+              padding: {
+                left: 20,
+                right: 20,
+              },
+            },
+          }}
+        />
+      )}
     </StyledChartDiv>
   );
 };
 
-export default TicketPriorityPolar;
+export default TicketPriorityPie;

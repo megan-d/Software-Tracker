@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
+import Spinner from '../../layout/Spinner';
 import styled from 'styled-components';
 
 const StyledChartDiv = styled.div`
@@ -55,28 +56,32 @@ const TicketStatusPieChart = () => {
 
   return (
     <StyledChartDiv>
-      <Doughnut
-        data={chartData}
-        options={{
-          maintainAspectRatio: false,
-          responsive: true,
-          title: {
-            display: true,
-            text: 'My Pending Tickets By Type',
-            fontSize: 14
-          },
-          legend: {
-            display: true,
-            position: 'right',
-          },
-          layout: {
-            padding: {
-              left: 1,
-              right: 1,
+      {isLoading && tickets === null ? (
+        <Spinner />
+      ) : (
+        <Doughnut
+          data={chartData}
+          options={{
+            maintainAspectRatio: false,
+            responsive: true,
+            title: {
+              display: true,
+              text: 'My Pending Tickets By Type',
+              fontSize: 14,
             },
-          },
-        }}
-      />
+            legend: {
+              display: true,
+              position: 'right',
+            },
+            layout: {
+              padding: {
+                left: 1,
+                right: 1,
+              },
+            },
+          }}
+        />
+      )}
     </StyledChartDiv>
   );
 };
