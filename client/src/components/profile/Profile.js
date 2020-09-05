@@ -65,13 +65,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = (props) => {
   const classes = useStyles();
-  const { user } = useContext(AuthContext);
+  const { user, deleteUser } = useContext(AuthContext);
   const {
     profile,
     profiles,
     getProfileById,
     isLoading,
-    clearProfile,
+    clearProfile
   } = useContext(ProfileContext);
 
   //Load user profile on mount
@@ -135,16 +135,14 @@ const Profile = (props) => {
                 Edit Profile
               </StyledGreyLink>
 
-              {/* <Button
+              <Button
                 variant='contained'
                 color='secondary'
                 startIcon={<DeleteIcon />}
-                // onClick={async () =>
-                //   deleteSprint(sprint.project._id, sprint._id, props.history)
-                // }
+                onClick={async () => deleteUser(props.history)}
               >
-                Delete Profile
-              </Button> */}
+                Delete Profile and Account
+              </Button>
             </Fragment>
           )}
         </Fragment>
