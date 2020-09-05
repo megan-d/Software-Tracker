@@ -92,7 +92,7 @@ const MyProfile = (props) => {
       <h2>Developer Profile</h2>
       <hr></hr>
       <AlertBanner />
-      {isLoading || (profile === null && <Spinner />)}
+      {(isLoading || profile === null) && <Spinner />}
 
       {!isLoading && profile ? (
         <Fragment>
@@ -137,7 +137,7 @@ const MyProfile = (props) => {
                 Edit Profile
               </StyledGreyLink>
 
-              {/* <Button
+              <Button
                 variant='contained'
                 color='secondary'
                 startIcon={<DeleteIcon />}
@@ -145,8 +145,8 @@ const MyProfile = (props) => {
                 //   deleteSprint(sprint.project._id, sprint._id, props.history)
                 // }
               >
-                Delete Profile
-              </Button> */}
+                Delete Profile and Account
+              </Button>
             </Fragment>
           )}
         </Fragment>

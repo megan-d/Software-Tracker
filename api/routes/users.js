@@ -44,11 +44,11 @@ router.post(
       .not()
       .isEmpty()
       .trim(),
-      check('lastName', 'Please provide a last name')
+    check('lastName', 'Please provide a last name')
       .not()
       .isEmpty()
       .trim(),
-      check(
+    check(
       'username',
       'Please provide a username that is at least 5 characters.',
     )
@@ -141,7 +141,7 @@ router.put(
     check('firstName', 'Please provide an updated first name')
       .optional({ checkFalsy: true })
       .trim(),
-      check('lastName', 'Please provide an updated last name')
+    check('lastName', 'Please provide an updated last name')
       .optional({ checkFalsy: true })
       .trim(),
     check('email', 'Please provide a valid email')
@@ -159,7 +159,15 @@ router.put(
 
   async (req, res) => {
     //pull all fields out of req.body using destructuring
-    const { firstName, lastName, email, role, username, team, organization } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      role,
+      username,
+      team,
+      organization,
+    } = req.body;
 
     //Build user object
     const updatedUserFields = {};
@@ -174,7 +182,9 @@ router.put(
       } else {
         return res
           .status(401)
-          .json({ errors: [{msg: 'You are not permitted to perform this action.'}] });
+          .json({
+            errors: [{ msg: 'You are not permitted to perform this action.' }],
+          });
       }
     }
 
@@ -205,7 +215,9 @@ router.put(
       if (!user) {
         return res
           .status(400)
-          .json({ errors: [{msg: 'The profile for this user could not be found.'}] });
+          .json({
+            errors: [{ msg: 'The profile for this user could not be found.' }],
+          });
       } else {
         //if user is found, update it
         user = await User.findOneAndUpdate(
@@ -230,13 +242,13 @@ router.put(
 //TODO: Also need to delete user's profile and projects when delete account
 router.delete('/', verify, async (req, res) => {
   try {
+    //First delete profile for user
+    await Profile.findOne({ user: req.user.id });
+
     //Find user that corresponds to user id found in token and delete
-    let user = await User.findOneAndRemove({ _id: req.user.id });
-    if (user) {
-      res.json({ msg: 'This user has been deleted.' });
-    } else {
-      res.status(400).json({ errors: [{msg: 'This user could not be found.'}] });
-    }
+    await User.findOneAndRemove({ _id: req.user.id });
+
+    res.json({ msg: 'This user and associated profile have been deleted.' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

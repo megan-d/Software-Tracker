@@ -87,7 +87,7 @@ const Profile = (props) => {
       <h2>Developer Profile</h2>
       <hr></hr>
       <AlertBanner />
-      {isLoading || (profile === null && <Spinner />)}
+      {(isLoading || profile === null) && <Spinner />}
 
       {!isLoading && profile ? (
         <Fragment>
@@ -147,10 +147,7 @@ const Profile = (props) => {
           )}
         </Fragment>
       ) : (
-        <div>
-          <p>Please click the button below to create a profile.</p>
-          <StyledGreyLink to={'/createprofile'}>Create Profile</StyledGreyLink>
-        </div>
+        ''
       )}
     </Wrapper>
   );
