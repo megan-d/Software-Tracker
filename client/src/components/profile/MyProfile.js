@@ -136,7 +136,7 @@ const MyProfile = (props) => {
               >
                 Edit Profile
               </StyledGreyLink>
-
+              <p>Select the button below to delete your profile AND account. Warning: This cannot be undone. </p>
               <Button
                 variant='contained'
                 color='secondary'

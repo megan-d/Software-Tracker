@@ -96,19 +96,21 @@ const Profile = (props) => {
           </p>
           <p>Username: {profile.user.username}</p>
           <p>Bio: {profile.bio}</p>
-          <div className={classes.root}>
-            <List component='h3' aria-label='tech items'>
-              My technical skills:
-              {profile.skills.map((el, index) => (
-                <ListItem key={index}>
-                  <ListItemIcon>
-                    <CheckCircleOutlineOutlinedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={el} />
-                </ListItem>
-              ))}
-            </List>
-          </div>
+          {profile.skills.length > 0 && (
+            <div className={classes.root}>
+              <List component='h3' aria-label='tech items'>
+                My technical skills:
+                {profile.skills.map((el, index) => (
+                  <ListItem key={index}>
+                    <ListItemIcon>
+                      <CheckCircleOutlineOutlinedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={el} />
+                  </ListItem>
+                ))}
+              </List>
+            </div>
+          )}
           <ul>Profile comments:</ul>
           {profile.comments.length === 0 && !isLoading ? (
             <li>There are no comments for this profile</li>
