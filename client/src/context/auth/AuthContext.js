@@ -11,7 +11,7 @@ const initialState = {
   isLoading: true,
   user: null,
   isAuthenticated: false,
-  errors: null
+  errors: null,
 };
 
 //Initiate context
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
         errors.forEach((error) => showAlert(error.msg, 'error'));
       }
       dispatch({
-        type: 'REGISTER_FAILURE'
+        type: 'REGISTER_FAILURE',
       });
     }
   };
@@ -101,10 +101,9 @@ export const AuthProvider = ({ children }) => {
       if (errors) {
         //if errors, loop through them and dispatch the showAlert action from AlertContext
         errors.forEach((error) => showAlert(error.msg, 'error'));
-        
       }
       dispatch({
-        type: 'LOGIN_FAILURE'
+        type: 'LOGIN_FAILURE',
       });
     }
   };
@@ -131,7 +130,7 @@ export const AuthProvider = ({ children }) => {
         errors.forEach((error) => showAlert(error.msg, 'error'));
       }
       dispatch({
-        type: 'LOAD_USER_FAILURE'
+        type: 'LOAD_USER_FAILURE',
       });
     }
   };
@@ -141,8 +140,33 @@ export const AuthProvider = ({ children }) => {
     dispatch({
       type: 'LOGOUT',
     });
-    return <Redirect to='/' />
+    return <Redirect to='/' />;
     //TODO: Need to set up action to clear user profile if I set up profile as separate state
+  };
+
+  //*****DELETE USER ACTION************
+  const deleteUser = async (history) => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    try {
+      await axios.delete(`/api/users`, config);
+      dispatch({
+        type: 'USER_DELETED',
+      });
+      history.push('/');
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+    }
   };
 
   //Return Auth Provider
@@ -158,6 +182,7 @@ export const AuthProvider = ({ children }) => {
         login,
         loadUser,
         logoutUser,
+        deleteUser,
       }}
     >
       {children}

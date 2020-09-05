@@ -243,7 +243,7 @@ router.put(
 router.delete('/', verify, async (req, res) => {
   try {
     //First delete profile for user
-    await Profile.findOne({ user: req.user.id });
+    await Profile.findOneAndRemove({ user: req.user.id });
 
     //Find user that corresponds to user id found in token and delete
     await User.findOneAndRemove({ _id: req.user.id });

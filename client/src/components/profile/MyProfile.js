@@ -69,7 +69,7 @@ function ListItemLink(props) {
 
 const MyProfile = (props) => {
   const classes = useStyles();
-  const { user } = useContext(AuthContext);
+  const { user, deleteUser } = useContext(AuthContext);
   const {
     profile,
     profiles,
@@ -102,16 +102,16 @@ const MyProfile = (props) => {
           <p>Username: {profile.user.username}</p>
           <p>Bio: {profile.bio}</p>
           <div className={classes.root}>
-          <List component='h3' aria-label="tech items">
-            My technical skills:
-            {profile.skills.map((el, index) => (
-              <ListItem key={index}>
-                <ListItemIcon>
-                  <CheckCircleOutlineOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary={el} />
-              </ListItem>
-            ))}
+            <List component='h3' aria-label='tech items'>
+              My technical skills:
+              {profile.skills.map((el, index) => (
+                <ListItem key={index}>
+                  <ListItemIcon>
+                    <CheckCircleOutlineOutlinedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={el} />
+                </ListItem>
+              ))}
             </List>
           </div>
           <ul>Profile comments:</ul>
@@ -141,9 +141,7 @@ const MyProfile = (props) => {
                 variant='contained'
                 color='secondary'
                 startIcon={<DeleteIcon />}
-                // onClick={async () =>
-                //   deleteSprint(sprint.project._id, sprint._id, props.history)
-                // }
+                onClick={async () => deleteUser(props.history)}
               >
                 Delete Profile and Account
               </Button>
