@@ -20,6 +20,7 @@ const useStyles = makeStyles({
     justifyContent: 'space-between',
     marginLeft: 10,
     marginBottom: 10,
+    color: '#333333',
   },
   bullet: {
     display: 'inline-block',

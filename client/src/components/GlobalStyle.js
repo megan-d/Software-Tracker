@@ -17,6 +17,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  color: #333333;
 }
 
 html {
@@ -58,12 +59,11 @@ input[type="search"] {
 
 /* input:focus{
   outline: none;
-  border: 2px solid #fdc108;
+  border: 1px solid #fdc108;
 } */
 
 .btn:focus{
   outline: none;
-  
 }
 
 hr {

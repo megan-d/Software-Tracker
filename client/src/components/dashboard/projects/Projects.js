@@ -15,7 +15,7 @@ const StyledCards = styled.div`
 
 const StyledLink = styled(Link)`
   color: white;
-  background: grey;
+  background: #204051;
   text-decoration: none;
   border-radius: 3px;
   padding: 10px;

@@ -17,6 +17,9 @@ import { AuthContext } from '../../context/auth/AuthContext';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: '#204051',
+    },
   },
   image: {
     backgroundImage: `url(${image})`,
@@ -36,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#F8961E'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -44,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    background: '#204051', 
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#577590',
+  }
   },
   formControl: {
     margin: theme.spacing(1),
@@ -107,9 +115,9 @@ const Register = (props, value) => {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <LockOutlinedIcon style={{ color: 'white' }}/>
           </Avatar>
-          <Typography component='h1' variant='h5'>
+          <Typography component='h1' variant='h5' style={{color: '#333333'}}>
             Register
           </Typography>
           <AlertBanner />
@@ -199,14 +207,13 @@ const Register = (props, value) => {
               type='submit'
               fullWidth
               variant='contained'
-              color='primary'
               className={classes.submit}
             >
               Sign Up
             </Button>
             <Grid container justify='flex-end'>
               <Grid item>
-                <Link to='/login' variant='body2'>
+                <Link to='/login' variant='body2' style={{color: '#204051'}}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

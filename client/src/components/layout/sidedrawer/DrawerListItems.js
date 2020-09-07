@@ -15,7 +15,7 @@ import { AuthContext } from '../../../context/auth/AuthContext';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: black;
+  color: #333333;
 `;
 
 const DrawerListItems = ({ sidedrawerClick }) => {
@@ -26,13 +26,10 @@ const DrawerListItems = ({ sidedrawerClick }) => {
       <div className='main-list-items'>
         {/* If role is developer or manager, show developer/manager sidedrawer list */}
 
-        <StyledLink
-          to='/dashboard'
-          style={{ textDecoration: 'none', color: 'black' }}
-        >
+        <StyledLink to='/dashboard'>
           <ListItem button>
             <ListItemIcon>
-              <DashboardIcon />
+              <DashboardIcon style={{ color: '#577590' }} />
             </ListItemIcon>
             <ListItemText primary='Dashboard' />
           </ListItem>
@@ -41,7 +38,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to='/projects'>
           <ListItem button>
             <ListItemIcon>
-              <AssignmentIcon />
+              <AssignmentIcon style={{ color: '#577590' }} />
             </ListItemIcon>
             <ListItemText primary='Projects' />
           </ListItem>
@@ -50,7 +47,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to='/tickets'>
           <ListItem button>
             <ListItemIcon>
-              <ConfirmationNumberIcon />
+              <ConfirmationNumberIcon style={{ color: '#577590' }} />
             </ListItemIcon>
             <ListItemText primary='My Assigned Tickets' />
           </ListItem>
@@ -59,7 +56,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to='/sprints'>
           <ListItem button>
             <ListItemIcon>
-              <GroupWorkIcon />
+              <GroupWorkIcon style={{ color: '#577590' }} />
             </ListItemIcon>
             <ListItemText primary='My Assigned Sprints' />
           </ListItem>
@@ -81,7 +78,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to={`/profiles/me/${user._id}`}>
           <ListItem button>
             <ListItemIcon>
-              <PersonIcon />
+              <PersonIcon style={{ color: '#577590' }} />
             </ListItemIcon>
             <ListItemText primary='My Profile' />
           </ListItem>
@@ -90,7 +87,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to='/' onClick={logoutUser}>
           <ListItem button>
             <ListItemIcon>
-              <ExitToAppIcon />
+              <ExitToAppIcon style={{ color: '#577590' }} />
             </ListItemIcon>
             <ListItemText primary='Logout' />
           </ListItem>

@@ -17,6 +17,10 @@ import { AuthContext } from '../../context/auth/AuthContext';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#204051',
+    },
+    
   },
   image: {
     backgroundImage: `url(${image})`,
@@ -36,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#F8961E',
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -44,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    background: '#204051', 
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#577590',
+  }
   },
 }));
 
@@ -58,9 +67,7 @@ const Login = (props) => {
   const { email, password } = formData;
 
   //Consume context
-  const { isAuthenticated, login } = useContext(
-    AuthContext
-  );
+  const { isAuthenticated, login } = useContext(AuthContext);
 
   //Function to update state on change and put into updateFormData variable
   const onChange = (e) =>
@@ -91,9 +98,9 @@ const Login = (props) => {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <LockOutlinedIcon style={{ color: 'white' }} />
           </Avatar>
-          <Typography component='h1' variant='h5'>
+          <Typography component='h1' variant='h5' style={{color: '#333333'}}>
             Login
           </Typography>
           <AlertBanner />
@@ -131,14 +138,17 @@ const Login = (props) => {
               type='submit'
               fullWidth
               variant='contained'
-              color='primary'
               className={classes.submit}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item>
-                <Link to='/register' variant='body2'>
+                <Link
+                  to='/register'
+                  variant='body2'
+                  style={{ color: '#204051' }}
+                >
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

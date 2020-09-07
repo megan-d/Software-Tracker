@@ -112,15 +112,13 @@ const Profiles = (props) => {
   }, []);
 
   const colors = [
-    'orange',
-    'red',
-    'green',
-    'blue',
-    'yellow',
-    'purple',
-    'black',
-    'pink',
-    'lightgreen',
+    '#F94144',
+    '#F3722C',
+    '#F8961E',
+    '#F9C74F',
+    '#90BE6D',
+    '#43AA8B',
+    '#577590',
   ];
 
   //Filter through which profiles should be shown based on searchTerm state
@@ -140,17 +138,6 @@ const Profiles = (props) => {
     );
   });
 
-  // let history = useHistory();
-
-  // //Get projects where user is the manager or owner and put them under "My Projects"
-  // let myProjects = projects.filter(
-  //   (el) => el.owner === user._id,
-  // );
-  // let managing = projects.filter((el) => el.manager === user._id && el.owner !== user._id);
-  // //Get projects where user is a collaborating developer and put them under "Projects I'm collaborating on"
-  // let collaboratingProjects = projects.filter((el) => el.developers.some((developer) => developer === user._id));
-  // let collabProjects = collaboratingProjects.filter((el) => el.owner !== user._id);
-
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
@@ -159,9 +146,7 @@ const Profiles = (props) => {
         View developer profiles to learn more about the community and find
         developers to collaborate with
       </p>
-      {/* <StyledLink to='/createproject'>
-        Add Project
-      </StyledLink> */}
+
       <hr></hr>
       {isLoading ? (
         <Spinner />
@@ -192,7 +177,7 @@ const Profiles = (props) => {
                   username={el.user.username}
                   skills={el.skills}
                   id={el.user._id}
-                  color={colors[index]}
+                  color={colors[index % colors.length]}
                 />
               );
             })}

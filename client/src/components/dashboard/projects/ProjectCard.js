@@ -14,7 +14,8 @@ const useStyles = makeStyles({
     margin: '5px',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    color: '#333333',
   },
   bullet: {
     display: 'inline-block',
@@ -43,7 +44,7 @@ export default function ProjectCard({name, description, id}) {
       </CardContent>
       <CardActions>
         <Button onClick={async() => {
-          history.push(`/projects/${id}`)}}>View Details</Button>
+          history.push(`/projects/${id}`)}} style={{color: '#333333'}}>View Details</Button>
       </CardActions>
     </Card>
   );

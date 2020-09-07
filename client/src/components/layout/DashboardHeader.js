@@ -15,7 +15,10 @@ const drawerWidth = 240;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: white;
+  color: #f3f3f3;
+  &:hover {
+    color: white; 
+  }
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: 36,
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#577590',
+  }
   },
   menuButtonHidden: {
     display: 'none',
@@ -69,6 +76,13 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  styledbutton: {
+    color: '#f3f3f3',
+    '&:hover': {
+      color: 'white',
+  }
+  }
+  
 }));
 
 const Header = (props) => {
@@ -106,10 +120,10 @@ const Header = (props) => {
               --DASH-->
             </StyledLink>
           </Typography>
-          <Button color='inherit' href='/dashboard'>
+          <Button href='/dashboard' className={classes.styledbutton}>
             My Dashboard
           </Button>
-          <Button color='inherit' href='/profiles'>
+          <Button href='/profiles' className={classes.styledbutton}>
             Developers
           </Button>
           <PopMenu />
