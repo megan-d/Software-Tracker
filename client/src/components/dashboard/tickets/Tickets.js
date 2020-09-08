@@ -85,6 +85,10 @@ const Tickets = (props) => {
             paging: true,
             actionsColumnIndex: -1,
             sorting: true,
+            headerStyle: {
+              backgroundColor: '#204051',
+              color: '#fafafa',
+            },
           }}
           style={{color: '#333333'}}
         />

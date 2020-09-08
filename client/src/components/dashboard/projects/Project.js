@@ -199,8 +199,8 @@ const Project = (props) => {
                       {el.lastName.charAt(0).toUpperCase()}
                     </Avatar>
                   </ListItemIcon>
-                  <ListItemLink to={'/projects'}>
-                    <ListItemText primary={el.username} />
+                  <ListItemLink to={`/profiles/${el._id}`}>
+                    <ListItemText primary={el.username}/>
                   </ListItemLink>
                 </ListItem>
               );

@@ -33,7 +33,7 @@ const Sprints = (props) => {
     <Wrapper>
       <h2>My Sprints</h2>
       <p>View your sprints. Select a sprint to view details.</p>
-      <hr></hr>
+      <hr ></hr>
       {isLoading ? (
         <Spinner />
       ) : (
@@ -63,6 +63,10 @@ const Sprints = (props) => {
             toolbar: true,
             paging: true,
             actionsColumnIndex: -1,
+            headerStyle: {
+              backgroundColor: '#204051',
+              color: '#fafafa',
+            },
           }}
           style={{color: '#333333'}}
         />

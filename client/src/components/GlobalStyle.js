@@ -67,10 +67,10 @@ input[type="search"] {
 }
 
 .dark-blue {
-  background: #204051
+  background: #204051;
 }
 .red {
-  background: #f94144
+  background: #f94144;
 }
 .dark-orange {
   

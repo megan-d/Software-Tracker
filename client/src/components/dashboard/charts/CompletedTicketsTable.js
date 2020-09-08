@@ -56,8 +56,8 @@ const CompletedTicketsTable = (props) => {
             sorting: true,
             search: false,
             headerStyle: {
-              backgroundColor: '#01579b',
-              color: '#FFF',
+              backgroundColor: '#204051',
+              color: '#fafafa',
             },
             maxBodyHeight: 330,
             minBodyHeight: 330,
