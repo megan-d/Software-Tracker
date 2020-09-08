@@ -82,6 +82,8 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       '&:focus': {
         width: '100%',
+        outline: '2px solid #204051',
+        borderRadius: theme.shape.borderRadius,
       },
     },
   },
@@ -119,6 +121,7 @@ const Profiles = (props) => {
     '#90BE6D',
     '#43AA8B',
     '#577590',
+    '##f3f3f3'
   ];
 
   //Filter through which profiles should be shown based on searchTerm state

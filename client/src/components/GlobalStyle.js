@@ -44,7 +44,7 @@ footer p {
 }
 
 .full-page {
-  min-height: 95vh;
+  min-height: 85vh;
 }
 
 input {
@@ -61,6 +61,38 @@ input[type="search"] {
   outline: none;
   border: 1px solid #fdc108;
 } */
+
+.dark-text {
+  color: #333333;
+}
+
+.dark-blue {
+  background: #204051
+}
+.red {
+  background: #f94144
+}
+.dark-orange {
+  
+}
+.light-orange {
+  
+}
+.yellow {
+  
+}
+
+.light-green {
+  
+}
+
+.aqua {
+  
+}
+
+.lightblue {
+  
+}
 
 .btn:focus{
   outline: none;

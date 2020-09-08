@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       borderColor: '#204051',
     },
+    '& label.Mui-focused': {
+      color: '#204051',
+    },
   },
   image: {
     backgroundImage: `url(${image})`,
@@ -60,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  floatingLabel: {
+    color: "red"
+}
 }));
 
 const Register = (props, value) => {
@@ -135,7 +141,6 @@ const Register = (props, value) => {
               autoFocus
               id='firstName'
               label='First Name'
-              autoFocus
               value={firstName}
               onChange={(e) => onChange(e)}
               margin='normal'

@@ -29,15 +29,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const colors = [
-  'orange',
-  'red',
-  'green',
-  'blue',
-  'yellow',
-  'purple',
-  'black',
-  'pink',
-  'lightgreen',
+  // '#F94144',
+  '#F3722C',
+  '#F8961E',
+  '#F9C74F',
+  '#90BE6D',
+  '#43AA8B',
+  '#577590',
+  '##f3f3f3'
 ];
 
 const StyledLink = styled(Link)`
@@ -192,7 +191,7 @@ const Project = (props) => {
                       style={{
                         height: '40px',
                         width: '40px',
-                        color: '#e5e0db',
+                        color: '#fafafa',
                         backgroundColor: colors[index],
                       }}
                     >
@@ -255,7 +254,6 @@ const Project = (props) => {
               </StyledLink>
               <Button
                 variant='contained'
-                color='secondary'
                 startIcon={<DeleteIcon />}
                 onClick={async () => deleteProject(project._id, props.history)}
               >

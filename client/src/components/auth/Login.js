@@ -20,7 +20,9 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
       borderColor: '#204051',
     },
-    
+    '& label.Mui-focused': {
+      color: '#204051',
+    },
   },
   image: {
     backgroundImage: `url(${image})`,
@@ -48,11 +50,11 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    background: '#204051', 
+    background: '#204051',
     color: 'white',
     '&:hover': {
       backgroundColor: '#577590',
-  }
+    },
   },
 }));
 
@@ -100,7 +102,7 @@ const Login = (props) => {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon style={{ color: 'white' }} />
           </Avatar>
-          <Typography component='h1' variant='h5' style={{color: '#333333'}}>
+          <Typography component='h1' variant='h5' style={{ color: '#333333' }}>
             Login
           </Typography>
           <AlertBanner />
