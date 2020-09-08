@@ -86,6 +86,7 @@ const Tickets = (props) => {
             actionsColumnIndex: -1,
             sorting: true,
           }}
+          style={{color: '#333333'}}
         />
       )}
     </Wrapper>

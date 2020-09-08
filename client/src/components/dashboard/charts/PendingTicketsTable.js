@@ -62,6 +62,7 @@ const PendingTicketsTable = (props) => {
             maxBodyHeight: 330,
             minBodyHeight: 330,
           }}
+          style={{color: '#333333'}}
         />
       )}
     </div>

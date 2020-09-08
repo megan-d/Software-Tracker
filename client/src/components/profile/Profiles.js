@@ -112,7 +112,7 @@ const Profiles = (props) => {
   }, []);
 
   const colors = [
-    '#F94144',
+    // '#F94144',
     '#F3722C',
     '#F8961E',
     '#F9C74F',

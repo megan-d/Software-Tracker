@@ -11,7 +11,10 @@ import { AuthContext } from '../../context/auth/AuthContext';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: white;
+  color: #f3f3f3;
+  &:hover {
+    color: white; 
+  }
 `;
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +53,12 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  styledbutton: {
+    color: '#f3f3f3',
+    '&:hover': {
+      color: 'white',
+  }
+  }
 }));
 
 const PlainHeader = (props) => {
@@ -92,13 +101,13 @@ const PlainHeader = (props) => {
                 </Fragment>
               ) : (
                 <Fragment>
-                  <Button color='inherit' href='/login'>
+                  <Button className={classes.styledbutton} href='/login'>
                     Login
                   </Button>
-                  <Button color='inherit' href='/register'>
+                  <Button className={classes.styledbutton} href='/register'>
                     Register
                   </Button>
-                  <Button color='inherit' href='/'>
+                  <Button className={classes.styledbutton} href='/'>
                     Demo
                   </Button>
                 </Fragment>

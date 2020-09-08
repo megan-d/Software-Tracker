@@ -64,6 +64,7 @@ const Sprints = (props) => {
             paging: true,
             actionsColumnIndex: -1,
           }}
+          style={{color: '#333333'}}
         />
       )}
     </Wrapper>
