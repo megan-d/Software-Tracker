@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import PlainHeader from '../components/layout/PlainHeader';
 import Footer from './layout/Footer';
+import desk from '../assets/images/desk.jpg';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   heroContent: {
     // backgroundColor: '#e5e0db',
-    padding: theme.spacing(12, 0, 6),
+    padding: theme.spacing(22, 0, 6),
   },
   heroTitle: {
     width: '100%',
@@ -36,12 +37,16 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     color: '#333333',
-    background: '#fafafa'
+    background: '#fafafa',
   },
   content: {
     flexGrow: 1,
     minHeight: '97vh',
     overflow: 'auto',
+    backgroundImage: `url(${desk})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'bottom',
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
@@ -60,9 +65,7 @@ export default function Landing() {
       <PlainHeader />
       <main className={classes.content}>
         {/* Hero unit */}
-        <div
-          className={classes.heroContent}
-        >
+        <div className={classes.heroContent}>
           <Container maxWidth='sm'>
             <Typography
               component='h1'
@@ -72,7 +75,38 @@ export default function Landing() {
               gutterBottom
               style={{ color: '#204051' }}
             >
-              Manage-Track-Collaborate
+              <span
+                style={{
+                  color: '#90be6d',
+                  fontWeight: 700,
+                  fontSize: '60px',
+                  fontFamily: 'caveat, cursive',
+                }}
+              >
+                Manage
+              </span>
+              -
+              <span
+                style={{
+                  color: '#f9c74f',
+                  fontWeight: 700,
+                  fontSize: '60px',
+                  fontFamily: 'caveat, cursive',
+                }}
+              >
+                Track
+              </span>
+              -
+              <span
+                style={{
+                  color: '#f8961e',
+                  fontWeight: 700,
+                  fontSize: '60px',
+                  fontFamily: 'caveat, cursive',
+                }}
+              >
+                Collaborate
+              </span>
             </Typography>
             <Typography align='center' paragraph style={{ color: '#333333' }}>
               We provide software professionals with a solution for project
@@ -102,94 +136,7 @@ export default function Landing() {
             </div>
           </Container>
         </div>
-        <Container className={classes.cardGrid} maxWidth='md'>
-          {/* End hero unit */}
-          <Grid container spacing={10}>
-            <Grid item xs={12} sm={6} md={4}>
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image='https://source.unsplash.com/random'
-                  title='Image title'
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography
-                    gutterBottom
-                    variant='h5'
-                    component='h2'
-                    style={{ color: '#90be6d', fontSize: '22px', fontWeight: 'bold' }}
-                  >
-                    Manage Projects
-                  </Typography>
-                  <Typography>
-                    Create issues and sprints to ensure your project stays
-                    focused and meets deadlines
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size='small' style={{ color: '#204051' }}>
-                    View
-                  </Button>
-                  <Button size='small' style={{ color: '#204051' }}>
-                    Edit
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image='https://source.unsplash.com/random'
-                  title='Image title'
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant='h5' component='h2' style={{ color: '#f9c74f', fontSize: '22px', fontWeight: 'bold' }}>
-                    Track Issues
-                  </Typography>
-                  <Typography>
-                    Track project tasks and bugs and assign them to team members
-                    as needed
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size='small' style={{ color: '#204051' }}>
-                    View
-                  </Button>
-                  <Button size='small' style={{ color: '#204051' }}>
-                    Edit
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image='https://source.unsplash.com/random'
-                  title='Image title'
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant='h5' component='h2' style={{ color: '#f8961e', fontSize: '22px', fontWeight: 'bold' }}>
-                    Collaborate
-                  </Typography>
-                  <Typography>
-                    Work with others in your organization or find collaborators
-                    within the TrackIt community
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size='small' style={{ color: '#204051' }}>
-                    View
-                  </Button>
-                  <Button size='small' style={{ color: '#204051' }}>
-                    Edit
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          </Grid>
-        </Container>
+        {/*  */}
       </main>
       <Footer />
     </React.Fragment>
