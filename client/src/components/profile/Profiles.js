@@ -115,14 +115,23 @@ const Profiles = (props) => {
 
   const colors = [
     // '#F94144',
+
+    '#203a43',
     '#F3722C',
     '#F8961E',
     '#F9C74F',
     '#90BE6D',
     '#43AA8B',
     '#577590',
-    '##f3f3f3'
+    'grey'
   ];
+
+  // '#F8961E',
+  // '#F9C74F',
+  // '#90BE6D',
+  // '#43AA8B',
+  // '#577590',
+  // '#203a43',
 
   //Filter through which profiles should be shown based on searchTerm state
   const filteredProfiles = profiles.filter((el, index) => {
@@ -144,13 +153,13 @@ const Profiles = (props) => {
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
-      <h2>Developer Profiles</h2>
+      <h2 className='page-heading'>Developer Profiles</h2>
       <p>
         View developer profiles to learn more about the community and find
         developers to collaborate with
       </p>
 
-      <hr></hr>
+      <hr className='hr'></hr>
       {isLoading ? (
         <Spinner />
       ) : (

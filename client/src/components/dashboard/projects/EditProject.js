@@ -198,8 +198,8 @@ export default function EditProject(props) {
 
   return (
     <Wrapper>
-      <h2>Edit Project</h2>
-      <hr></hr>
+      <h2 className='page-heading'>Edit Project</h2>
+      <hr className='hr'></hr>
 
       {!project || isLoading ? (
         <Spinner />

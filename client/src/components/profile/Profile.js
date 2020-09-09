@@ -84,8 +84,8 @@ const Profile = (props) => {
 
   return (
     <Wrapper>
-      <h2>Developer Profile</h2>
-      <hr></hr>
+      <h2 className='page-heading'>Developer Profile</h2>
+      <hr className='hr'></hr>
       <AlertBanner />
       {(isLoading || profile === null) && <Spinner />}
 

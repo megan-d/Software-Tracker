@@ -145,9 +145,9 @@ const CommentProject = (props) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h2>Comment on Project</h2>
+          <h2 className='page-heading'>Comment on Project</h2>
           <p>Project: {project.name}</p>
-          <hr></hr>
+          <hr className='hr'></hr>
 
           <Grid container component='main' className={classes.root}>
             <Grid

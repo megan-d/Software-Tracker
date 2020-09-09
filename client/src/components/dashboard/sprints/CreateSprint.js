@@ -149,8 +149,8 @@ const CreateSprint = (props) => {
 
   return (
     <Wrapper>
-      <h2>Create a New Sprint</h2>
-      <hr></hr>
+      <h2 className='page-heading'>Create a New Sprint</h2>
+      <hr className='hr'></hr>
       {!project ? (
         <Spinner />
       ) : (

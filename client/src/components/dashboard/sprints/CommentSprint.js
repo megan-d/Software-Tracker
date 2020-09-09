@@ -131,9 +131,9 @@ const CommentSprint = (props) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h2>Comment on Sprint</h2>
+          <h2 className='page-heading'>Comment on Sprint</h2>
           <p>Sprint: {sprint.title}</p>
-          <hr></hr>
+          <hr className='hr'></hr>
 
           <Grid container component='main' className={classes.root}>
             <Grid

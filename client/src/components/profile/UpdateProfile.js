@@ -150,8 +150,8 @@ const UpdateProfile = ({ history, match }) => {
 
   return (
     <Wrapper>
-      <h2>Update Your Profile</h2>
-      <hr></hr>
+      <h2 className='page-heading'>Update Your Profile</h2>
+      <hr className='hr'></hr>
       {!profile ? (
         <Spinner />
       ) : (

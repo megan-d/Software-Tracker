@@ -139,9 +139,9 @@ const CreateProfile = ({ history }) => {
 
   return (
     <Wrapper>
-      <h2>Create Your User Profile</h2>
+      <h2 className='page-heading'>Create Your User Profile</h2>
       <p>Before getting started, please create a user profile. This can be updated later.</p>
-      <hr></hr>
+      <hr className='hr'></hr>
 
       <Grid container component='main' className={classes.root}>
         <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>

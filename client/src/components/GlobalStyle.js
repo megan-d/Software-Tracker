@@ -39,6 +39,11 @@ footer p {
   margin-bottom: 0;
 }
 
+.subheading {
+  font-size: 18px;
+  font-weight: 500;
+}
+
 .box-shadow {
   box-shadow: 0 0 4px rgb(143, 141, 141);
 }
@@ -61,6 +66,8 @@ input[type="search"] {
   outline: none;
   border: 1px solid #fdc108;
 } */
+
+
 
 .dark-text {
   color: #333333;
@@ -98,8 +105,18 @@ input[type="search"] {
   outline: none;
 }
 
-hr {
-  margin: 10px 0px 20px 0px;
+.hr {
+  height: 1.5px;
+  border: none;
+  background: #333333;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.page-heading {
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 img:-moz-loading {

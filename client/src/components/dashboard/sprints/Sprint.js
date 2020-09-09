@@ -23,17 +23,22 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 const StyledLink = styled(Link)`
   color: white;
-  background: grey;
+  background-color: #577590;
   text-decoration: none;
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
-  max-width: 160px;
+  max-width: 180px;
+  width: 180px;
   text-align: center;
   margin: 10px 0px;
+  height: 40px;
   display: block;
   font-weight: bold;
   font-family: Roboto, sans-serif;
+  &:hover {
+    background-color: #204051; 
+  }
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -90,6 +95,17 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(1),
   },
+  button: {
+    backgroundColor: '#f94144',
+    color: 'white',
+    fontSize: 14,
+    maxWidth: 180,
+    width: 180,
+    height: 40,
+    '&:hover': {
+      backgroundColor: 'red',
+  }
+  }
 }));
 
 const Sprint = (props) => {
@@ -205,7 +221,7 @@ const Sprint = (props) => {
 
           <Button
             variant='contained'
-            color='secondary'
+            className={classes.button}
             startIcon={<DeleteIcon />}
             onClick={async () =>
               deleteSprint(sprint.project._id, sprint._id, props.history)

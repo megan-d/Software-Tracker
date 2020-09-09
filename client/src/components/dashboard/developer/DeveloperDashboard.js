@@ -57,8 +57,8 @@ export default function DeveloperDashboard(props) {
         <Spinner />
       ) : (
         <Fragment>
-          <h2>My Dashboard</h2>
-          <hr />
+          <h2 className='page-heading'>My Dashboard</h2>
+          <hr className='hr'/>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>

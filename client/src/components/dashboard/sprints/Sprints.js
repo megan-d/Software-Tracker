@@ -31,9 +31,9 @@ const Sprints = (props) => {
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
-      <h2>My Sprints</h2>
+      <h2 className='page-heading'>My Sprints</h2>
       <p>View your sprints. Select a sprint to view details.</p>
-      <hr ></hr>
+      <hr className='hr'></hr>
       {isLoading ? (
         <Spinner />
       ) : (

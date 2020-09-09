@@ -16,6 +16,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'space-between',
     color: '#333333',
+    minHeight: 126
   },
   bullet: {
     display: 'inline-block',
@@ -23,28 +24,30 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   title: {
-    fontSize: 14,
+    fontSize: 17,
+    fontWeight: 500,
+    fontStyle: 'italic'
   },
   pos: {
     marginBottom: 12,
   },
 });
 
-export default function ProjectCard({name, description, id}) {
+export default function ProjectCard({name, description, id, color}) {
   const classes = useStyles();
 
   let history = useHistory();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{border: `2px solid ${color}`}}>
       <CardContent>
-        <Typography variant="h6" component="h2">
+        <Typography  className={classes.title}>
           {name}
         </Typography>
       </CardContent>
       <CardActions>
         <Button onClick={async() => {
-          history.push(`/projects/${id}`)}} style={{color: '#333333'}}>View Details</Button>
+          history.push(`/projects/${id}`)}} style={{color: '#333333', fontSize: '12px'}}>View Details</Button>
       </CardActions>
     </Card>
   );

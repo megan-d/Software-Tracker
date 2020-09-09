@@ -17,17 +17,22 @@ import MaterialTable from 'material-table';
 
 const StyledLink = styled(Link)`
   color: white;
-  background: grey;
+  background-color: #577590;
   text-decoration: none;
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
-  max-width: 160px;
+  max-width: 180px;
+  width: 180px;
   text-align: center;
   margin: 10px 0px;
+  height: 40px;
   display: block;
   font-weight: bold;
   font-family: Roboto, sans-serif;
+  &:hover {
+    background-color: #204051; 
+  }
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -84,6 +89,17 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(1),
   },
+  button: {
+    backgroundColor: '#f94144',
+    color: 'white',
+    fontSize: 14,
+    maxWidth: 180,
+    width: 180,
+    height: 40,
+    '&:hover': {
+      backgroundColor: 'red',
+  }
+  }
 }));
 
 const Ticket = (props) => {
@@ -125,8 +141,11 @@ const Ticket = (props) => {
         <Spinner />
       ) : (
         <Fragment>
+          <div style={{display: 'flex'}}>
           <ConfirmationNumberIcon />
-          <div>Title: {ticket.title}</div>
+          <h2 className='page-heading'>{ticket.title}</h2>
+          </div>
+          <hr className='hr'></hr>
           <div>Description: {ticket.description}</div>
           <div>Assigned Dev: {ticket.assignedDeveloper.username}</div>
           <ul>Ticket comments:</ul>
@@ -191,7 +210,7 @@ const Ticket = (props) => {
               </FormControl>
               <Button
                 variant='contained'
-                color='primary'
+                color='default'
                 onClick={async () => {
                   await addTicketToSprint(
                     sprint,
@@ -207,7 +226,7 @@ const Ticket = (props) => {
           )}
           <Button
             variant='contained'
-            color='secondary'
+            className={classes.button}
             startIcon={<DeleteIcon />}
             onClick={async () =>
               deleteTicket(ticket.project._id, ticket._id, props.history)

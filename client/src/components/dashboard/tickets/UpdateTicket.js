@@ -218,8 +218,8 @@ export default function UpdateTicket(props) {
 
   return (
     <Wrapper>
-      <h2>Update Ticket</h2>
-      <hr></hr>
+      <h2 className='page-heading'>Update Ticket</h2>
+      <hr className='hr'></hr>
       <p>
         Please ensure that you provide a type of change for the ticket's
         history.

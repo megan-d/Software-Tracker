@@ -50,11 +50,11 @@ const Tickets = (props) => {
   //TODO: Need to fix loading so there aren't two spinners. One is coming from PrivateRoute component
   return (
     <Wrapper>
-      <h2>My Tickets</h2>
+      <h2 className='page-heading'>My Tickets</h2>
       <p>
         View your assigned tickets. Select a ticket to view the ticket details.
       </p>
-      <hr></hr>
+      <hr className='hr'></hr>
       {isLoading ? (
         <Spinner />
       ) : (

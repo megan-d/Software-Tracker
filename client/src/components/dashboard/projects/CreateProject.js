@@ -179,8 +179,8 @@ const CreateProject = ({ history }) => {
 
   return (
     <Wrapper>
-      <h2>Create a New Project</h2>
-      <hr></hr>
+      <h2 className='page-heading'>Create a New Project</h2>
+      <hr className='hr'></hr>
 
       <Grid container component='main' className={classes.root}>
         <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>

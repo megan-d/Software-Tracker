@@ -182,8 +182,8 @@ const UpdateSprint = (props) => {
 
   return (
     <Wrapper>
-      <h2>Update Sprint</h2>
-      <hr></hr>
+      <h2 className='page-heading'>Update Sprint</h2>
+      <hr className='hr'></hr>
       <p>Please ensure that you provide a status for the sprint's history.</p>
       {!sprint ? (
         <Spinner />

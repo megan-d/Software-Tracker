@@ -26,6 +26,17 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  button: {
+    backgroundColor: '#f94144',
+    color: 'white',
+    fontSize: 14,
+    maxWidth: 180,
+    width: 180,
+    height: 40,
+    '&:hover': {
+      backgroundColor: 'red',
+  }
+  }
 }));
 
 const colors = [
@@ -41,17 +52,22 @@ const colors = [
 
 const StyledLink = styled(Link)`
   color: white;
-  background: grey;
+  background-color: #577590;
   text-decoration: none;
   border-radius: 3px;
   padding: 10px;
   font-size: 14px;
-  max-width: 160px;
+  max-width: 180px;
+  width: 180px;
   text-align: center;
   margin: 10px 0px;
+  height: 40px;
   display: block;
   font-weight: bold;
   font-family: Roboto, sans-serif;
+  &:hover {
+    background-color: #204051; 
+  }
 `;
 
 function ListItemLink(props) {
@@ -109,11 +125,13 @@ const Project = (props) => {
       ) : (
         <Fragment>
           <AlertBanner />
-          <h2>{project.name}</h2>
+          <h2 className='page-heading'>{project.name}</h2>
+          <hr className='hr'></hr>
           <p>Description: {project.description}</p>
           <p>Target completion date: {project.targetCompletionDate}</p>
 
           <MaterialTable
+          style={{marginTop: '20px'}}
             localization={{
               header: {
                 actions: '',
@@ -142,12 +160,17 @@ const Project = (props) => {
                   padding: '0px',
                 },
               },
+              headerStyle: {
+                backgroundColor: '#204051',
+                color: '#fafafa',
+              },
             }}
             onRowClick={async (event, rowData) => {
               history.push(`/ticket/${rowData.id}`);
             }}
           />
           <MaterialTable
+          style={{marginTop: '20px'}}
             localization={{
               header: {
                 actions: '',
@@ -174,6 +197,10 @@ const Project = (props) => {
                   padding: '0px',
                 },
               },
+              headerStyle: {
+                backgroundColor: '#204051',
+                color: '#fafafa',
+              },
             }}
             onRowClick={async (event, rowData) => {
               history.push(`/sprint/${rowData.id}`);
@@ -184,6 +211,7 @@ const Project = (props) => {
           {project.developers.length > 0 && project.developers[0].username ?
             (project.developers.map((el, index) => {
               return (
+                <ListItemLink to={`/profiles/${el._id}`}>
                 <ListItem button key={el._id}>
                   <ListItemIcon>
                     <Avatar
@@ -199,10 +227,11 @@ const Project = (props) => {
                       {el.lastName.charAt(0).toUpperCase()}
                     </Avatar>
                   </ListItemIcon>
-                  <ListItemLink to={`/profiles/${el._id}`}>
+                  
                     <ListItemText primary={el.username}/>
-                  </ListItemLink>
+                  
                 </ListItem>
+                </ListItemLink>
               );
             })): ('')}
 
@@ -256,6 +285,7 @@ const Project = (props) => {
                 variant='contained'
                 startIcon={<DeleteIcon />}
                 onClick={async () => deleteProject(project._id, props.history)}
+                className={classes.button}
               >
                 Delete Project
               </Button>

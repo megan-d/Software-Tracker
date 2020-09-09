@@ -198,8 +198,8 @@ const SubmitTicket = (props) => {
 
   return (
     <Wrapper>
-      <h2>Create a New Ticket</h2>
-      <hr></hr>
+      <h2 className='page-heading'>Create a New Ticket</h2>
+      <hr className='hr'></hr>
       {!project ? (
         <Spinner />
       ) : (
