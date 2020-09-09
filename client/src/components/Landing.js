@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import PlainHeader from '../components/layout/PlainHeader';
 import Footer from './layout/Footer';
-import desk from '../assets/images/desk.jpg';
+import laptop from '../assets/images/laptop.jpg';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -19,7 +19,15 @@ const useStyles = makeStyles((theme) => ({
   },
   heroContent: {
     // backgroundColor: '#e5e0db',
-    padding: theme.spacing(22, 0, 6),
+    // padding: theme.spacing(30, 0, 6),
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '97vh',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '95%',
+    textAlign: 'center',
+    margin: '0 auto'
   },
   heroTitle: {
     width: '100%',
@@ -43,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     minHeight: '97vh',
     overflow: 'auto',
-    backgroundImage: `url(${desk})`,
+    position: 'relative',
+    backgroundImage: `url(${laptop})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'bottom',
@@ -108,9 +117,8 @@ export default function Landing() {
                 Collaborate
               </span>
             </Typography>
-            <Typography align='center' paragraph style={{ color: '#333333' }}>
-              We provide software professionals with a solution for project
-              management and issue tracking along with a community to
+            <Typography paragraph style={{ color: '#333333', fontSize: '17px', width: '75%', margin: '0 auto'}}>
+              Project management and issue tracking along with a community of developers to
               collaborate with
             </Typography>
             <div className={classes.heroButtons}>
