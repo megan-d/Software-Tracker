@@ -27,12 +27,15 @@ const TicketsByProjectBar = () => {
 
   //Create background colors to cycle through
   const colors = [
-    'rgba(129, 73, 131, 1)',
-    'rgba(233, 176, 0, 1)',
-    'rgba(235, 110, 128, 1)',
-    'rgba(0, 143, 149, 1)',
-    'rgba(103, 181, 65, 0.9)',
-    'rgba(42, 27, 61, 0.9)',
+    '#577590',
+    '#43AA8B',
+    'grey',
+    '#F9C74F',
+    '#90BE6D',
+    '#f94144',
+    '#203a43',
+    '#F3722C',
+    '#F8961E',
   ];
 
   //filter all of the projects to only include onces that the current user owns (their project)
@@ -40,9 +43,8 @@ const TicketsByProjectBar = () => {
   //Create object to keep track of how many tickets for each project
   const projectTickets = {};
   filteredProjects.forEach((el) => {
-    projectTickets[el.name] = el.tickets.length
+    projectTickets[el.name] = el.tickets.length;
   });
-  
 
   //To display the duration for each category, get the values of each key with Object.values
   const chartData = {
@@ -77,8 +79,8 @@ const TicketsByProjectBar = () => {
               responsive: true,
               title: {
                 display: true,
-                text: 'My Total Tickets by Project',
-                fontSize: 14
+                text: 'Total Tickets by Project',
+                fontSize: 14,
               },
               legend: {
                 display: false,
@@ -91,7 +93,7 @@ const TicketsByProjectBar = () => {
                     scaleLabel: {
                       display: true,
                       labelString: 'Total Tickets',
-                      fontSize: 14
+                      fontSize: 14,
                     },
                     ticks: {
                       beginAtZero: true,
@@ -104,7 +106,7 @@ const TicketsByProjectBar = () => {
                     scaleLabel: {
                       display: true,
                       labelString: 'Project Name',
-                      fontSize: 14
+                      fontSize: 14,
                     },
                   },
                 ],

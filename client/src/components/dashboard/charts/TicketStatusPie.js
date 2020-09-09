@@ -49,7 +49,9 @@ const TicketStatusPieChart = () => {
       {
         label: 'Ticket Status',
         data: Object.values(ticketStatuses),
-        backgroundColor: ['#eb6e80', '#008f95', '#009f34'],
+        backgroundColor: ['#90BE6D',
+        '#43AA8B',
+        '#577590',],
       },
     ],
   };

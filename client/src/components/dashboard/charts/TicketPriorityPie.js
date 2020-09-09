@@ -50,9 +50,9 @@ const TicketPriorityPie = () => {
     labels: ['1-Low', '2-Medium', '3-High', '4-Critical'],
     datasets: [
       {
-        label: 'Ticket Priority',
+        label: ['Ticket Priority'],
         data: Object.values(ticketPriorities),
-        backgroundColor: ['#eb6e80', '#008f95', '#009f34', '#009f76'],
+        backgroundColor: ['#203a43', '#f9c74f', '#F3722C', '#f94144'],
       },
     ],
   };
