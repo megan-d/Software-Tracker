@@ -4,7 +4,7 @@ import { TicketContext } from '../../../context/tickets/TicketContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
+import { StyledGreyLink, StyledDeleteButton } from '../../../styles/styledComponents/StyledLinks';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
@@ -26,17 +26,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
-  button: {
-    backgroundColor: '#f94144',
-    color: 'white',
-    fontSize: 14,
-    maxWidth: 180,
-    width: 180,
-    height: 40,
-    '&:hover': {
-      backgroundColor: 'red',
-  }
-  }
 }));
 
 const colors = [
@@ -49,26 +38,6 @@ const colors = [
   '#577590',
   '##f3f3f3'
 ];
-
-const StyledLink = styled(Link)`
-  color: white;
-  background-color: #577590;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  max-width: 180px;
-  width: 180px;
-  text-align: center;
-  margin: 10px 0px;
-  height: 40px;
-  display: block;
-  font-weight: bold;
-  font-family: Roboto, sans-serif;
-  &:hover {
-    background-color: #204051; 
-  }
-`;
 
 function ListItemLink(props) {
   return <Link {...props} style={{ textDecoration: 'none', color: 'grey' }} />;
@@ -251,55 +220,50 @@ const Project = (props) => {
             project.comments.map((el) => <li key={el._id}>{el.comment}</li>)
           )}
 
-          <StyledLink
+          <StyledGreyLink
             variant='contained'
-            color='primary'
             to={`/projects/submitticket/${project._id}`}
           >
             Add Ticket
-          </StyledLink>
-          <StyledLink
+          </StyledGreyLink>
+          <StyledGreyLink
             variant='contained'
-            color='primary'
             to={`/projects/createsprint/${project._id}`}
           >
             Add Sprint
-          </StyledLink>
-          <StyledLink
+          </StyledGreyLink>
+          <StyledGreyLink
             variant='contained'
-            color='primary'
             to={`/projects/comment/${project._id}`}
           >
             Comment on Project
-          </StyledLink>
+          </StyledGreyLink>
           {user._id === project.owner ? (
             <Fragment>
-              <StyledLink
+              <StyledGreyLink
                 variant='contained'
-                color='primary'
                 to={`/projects/${project._id}/edit`}
               >
                 Edit Project
-              </StyledLink>
-              <Button
+              </StyledGreyLink>
+              <StyledDeleteButton
                 variant='contained'
                 startIcon={<DeleteIcon />}
                 onClick={async () => deleteProject(project._id, props.history)}
                 className={classes.button}
               >
                 Delete Project
-              </Button>
+              </StyledDeleteButton>
             </Fragment>
           ) : null}
           {user._id === project.manager && user._id !== project.owner ? (
             <Fragment>
-              <StyledLink
+              <StyledGreyLink
                 variant='contained'
-                color='primary'
                 to={`/projects/${project._id}/edit`}
               >
                 Edit Project
-              </StyledLink>
+              </StyledGreyLink>
             </Fragment>
           ) : null}
         </Fragment>

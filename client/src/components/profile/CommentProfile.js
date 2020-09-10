@@ -73,7 +73,13 @@ const StyledBlueButton = styled.button`
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // height: '100vh',
+    height: '100%',
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#204051',
+    },
+    '& label.Mui-focused': {
+      color: '#204051',
+    },
   },
   paper: {
     margin: theme.spacing(4, 4),
@@ -145,9 +151,9 @@ const CommentProfile = (props) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h2>Comment on {profile.user.username}'s Profile</h2>
+          <h2 className='page-heading'>Comment on {profile.user.username}'s Profile</h2>
           <p>Leave a comment or request to collaborate</p>
-          <hr></hr>
+          <hr className='hr'></hr>
 
           <Grid container component='main' className={classes.root}>
             <Grid

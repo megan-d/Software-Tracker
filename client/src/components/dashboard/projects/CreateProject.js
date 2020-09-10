@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
-import Button from '@material-ui/core/Button';
+import { StyledRedLink, StyledGreyLink, StyledBlueButton } from '../../../styles/styledComponents/StyledLinks';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
@@ -13,77 +12,16 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import styled from 'styled-components';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-
-const StyledGreyLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #808080;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 160px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  height: 40px;
-  font-weight: bold;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledRedLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #f50757;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 80px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledBlueButton = styled.button`
-  color: white;
-  font-family: Roboto, sans-serif;
-  cursor: pointer;
-  background-color: #3f51b5;
-  text-decoration: none;
-  border: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 80px;
-  max-width: 160px;
-  text-align: center;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // height: '100vh',
+    height: '100%',
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#204051',
+    },
+    '& label.Mui-focused': {
+      color: '#204051',
+    },
   },
   paper: {
     margin: theme.spacing(4, 4),
@@ -96,9 +34,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -110,10 +45,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 200,
-  },
-  buttons: {
-    marginRight: '10px',
-    marginTop: '20px',
   },
 }));
 
@@ -318,19 +249,11 @@ const CreateProject = ({ history }) => {
                 }}
               />
               <AlertBanner />
-              <StyledBlueButton
-                type='submit'
-                className={classes.buttons}
-                onClick={(e) => onSubmit(e)}
-              >
+              <StyledBlueButton type='submit' onClick={(e) => onSubmit(e)}>
                 SUBMIT
               </StyledBlueButton>
-              <StyledRedLink to='/projects' className={classes.buttons}>
-                CANCEL
-              </StyledRedLink>
-              <StyledGreyLink to='/projects' className={classes.buttons}>
-                BACK TO PROJECTS
-              </StyledGreyLink>
+              <StyledRedLink to='/projects'>CANCEL</StyledRedLink>
+              <StyledGreyLink to='/projects'>BACK TO PROJECTS</StyledGreyLink>
             </form>
           </div>
         </Grid>

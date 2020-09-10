@@ -31,6 +31,9 @@ const StyledLink = styled(Link)`
   margin: 10px 0px;
   display: block;
   font-weight: bold;
+  &:hover {
+  box-shadow: 0 3px 6px 0px #777;
+}
 `;
 
 const StyledHr = styled.hr`
@@ -66,14 +69,16 @@ const useStyles = makeStyles({
 });
 
 const colors = [
+
+  'grey',
+  '#F3722C',
+  '#F8961E',
+  '#F9C74F',
+  '#90BE6D',
+  '#43AA8B',
+  '#577590',
+
   '#203a43',
-    '#F3722C',
-    '#F8961E',
-    '#F9C74F',
-    '#90BE6D',
-    '#43AA8B',
-    '#577590',
-    'grey'
 ];
 
 const Projects = (props) => {
@@ -84,6 +89,7 @@ const Projects = (props) => {
     clearProject,
     clearProjects,
   } = useContext(ProjectContext);
+
   const { user } = useContext(AuthContext);
 
   const classes = useStyles();
@@ -125,7 +131,9 @@ const Projects = (props) => {
           <h3 className='subheading'>My Projects</h3>
 
           <StyledCards>
-            {myProjects.length > 0 ? (
+            {!projects && !isLoading ? (
+              <p>No projects available</p>
+            ) : (
               myProjects.map((el, index) => {
                 return (
                   <ProjectCard
@@ -137,15 +145,6 @@ const Projects = (props) => {
                   />
                 );
               })
-            ) : (
-              <Card
-                className={classes.root}
-                style={{ border: `1px solid #f3f3f3` }}
-              >
-                <CardContent>
-                  <Typography>No projects available</Typography>
-                </CardContent>
-              </Card>
             )}
           </StyledCards>
           <h3 className='subheading'>Projects I'm managing</h3>

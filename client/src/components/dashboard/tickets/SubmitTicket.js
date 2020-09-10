@@ -105,7 +105,13 @@ const StyledBlueAssignButton = styled.button`
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // height: '100vh',
+    height: '100%',
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#204051',
+    },
+    '& label.Mui-focused': {
+      color: '#204051',
+    },
   },
   paper: {
     margin: theme.spacing(4, 4),

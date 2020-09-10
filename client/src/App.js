@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import './index.css';
-import GlobalStyle from './components/GlobalStyle';
+import './styles/index.css';
+import GlobalStyle from './styles/GlobalStyle';
 import Landing from './components/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
