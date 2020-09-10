@@ -78,7 +78,7 @@ font-size: 14px;
 max-width: 180px;
 width: 180px;
 text-align: center;
-margin: 10px 0px;
+margin: 10px 5px 10px 0px;
 height: 40px;
 display: inline-block;
 font-weight: 500;

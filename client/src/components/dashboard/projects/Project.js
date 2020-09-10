@@ -110,6 +110,7 @@ const Project = (props) => {
             columns={ticketColumns}
             data={project.tickets.map((el) => {
               return {
+                key: el._id,
                 id: el._id,
                 title: el.title,
                 type: el.type,
@@ -149,6 +150,7 @@ const Project = (props) => {
             columns={sprintColumns}
             data={project.sprints.map((el) => {
               return {
+                key: el._id,
                 id: el._id,
                 title: el.title,
                 startDate: el.startDate,
@@ -180,8 +182,8 @@ const Project = (props) => {
           {project.developers.length > 0 && project.developers[0].username ?
             (project.developers.map((el, index) => {
               return (
-                <ListItemLink to={`/profiles/${el._id}`}>
-                <ListItem button key={el._id}>
+                <ListItemLink to={`/profiles/${el._id}`} key={el._id}>
+                <ListItem button >
                   <ListItemIcon>
                     <Avatar
                       className={classes.root}

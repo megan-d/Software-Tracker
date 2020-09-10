@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { StyledRedLink, StyledGreyLink, StyledBlueButton, StyledGreyButton, StyledDeleteButton } from '../../../styles/styledComponents/StyledLinks';
+import { StyledGreyLink, StyledGreyButton, StyledDeleteButton } from '../../../styles/styledComponents/StyledLinks';
 import axios from 'axios';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   formControl: {
-    margin: theme.spacing(1),
     maxWidth: '300px',
     display: 'block',
   },
@@ -160,8 +159,9 @@ const Ticket = (props) => {
             ''
           ) : (
             <Fragment>
+              
               <FormControl variant='outlined' className={classes.formControl}>
-                <InputLabel htmlFor='sprint'>Add Ticket to Sprint:</InputLabel>
+                <InputLabel htmlFor='sprint'>Select Sprint:</InputLabel>
                 <Select
                 className={classes.dropdown}
                   native
@@ -180,8 +180,10 @@ const Ticket = (props) => {
                     </option>
                   ))}
                 </Select>
+                
               </FormControl>
               <StyledGreyButton
+              style={{display: 'inline-block'}}
                 variant='contained'
                 color='default'
                 onClick={async () => {
@@ -193,8 +195,9 @@ const Ticket = (props) => {
                   );
                 }}
               >
-                Add Selected Ticket
+                Add Ticket to Sprint
               </StyledGreyButton>
+              
             </Fragment>
           )}
           <StyledDeleteButton

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AlertBanner from '../../layout/AlertBanner';
+import { StyledRedLink, StyledGreyLink, StyledBlueButton, StyledGreyButton } from '../../../styles/styledComponents/StyledLinks';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
@@ -18,66 +19,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import styled from 'styled-components';
 
-const StyledGreyLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #808080;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 160px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  height: 40px;
-  font-weight: bold;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledRedLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #f50757;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 80px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledBlueButton = styled.button`
-  color: white;
-  font-family: Roboto, sans-serif;
-  cursor: pointer;
-  background-color: #3f51b5;
-  text-decoration: none;
-  border: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 80px;
-  max-width: 160px;
-  text-align: center;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,15 +45,16 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   formControl: {
-    margin: theme.spacing(1),
+    marginTop: theme.spacing(1),
     minWidth: '85%',
-    maxWidth: '85%',
   },
   selectEmpty: {
     marginTop: theme.spacing(0),
   },
+  select: {
+    marginTop: theme.spacing(1),
+  },
   textField: {
-    marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     minWidth: '85%',
     maxWidth: '85%',
@@ -254,6 +196,7 @@ export default function UpdateTicket(props) {
                   <Select
                     required
                     autoFocus
+                    fullWidth
                     native
                     value={history}
                     onChange={(e) => onChange(e)}
@@ -283,6 +226,7 @@ export default function UpdateTicket(props) {
                     required
                     placeholder={ticket.type}
                     native
+                    fullWidth
                     value={type}
                     onChange={(e) => onChange(e)}
                     label='Ticket Type'
@@ -301,6 +245,7 @@ export default function UpdateTicket(props) {
                   className={classes.textField}
                   autoComplete='title'
                   label='Title'
+                  fullWidth
                   placeholder={ticket.title}
                   name='title'
                   variant='outlined'
@@ -318,6 +263,7 @@ export default function UpdateTicket(props) {
                     required
                     placeholder={ticket.priority}
                     native
+                    fullWidth
                     value={priority}
                     onChange={(e) => onChange(e)}
                     label='Priority'
@@ -338,6 +284,7 @@ export default function UpdateTicket(props) {
                   autoComplete='description'
                   label='Ticket Description'
                   multiline
+                  fullWidth
                   rows={6}
                   placeholder={ticket.description}
                   name='description'
@@ -354,6 +301,7 @@ export default function UpdateTicket(props) {
                   <InputLabel htmlFor='status'>Status</InputLabel>
                   <Select
                     required
+                    fullWidth
                     placeholder={ticket.status}
                     native
                     value={status}
@@ -374,6 +322,7 @@ export default function UpdateTicket(props) {
                 <TextField
                   className={classes.textField}
                   variant='outlined'
+                  fullWidth
                   placeholder={ticket.assignedDeveloper.username}
                   name='assignedDeveloper'
                   label='Assigned Developer Username'
@@ -436,6 +385,7 @@ export default function UpdateTicket(props) {
                   name='resolutionSummary'
                   placeholder={resolutionSummary}
                   variant='outlined'
+                  fullWidth
                   id='resolutionSummary'
                   label='Summary of Ticket Resolution'
                   value={resolutionSummary}

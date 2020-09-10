@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
-import Button from '@material-ui/core/Button';
+import { StyledRedLink, StyledGreyLink, StyledBlueButton, StyledGreyButton } from '../../../styles/styledComponents/StyledLinks';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
@@ -21,87 +21,26 @@ import {
 import FormControl from '@material-ui/core/FormControl';
 import styled from 'styled-components';
 
-const StyledGreyLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #808080;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 140px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  height: 40px;
-  font-weight: bold;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledRedLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #f50757;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 80px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledBlueButton = styled.button`
-  color: white;
-  font-family: Roboto, sans-serif;
-  cursor: pointer;
-  background-color: #3f51b5;
-  text-decoration: none;
-  border: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 80px;
-  max-width: 160px;
-  text-align: center;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledBlueAssignButton = styled.button`
-  color: white;
-  font-family: Roboto, sans-serif;
-  cursor: pointer;
-  background-color: #3f51b5;
-  text-decoration: none;
-  border: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 140px;
-  max-width: 160px;
-  text-align: center;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
+// const StyledBlueAssignButton = styled.button`
+//   color: white;
+//   font-family: Roboto, sans-serif;
+//   cursor: pointer;
+//   background-color: #3f51b5;
+//   text-decoration: none;
+//   border: none;
+//   border-radius: 3px;
+//   padding: 10px;
+//   font-size: 14px;
+//   width: 140px;
+//   max-width: 160px;
+//   text-align: center;
+//   margin: 10px 0px;
+//   display: block;
+//   font-weight: bold;
+//   height: 40px;
+//   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+//   display: inline-block;
+// `;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -331,13 +270,14 @@ const SubmitTicket = (props) => {
                     shrink: true,
                   }}
                 />
-                <StyledBlueAssignButton
+                <StyledGreyButton
+                style={{width: '180px', display: 'inline-block'}}
                   className={classes.buttons}
                   onClick={(e) => assignSelf(e)}
                 >
                   Assign to Self
-                </StyledBlueAssignButton>
-                <StyledGreyLink to='/profiles'>
+                </StyledGreyButton>
+                <StyledGreyLink to='/profiles' style={{display: 'inline-block'}}>
                   Search for user...
                 </StyledGreyLink>
                 <AlertBanner />
