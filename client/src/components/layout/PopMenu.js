@@ -25,7 +25,7 @@ export default function PopMenu() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
-  const { logoutUser } = useContext(AuthContext);
+  const { logoutUser, user } = useContext(AuthContext);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -89,8 +89,16 @@ export default function PopMenu() {
                     id='menu-list-grow'
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem component={Link} onClick={handleClose} to='/profiles/user/me'>My Profile</MenuItem>
-                    <MenuItem component={Link} onClick={logoutUser} to='/'>Logout</MenuItem>
+                    <MenuItem
+                      component={Link}
+                      onClick={handleClose}
+                      to={`/profiles/me/${user._id}`}
+                    >
+                      My Profile
+                    </MenuItem>
+                    <MenuItem component={Link} onClick={logoutUser} to='/'>
+                      Logout
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

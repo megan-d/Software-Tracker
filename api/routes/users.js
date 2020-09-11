@@ -132,7 +132,7 @@ router.post(
 //ROUTE: PUT api/users
 //DESCRIPTION: Update user information. Will need a different route to update password.
 //ACCESS LEVEL: Private
-//TODO: This can also be where if you have admin permissions, you can update the role of a user. Need to add this functionality here and to UI. This needs to be adjusted so that an admin can update the role of another user not just themselves.
+
 router.put(
   '/',
   verify,
@@ -239,7 +239,6 @@ router.put(
 //DESCRIPTION: Delete user
 //ACCESS LEVEL: Private
 
-//TODO: Also need to delete user's profile and projects when delete account
 router.delete('/', verify, async (req, res) => {
   try {
     //First delete profile for user

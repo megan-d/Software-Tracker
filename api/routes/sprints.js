@@ -16,7 +16,6 @@ const Sprint = require('../models/Sprint');
 router.get('/me', verify, async (req, res) => {
   try {
     //   Find the all sprints assigned to the user based on the id that comes in with the request's token.
-    //TODO: Test if this will work as written
     const assignedSprints = await Sprint.find({
       $or: [
         { developers: { _id: req.user.id } },
@@ -207,7 +206,6 @@ router.post(
 //DESCRIPTION: Update an existing sprint
 //ACCESS LEVEL: Private
 
-//TODO: Consider adding developers to sprints by just adding the assignedDeveloper from the ticket that is added to the sprint
 router.put(
   '/:project_id/:sprint_id',
   [

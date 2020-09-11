@@ -454,7 +454,7 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
       project.manager.toString() === req.user.id ||
       project.owner.toString() === req.user.id
     ) {
-      //TODO: also delete tickets associated with project when a project is deleted
+      
       await Ticket.findOneAndRemove({ _id: req.params.ticket_id });
 
       let tickets = project.tickets;

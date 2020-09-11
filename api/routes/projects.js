@@ -107,7 +107,6 @@ router.post(
     }
 
     //Pull all of the fields out into variables from req.body.
-    //TODO: Need to figure out how manager can be assigned so not just current user is manager (e.g., if admin wants to assign a different manager.)
     const {
       name,
       description,
@@ -184,7 +183,6 @@ router.post(
 //DESCRIPTION: Update an existing project's details
 //ACCESS LEVEL: Private
 //Must be Manager on the project or admin to update it
-//TODO: Will also need a route to delete a developer from a project. This can be future phase.
 router.put(
   '/:project_id',
   verify,
@@ -396,7 +394,7 @@ router.put(
   },
 );
 
-//TODO: Add Route to delete comments and delete developer
+
 
 //ROUTE: DELETE api/projects/:project_id
 //DESCRIPTION: Delete a project by project's id
@@ -410,6 +408,7 @@ router.delete('/:project_id', verify, async (req, res) => {
     //If the user is not an admin or the owner for the project, deny access.
     if (req.user.role === 'admin' || project.owner.toString() === req.user.id) {
       await Project.findOneAndRemove({ _id: req.params.project_id });
+      //Also delete tickets and sprints associated with the project
       await Ticket.deleteMany({
         project: {
           _id: req.params.project_id,
