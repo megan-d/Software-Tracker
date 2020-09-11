@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { StyledRedLink, StyledGreyLink, StyledBlueButton } from '../../../styles/styledComponents/StyledLinks';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,66 +11,6 @@ import Paper from '@material-ui/core/Paper';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import styled from 'styled-components';
 
-const StyledGreyLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #808080;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 160px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  height: 40px;
-  font-weight: bold;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledRedLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #f50757;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 80px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledBlueButton = styled.button`
-  color: white;
-  font-family: Roboto, sans-serif;
-  cursor: pointer;
-  background-color: #3f51b5;
-  text-decoration: none;
-  border: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 80px;
-  max-width: 160px;
-  text-align: center;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MaterialTable from 'material-table';
+import { StyledGreyLink, StyledDeleteButton } from '../../../styles/styledComponents/StyledLinks';
 import { SprintContext } from '../../../context/sprints/SprintContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
@@ -20,26 +21,6 @@ import styled from 'styled-components';
 import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-
-const StyledLink = styled(Link)`
-  color: white;
-  background-color: #577590;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  max-width: 180px;
-  width: 180px;
-  text-align: center;
-  margin: 10px 0px;
-  height: 40px;
-  display: block;
-  font-weight: bold;
-  font-family: Roboto, sans-serif;
-  &:hover {
-    background-color: #204051; 
-  }
-`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -204,22 +185,22 @@ const Sprint = (props) => {
               props.history.push(`/ticket/${rowData.id}`);
             }}
           />
-          <StyledLink
+          <StyledGreyLink
             variant='contained'
             color='primary'
             to={`/projects/sprints/comment/${sprint._id}`}
           >
             Comment on Sprint
-          </StyledLink>
-          <StyledLink
+          </StyledGreyLink>
+          <StyledGreyLink
             variant='contained'
             color='primary'
             to={`/projects/sprints/updatesprint/${sprint._id}`}
           >
             Edit Sprint
-          </StyledLink>
+          </StyledGreyLink>
 
-          <Button
+          <StyledDeleteButton
             variant='contained'
             className={classes.button}
             startIcon={<DeleteIcon />}
@@ -228,7 +209,7 @@ const Sprint = (props) => {
             }
           >
             Delete Sprint
-          </Button>
+          </StyledDeleteButton>
         </Fragment>
       )}
     </Wrapper>

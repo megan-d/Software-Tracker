@@ -409,7 +409,6 @@ router.delete('/:project_id', verify, async (req, res) => {
 
     //If the user is not an admin or the owner for the project, deny access.
     if (req.user.role === 'admin' || project.owner.toString() === req.user.id) {
-      
       await Project.findOneAndRemove({ _id: req.params.project_id });
       await Ticket.deleteMany({
         project: {

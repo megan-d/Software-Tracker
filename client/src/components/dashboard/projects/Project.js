@@ -98,7 +98,6 @@ const Project = (props) => {
           <hr className='hr'></hr>
           <p>Description: {project.description}</p>
           <p>Target completion date: {project.targetCompletionDate}</p>
-
           <MaterialTable
           style={{marginTop: '20px'}}
             localization={{

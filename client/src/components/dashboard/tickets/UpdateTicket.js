@@ -168,7 +168,7 @@ export default function UpdateTicket(props) {
     <Wrapper>
       <h2 className='page-heading'>Update Ticket</h2>
       <hr className='hr'></hr>
-      <p>
+      <p style={{marginBottom: '10px'}}>
         Please ensure that you provide a type of change for the ticket's
         history.
       </p>

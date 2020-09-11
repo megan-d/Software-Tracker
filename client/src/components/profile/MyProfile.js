@@ -4,6 +4,7 @@ import AlertBanner from '../layout/AlertBanner';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
+import { StyledRedLink, StyledGreyLink, StyledDeleteButton } from '../../styles/styledComponents/StyledLinks';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 import Spinner from '../layout/Spinner';
 import Button from '@material-ui/core/Button';
@@ -23,49 +24,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StyledGreyLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #808080;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 160px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  height: 40px;
-  font-weight: bold;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-const StyledRedLink = styled(Link)`
-  color: white;
-  font-family: Roboto, sans-serif;
-  background-color: #f50757;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  width: 80px;
-  max-width: 160px;
-  text-align: center;
-  cursor: pointer;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
-  height: 40px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  display: inline-block;
-`;
-
-function ListItemLink(props) {
-  return <ListItem button component='a' {...props} />;
-}
+// function ListItemLink(props) {
+//   return <ListItem button component='a' {...props} />;
+// }
 
 const MyProfile = (props) => {
   const classes = useStyles();
@@ -137,14 +98,15 @@ const MyProfile = (props) => {
                 Edit Profile
               </StyledGreyLink>
               <p>Select the button below to delete your profile AND account. Warning: This cannot be undone. </p>
-              <Button
+              <StyledDeleteButton
+              style={{minWidth: '230px'}}
                 variant='contained'
                 color='secondary'
                 startIcon={<DeleteIcon />}
                 onClick={async () => deleteUser(props.history)}
               >
                 Delete Profile and Account
-              </Button>
+              </StyledDeleteButton>
             </Fragment>
           )}
         </Fragment>

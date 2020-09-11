@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 
 export const StyledRedLink = styled(Link)`
-color: #f3f3f3;
+color: white;
 background-color: #f94144;
 text-decoration: none;
 border-radius: 3px;
@@ -23,7 +23,7 @@ text-transform: uppercase;
 `;
 
 export const StyledGreyLink = styled(Link)`
-  color: #f3f3f3;
+  color: white;
   background-color: grey;
   text-decoration: none;
   border-radius: 3px;
@@ -45,7 +45,7 @@ export const StyledGreyLink = styled(Link)`
 `;
 
 export const StyledBlueButton = styled.button`
-color: #f3f3f3;
+color: white;
 background-color: #577590;
 text-decoration: none;
 border-radius: 3px;
@@ -68,7 +68,7 @@ text-transform: uppercase;
 `;
 
 export const StyledGreyButton = styled.button`
-color: #f3f3f3;
+color: white;
 background-color: grey;
 text-decoration: none;
 border-radius: 3px;
@@ -92,7 +92,7 @@ text-transform: uppercase;
 `;
 
 export const StyledDeleteButton = styled.button`
-color: #f3f3f3;
+color: white;
 border: 0px;
 cursor: pointer;
 background-color: #f94144;
