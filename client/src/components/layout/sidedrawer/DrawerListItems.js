@@ -29,7 +29,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to='/dashboard'>
           <ListItem button>
             <ListItemIcon>
-              <DashboardIcon style={{ color: '#577590' }} />
+              <DashboardIcon style={{ color: '#43aa8b' }} />
             </ListItemIcon>
             <ListItemText primary='Dashboard' />
           </ListItem>
@@ -38,7 +38,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to='/projects'>
           <ListItem button>
             <ListItemIcon>
-              <AssignmentIcon style={{ color: '#577590' }} />
+              <AssignmentIcon style={{ color: '#43aa8b' }} />
             </ListItemIcon>
             <ListItemText primary='Projects' />
           </ListItem>
@@ -47,7 +47,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to='/tickets'>
           <ListItem button>
             <ListItemIcon>
-              <ConfirmationNumberIcon style={{ color: '#577590' }} />
+              <ConfirmationNumberIcon style={{ color: '#43aa8b' }} />
             </ListItemIcon>
             <ListItemText primary='My Assigned Tickets' />
           </ListItem>
@@ -56,7 +56,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to='/sprints'>
           <ListItem button>
             <ListItemIcon>
-              <GroupWorkIcon style={{ color: '#577590' }} />
+              <GroupWorkIcon style={{ color: '#43aa8b' }} />
             </ListItemIcon>
             <ListItemText primary='My Assigned Sprints' />
           </ListItem>
@@ -78,7 +78,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to={`/profiles/me/${user._id}`}>
           <ListItem button>
             <ListItemIcon>
-              <PersonIcon style={{ color: '#577590' }} />
+              <PersonIcon style={{ color: '#43aa8b' }} />
             </ListItemIcon>
             <ListItemText primary='My Profile' />
           </ListItem>
@@ -87,7 +87,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
         <StyledLink to='/' onClick={logoutUser}>
           <ListItem button>
             <ListItemIcon>
-              <ExitToAppIcon style={{ color: '#577590' }} />
+              <ExitToAppIcon style={{ color: '#43aa8b' }} />
             </ListItemIcon>
             <ListItemText primary='Logout' />
           </ListItem>

@@ -17,7 +17,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: #f3f3f3;
   &:hover {
-    color: white; 
+    color: #f8961e; 
   }
 `;
 
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   styledbutton: {
     color: '#f3f3f3',
     '&:hover': {
-      color: 'white',
+      color: '#f8961e',
   }
   }
   

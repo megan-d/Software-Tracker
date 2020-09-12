@@ -39,14 +39,14 @@ export const StyledGreyLink = styled(Link)`
   font-family: Roboto, sans-serif;
   text-transform: uppercase;
   &:hover {
-    background-color: #204051;
+    background-color: #f8961e;
     box-shadow: 0 3px 6px 0px #777;
   }
 `;
 
 export const StyledBlueButton = styled.button`
 color: white;
-background-color: #577590;
+background-color: #204051;
 text-decoration: none;
 border-radius: 3px;
 border: 0px;
@@ -87,7 +87,7 @@ font-family: Roboto, sans-serif;
 text-transform: uppercase;
 &:hover {
   box-shadow: 0 3px 6px 0px #777;
-  background-color: #204051;
+  background-color: #f8961e;
 }
 `;
 

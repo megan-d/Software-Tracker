@@ -42,6 +42,7 @@ footer p {
 .subheading {
   font-size: 18px;
   font-weight: 500;
+  font-style: italic;
 }
 
 .box-shadow {

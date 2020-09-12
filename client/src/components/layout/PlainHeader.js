@@ -13,7 +13,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: #f3f3f3;
   &:hover {
-    color: white; 
+    color: #f8961e; 
   }
 `;
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   styledbutton: {
     color: '#f3f3f3',
     '&:hover': {
-      color: 'white',
+      color: '#f8961e',
   }
   }
 }));
@@ -89,13 +89,13 @@ const PlainHeader = (props) => {
             <Fragment>
               {isAuthenticated ? (
                 <Fragment>
-                  <Button color='inherit' href='/dashboard'>
+                  <Button className={classes.styledbutton} color='inherit' href='/dashboard'>
                     My Dashboard
                   </Button>
-                  <Button color='inherit' href='/profiles'>
+                  <Button className={classes.styledbutton} color='inherit' href='/profiles'>
                     Developers
                   </Button>
-                  <Button color='inherit' onClick={logoutUser}>
+                  <Button className={classes.styledbutton} color='inherit' onClick={logoutUser}>
                     Logout
                   </Button>
                 </Fragment>
