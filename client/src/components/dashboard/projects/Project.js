@@ -2,6 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
+import clsx from 'clsx';
 import { Link, useHistory } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,6 +22,8 @@ import MaterialTable from 'material-table';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DevelopersList from '../developer/DevelopersList';
 import List from '@material-ui/core/List';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -31,6 +34,16 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+  },
+  fixedHeight: {
+    minHeight: 250,
+    height: 250,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
   },
 }));
 
@@ -51,6 +64,8 @@ function ListItemLink(props) {
 
 const Project = (props) => {
   const classes = useStyles();
+
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const {
     project,
@@ -108,7 +123,7 @@ const Project = (props) => {
               <h2 className='page-heading'>{project.name}</h2>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <h4 style={{marginRight: '6px'}}>Target completion date:</h4>
+              <h4 style={{ marginRight: '6px' }}>Target completion date:</h4>
               <p>
                 <Moment format='MM/DD/YYYY'>
                   {moment(project.targetCompletionDate)}
@@ -117,12 +132,52 @@ const Project = (props) => {
             </div>
           </div>
           <hr className='hr'></hr>
-          <h4>Description:</h4>
-          <p>{project.description}</p>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={9} lg={9}>
+              <Paper className={fixedHeightPaper}>
+              <h4>Project Description:</h4>
+                <p>{project.description}</p>
+              </Paper>
+            </Grid>
 
-          
+            <Grid item xs={12} md={3} lg={3} >
+              <Paper className={fixedHeightPaper} style={{alignItems: 'center'}}>
+              <StyledGreyLink
+            variant='contained'
+            to={`/projects/submitticket/${project._id}`}
+          >
+            Add Ticket
+          </StyledGreyLink>
+          <StyledGreyLink
+            variant='contained'
+            to={`/projects/createsprint/${project._id}`}
+          >
+            Add Sprint
+          </StyledGreyLink>
+          <StyledGreyLink
+            variant='contained'
+            to={`/projects/comment/${project._id}`}
+          >
+            Comment on Project
+          </StyledGreyLink>
+          {user._id === project.owner || user._id === project.manager ? (
+            <Fragment>
+              <StyledGreyLink
+                variant='contained'
+                to={`/projects/${project._id}/edit`}
+              >
+                Edit Project
+              </StyledGreyLink>
+            </Fragment>
+          ) : null}
+              </Paper>
+            </Grid>
+          </Grid>
 
-          <ul>Developers on Project:</ul>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper className={fixedHeightPaper}>
+              <ul>Developers on Project:</ul>
           {project.developers.length > 0 && project.developers[0].username
             ? project.developers.map((el, index) => {
                 return (
@@ -158,44 +213,28 @@ const Project = (props) => {
                 );
               })
             : ''}
+              </Paper>
+            </Grid>
 
-          <ul>Project Tech Stack:</ul>
-          {!project.techStack ? (
-            ''
-          ) : project.techStack.length === 0 && !isLoading ? (
-            <p>No listed technologies</p>
-          ) : (
-            project.techStack.map((el, index) => {
-              return <li key={index}>{el}</li>;
-            })
-          )}
-
-          <ul>Project comments:</ul>
-          {project.comments.length === 0 && !isLoading ? (
-            <p>There are no comments for this project</p>
-          ) : (
-            project.comments.map((el) => <li key={el._id}>{el.comment}</li>)
-          )}
-
-          <StyledGreyLink
-            variant='contained'
-            to={`/projects/submitticket/${project._id}`}
-          >
-            Add Ticket
-          </StyledGreyLink>
-          <StyledGreyLink
-            variant='contained'
-            to={`/projects/createsprint/${project._id}`}
-          >
-            Add Sprint
-          </StyledGreyLink>
-          <StyledGreyLink
-            variant='contained'
-            to={`/projects/comment/${project._id}`}
-          >
-            Comment on Project
-          </StyledGreyLink>
-          {user._id === project.owner ? (
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper className={fixedHeightPaper}>
+                <ul>Project Tech Stack:</ul>
+                {!project.techStack ? (
+                  ''
+                ) : project.techStack.length === 0 && !isLoading ? (
+                  <p>No listed technologies</p>
+                ) : (
+                  project.techStack.map((el, index) => {
+                    return <li key={index}>{el}</li>;
+                  })
+                )}
+              </Paper>
+            </Grid>
+          </Grid>
+          
+          
+          
+          {/* {user._id === project.manager && user._id !== project.owner ? (
             <Fragment>
               <StyledGreyLink
                 variant='contained'
@@ -204,17 +243,7 @@ const Project = (props) => {
                 Edit Project
               </StyledGreyLink>
             </Fragment>
-          ) : null}
-          {user._id === project.manager && user._id !== project.owner ? (
-            <Fragment>
-              <StyledGreyLink
-                variant='contained'
-                to={`/projects/${project._id}/edit`}
-              >
-                Edit Project
-              </StyledGreyLink>
-            </Fragment>
-          ) : null}
+          ) : null} */}
           <MaterialTable
             style={{ marginTop: '20px' }}
             localization={{
@@ -293,6 +322,7 @@ const Project = (props) => {
               history.push(`/sprint/${rowData.id}`);
             }}
           />
+          
           {user._id === project.owner ? (
             <Fragment>
               <StyledDeleteButton
@@ -305,6 +335,7 @@ const Project = (props) => {
               </StyledDeleteButton>
             </Fragment>
           ) : null}
+          
         </Fragment>
       )}
     </Wrapper>
