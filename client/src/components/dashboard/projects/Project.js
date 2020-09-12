@@ -181,7 +181,7 @@ const Project = (props) => {
           {project.developers.length > 0 && project.developers[0].username ?
             (project.developers.map((el, index) => {
               return (
-                <ListItemLink to={`/profiles/${el._id}`} key={el._id}>
+                <ListItemLink to={`/profiles/${el._id}`} key={index}>
                 <ListItem button >
                   <ListItemIcon>
                     <Avatar

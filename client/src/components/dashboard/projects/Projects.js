@@ -32,8 +32,8 @@ const StyledLink = styled(Link)`
   display: block;
   font-weight: bold;
   &:hover {
-  box-shadow: 0 3px 6px 0px #777;
-}
+    box-shadow: 0 3px 6px 0px #777;
+  }
 `;
 
 const StyledHr = styled.hr`
@@ -69,7 +69,6 @@ const useStyles = makeStyles({
 });
 
 const colors = [
-
   'grey',
   '#F3722C',
   '#F8961E',
@@ -124,17 +123,18 @@ const Projects = (props) => {
       </p>
       <StyledLink to='/createproject'>Add Project</StyledLink>
       <hr className='hr'></hr>
-      {isLoading ? (
-        <Spinner />
-      ) : (
+
+        
+        {(isLoading && !projects) ? (<Spinner />) :
+
+
+        (<Fragment>
+      
+      {myProjects && !isLoading ? (
         <Fragment>
           <h3 className='subheading'>My Projects</h3>
-
           <StyledCards>
-            {!projects && !isLoading ? (
-              <p>No projects available</p>
-            ) : (
-              myProjects.map((el, index) => {
+              {myProjects.map((el, index) => {
                 return (
                   <ProjectCard
                     key={el._id}
@@ -143,15 +143,24 @@ const Projects = (props) => {
                     id={el._id}
                     color={colors[index % colors.length]}
                   />
-                );
-              })
-            )}
+                )})}
           </StyledCards>
-          <h3 className='subheading'>Projects I'm managing</h3>
+          </Fragment>) :
+                <Card
+                className={classes.root}
+                style={{ border: `1px solid #f3f3f3` }}
+              >
+                <CardContent>
+                  <Typography>No projects available</Typography>
+                </CardContent>
+              </Card>
+            }
 
-          <StyledCards>
-            {managing.length > 0 ? (
-              managing.map((el, index) => {
+          {managing && !isLoading ? (
+              <Fragment>
+                <h3 className='subheading'>Projects I'm managing</h3>
+                <StyledCards>
+              {managing.map((el, index) => {
                 return (
                   <ProjectCard
                     key={el._id}
@@ -161,7 +170,9 @@ const Projects = (props) => {
                     color={colors[index % colors.length]}
                   />
                 );
-              })
+              })}
+              </StyledCards>
+              </Fragment>
             ) : (
               <Card
                 className={classes.root}
@@ -172,11 +183,12 @@ const Projects = (props) => {
                 </CardContent>
               </Card>
             )}
-          </StyledCards>
+          
+          {collabProjects && !isLoading ? (
+              <Fragment>
           <h3 className='subheading'>Projects I'm collaborating on</h3>
           <StyledCards>
-            {collabProjects.length > 0 ? (
-              collabProjects.map((el, index) => {
+              {collabProjects.map((el, index) => {
                 return (
                   <ProjectCard
                     key={el._id}
@@ -186,8 +198,9 @@ const Projects = (props) => {
                     color={colors[index % colors.length]}
                   />
                 );
-              })
-            ) : (
+              })}
+          </StyledCards>
+          </Fragment>) : collabProjects.length === 0 && (
               <Card
                 className={classes.root}
                 style={{ border: `1px solid #f3f3f3` }}
@@ -195,11 +208,8 @@ const Projects = (props) => {
                 <CardContent>
                   <Typography>No projects available</Typography>
                 </CardContent>
-              </Card>
-            )}
-          </StyledCards>
-        </Fragment>
-      )}
+              </Card>)}
+            </Fragment>)}
     </Wrapper>
   );
 };

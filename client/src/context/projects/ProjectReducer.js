@@ -4,8 +4,8 @@ export default (state, action) => {
       return {
         ...state,
         projects: action.payload,
-        isLoading: false,
         errors: null,
+        isLoading: false,
       };
     case 'LOAD_PROJECT_SUCCESS':
     case 'UPDATE_PROJECT_SUCCESS':
@@ -20,11 +20,13 @@ export default (state, action) => {
       return {
         ...state,
         project: null,
+        isLoading: false,
       };
       case 'CLEAR_PROJECTS':
       return {
         ...state,
         projects: [],
+        isLoading: false,
       };
     case 'CREATE_PROJECT_SUCCESS':
       return {

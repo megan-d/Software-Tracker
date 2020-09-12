@@ -12,7 +12,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MaterialTable from 'material-table';
-import { StyledGreyLink, StyledDeleteButton } from '../../../styles/styledComponents/StyledLinks';
+import {
+  StyledGreyLink,
+  StyledDeleteButton,
+} from '../../../styles/styledComponents/StyledLinks';
 import { SprintContext } from '../../../context/sprints/SprintContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
@@ -85,8 +88,8 @@ const useStyles = makeStyles((theme) => ({
     height: 40,
     '&:hover': {
       backgroundColor: 'red',
-  }
-  }
+    },
+  },
 }));
 
 const Sprint = (props) => {
@@ -133,12 +136,12 @@ const Sprint = (props) => {
           ) : (
             sprint.comments.map((el) => <li key={el._id}>{el.text}</li>)
           )}
-          <ul>Sprint developers:</ul>
-          {sprint.developers.length === 0 && !isLoading ? (
-            <p>There are no developers on this sprint yet</p>
-          ) : (
-            sprint.developers.map((el, index) => <li key={index}>{el}</li>)
-          )}
+          {/* <ul>Sprint developers:</ul>
+
+          {sprint.developers.length > 0 && sprint.developers[0].username
+            ? sprint.developers.map((el, index) => <li key={index}>{el}</li>)
+            : ''} */}
+
           <MaterialTable
             localization={{
               header: {

@@ -6,10 +6,10 @@ import axios from 'axios';
 //This is similar to the file where you would put your actions if you're using Redux
 
 const initialState = {
-  isLoading: true,
   projects: [],
   project: null,
   errors: null,
+  isLoading: true,
 };
 
 //Initiate context

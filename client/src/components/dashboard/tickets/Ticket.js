@@ -100,7 +100,7 @@ const Ticket = (props) => {
   }, []);
 
   const columns = [
-    { title: 'Type of Change', field: 'typeOfChange', align: 'let' },
+    { title: 'Type of Change', field: 'typeOfChange', align: 'left' },
     { title: 'Date', field: 'date', type: 'date', align: 'right' },
   ];
 

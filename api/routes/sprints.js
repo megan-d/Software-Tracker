@@ -90,9 +90,8 @@ router.get('/tickets/:sprint_id', verify, async (req, res) => {
 //ACCESS LEVEL: Private
 router.get('/sprint/:sprint_id', verify, async (req, res) => {
   try {
-    let sprint = await Sprint.findOne({ _id: req.params.sprint_id }).populate(
-      'project tickets',
-    );
+    let sprint = await Sprint.findById(req.params.sprint_id).populate(
+      'project tickets').populate('developers', 'users');
 
     //If there are no sprints, return an error
     if (!sprint) {
@@ -315,9 +314,9 @@ router.put(
               .status(400)
               .json({ errors: [{ msg: 'This user could not be found.' }] });
           }
-          let developerId = user._id;
+          let developerId = { _id: user._id };
           let isExistingSprintDeveloper = sprint.developers.filter(
-            (dev) => dev._id.toString() === developerId.toString(),
+            (dev) => dev._id.toString() === developerId._id.toString(),
           );
           if (isExistingSprintDeveloper.length === 0) {
             await Sprint.updateOne(
