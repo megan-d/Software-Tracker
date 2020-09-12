@@ -7,6 +7,9 @@ import {
   StyledDeleteButton,
 } from '../../styles/styledComponents/StyledLinks';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+import Moment from 'react-moment';
+import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
@@ -61,21 +64,33 @@ const Profile = (props) => {
           </p>
           <p>Username: {profile.user.username}</p>
           <p>Bio: {profile.bio}</p>
+          <p>
+            Date joined:{' '}
+            <Moment format='MM/DD/YYYY'>{moment(profile.created)}</Moment>
+          </p>
           {profile.skills.length > 0 && (
-            <div className={classes.root}>
-              <List component='h3' aria-label='tech items'>
-                My technical skills:
-                {profile.skills.map((el, index) => (
+            <List
+              aria-label='tech items'
+            >
+              My technical skills:
+              {profile.skills.map((el, index) => (
+                <Fragment>
                   <ListItem key={index}>
                     <ListItemIcon>
                       <CheckCircleOutlineOutlinedIcon />
                     </ListItemIcon>
                     <ListItemText primary={el} />
                   </ListItem>
-                ))}
-              </List>
-            </div>
+                  <Divider
+                    variant='inset'
+                    component='li'
+                    style={{ listStyle: 'none' }}
+                  />
+                </Fragment>
+              ))}
+            </List>
           )}
+
           <ul>Profile comments:</ul>
           {profile.comments.length === 0 && !isLoading ? (
             <li>There are no comments for this profile</li>

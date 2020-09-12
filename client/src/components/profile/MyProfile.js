@@ -1,10 +1,17 @@
 import React, { useContext, useState, useEffect, Fragment } from 'react';
 import Wrapper from '../layout/Wrapper';
 import AlertBanner from '../layout/AlertBanner';
+import moment from 'moment';
+import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
+import Divider from '@material-ui/core/Divider';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
-import { StyledRedLink, StyledGreyLink, StyledDeleteButton } from '../../styles/styledComponents/StyledLinks';
+import {
+  StyledRedLink,
+  StyledGreyLink,
+  StyledDeleteButton,
+} from '../../styles/styledComponents/StyledLinks';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 import Spinner from '../layout/Spinner';
 import Button from '@material-ui/core/Button';
@@ -62,19 +69,29 @@ const MyProfile = (props) => {
           </p>
           <p>Username: {profile.user.username}</p>
           <p>Bio: {profile.bio}</p>
-          <div className={classes.root}>
-            <List component='h3' aria-label='tech items'>
-              My technical skills:
-              {profile.skills.map((el, index) => (
+          <p>
+            Date joined:{' '}
+            <Moment format='MM/DD/YYYY'>{moment(profile.created)}</Moment>
+          </p>
+
+          <List aria-label='tech items'>
+            My technical skills:
+            {profile.skills.map((el, index) => (
+              <Fragment>
                 <ListItem key={index}>
                   <ListItemIcon>
                     <CheckCircleOutlineOutlinedIcon />
                   </ListItemIcon>
                   <ListItemText primary={el} />
                 </ListItem>
-              ))}
-            </List>
-          </div>
+                <Divider
+                  variant='inset'
+                  component='li'
+                  style={{ listStyle: 'none' }}
+                />
+              </Fragment>
+            ))}
+          </List>
           <ul>Profile comments:</ul>
           {profile.comments.length === 0 && !isLoading ? (
             <li>There are no comments for this profile</li>
@@ -97,9 +114,12 @@ const MyProfile = (props) => {
               >
                 Edit Profile
               </StyledGreyLink>
-              <p>Select the button below to delete your profile AND account. Warning: This cannot be undone. </p>
+              <p>
+                Select the button below to delete your profile AND account.
+                Warning: This cannot be undone.{' '}
+              </p>
               <StyledDeleteButton
-              style={{minWidth: '230px'}}
+                style={{ minWidth: '230px' }}
                 variant='contained'
                 color='secondary'
                 startIcon={<DeleteIcon />}

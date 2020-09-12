@@ -90,8 +90,8 @@ router.get('/tickets/:sprint_id', verify, async (req, res) => {
 //ACCESS LEVEL: Private
 router.get('/sprint/:sprint_id', verify, async (req, res) => {
   try {
-    let sprint = await Sprint.findById(req.params.sprint_id).populate(
-      'project tickets').populate('developers', 'users');
+    let sprint = await Sprint.findOne({ _id: req.params.sprint_id}).populate(
+      'project tickets').populate('developers', 'username');
 
     //If there are no sprints, return an error
     if (!sprint) {

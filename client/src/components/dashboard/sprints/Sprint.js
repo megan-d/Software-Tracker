@@ -127,9 +127,19 @@ const Sprint = (props) => {
         <Spinner />
       ) : (
         <Fragment>
-          <GroupWorkIcon />
-          <div>{sprint.title}</div>
+          <div style={{display: 'flex'}}>
+          <GroupWorkIcon style={{marginRight: '10px', color: '#43aa8b'}}/>
+          <h2 className='page-heading'>{sprint.title}</h2>
+          </div>
+          <hr className='hr'></hr>
           <div>{sprint.description}</div>
+          {sprint.developers.length > 0 && (
+            <Fragment>
+              <ul>Sprint developers:</ul>
+              {sprint.developers.map((el, index) => <li key={el._id}>{el.username}</li>)}
+            </Fragment>
+          )}
+
           <ul>Sprint comments:</ul>
           {sprint.comments.length === 0 && !isLoading ? (
             <p>There are no comments for this sprint</p>

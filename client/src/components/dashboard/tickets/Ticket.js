@@ -113,7 +113,7 @@ const Ticket = (props) => {
       ) : (
         <Fragment>
           <div style={{display: 'flex'}}>
-          <ConfirmationNumberIcon />
+          <ConfirmationNumberIcon style={{marginRight: '10px', color: '#43aa8b'}}/>
           <h2 className='page-heading'>{ticket.title}</h2>
           </div>
           <hr className='hr'></hr>

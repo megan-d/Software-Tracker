@@ -3,9 +3,16 @@ import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import { AuthContext } from '../../../context/auth/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
+import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
-import { StyledGreyLink, StyledDeleteButton } from '../../../styles/styledComponents/StyledLinks';
+import {
+  StyledGreyLink,
+  StyledDeleteButton,
+} from '../../../styles/styledComponents/StyledLinks';
 import Wrapper from '../../layout/Wrapper';
+import moment from 'moment';
+import Moment from 'react-moment';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
 import AlertBanner from '../../layout/AlertBanner';
@@ -13,7 +20,6 @@ import styled from 'styled-components';
 import MaterialTable from 'material-table';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DevelopersList from '../developer/DevelopersList';
-import moment from 'moment';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -36,7 +42,7 @@ const colors = [
   '#90BE6D',
   '#43AA8B',
   '#577590',
-  '##f3f3f3'
+  '##f3f3f3',
 ];
 
 function ListItemLink(props) {
@@ -94,12 +100,123 @@ const Project = (props) => {
       ) : (
         <Fragment>
           <AlertBanner />
-          <h2 className='page-heading'>{project.name}</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex' }}>
+              <AssignmentIcon
+                style={{ marginRight: '10px', color: '#43aa8b' }}
+              />
+              <h2 className='page-heading'>{project.name}</h2>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <h4 style={{marginRight: '6px'}}>Target completion date:</h4>
+              <p>
+                <Moment format='MM/DD/YYYY'>
+                  {moment(project.targetCompletionDate)}
+                </Moment>
+              </p>
+            </div>
+          </div>
           <hr className='hr'></hr>
-          <p>Description: {project.description}</p>
-          <p>Target completion date: {project.targetCompletionDate}</p>
+          <h4>Description:</h4>
+          <p>{project.description}</p>
+
+          
+
+          <ul>Developers on Project:</ul>
+          {project.developers.length > 0 && project.developers[0].username
+            ? project.developers.map((el, index) => {
+                return (
+                  <Fragment key={index}>
+                    <ListItemLink
+                      to={`/profiles/${el._id}`}
+                      className={classes.root}
+                    >
+                      <ListItem button>
+                        <ListItemIcon>
+                          <Avatar
+                            className={classes.root}
+                            style={{
+                              height: '40px',
+                              width: '40px',
+                              color: '#fafafa',
+                              backgroundColor: colors[index],
+                            }}
+                          >
+                            {el.firstName.charAt(0).toUpperCase()}
+                            {el.lastName.charAt(0).toUpperCase()}
+                          </Avatar>
+                        </ListItemIcon>
+                        <ListItemText primary={el.username} />
+                      </ListItem>
+                    </ListItemLink>
+                    <Divider
+                      variant='inset'
+                      component='li'
+                      style={{ listStyle: 'none' }}
+                    />
+                  </Fragment>
+                );
+              })
+            : ''}
+
+          <ul>Project Tech Stack:</ul>
+          {!project.techStack ? (
+            ''
+          ) : project.techStack.length === 0 && !isLoading ? (
+            <p>No listed technologies</p>
+          ) : (
+            project.techStack.map((el, index) => {
+              return <li key={index}>{el}</li>;
+            })
+          )}
+
+          <ul>Project comments:</ul>
+          {project.comments.length === 0 && !isLoading ? (
+            <p>There are no comments for this project</p>
+          ) : (
+            project.comments.map((el) => <li key={el._id}>{el.comment}</li>)
+          )}
+
+          <StyledGreyLink
+            variant='contained'
+            to={`/projects/submitticket/${project._id}`}
+          >
+            Add Ticket
+          </StyledGreyLink>
+          <StyledGreyLink
+            variant='contained'
+            to={`/projects/createsprint/${project._id}`}
+          >
+            Add Sprint
+          </StyledGreyLink>
+          <StyledGreyLink
+            variant='contained'
+            to={`/projects/comment/${project._id}`}
+          >
+            Comment on Project
+          </StyledGreyLink>
+          {user._id === project.owner ? (
+            <Fragment>
+              <StyledGreyLink
+                variant='contained'
+                to={`/projects/${project._id}/edit`}
+              >
+                Edit Project
+              </StyledGreyLink>
+            </Fragment>
+          ) : null}
+          {user._id === project.manager && user._id !== project.owner ? (
+            <Fragment>
+              <StyledGreyLink
+                variant='contained'
+                to={`/projects/${project._id}/edit`}
+              >
+                Edit Project
+              </StyledGreyLink>
+            </Fragment>
+          ) : null}
           <MaterialTable
-          style={{marginTop: '20px'}}
+            style={{ marginTop: '20px' }}
             localization={{
               header: {
                 actions: '',
@@ -139,7 +256,7 @@ const Project = (props) => {
             }}
           />
           <MaterialTable
-          style={{marginTop: '20px'}}
+            style={{ marginTop: '20px' }}
             localization={{
               header: {
                 actions: '',
@@ -176,77 +293,8 @@ const Project = (props) => {
               history.push(`/sprint/${rowData.id}`);
             }}
           />
-
-          <h4>Developers on Project:</h4>
-          {project.developers.length > 0 && project.developers[0].username ?
-            (project.developers.map((el, index) => {
-              return (
-                <ListItemLink to={`/profiles/${el._id}`} key={index}>
-                <ListItem button >
-                  <ListItemIcon>
-                    <Avatar
-                      className={classes.root}
-                      style={{
-                        height: '40px',
-                        width: '40px',
-                        color: '#fafafa',
-                        backgroundColor: colors[index],
-                      }}
-                    >
-                      {el.firstName.charAt(0).toUpperCase()}
-                      {el.lastName.charAt(0).toUpperCase()}
-                    </Avatar>
-                  </ListItemIcon>
-                  
-                    <ListItemText primary={el.username}/>
-                  
-                </ListItem>
-                </ListItemLink>
-              );
-            })): ('')}
-
-          <h4>Project Tech Stack:</h4>
-          {!project.techStack ? ('') : project.techStack.length === 0 && !isLoading ? (
-            <p>No listed technologies</p>
-          ) : (
-            project.techStack.map((el, index) => {
-              return <p key={index}>{el}</p>;
-            })
-          )}
-
-          <ul>Project comments:</ul>
-          {project.comments.length === 0 && !isLoading ? (
-            <p>There are no comments for this project</p>
-          ) : (
-            project.comments.map((el) => <li key={el._id}>{el.comment}</li>)
-          )}
-
-          <StyledGreyLink
-            variant='contained'
-            to={`/projects/submitticket/${project._id}`}
-          >
-            Add Ticket
-          </StyledGreyLink>
-          <StyledGreyLink
-            variant='contained'
-            to={`/projects/createsprint/${project._id}`}
-          >
-            Add Sprint
-          </StyledGreyLink>
-          <StyledGreyLink
-            variant='contained'
-            to={`/projects/comment/${project._id}`}
-          >
-            Comment on Project
-          </StyledGreyLink>
           {user._id === project.owner ? (
             <Fragment>
-              <StyledGreyLink
-                variant='contained'
-                to={`/projects/${project._id}/edit`}
-              >
-                Edit Project
-              </StyledGreyLink>
               <StyledDeleteButton
                 variant='contained'
                 startIcon={<DeleteIcon />}
@@ -255,16 +303,6 @@ const Project = (props) => {
               >
                 Delete Project
               </StyledDeleteButton>
-            </Fragment>
-          ) : null}
-          {user._id === project.manager && user._id !== project.owner ? (
-            <Fragment>
-              <StyledGreyLink
-                variant='contained'
-                to={`/projects/${project._id}/edit`}
-              >
-                Edit Project
-              </StyledGreyLink>
             </Fragment>
           ) : null}
         </Fragment>
