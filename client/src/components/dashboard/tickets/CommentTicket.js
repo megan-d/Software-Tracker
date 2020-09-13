@@ -47,10 +47,11 @@ const CommentTicket = (props) => {
 
   const [formData, updateFormData] = useState({
     comment: '',
+    title: '',
   });
 
   //Pull out variables from formData and userData
-  const { comment } = formData;
+  const { comment, title } = formData;
 
   const { ticket, isLoading, addTicketComment, getTicketDetails } = useContext(
     TicketContext,
@@ -69,6 +70,7 @@ const CommentTicket = (props) => {
     e.preventDefault();
     const newComment = {
       comment: comment,
+      title: title,
     };
     //call add comment action
     await addTicketComment(newComment, ticket._id, props.history);
@@ -101,13 +103,24 @@ const CommentTicket = (props) => {
                   onSubmit={(e) => onSubmit(e)}
                 >
                   <TextField
+                    name='title'
+                    variant='outlined'
+                    required
+                    fullWidth
+                    id='title'
+                    label='Comment Title'
+                    autoFocus
+                    value={title}
+                    onChange={(e) => onChange(e)}
+                    margin='normal'
+                  />
+                  <TextField
                     name='comment'
                     variant='outlined'
                     required
                     fullWidth
                     id='comment'
                     label='Comment'
-                    autoFocus
                     value={comment}
                     onChange={(e) => onChange(e)}
                     multiline

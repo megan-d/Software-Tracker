@@ -144,7 +144,7 @@ const Sprint = (props) => {
           {sprint.comments.length === 0 && !isLoading ? (
             <p>There are no comments for this sprint</p>
           ) : (
-            sprint.comments.map((el) => <li key={el._id}>{el.text}</li>)
+            sprint.comments.map((el) => <li key={el._id}>{el.comment}</li>)
           )}
           {/* <ul>Sprint developers:</ul>
 

@@ -123,7 +123,7 @@ const Ticket = (props) => {
           {ticket.comments.length === 0 && !isLoading ? (
             <li>There are no comments for this ticket</li>
           ) : (
-            ticket.comments.map((el) => <li key={el._id}>{el.text}</li>)
+            ticket.comments.map((el) => <li key={el._id}>{el.comment}</li>)
           )}
           <MaterialTable
           style={{width: '360px'}}

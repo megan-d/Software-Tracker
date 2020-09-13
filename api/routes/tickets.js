@@ -236,6 +236,9 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
+        check('title', 'Please provide text in the title field.')
+        .not()
+        .isEmpty()
     ],
   ],
   async (req, res) => {
@@ -252,8 +255,8 @@ router.post(
       let ticket = await Ticket.findById(req.params.ticket_id);
       //Create object for new comment. It's not a collection in database so just an object.
       const newComment = {
-        name: user.username,
-        text: req.body.comment,
+        title: req.body.title,
+        comment: req.body.comment,
         user: req.user.id,
       };
 

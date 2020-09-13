@@ -60,11 +60,11 @@ const sprintSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
       },
-      name: {
+      title: {
         type: String,
         required: true,
       },
-      text: {
+      comment: {
         type: String,
         required: true,
       },
