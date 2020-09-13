@@ -21,18 +21,21 @@ import styled from 'styled-components';
 import MaterialTable from 'material-table';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DevelopersList from '../developer/DevelopersList';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import Comment from '../comments/Comment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: 360,
+    // maxWidth: 400,
     backgroundColor: theme.palette.background.paper,
   },
   fixedHeight: {
@@ -44,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+  },
+  projectHeading: {
+    fontWeight: 700,
   },
 }));
 
@@ -133,43 +139,46 @@ const Project = (props) => {
           </div>
           <hr className='hr'></hr>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={9} lg={9}>
+            <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaper}>
-              <h4>Project Description:</h4>
+                <h4>Project Description:</h4>
                 <p>{project.description}</p>
               </Paper>
             </Grid>
 
-            <Grid item xs={12} md={3} lg={3} >
-              <Paper className={fixedHeightPaper} style={{alignItems: 'center'}}>
-              <StyledGreyLink
-            variant='contained'
-            to={`/projects/submitticket/${project._id}`}
-          >
-            Add Ticket
-          </StyledGreyLink>
-          <StyledGreyLink
-            variant='contained'
-            to={`/projects/createsprint/${project._id}`}
-          >
-            Add Sprint
-          </StyledGreyLink>
-          <StyledGreyLink
-            variant='contained'
-            to={`/projects/comment/${project._id}`}
-          >
-            Comment on Project
-          </StyledGreyLink>
-          {user._id === project.owner || user._id === project.manager ? (
-            <Fragment>
-              <StyledGreyLink
-                variant='contained'
-                to={`/projects/${project._id}/edit`}
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper
+                className={fixedHeightPaper}
+                style={{ alignItems: 'center' }}
               >
-                Edit Project
-              </StyledGreyLink>
-            </Fragment>
-          ) : null}
+                <StyledGreyLink
+                  variant='contained'
+                  to={`/projects/submitticket/${project._id}`}
+                >
+                  Add Ticket
+                </StyledGreyLink>
+                <StyledGreyLink
+                  variant='contained'
+                  to={`/projects/createsprint/${project._id}`}
+                >
+                  Add Sprint
+                </StyledGreyLink>
+                <StyledGreyLink
+                  variant='contained'
+                  to={`/projects/comment/${project._id}`}
+                >
+                  Comment on Project
+                </StyledGreyLink>
+                {user._id === project.owner || user._id === project.manager ? (
+                  <Fragment>
+                    <StyledGreyLink
+                      variant='contained'
+                      to={`/projects/${project._id}/edit`}
+                    >
+                      Edit Project
+                    </StyledGreyLink>
+                  </Fragment>
+                ) : null}
               </Paper>
             </Grid>
           </Grid>
@@ -177,63 +186,80 @@ const Project = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-              <ul>Developers on Project:</ul>
-          {project.developers.length > 0 && project.developers[0].username
-            ? project.developers.map((el, index) => {
-                return (
-                  <Fragment key={index}>
-                    <ListItemLink
-                      to={`/profiles/${el._id}`}
-                      className={classes.root}
-                    >
-                      <ListItem button>
-                        <ListItemIcon>
-                          <Avatar
+                <ul className={classes.projectHeading}>
+                  Developers on Project:
+                </ul>
+                {project.developers.length > 0 && project.developers[0].username
+                  ? project.developers.map((el, index) => {
+                      return (
+                        <Fragment key={index}>
+                          <ListItemLink
+                            to={`/profiles/${el._id}`}
                             className={classes.root}
-                            style={{
-                              height: '40px',
-                              width: '40px',
-                              color: '#fafafa',
-                              backgroundColor: colors[index],
-                            }}
                           >
-                            {el.firstName.charAt(0).toUpperCase()}
-                            {el.lastName.charAt(0).toUpperCase()}
-                          </Avatar>
-                        </ListItemIcon>
-                        <ListItemText primary={el.username} />
-                      </ListItem>
-                    </ListItemLink>
-                    <Divider
-                      variant='inset'
-                      component='li'
-                      style={{ listStyle: 'none' }}
-                    />
-                  </Fragment>
-                );
-              })
-            : ''}
+                            <ListItem button>
+                              <ListItemAvatar>
+                                <Avatar
+                                  className={classes.root}
+                                  style={{
+                                    height: '40px',
+                                    width: '40px',
+                                    color: '#fafafa',
+                                    backgroundColor: colors[index],
+                                  }}
+                                >
+                                  {el.firstName.charAt(0).toUpperCase()}
+                                  {el.lastName.charAt(0).toUpperCase()}
+                                </Avatar>
+                              </ListItemAvatar>
+                              <ListItemText primary={el.username} />
+                            </ListItem>
+                          </ListItemLink>
+                          <Divider
+                            variant='inset'
+                            component='li'
+                            style={{ listStyle: 'none' }}
+                          />
+                        </Fragment>
+                      );
+                    })
+                  : ''}
               </Paper>
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <ul>Project Tech Stack:</ul>
-                {!project.techStack ? (
-                  ''
-                ) : project.techStack.length === 0 && !isLoading ? (
+                <ul className={classes.projectHeading}>Project Tech Stack:</ul>
+                {project.techStack.length === 0 && !isLoading ? (
                   <p>No listed technologies</p>
                 ) : (
                   project.techStack.map((el, index) => {
-                    return <li key={index}>{el}</li>;
+                    return (
+                      <Fragment key={index}>
+                        <ListItem>
+                          <ListItemAvatar>
+                            <CheckCircleOutlineIcon
+                              style={{ color: '#43aa8b' }}
+                            />
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={el}
+                            style={{ fontSize: '14px' }}
+                          />
+                        </ListItem>
+                        <Divider
+                          variant='inset'
+                          component='li'
+                          style={{ listStyle: 'none' }}
+                        />
+                      </Fragment>
+                    );
                   })
                 )}
               </Paper>
             </Grid>
           </Grid>
-          
-          
-          
+
           {/* {user._id === project.manager && user._id !== project.owner ? (
             <Fragment>
               <StyledGreyLink
@@ -285,7 +311,7 @@ const Project = (props) => {
             }}
           />
           <MaterialTable
-            style={{ marginTop: '20px' }}
+            style={{ marginTop: '20px', marginBottom: '20px' }}
             localization={{
               header: {
                 actions: '',
@@ -322,7 +348,19 @@ const Project = (props) => {
               history.push(`/sprint/${rowData.id}`);
             }}
           />
-          
+
+          <Grid item xs={12} md={12} lg={12}>
+            <Paper className={fixedHeightPaper}>
+              <ul className={classes.projectHeading}>Project comments:</ul>
+              {project.comments.length === 0 && !isLoading ? (
+                <p>There are no comments for this project</p>
+              ) : project.comments.length > 0 && !isLoading
+                ? (
+                project.comments.map((el, index) => <Comment key={el._id} comment={el} comments={project.comments} index={index} isLoading={isLoading} />)
+              ) : ''}
+            </Paper>
+          </Grid>
+
           {user._id === project.owner ? (
             <Fragment>
               <StyledDeleteButton
@@ -335,7 +373,6 @@ const Project = (props) => {
               </StyledDeleteButton>
             </Fragment>
           ) : null}
-          
         </Fragment>
       )}
     </Wrapper>

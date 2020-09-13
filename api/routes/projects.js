@@ -354,6 +354,10 @@ router.put(
         .not()
         .isEmpty()
         .trim(),
+      check('title', 'Please provide text in the title field.')
+        .not()
+        .isEmpty()
+        .trim(),
     ],
   ],
   async (req, res) => {
@@ -372,6 +376,7 @@ router.put(
       const newComment = {
         name: user.username,
         comment: req.body.comment,
+        title: req.body.title,
         user: req.user.id,
       };
 
@@ -393,8 +398,6 @@ router.put(
     }
   },
 );
-
-
 
 //ROUTE: DELETE api/projects/:project_id
 //DESCRIPTION: Delete a project by project's id

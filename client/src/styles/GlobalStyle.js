@@ -109,7 +109,7 @@ input[type="search"] {
 .hr {
   height: 1.5px;
   border: none;
-  background: #333333;
+  background: #204051;
   margin-bottom: 20px;
   margin-top: 10px;
 }

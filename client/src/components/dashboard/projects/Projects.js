@@ -145,14 +145,16 @@ const Projects = (props) => {
               })}
             </StyledCards>
           ) : (
-            <Card
-              className={classes.root}
-              style={{ border: `1px solid #f3f3f3` }}
-            >
-              <CardContent>
-                <Typography>No projects available</Typography>
-              </CardContent>
-            </Card>
+            <StyledCards>
+              <Card
+                className={classes.root}
+                style={{ border: `1px solid #f3f3f3` }}
+              >
+                <CardContent>
+                  <Typography>No projects available</Typography>
+                </CardContent>
+              </Card>
+            </StyledCards>
           )}
           <h3 className='subheading'>Projects I'm managing</h3>
           {managing.length > 0 && !isLoading ? (
@@ -170,14 +172,16 @@ const Projects = (props) => {
               })}
             </StyledCards>
           ) : (
-            <Card
-              className={classes.root}
-              style={{ border: `1px solid #f3f3f3` }}
-            >
-              <CardContent>
-                <Typography>No projects available</Typography>
-              </CardContent>
-            </Card>
+            <StyledCards>
+              <Card
+                className={classes.root}
+                style={{ border: `1px solid #f3f3f3` }}
+              >
+                <CardContent>
+                  <Typography>No projects available</Typography>
+                </CardContent>
+              </Card>
+            </StyledCards>
           )}
 
           <h3 className='subheading'>Projects I'm collaborating on</h3>
@@ -197,14 +201,16 @@ const Projects = (props) => {
             </StyledCards>
           ) : (
             collabProjects.length === 0 && (
-              <Card
-                className={classes.root}
-                style={{ border: `1px solid #f3f3f3` }}
-              >
-                <CardContent>
-                  <Typography>No projects available</Typography>
-                </CardContent>
-              </Card>
+              <StyledCards>
+                <Card
+                  className={classes.root}
+                  style={{ border: `1px solid #f3f3f3` }}
+                >
+                  <CardContent>
+                    <Typography>No projects available</Typography>
+                  </CardContent>
+                </Card>
+              </StyledCards>
             )
           )}
         </Fragment>

@@ -52,6 +52,10 @@ const projectSchema = new Schema({
         type: String,
         required: true,
       },
+      title: {
+        type: String,
+        required: true,
+      },
       comment: {
         type: String,
         required: true,
@@ -74,9 +78,7 @@ const projectSchema = new Schema({
       ref: 'Sprint',
     },
   ],
-  techStack: [
-    
-  ],
+  techStack: [],
   repoLink: {
     type: String,
   },
