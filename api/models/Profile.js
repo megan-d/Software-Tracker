@@ -14,7 +14,7 @@ const profileSchema = new Schema({
     type: String,
   },
   skills: {
-    type: [String]
+    type: [String],
   },
   teams: [
     {
@@ -49,15 +49,16 @@ const profileSchema = new Schema({
   ],
   comments: [
     {
-      userid: {
+      user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
       },
-      username: {
-        type: String
+      title: {
+        type: String,
+        required: true,
       },
       comment: {
-        type: String
+        type: String,
       },
       date: {
         type: Date,

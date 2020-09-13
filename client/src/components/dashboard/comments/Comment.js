@@ -59,7 +59,7 @@ export default function Comment({comment, index, isLoading}) {
                 className={classes.inline}
                 color='textPrimary'
               >
-                {comment.name}
+                {comment.user.username}
               </Typography>
               {` — ${comment.comment}`}
             </React.Fragment>

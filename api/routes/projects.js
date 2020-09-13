@@ -46,7 +46,14 @@ router.get('/:project_id', verify, async (req, res) => {
       _id: req.params.project_id,
     })
       .populate('sprints tickets')
-      .populate('developers', 'username firstName lastName');
+      .populate('developers', 'username firstName lastName')
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'user',
+          select: 'username',
+        },
+      })
 
     if (!project)
       return res.status(400).json({ errors: [{ msg: 'Project not found' }] });
@@ -374,7 +381,6 @@ router.put(
       const project = await Project.findById(req.params.project_id);
       //Create object for new comment. It's not a collection in database so just an object.
       const newComment = {
-        name: user.username,
         comment: req.body.comment,
         title: req.body.title,
         user: req.user.id,

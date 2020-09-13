@@ -57,7 +57,14 @@ router.get('/user/:user_id', verify, async (req, res) => {
     //Find the profile
     let profile = await Profile.findOne({
       user: req.params.user_id,
-    }).populate('user', ['username', 'firstName', 'lastName']);
+    }).populate('user', ['username', 'firstName', 'lastName']).populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+        select: 'username',
+      },
+    })
+    
     if (!profile) {
       return res.status(400).json({
         errors: [
@@ -237,6 +244,9 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
+        check('title', 'Please provide text in the title field.')
+        .not()
+        .isEmpty()
     ],
   ],
   async (req, res) => {
@@ -253,9 +263,9 @@ router.post(
       const profile = await Profile.findById(req.params.profile_id);
       //Create object for new comment. It's not a collection in database so just an object.
       const newComment = {
-        username: user.username,
         comment: req.body.comment,
-        userid: req.user.id,
+        title: req.body.title,
+        user: req.user.id,
       };
 
       //Add newComment onto profile comments at the end of array (want chronological order in this case)

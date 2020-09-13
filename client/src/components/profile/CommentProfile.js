@@ -2,7 +2,11 @@ import React, { useState, useContext, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Wrapper from '../layout/Wrapper';
 import Spinner from '../layout/Spinner';
-import { StyledRedLink, StyledGreyLink, StyledBlueButton } from '../../styles/styledComponents/StyledLinks';
+import {
+  StyledRedLink,
+  StyledGreyLink,
+  StyledBlueButton,
+} from '../../styles/styledComponents/StyledLinks';
 import { makeStyles } from '@material-ui/core/styles';
 import AlertBanner from '../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
@@ -58,17 +62,16 @@ const CommentProfile = (props) => {
 
   const [formData, updateFormData] = useState({
     comment: '',
+    title: '',
   });
 
   //Pull out variables from formData and userData
-  const { comment } = formData;
+  const { comment, title } = formData;
 
-  const { profile, getProfileById, addComment } = useContext(
-    ProfileContext,
-  );
+  const { profile, getProfileById, addComment } = useContext(ProfileContext);
 
   useEffect(() => {
-    getProfileById(profile.user._id);
+    getProfileById(props.match.params.userid);
   }, []);
 
   // Function to update state on change using updateFormData
@@ -80,6 +83,7 @@ const CommentProfile = (props) => {
     e.preventDefault();
     const newComment = {
       comment: comment,
+      title: title,
     };
     //call add project action
     await addComment(newComment, profile.user._id, profile._id, props.history);
@@ -91,7 +95,9 @@ const CommentProfile = (props) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h2 className='page-heading'>Comment on {profile.user.username}'s Profile</h2>
+          <h2 className='page-heading'>
+            Comment on {profile.user.username}'s Profile
+          </h2>
           <p>Leave a comment or request to collaborate</p>
           <hr className='hr'></hr>
 
@@ -112,13 +118,24 @@ const CommentProfile = (props) => {
                   onSubmit={(e) => onSubmit(e)}
                 >
                   <TextField
+                    name='title'
+                    variant='outlined'
+                    required
+                    fullWidth
+                    id='title'
+                    label='Comment Title'
+                    autoFocus
+                    value={title}
+                    onChange={(e) => onChange(e)}
+                    margin='normal'
+                  />
+                  <TextField
                     name='comment'
                     variant='outlined'
                     required
                     fullWidth
                     id='comment'
                     label='Comment'
-                    autoFocus
                     value={comment}
                     onChange={(e) => onChange(e)}
                     multiline

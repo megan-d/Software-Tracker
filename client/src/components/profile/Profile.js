@@ -27,6 +27,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Comment from '../dashboard/comments/Comment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,10 +40,12 @@ const useStyles = makeStyles((theme) => ({
     height: 400,
   },
   paper: {
-    padding: theme.spacing(2),
+    minHeight: 300,
+    padding: theme.spacing(4),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    marginBottom: 20,
   },
   profileHeading: {
     fontWeight: 700,
@@ -116,7 +119,7 @@ const Profile = (props) => {
 
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <h4 className={classes.profileSubheading}>My Technical Skills:</h4>
+                <h4 className={classes.profileSubheading}>Technical Skills:</h4>
                 {profile.skills.length > 0 && !isLoading ? (
                   <List aria-label='tech items'>
                     {profile.skills.map((el, index) => (
@@ -138,25 +141,37 @@ const Profile = (props) => {
                       </Fragment>
                     ))}
                   </List>
-                ) : <p>No listed skills</p>}
+                ) : (
+                  <p>No listed skills</p>
+                )}
               </Paper>
             </Grid>
           </Grid>
 
-          <Grid item xs={12} md={12} lg={12}>
-            <Paper className={fixedHeightPaper}>
-              <ul className={classes.profileHeading}>Profile comments:</ul>
-              {profile.comments.length === 0 && !isLoading ? (
-            <p>There are no comments for this profile</p>
-          ) : profile.comments.length > 0 && isLoading ? (
-            profile.comments.map((el, index) => 
-            <li key={el._id}>{el.comment}</li>
-            ))
-             : ('')}
-            </Paper>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={fixedHeightPaper}>
+                <ul className={classes.profileHeading}>Profile comments:</ul>
+                {profile.comments.length === 0 && !isLoading ? (
+                  <p>There are no comments for this profile</p>
+                ) : profile.comments.length > 0 && !isLoading ? (
+                  profile.comments.map((el, index) => (
+                    // <li key={el._id}>{el.comment}</li>
+                    <Comment
+                      key={el._id}
+                      comment={el}
+                      comments={profile.comments}
+                      index={index}
+                      isLoading={isLoading}
+                    />
+                  ))
+                ) : (
+                  ''
+                )}
+              </Paper>
+            </Grid>
           </Grid>
 
-          
           <StyledGreyLink
             variant='contained'
             color='primary'
