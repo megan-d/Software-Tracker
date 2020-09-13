@@ -44,7 +44,7 @@ export default function Comment({comment, index, isLoading}) {
               height: '40px',
               width: '40px',
               color: '#fafafa',
-              backgroundColor: colors[index],
+              backgroundColor: colors[index % colors.length],
             }}
           >
           </Avatar>

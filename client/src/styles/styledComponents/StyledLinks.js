@@ -103,7 +103,7 @@ font-size: 14px;
 max-width: 180px;
 width: 180px;
 text-align: center;
-margin: 20px 0px 0px 0px;
+margin: 15px 0px 0px 0px;
 height: 40px;
 display: block;
 font-weight: 500;

@@ -4,6 +4,7 @@ import AlertBanner from '../layout/AlertBanner';
 import moment from 'moment';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
+import clsx from 'clsx';
 import Divider from '@material-ui/core/Divider';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
@@ -13,7 +14,10 @@ import {
   StyledDeleteButton,
 } from '../../styles/styledComponents/StyledLinks';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
+import PersonIcon from '@material-ui/icons/Person';
 import Spinner from '../layout/Spinner';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -21,13 +25,38 @@ import styled from 'styled-components';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
+import Comment from '../dashboard/comments/Comment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+  },
+  fixedHeight: {
+    minHeight: 250,
+    height: 400,
+  },
+  paper: {
+    minHeight: 300,
+    padding: theme.spacing(4),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+    marginBottom: 20,
+  },
+  profileHeading: {
+    fontWeight: 700,
+    marginBottom: 16,
+  },
+  profileSubheading: {
+    fontWeight: 700,
+    marginBottom: 6,
+  },
+  profileContent: {
+    marginBottom: 8,
   },
 }));
 
@@ -37,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
 
 const MyProfile = (props) => {
   const classes = useStyles();
+
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
   const { user, deleteUser } = useContext(AuthContext);
   const {
     profile,
@@ -57,47 +89,94 @@ const MyProfile = (props) => {
 
   return (
     <Wrapper>
-      <h2 className='page-heading'>Developer Profile</h2>
+      <div className='flex'>
+        <PersonIcon className='page-heading-icon' />
+        <h2 className='page-heading'>Developer Profile</h2>
+      </div>
       <hr className='hr'></hr>
       <AlertBanner />
       {(isLoading || profile === null) && <Spinner />}
 
       {!isLoading && profile ? (
         <Fragment>
-          <p>
-            {profile.user.firstName} {profile.user.lastName}
-          </p>
-          <p>Username: {profile.user.username}</p>
-          <p>Bio: {profile.bio}</p>
-          <p>
-            Date joined:{' '}
-            <Moment format='MM/DD/YYYY'>{moment(profile.created)}</Moment>
-          </p>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper className={fixedHeightPaper}>
+                <h4 className={classes.profileSubheading}>Name: </h4>
+                <p className={classes.profileContent}>
+                  {profile.user.firstName} {profile.user.lastName}
+                </p>
+                <h4 className={classes.profileSubheading}>Username: </h4>
+                <p className={classes.profileContent}>
+                  {profile.user.username}
+                </p>
+                {profile.bio && (
+                  <Fragment>
+                    <h4 className={classes.profileSubheading}>Bio:</h4>
+                    <p className={classes.profileContent}>{profile.bio}</p>
+                  </Fragment>
+                )}
 
-          <List aria-label='tech items'>
-            My technical skills:
-            {profile.skills.map((el, index) => (
-              <Fragment>
-                <ListItem key={index}>
-                  <ListItemIcon>
-                    <CheckCircleOutlineOutlinedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={el} />
-                </ListItem>
-                <Divider
-                  variant='inset'
-                  component='li'
-                  style={{ listStyle: 'none' }}
-                />
-              </Fragment>
-            ))}
-          </List>
-          <ul>Profile comments:</ul>
-          {profile.comments.length === 0 && !isLoading ? (
-            <li>There are no comments for this profile</li>
-          ) : (
-            profile.comments.map((el) => <li key={el._id}>{el.comment}</li>)
-          )}
+                <h4 className={classes.profileSubheading}>Date Joined: </h4>
+                <Moment format='MM/DD/YYYY'>{moment(profile.created)}</Moment>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper className={fixedHeightPaper}>
+                <h4 className={classes.profileSubheading}>Technical Skills:</h4>
+                {profile.skills.length > 0 && !isLoading ? (
+                  <List aria-label='tech items'>
+                    {profile.skills.map((el, index) => (
+                      <Fragment key={index}>
+                        <ListItem>
+                          <ListItemAvatar>
+                            <CheckCircleOutlineOutlinedIcon className='list-icon' />
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={el}
+                            style={{ fontSize: '14px' }}
+                          />
+                        </ListItem>
+                        <Divider
+                          variant='inset'
+                          component='li'
+                          style={{ listStyle: 'none' }}
+                        />
+                      </Fragment>
+                    ))}
+                  </List>
+                ) : (
+                  <p>No listed skills</p>
+                )}
+              </Paper>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={fixedHeightPaper}>
+                <ul className={classes.profileHeading}>Profile comments:</ul>
+                {profile.comments.length === 0 && !isLoading ? (
+                  <p>There are no comments for this profile</p>
+                ) : profile.comments.length > 0 && !isLoading ? (
+                  profile.comments.map((el, index) => (
+                    // <li key={el._id}>{el.comment}</li>
+                    <Comment
+                      key={el._id}
+                      comment={el}
+                      comments={profile.comments}
+                      index={index}
+                      isLoading={isLoading}
+                    />
+                  ))
+                ) : (
+                  ''
+                )}
+              </Paper>
+            </Grid>
+          </Grid>
+
           <StyledGreyLink
             variant='contained'
             color='primary'

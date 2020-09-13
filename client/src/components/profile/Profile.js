@@ -189,7 +189,10 @@ const Profile = (props) => {
               >
                 Edit Profile
               </StyledGreyLink>
-
+              <p>
+                Select the button below to delete your profile AND account.
+                Warning: This cannot be undone.
+              </p>
               <StyledDeleteButton
                 style={{ minWidth: '230px' }}
                 variant='contained'
