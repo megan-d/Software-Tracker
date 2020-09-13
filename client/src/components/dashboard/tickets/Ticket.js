@@ -18,14 +18,19 @@ import MaterialTable from 'material-table';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // height: '100vh',
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
   },
   paper: {
-    margin: theme.spacing(4, 4),
+    minHeight: 300,
+    margin: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
+    overflow: 'auto',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 20,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -71,6 +76,17 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(1),
   },
+  profileHeading: {
+    fontWeight: 700,
+    marginBottom: 16,
+  },
+  profileSubheading: {
+    fontWeight: 700,
+    marginBottom: 6,
+  },
+  profileContent: {
+    marginBottom: 8,
+  },
 }));
 
 const Ticket = (props) => {
@@ -112,11 +128,14 @@ const Ticket = (props) => {
         <Spinner />
       ) : (
         <Fragment>
-          <div style={{display: 'flex'}}>
-          <ConfirmationNumberIcon style={{marginRight: '10px', color: '#43aa8b'}}/>
-          <h2 className='page-heading'>{ticket.title}</h2>
-          </div>
-          <hr className='hr'></hr>
+          <div className='flex'>
+        <ConfirmationNumberIcon className='page-heading-icon' />
+        <h2 className='page-heading'>{ticket.title}</h2>
+      </div>
+      <hr className='hr'></hr>
+      <AlertBanner />
+      {/* {(isLoading || ticket === null) && <Spinner />} */}
+      
           <div>Description: {ticket.description}</div>
           <div>Assigned Dev: {ticket.assignedDeveloper.username}</div>
           <ul>Ticket comments:</ul>
