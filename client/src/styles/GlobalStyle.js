@@ -53,6 +53,10 @@ footer p {
   min-height: 85vh;
 }
 
+.flex {
+  display: flex;
+}
+
 input {
   border-radius: 2px;
   border: 0.1px solid black;
@@ -118,6 +122,15 @@ input[type="search"] {
   font-size: 18px;
   font-weight: 500;
   text-transform: uppercase;
+}
+
+.page-heading-icon {
+  color: #43aa8b;
+  margin-right: 10px;
+}
+
+.list-icon {
+  color: #43aa8b;
 }
 
 img:-moz-loading {

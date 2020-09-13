@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   projectHeading: {
     fontWeight: 700,
+    marginBottom: 16,
   },
 }));
 
@@ -122,10 +123,8 @@ const Project = (props) => {
         <Fragment>
           <AlertBanner />
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex' }}>
-              <AssignmentIcon
-                style={{ marginRight: '10px', color: '#43aa8b' }}
-              />
+            <div className='flex'>
+              <AssignmentIcon className='page-heading-icon' />
               <h2 className='page-heading'>{project.name}</h2>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -141,7 +140,7 @@ const Project = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaper}>
-                <h4>Project Description:</h4>
+                <h4 className={classes.projectHeading}>Project Description:</h4>
                 <p>{project.description}</p>
               </Paper>
             </Grid>
@@ -238,9 +237,7 @@ const Project = (props) => {
                       <Fragment key={index}>
                         <ListItem>
                           <ListItemAvatar>
-                            <CheckCircleOutlineIcon
-                              style={{ color: '#43aa8b' }}
-                            />
+                            <CheckCircleOutlineIcon className='list-icon' />
                           </ListItemAvatar>
                           <ListItemText
                             primary={el}
@@ -349,16 +346,27 @@ const Project = (props) => {
             }}
           />
 
-          <Grid item xs={12} md={12} lg={12}>
-            <Paper className={fixedHeightPaper}>
-              <ul className={classes.projectHeading}>Project comments:</ul>
-              {project.comments.length === 0 && !isLoading ? (
-                <p>There are no comments for this project</p>
-              ) : project.comments.length > 0 && !isLoading
-                ? (
-                project.comments.map((el, index) => <Comment key={el._id} comment={el} comments={project.comments} index={index} isLoading={isLoading} />)
-              ) : ''}
-            </Paper>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={fixedHeightPaper}>
+                <ul className={classes.projectHeading}>Project comments:</ul>
+                {project.comments.length === 0 && !isLoading ? (
+                  <p>There are no comments for this project</p>
+                ) : project.comments.length > 0 && !isLoading ? (
+                  project.comments.map((el, index) => (
+                    <Comment
+                      key={el._id}
+                      comment={el}
+                      comments={project.comments}
+                      index={index}
+                      isLoading={isLoading}
+                    />
+                  ))
+                ) : (
+                  ''
+                )}
+              </Paper>
+            </Grid>
           </Grid>
 
           {user._id === project.owner ? (

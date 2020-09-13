@@ -109,7 +109,6 @@ const CreateProfile = ({ history }) => {
                 name='bio'
                 variant='outlined'
                 autoFocus
-                required
                 fullWidth
                 multiline
                 rows={6}
@@ -127,7 +126,6 @@ const CreateProfile = ({ history }) => {
               <TextField
                 variant='outlined'
                 fullWidth
-                required
                 name='skills'
                 label='Technologies'
                 helperText='Please enter the technologies that you have experience with, separated by a comma. (e.g. JavaScript, Node, React)'
