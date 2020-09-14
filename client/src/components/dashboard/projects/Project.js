@@ -62,7 +62,7 @@ const colors = [
   '#90BE6D',
   '#43AA8B',
   '#577590',
-  '##f3f3f3',
+  'grey',
 ];
 
 function ListItemLink(props) {
@@ -376,6 +376,7 @@ const Project = (props) => {
                 startIcon={<DeleteIcon />}
                 onClick={async () => deleteProject(project._id, props.history)}
                 className={classes.button}
+                style={{marginTop: '20px'}}
               >
                 Delete Project
               </StyledDeleteButton>

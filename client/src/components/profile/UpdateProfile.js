@@ -142,7 +142,7 @@ const UpdateProfile = ({ history, match }) => {
 
                 <TextField
                   variant='outlined'
-                  placeholder={profile.skills}
+                  placeholder={profile.skills.join()}
                   fullWidth
                   name='skills'
                   label='Technologies'

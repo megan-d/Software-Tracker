@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 6,
   },
   profileContent: {
-    marginBottom: 8,
+    marginBottom: 20,
   },
 }));
 
@@ -190,6 +190,7 @@ const MyProfile = (props) => {
                 variant='contained'
                 color='primary'
                 to={`/profiles/updateprofile/${user._id}`}
+                style={{marginBottom: '20px'}}
               >
                 Edit Profile
               </StyledGreyLink>

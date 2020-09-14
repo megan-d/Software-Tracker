@@ -27,7 +27,7 @@ const colors = [
     '#90BE6D',
     '#43AA8B',
     '#577590',
-    '##f3f3f3',
+    'grey',
   ];
 
 export default function Comment({comment, index, isLoading}) {
