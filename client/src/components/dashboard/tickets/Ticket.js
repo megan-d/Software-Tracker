@@ -149,16 +149,18 @@ const Ticket = (props) => {
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
                 <h4 className={classes.projectSubheading}>
-                  Ticket Description:{' '}
+                  Ticket Description:
                 </h4>
                 <p className={classes.projectContent}>{ticket.description}</p>
+                <h4 className={classes.projectSubheading}>Ticket Status:</h4>
+                <p className={classes.projectContent}>{ticket.status}</p>
                 <h4 className={classes.projectSubheading}>
-                  Assigned Developer:{' '}
+                  Assigned Developer:
                 </h4>
                 <div className='flex'>
                   <PersonIcon
                     className='page-heading-icon'
-                    style={{ color: '#F8961E' }}
+                    style={{ color: '#577590' }}
                   />
                   <p className={classes.projectContent}>
                     {ticket.assignedDeveloper.username}
@@ -279,19 +281,22 @@ const Ticket = (props) => {
             <Grid item xs={12} md={6} lg={6}>
               <MaterialTable
                 className={fixedHeightPaper}
-                style={{ minHeight: '460px' }}
+                style={{ minHeight: '460px', paddingLeft: '20px'}}
                 localization={{
                   header: {
                     actions: '',
                   },
                 }}
-                title='Ticket History'
+                title='Ticket History:'
                 columns={columns}
                 data={ticket.history}
                 options={{
                   filtering: false,
                   search: false,
                   align: 'center',
+                  headerStyle: {
+                    fontSize: '14px'
+                  }
                 }}
               />
             </Grid>

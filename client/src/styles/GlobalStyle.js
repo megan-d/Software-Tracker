@@ -24,6 +24,11 @@ html {
   height: 100%;
 }
 
+.MuiTypography-h6, .MuiToolbar-root {
+  font-size: 14px;
+  padding-left: 0px;
+}
+
 
 footer {
   display: flex;
