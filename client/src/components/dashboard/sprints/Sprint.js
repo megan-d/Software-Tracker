@@ -136,7 +136,7 @@ const Sprint = (props) => {
           {sprint.developers.length > 0 && (
             <Fragment>
               <ul>Sprint developers:</ul>
-              {sprint.developers.map((el, index) => <li key={el._id}>{el.username}</li>)}
+              {sprint.developers.map((el, index) => <li key={index}>{el.username}</li>)}
             </Fragment>
           )}
 

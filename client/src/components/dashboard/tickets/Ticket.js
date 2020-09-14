@@ -1,20 +1,37 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { StyledGreyLink, StyledGreyButton, StyledDeleteButton } from '../../../styles/styledComponents/StyledLinks';
+import {
+  StyledGreyLink,
+  StyledGreyButton,
+  StyledDeleteButton,
+} from '../../../styles/styledComponents/StyledLinks';
 import axios from 'axios';
+import clsx from 'clsx';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
+import moment from 'moment';
+import Moment from 'react-moment';
 import { makeStyles } from '@material-ui/core/styles';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import AlertBanner from '../../layout/AlertBanner';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import styled from 'styled-components';
+import PersonIcon from '@material-ui/icons/Person';
 import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MaterialTable from 'material-table';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Comment from '../comments/Comment';
+import Avatar from '../../layout/AvatarIcon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,14 +39,17 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+
+  fixedHeight: {
+    minHeight: 260,
+    height: 260,
+  },
   paper: {
-    minHeight: 300,
-    margin: theme.spacing(4),
+    minHeight: 260,
+    padding: theme.spacing(3),
     display: 'flex',
-    flexDirection: 'column',
     overflow: 'auto',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column',
     marginBottom: 20,
   },
   form: {
@@ -76,21 +96,23 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(1),
   },
-  profileHeading: {
+  projectHeading: {
     fontWeight: 700,
     marginBottom: 16,
   },
-  profileSubheading: {
+  projectSubheading: {
     fontWeight: 700,
     marginBottom: 6,
   },
-  profileContent: {
-    marginBottom: 8,
+  projectContent: {
+    marginBottom: 20,
   },
 }));
 
 const Ticket = (props) => {
   const classes = useStyles();
+
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const {
     ticket,
@@ -98,7 +120,7 @@ const Ticket = (props) => {
     deleteTicket,
     isLoading,
     addTicketToSprint,
-    clearTicket
+    clearTicket,
   } = useContext(TicketContext);
 
   const [formData, updateFormData] = useState({
@@ -129,96 +151,164 @@ const Ticket = (props) => {
       ) : (
         <Fragment>
           <div className='flex'>
-        <ConfirmationNumberIcon className='page-heading-icon' />
-        <h2 className='page-heading'>{ticket.title}</h2>
-      </div>
-      <hr className='hr'></hr>
-      <AlertBanner />
-      {/* {(isLoading || ticket === null) && <Spinner />} */}
-      
-          <div>Description: {ticket.description}</div>
-          <div>Assigned Dev: {ticket.assignedDeveloper.username}</div>
-          <ul>Ticket comments:</ul>
-          {ticket.comments.length === 0 && !isLoading ? (
-            <li>There are no comments for this ticket</li>
-          ) : (
-            ticket.comments.map((el) => <li key={el._id}>{el.comment}</li>)
-          )}
-          <MaterialTable
-          style={{width: '360px'}}
-          localization={{
-            header: {
-              actions: '',
-            },
-          }}
-          title='Ticket History'
-          columns={columns}
-          data={ticket.history}
-          options={{
-            filtering: false,
-            search: false,
-            align: 'center'
-          }}
-        />
-          <StyledGreyLink
-            variant='contained'
-            color='primary'
-            to={`/projects/tickets/comment/${ticket._id}`}
-          >
-            Comment on Ticket
-          </StyledGreyLink>
-          <StyledGreyLink
-            variant='contained'
-            color='primary'
-            to={`/projects/tickets/updateticket/${ticket._id}`}
-          >
-            Edit Ticket
-          </StyledGreyLink>
-          {ticket.project.sprints.length === 0 ? (
-            ''
-          ) : (
-            <Fragment>
-              
-              <FormControl variant='outlined' className={classes.formControl}>
-                <InputLabel htmlFor='sprint'>Select Sprint:</InputLabel>
-                <Select
-                className={classes.dropdown}
-                  native
-                  value={sprint}
-                  onChange={(e) => onChange(e)}
-                  label='Select Ticket'
-                  inputProps={{
-                    name: 'sprint',
-                    id: 'sprint',
-                  }}
-                >
-                  <option aria-label='None' value='' />
-                  {ticket.project.sprints.map((el) => (
-                    <option value={el._id} key={el._id}>
-                      {el.title}
-                    </option>
-                  ))}
-                </Select>
-                
-              </FormControl>
-              <StyledGreyButton
-              style={{display: 'inline-block'}}
-                variant='contained'
-                color='default'
-                onClick={async () => {
-                  await addTicketToSprint(
-                    sprint,
-                    ticket._id,
-                    ticket.project._id,
-                    props.history,
-                  );
-                }}
+            <ConfirmationNumberIcon className='page-heading-icon' />
+            <h2 className='page-heading'>{ticket.title}</h2>
+          </div>
+          <hr className='hr'></hr>
+          <AlertBanner />
+          {/* {(isLoading || ticket === null) && <Spinner />} */}
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper className={fixedHeightPaper}>
+                <h4 className={classes.projectSubheading}>
+                  Ticket Description:{' '}
+                </h4>
+                <p className={classes.projectContent}>{ticket.description}</p>
+                <h4 className={classes.projectSubheading}>
+                  Assigned Developer:{' '}
+                </h4>
+                <div className='flex'>
+                  <PersonIcon
+                    className='page-heading-icon'
+                    style={{ color: '#F8961E' }}
+                  />
+                  <p className={classes.projectContent}>
+                    {ticket.assignedDeveloper.username}
+                  </p>
+                </div>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={3} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <h4 className={classes.projectSubheading}>Ticket Type: </h4>
+                <p className={classes.projectContent}>{ticket.type}</p>
+                <h4 className={classes.projectSubheading}>Ticket Priority: </h4>
+                <p className={classes.projectContent}>{ticket.priority}</p>
+
+                <h4 className={classes.projectSubheading}>Due Date: </h4>
+                <Moment format='MM/DD/YYYY'>{moment(ticket.dateDue)}</Moment>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={3} lg={3}>
+              <Paper
+                className={fixedHeightPaper}
+                style={{ alignItems: 'center' }}
               >
-                Add Ticket to Sprint
-              </StyledGreyButton>
-              
-            </Fragment>
-          )}
+                <StyledGreyLink
+                  variant='contained'
+                  color='primary'
+                  to={`/projects/tickets/comment/${ticket._id}`}
+                >
+                  Comment on Ticket
+                </StyledGreyLink>
+                <StyledGreyLink
+                  variant='contained'
+                  color='primary'
+                  to={`/projects/tickets/updateticket/${ticket._id}`}
+                >
+                  Edit Ticket
+                </StyledGreyLink>
+                {ticket.project.sprints.length === 0 ? (
+                  ''
+                ) : (
+                  <Fragment>
+                    <FormControl
+                      variant='outlined'
+                      className={classes.formControl}
+                    >
+                      <InputLabel htmlFor='sprint'>Select Sprint:</InputLabel>
+                      <Select
+                        className={classes.dropdown}
+                        native
+                        value={sprint}
+                        onChange={(e) => onChange(e)}
+                        label='Select Ticket'
+                        style={{
+                          marginTop: '5px',
+                          marginBottom: '5px',
+                          height: '40px',
+                        }}
+                        inputProps={{
+                          name: 'sprint',
+                          id: 'sprint',
+                        }}
+                      >
+                        <option aria-label='None' value='' />
+                        {ticket.project.sprints.map((el) => (
+                          <option value={el._id} key={el._id}>
+                            {el.title}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <StyledGreyButton
+                      style={{ display: 'inline-block' }}
+                      variant='contained'
+                      color='default'
+                      onClick={async () => {
+                        await addTicketToSprint(
+                          sprint,
+                          ticket._id,
+                          ticket.project._id,
+                          props.history,
+                        );
+                      }}
+                    >
+                      Add Ticket to Sprint
+                    </StyledGreyButton>
+                  </Fragment>
+                )}
+              </Paper>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper
+                className={fixedHeightPaper}
+                style={{ minHeight: '460px' }}
+              >
+                <ul className={classes.projectHeading}>Ticket comments:</ul>
+                {ticket.comments.length === 0 && !isLoading ? (
+                  <p>There are no comments for this ticket</p>
+                ) : ticket.comments.length > 0 && !isLoading ? (
+                  ticket.comments.map((el, index) => (
+                    <Comment
+                      key={el._id}
+                      comment={el}
+                      comments={ticket.comments}
+                      index={index}
+                      isLoading={isLoading}
+                    />
+                  ))
+                ) : (
+                  ''
+                )}
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+              <MaterialTable
+                className={fixedHeightPaper}
+                style={{ minHeight: '460px' }}
+                localization={{
+                  header: {
+                    actions: '',
+                  },
+                }}
+                title='Ticket History'
+                columns={columns}
+                data={ticket.history}
+                options={{
+                  filtering: false,
+                  search: false,
+                  align: 'center',
+                }}
+              />
+            </Grid>
+          </Grid>
+
           <StyledDeleteButton
             variant='contained'
             startIcon={<DeleteIcon />}

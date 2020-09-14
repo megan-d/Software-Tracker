@@ -69,7 +69,14 @@ router.get('/ticket/:ticket_id', verify, async (req, res) => {
           path: 'sprints',
         },
       })
-      .populate('assignedDeveloper', 'username');
+      .populate('assignedDeveloper', 'username')
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'user',
+          select: 'username',
+        },
+      });
 
     //If there are no tickets, return an error
     if (!ticket) {
@@ -193,7 +200,7 @@ router.post(
       //   { _id: ticket._id },
       //   { $push: { history: historyItem } },
       // );
-        
+
       // // await ticket.history.push(historyItem);
       // await ticket.save();
 
@@ -236,9 +243,9 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
-        check('title', 'Please provide text in the title field.')
+      check('title', 'Please provide text in the title field.')
         .not()
-        .isEmpty()
+        .isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -457,7 +464,6 @@ router.delete('/:project_id/:ticket_id', verify, async (req, res) => {
       project.manager.toString() === req.user.id ||
       project.owner.toString() === req.user.id
     ) {
-      
       await Ticket.findOneAndRemove({ _id: req.params.ticket_id });
 
       let tickets = project.tickets;
