@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import Spinner from '../../layout/Spinner';
-import { AuthContext } from '../../../context/auth/AuthContext';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import styled from 'styled-components';
 
@@ -11,13 +10,11 @@ const StyledChartDiv = styled.div`
 
 const TicketPriorityPie = () => {
   const {
-    ticket,
     tickets,
     isLoading,
     getUserTickets,
     clearTickets,
   } = useContext(TicketContext);
-  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     getUserTickets();

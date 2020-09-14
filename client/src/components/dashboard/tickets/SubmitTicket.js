@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import { StyledRedLink, StyledGreyLink, StyledBlueButton, StyledGreyButton } from '../../../styles/styledComponents/StyledLinks';
@@ -19,28 +18,6 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import FormControl from '@material-ui/core/FormControl';
-import styled from 'styled-components';
-
-// const StyledBlueAssignButton = styled.button`
-//   color: white;
-//   font-family: Roboto, sans-serif;
-//   cursor: pointer;
-//   background-color: #3f51b5;
-//   text-decoration: none;
-//   border: none;
-//   border-radius: 3px;
-//   padding: 10px;
-//   font-size: 14px;
-//   width: 140px;
-//   max-width: 160px;
-//   text-align: center;
-//   margin: 10px 0px;
-//   display: block;
-//   font-weight: bold;
-//   height: 40px;
-//   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-//   display: inline-block;
-// `;
 
 const useStyles = makeStyles((theme) => ({
   root: {

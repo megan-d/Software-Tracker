@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, Fragment } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { SprintContext } from '../../../context/sprints/SprintContext';
 import Wrapper from '../../layout/Wrapper';
@@ -8,7 +8,6 @@ import MaterialTable from 'material-table';
 const Sprints = (props) => {
   const {
     sprints,
-    sprint,
     isLoading,
     getUserSprints,
     clearSprints,

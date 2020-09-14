@@ -13,7 +13,6 @@ const StyledChartDiv = styled.div`
 const TicketsByProjectBar = () => {
   const { user } = useContext(AuthContext);
   const {
-    project,
     projects,
     isLoading,
     getUserProjects,

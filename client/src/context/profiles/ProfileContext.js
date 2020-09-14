@@ -196,7 +196,7 @@ export const ProfileProvider = ({ children }) => {
     const body = JSON.stringify(comment);
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `/api/profiles/comment/${profileId}`,
         body,
         config,

@@ -42,7 +42,6 @@ export const ProjectProvider = ({ children }) => {
         payload: res.data,
       });
     } catch (err) {
-      let errors = err.response.data.errors;
       
       // if (errors) {
       //   //if errors, loop through them and dispatch the showAlert action from AlertContext
@@ -206,7 +205,7 @@ export const ProjectProvider = ({ children }) => {
     const body = JSON.stringify(comment);
 
     try {
-      const res = await axios.put(`/api/projects/comment/${projectId}`, body, config);
+      await axios.put(`/api/projects/comment/${projectId}`, body, config);
       // dispatch({
       //   type: 'ADD_COMMENT_SUCCESS',
       //   payload: res.data,

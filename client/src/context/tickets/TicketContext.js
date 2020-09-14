@@ -43,7 +43,6 @@ export const TicketProvider = ({ children }) => {
         payload: res.data,
       });
     } catch (err) {
-      let errors = err.response.data.errors;
       // if (errors) {
       //   //if errors, loop through them and dispatch the showAlert action from AlertContext
       //   await errors.forEach((el) => showAlert(el.msg, 'error'));
@@ -180,7 +179,7 @@ export const TicketProvider = ({ children }) => {
       },
     };
     try {
-      const res = await axios.delete(
+      await axios.delete(
         `/api/projects/tickets/${projectId}/${ticketId}`,
         config,
       );
@@ -211,7 +210,7 @@ export const TicketProvider = ({ children }) => {
     const body = JSON.stringify(comment);
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `/api/projects/tickets/comment/${ticketId}`,
         body,
         config,

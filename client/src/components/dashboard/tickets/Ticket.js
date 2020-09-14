@@ -1,15 +1,12 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
 import {
   StyledGreyLink,
   StyledGreyButton,
   StyledDeleteButton,
 } from '../../../styles/styledComponents/StyledLinks';
-import axios from 'axios';
 import clsx from 'clsx';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
-import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import moment from 'moment';
 import Moment from 'react-moment';
@@ -17,7 +14,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import AlertBanner from '../../layout/AlertBanner';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
-import styled from 'styled-components';
 import PersonIcon from '@material-ui/icons/Person';
 import { Select } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
@@ -25,13 +21,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MaterialTable from 'material-table';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Comment from '../comments/Comment';
-import Avatar from '../../layout/AvatarIcon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -141,8 +131,6 @@ const Ticket = (props) => {
     { title: 'Type of Change', field: 'typeOfChange', align: 'left' },
     { title: 'Date', field: 'date', type: 'date', align: 'right' },
   ];
-
-  let history = useHistory();
 
   return (
     <Wrapper>

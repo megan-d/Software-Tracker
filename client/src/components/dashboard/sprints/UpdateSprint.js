@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import { StyledRedLink, StyledGreyLink, StyledBlueButton } from '../../../styles/styledComponents/StyledLinks';
@@ -8,7 +7,6 @@ import AlertBanner from '../../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import { ProjectContext } from '../../../context/projects/ProjectContext';
 import { SprintContext } from '../../../context/sprints/SprintContext';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -18,7 +16,6 @@ import {
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import styled from 'styled-components';
 
 
 const useStyles = makeStyles((theme) => ({

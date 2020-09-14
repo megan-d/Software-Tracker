@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { StyledRedLink, StyledGreyLink, StyledBlueButton } from '../../../styles/styledComponents/StyledLinks';
+import {
+  StyledRedLink,
+  StyledBlueButton,
+} from '../../../styles/styledComponents/StyledLinks';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,8 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
-import styled from 'styled-components';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,15 +59,13 @@ const CommentProject = (props) => {
 
   const [formData, updateFormData] = useState({
     comment: '',
-    title: ''
+    title: '',
   });
 
   //Pull out variables from formData and userData
   const { comment, title } = formData;
 
-  const { project, createProject, getProjectDetails, addComment } = useContext(
-    ProjectContext,
-  );
+  const { project, getProjectDetails, addComment } = useContext(ProjectContext);
 
   useEffect(() => {
     getProjectDetails(props.match.params.projectid);
@@ -82,7 +80,7 @@ const CommentProject = (props) => {
     e.preventDefault();
     const newComment = {
       comment: comment,
-      title: title
+      title: title,
     };
     //call add project action
     await addComment(newComment, project._id, props.history);

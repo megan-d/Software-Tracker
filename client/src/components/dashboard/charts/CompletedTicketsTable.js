@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TicketContext } from '../../../context/tickets/TicketContext';
-import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
 

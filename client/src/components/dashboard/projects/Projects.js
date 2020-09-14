@@ -8,7 +8,6 @@ import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import ProjectCard from './ProjectCard';
 import styled from 'styled-components';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
@@ -35,14 +34,6 @@ const StyledLink = styled(Link)`
     box-shadow: 0 3px 6px 0px #777;
     background: #f8961e;
   }
-`;
-
-const StyledHr = styled.hr`
-  margin: 5px 0px;
-  background: #333333;
-  height: 1px;
-  border: none;
-  width: 255px;
 `;
 
 const useStyles = makeStyles({
@@ -86,7 +77,6 @@ const Projects = (props) => {
     projects,
     isLoading,
     getUserProjects,
-    clearProject,
     clearProjects,
   } = useContext(ProjectContext);
 

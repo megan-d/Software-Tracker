@@ -43,7 +43,7 @@ export const SprintProvider = ({ children }) => {
         payload: res.data,
       });
     } catch (err) {
-      let errors = err.response.data.errors;
+      
       // if (errors) {
       //   //if errors, loop through them and dispatch the showAlert action from AlertContext
       //   await errors.forEach((el) => showAlert(el.msg, 'error'));
@@ -168,7 +168,7 @@ export const SprintProvider = ({ children }) => {
     const body = JSON.stringify(comment);
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `/api/projects/sprints/comment/${sprintId}`,
         body,
         config,
@@ -217,7 +217,7 @@ export const SprintProvider = ({ children }) => {
       },
     };
     try {
-      const res = await axios.delete(
+      await axios.delete(
         `/api/projects/sprints/${projectId}/${sprintId}`,
         config,
       );

@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Wrapper from '../layout/Wrapper';
 import Spinner from '../layout/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +12,6 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
 import { AuthContext } from '../../context/auth/AuthContext';
-import styled from 'styled-components';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,12 +1,10 @@
-import React, { useContext, useState, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect, Fragment } from 'react';
 import Wrapper from '../layout/Wrapper';
 import AlertBanner from '../layout/AlertBanner';
 import {
-  StyledRedLink,
   StyledGreyLink,
   StyledDeleteButton,
 } from '../../styles/styledComponents/StyledLinks';
-import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import moment from 'moment';
 import Moment from 'react-moment';
@@ -17,15 +15,12 @@ import { ProfileContext } from '../../context/profiles/ProfileContext';
 import Spinner from '../layout/Spinner';
 import PersonIcon from '@material-ui/icons/Person';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
-import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Comment from '../dashboard/comments/Comment';
 
@@ -66,13 +61,9 @@ const Profile = (props) => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const { user, deleteUser } = useContext(AuthContext);
-  const {
-    profile,
-    profiles,
-    getProfileById,
-    isLoading,
-    clearProfile,
-  } = useContext(ProfileContext);
+  const { profile, getProfileById, isLoading, clearProfile } = useContext(
+    ProfileContext,
+  );
 
   //Load user profile on mount
   useEffect(() => {
@@ -186,7 +177,7 @@ const Profile = (props) => {
                 variant='contained'
                 color='primary'
                 to={`/profiles/updateprofile/${user._id}`}
-                style={{marginBottom: '20px'}}
+                style={{ marginBottom: '20px' }}
               >
                 Edit Profile
               </StyledGreyLink>

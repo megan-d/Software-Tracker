@@ -1,7 +1,5 @@
 import React, { useEffect, useContext, useState, Fragment } from 'react';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
-import { AuthContext } from '../../context/auth/AuthContext';
-import { Link } from 'react-router-dom';
 import Wrapper from '../layout/Wrapper';
 import Spinner from '../layout/Spinner';
 import ProfileCard from './ProfileCard';
@@ -14,20 +12,6 @@ const StyledCards = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-`;
-
-const StyledLink = styled(Link)`
-  color: white;
-  background: grey;
-  text-decoration: none;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  max-width: 100px;
-  text-align: center;
-  margin: 10px 0px;
-  display: block;
-  font-weight: bold;
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -94,14 +78,11 @@ const Profiles = (props) => {
 
   const {
     profiles,
-    profile,
+
     isLoading,
     getProfiles,
-    clearProfile,
     clearProfiles,
   } = useContext(ProfileContext);
-
-  const { user } = useContext(AuthContext);
 
   const [searchTerm, updateSearch] = useState('');
 
@@ -123,7 +104,7 @@ const Profiles = (props) => {
     '#90BE6D',
     '#43AA8B',
     '#577590',
-    'grey'
+    'grey',
   ];
 
   // '#F8961E',

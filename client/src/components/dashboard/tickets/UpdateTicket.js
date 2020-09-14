@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import AlertBanner from '../../layout/AlertBanner';
-import { StyledRedLink, StyledGreyLink, StyledBlueButton, StyledGreyButton } from '../../../styles/styledComponents/StyledLinks';
+import { StyledRedLink, StyledGreyLink, StyledBlueButton } from '../../../styles/styledComponents/StyledLinks';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
@@ -17,7 +16,6 @@ import {
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import styled from 'styled-components';
 
 
 const useStyles = makeStyles((theme) => ({

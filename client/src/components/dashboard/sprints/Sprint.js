@@ -2,14 +2,10 @@ import React, {
   Fragment,
   useContext,
   useEffect,
-  useHistory,
-  useState,
 } from 'react';
-import { Link } from 'react-router-dom';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MaterialTable from 'material-table';
 import {
@@ -17,13 +13,7 @@ import {
   StyledDeleteButton,
 } from '../../../styles/styledComponents/StyledLinks';
 import { SprintContext } from '../../../context/sprints/SprintContext';
-import { TicketContext } from '../../../context/tickets/TicketContext';
-import { ProjectContext } from '../../../context/projects/ProjectContext';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
-import styled from 'styled-components';
-import { Select } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,7 +90,6 @@ const Sprint = (props) => {
     getSprintDetails,
     deleteSprint,
     isLoading,
-    getProjectForSprint,
     removeTicketFromSprint,
     clearSprint,
   } = useContext(SprintContext);

@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
 import AlertBanner from '../../layout/AlertBanner';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
-import { StyledRedLink, StyledGreyLink, StyledBlueButton } from '../../../styles/styledComponents/StyledLinks';
+import {
+  StyledRedLink,
+  StyledGreyLink,
+  StyledBlueButton,
+} from '../../../styles/styledComponents/StyledLinks';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +17,6 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import styled from 'styled-components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,7 +88,7 @@ export default function EditProject(props) {
     repoLink: '',
     liveLink: '',
     developer: '',
-    techStack: ''
+    techStack: '',
   });
 
   //   const [access, setAccess] = useState('public');

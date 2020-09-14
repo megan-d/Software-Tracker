@@ -1,15 +1,13 @@
-import React, { useContext, useState, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect, Fragment } from 'react';
 import Wrapper from '../layout/Wrapper';
 import AlertBanner from '../layout/AlertBanner';
 import moment from 'moment';
 import Moment from 'react-moment';
-import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import Divider from '@material-ui/core/Divider';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
 import {
-  StyledRedLink,
   StyledGreyLink,
   StyledDeleteButton,
 } from '../../styles/styledComponents/StyledLinks';
@@ -18,13 +16,10 @@ import PersonIcon from '@material-ui/icons/Person';
 import Spinner from '../layout/Spinner';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
-import styled from 'styled-components';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Comment from '../dashboard/comments/Comment';
@@ -70,14 +65,9 @@ const MyProfile = (props) => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const { user, deleteUser } = useContext(AuthContext);
-  const {
-    profile,
-    profiles,
-    getCurrentUserProfile,
-    getProfileById,
-    isLoading,
-    clearProfile,
-  } = useContext(ProfileContext);
+  const { profile, getProfileById, isLoading, clearProfile } = useContext(
+    ProfileContext,
+  );
 
   //Load user profile on mount
   useEffect(() => {
@@ -190,7 +180,7 @@ const MyProfile = (props) => {
                 variant='contained'
                 color='primary'
                 to={`/profiles/updateprofile/${user._id}`}
-                style={{marginBottom: '20px'}}
+                style={{ marginBottom: '20px' }}
               >
                 Edit Profile
               </StyledGreyLink>

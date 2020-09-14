@@ -7,10 +7,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { ProjectContext } from '../../../context/projects/ProjectContext';
 import Spinner from '../../layout/Spinner';
-import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import AvatarIcon from '../../layout/AvatarIcon';
 import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,17 +16,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
 }));
-
-const colors = ['orange', 'red', 'green', 'blue', 'yellow', 'purple', 'black', 'pink', 'lightgreen'];
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     display: 'flex',
-//     '& > *': {
-//       margin: theme.spacing(1),
-//     },
-//   },
-// }));
 
 function ListItemLink(props) {
   return (

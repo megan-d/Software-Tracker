@@ -61,11 +61,7 @@ const CreateProject = ({ history }) => {
     developers: '',
   });
 
-  const [access, setAccess] = useState('public');
-
-  const handleChange = (event) => {
-    setAccess(event.target.value);
-  };
+  const [access] = useState('public');
 
   const [targetCompletionDate, setSelectedDate] = useState(Date.now());
 

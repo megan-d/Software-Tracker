@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import Wrapper from '../layout/Wrapper';
 import Spinner from '../layout/Spinner';
 import {
   StyledRedLink,
-  StyledGreyLink,
   StyledBlueButton,
 } from '../../styles/styledComponents/StyledLinks';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
-import styled from 'styled-components';
 
 const useStyles = makeStyles((theme) => ({
   root: {

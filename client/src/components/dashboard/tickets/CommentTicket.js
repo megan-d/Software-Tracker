@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import {
   StyledRedLink,
-  StyledGreyLink,
   StyledBlueButton,
 } from '../../../styles/styledComponents/StyledLinks';
 import Wrapper from '../../layout/Wrapper';
@@ -13,7 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { TicketContext } from '../../../context/tickets/TicketContext';
-import styled from 'styled-components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +50,7 @@ const CommentTicket = (props) => {
   //Pull out variables from formData and userData
   const { comment, title } = formData;
 
-  const { ticket, isLoading, addTicketComment, getTicketDetails } = useContext(
+  const { ticket, addTicketComment, getTicketDetails } = useContext(
     TicketContext,
   );
 
