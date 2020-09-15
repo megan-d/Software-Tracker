@@ -132,7 +132,8 @@ export const ProfileProvider = ({ children }) => {
         type: 'CREATE_USER_PROFILE_SUCCESS',
         payload: res.data,
       });
-      // history.push(`/profiles/${user._id}`);
+      
+      history.push(`/dashboard`);
     } catch (err) {
       let errors = err.response.data.errors;
 

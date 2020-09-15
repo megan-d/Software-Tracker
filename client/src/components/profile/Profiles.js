@@ -78,7 +78,6 @@ const Profiles = (props) => {
 
   const {
     profiles,
-
     isLoading,
     getProfiles,
     clearProfiles,
@@ -96,7 +95,6 @@ const Profiles = (props) => {
 
   const colors = [
     // '#F94144',
-
     '#203a43',
     '#F3722C',
     '#F8961E',

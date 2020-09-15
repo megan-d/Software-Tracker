@@ -142,12 +142,12 @@ const CreateProfile = ({ history }) => {
               >
                 SUBMIT
               </StyledBlueButton>
-              <StyledRedLink
+              {/* <StyledRedLink
                 to={`/profiles/${user._id}`}
                 className={classes.buttons}
               >
                 CANCEL
-              </StyledRedLink>
+              </StyledRedLink> */}
             </form>
           </div>
         </Grid>

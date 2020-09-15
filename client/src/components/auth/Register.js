@@ -113,12 +113,13 @@ const Register = (props) => {
     };
     //call register action
     await register(user);
-    props.history.push('/createprofile');
+    //THIS IS THE LINE THAT NEEDS TO BE FIXED
+    // props.history.push('/createprofile');
   };
 
   //If isAuthenticated, redirect to the Create Profile page to have them create their initial profile.
   if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+    return <Redirect to='/createprofile' />;
   }
 
   return (
@@ -150,7 +151,7 @@ const Register = (props) => {
               >
                 Register
               </Typography>
-              <AlertBanner />
+              
               <form
                 className={classes.form}
                 action=''
@@ -232,6 +233,7 @@ const Register = (props) => {
                   onChange={(e) => onChange(e)}
                   margin='normal'
                 />
+                <AlertBanner />
                 <Button
                   type='submit'
                   fullWidth

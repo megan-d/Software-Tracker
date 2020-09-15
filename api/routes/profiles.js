@@ -15,11 +15,7 @@ const Profile = require('../models/Profile');
 //ACCESS LEVEL: Private
 router.get('/', verify, async (req, res) => {
   try {
-    let profiles = await Profile.find().populate('user', [
-      'username',
-      'firstName',
-      'lastName',
-    ]);
+    let profiles = await Profile.find().populate('user', ['username', 'firstName', 'lastName']);
     res.json(profiles);
   } catch (err) {
     res.status(500).send('Server Error');
