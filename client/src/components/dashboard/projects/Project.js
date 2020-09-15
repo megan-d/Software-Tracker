@@ -26,6 +26,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Comment from '../comments/Comment';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -265,7 +266,7 @@ const Project = (props) => {
                 actions: '',
               },
             }}
-            title='Tickets'
+            title={<Typography  style={{fontSize: '15px', fontWeight: 700}}>Tickets:</Typography>}
             columns={ticketColumns}
             data={project.tickets.map((el) => {
               return {
@@ -305,7 +306,7 @@ const Project = (props) => {
                 actions: '',
               },
             }}
-            title='Sprints'
+            title={<Typography  style={{fontSize: '15px', fontWeight: 700}}>Sprints:</Typography>}
             columns={sprintColumns}
             data={project.sprints.map((el) => {
               return {

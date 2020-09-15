@@ -4,6 +4,7 @@ import { SprintContext } from '../../../context/sprints/SprintContext';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
+import Typography from '@material-ui/core/Typography';
 
 const Sprints = (props) => {
   const {
@@ -42,7 +43,7 @@ const Sprints = (props) => {
               actions: 'Project',
             },
           }}
-          title='Sprints'
+          title={<Typography style={{fontSize: '16px', fontWeight: 700}}>Sprints</Typography>}
           columns={columns}
           actions={[
             {

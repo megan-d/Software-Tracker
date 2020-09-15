@@ -131,6 +131,7 @@ input[type="search"] {
 .page-content-subheading {
   font-weight: 700;
   margin-bottom: 12px;
+  font-size: 15px;
 }
 
 .page-content {

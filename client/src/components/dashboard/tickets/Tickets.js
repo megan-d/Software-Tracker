@@ -4,6 +4,7 @@ import { TicketContext } from '../../../context/tickets/TicketContext';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
+import Typography from '@material-ui/core/Typography';
 
 const Tickets = (props) => {
   const sortedPriority = (priority) => {
@@ -64,7 +65,7 @@ const Tickets = (props) => {
               actions: 'View Project',
             },
           }}
-          title='Tickets'
+          title={<Typography  style={{fontSize: '16px', fontWeight: 700}}>Tickets</Typography>}
           columns={columns}
           actions={[
             {

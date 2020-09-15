@@ -22,6 +22,7 @@ import MaterialTable from 'material-table';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Comment from '../comments/Comment';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -272,13 +273,13 @@ const Ticket = (props) => {
             <Grid item xs={12} md={6} lg={6}>
               <MaterialTable
                 className={fixedHeightPaper, classes.typography}
-                style={{ minHeight: '460px', paddingLeft: '32px', paddingRight: '32px'}}
+                style={{ minHeight: '460px', paddingLeft: '8px', paddingRight: '32px', paddingTop: '14px'}}
                 localization={{
                   header: {
                     actions: '',
                   },
                 }}
-                title='Ticket History:'
+                title={<Typography  style={{fontSize: '15px', fontWeight: 700}}>Ticket History:</Typography>}
                 columns={columns}
                 data={ticket.history}
                 options={{

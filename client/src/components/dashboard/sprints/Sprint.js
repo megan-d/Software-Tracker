@@ -23,6 +23,7 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -163,13 +164,13 @@ const Sprint = (props) => {
             <Grid item xs={12} md={6} lg={6}>
               <MaterialTable
                 className={(fixedHeightPaper, classes.typography)}
-                style={{ height: '330px', paddingLeft: '20px' }}
+                style={{ height: '330px', paddingLeft: '8px', paddingRight: '32px', paddingTop: '14px'}}
                 localization={{
                   header: {
                     actions: '',
                   },
                 }}
-                title='Sprint Status Log:'
+                title={<Typography  style={{fontSize: '15px', fontWeight: 700}}>Sprint Status Log:</Typography>}
                 columns={columns}
                 data={sprint.statusLog}
                 options={{
@@ -255,13 +256,13 @@ const Sprint = (props) => {
 
           
           <MaterialTable
-          style={{ marginTop: '15px', paddingLeft: '32px', paddingRight: '32px', marginBottom: '40px' }}
+          style={{ paddingLeft: '8px', paddingRight: '32px', paddingTop: '14px'}}
             localization={{
               header: {
                 actions: 'Remove',
               },
             }}
-            title='Tickets'
+            title={<Typography  style={{fontSize: '15px', fontWeight: 700}}>Tickets:</Typography>}
             columns={ticketColumns}
             data={sprint.tickets.map((el) => {
               return {
