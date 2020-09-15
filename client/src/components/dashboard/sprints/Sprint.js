@@ -3,6 +3,7 @@ import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Moment from 'react-moment';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -17,6 +18,11 @@ import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Comment from '../comments/Comment';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   fixedHeight: {
-    minHeight: 260,
-    height: 260,
+    minHeight: 330,
+    height: 330,
   },
   paper: {
-    minHeight: 260,
+    minHeight: 330,
     padding: theme.spacing(4),
     display: 'flex',
     overflow: 'auto',
@@ -80,6 +86,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const colors = [
+  // '#F94144',
+  '#577590',
+  '#43AA8B',
+  '#F9C74F',
+  '#F8961E',
+  '#90BE6D',
+  '#F3722C',
+  'grey',
+];
+
+function ListItemLink(props) {
+  return <Link {...props} style={{ textDecoration: 'none', color: 'grey' }} />;
+}
+
 const Sprint = (props) => {
   const classes = useStyles();
 
@@ -110,6 +131,11 @@ const Sprint = (props) => {
     return () => clearSprint();
   }, []);
 
+  const columns = [
+    { title: 'Status', field: 'status', align: 'left' },
+    { title: 'Date', field: 'date', type: 'date', align: 'right' },
+  ];
+
   return (
     <Wrapper>
       {!sprint || isLoading ? (
@@ -123,32 +149,113 @@ const Sprint = (props) => {
           <hr className='hr'></hr>
           <AlertBanner />
           <Grid container spacing={3}>
-
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper className={fixedHeightPaper}>
+                <h4 className='page-content-subheading'>Sprint Description:</h4>
+                <p className='page-content'>{sprint.description}</p>
+                <h4 className='page-content-subheading'>Sprint Status:</h4>
+                <p className='page-content'>{sprint.status}</p>
+                <h4 className='page-content-subheading'>Project:</h4>
+                <p className='page-content'>{sprint.project.name}</p>
+              </Paper>
             </Grid>
 
-          <div>{sprint.description}</div>
-          {sprint.developers.length > 0 && (
-            <Fragment>
-              <ul>Sprint developers:</ul>
-              {sprint.developers.map((el, index) => (
-                <li key={index}>{el.username}</li>
-              ))}
-            </Fragment>
-          )}
+            <Grid item xs={12} md={6} lg={6}>
+              <MaterialTable
+                className={(fixedHeightPaper, classes.typography)}
+                style={{ height: '330px', paddingLeft: '20px' }}
+                localization={{
+                  header: {
+                    actions: '',
+                  },
+                }}
+                title='Sprint Status Log:'
+                columns={columns}
+                data={sprint.statusLog}
+                options={{
+                  filtering: false,
+                  pageSize: 3,
+                  paging: true,
+                  search: false,
+                  align: 'center',
+                  headerStyle: {
+                    fontSize: '14px',
+                  },
+                }}
+              />
+            </Grid>
+          </Grid>
 
-          <ul>Sprint comments:</ul>
-          {sprint.comments.length === 0 && !isLoading ? (
-            <p>There are no comments for this sprint</p>
-          ) : (
-            sprint.comments.map((el) => <li key={el._id}>{el.comment}</li>)
-          )}
-          {/* <ul>Sprint developers:</ul>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper className={fixedHeightPaper}>
+                <ul className='page-content-subheading'>
+                  Developers on Sprint:
+                </ul>
+                {sprint.developers.length > 0
+                  ? sprint.developers.map((el, index) => {
+                      return (
+                        <Fragment key={index}>
+                          <ListItemLink
+                            to={`/profiles/${el._id}`}
+                            className={classes.root}
+                          >
+                            <ListItem button>
+                              <ListItemAvatar>
+                                <Avatar
+                                  className={classes.root}
+                                  style={{
+                                    height: '40px',
+                                    width: '40px',
+                                    color: '#fafafa',
+                                    backgroundColor:
+                                      colors[index % colors.length],
+                                  }}
+                                >
+                                  {el.firstName.charAt(0).toUpperCase()}
+                                  {el.lastName.charAt(0).toUpperCase()}
+                                </Avatar>
+                              </ListItemAvatar>
+                              <ListItemText primary={el.username} />
+                            </ListItem>
+                          </ListItemLink>
+                          <Divider
+                            variant='inset'
+                            component='li'
+                            style={{ listStyle: 'none' }}
+                          />
+                        </Fragment>
+                      );
+                    })
+                  : ''}
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={8} lg={8}>
+              <Paper className={fixedHeightPaper}>
+              <ul className='page-content-subheading'>Sprint comments:</ul>
+                {sprint.comments.length === 0 && !isLoading ? (
+                  <p>There are no comments for this sprint</p>
+                ) : sprint.comments.length > 0 && !isLoading ? (
+                  sprint.comments.map((el, index) => (
+                    <Comment
+                      key={el._id}
+                      comment={el}
+                      comments={sprint.comments}
+                      index={index}
+                      isLoading={isLoading}
+                    />
+                  ))
+                ) : (
+                  ''
+                )}
+              </Paper>
+            </Grid>
+          </Grid>
 
-          {sprint.developers.length > 0 && sprint.developers[0].username
-            ? sprint.developers.map((el, index) => <li key={index}>{el}</li>)
-            : ''} */}
 
+          
           <MaterialTable
+          style={{ marginTop: '15px', paddingLeft: '32px', paddingRight: '32px', marginBottom: '40px' }}
             localization={{
               header: {
                 actions: 'Remove',
@@ -194,6 +301,7 @@ const Sprint = (props) => {
               props.history.push(`/ticket/${rowData.id}`);
             }}
           />
+
           <StyledGreyLink
             variant='contained'
             color='primary'
@@ -205,10 +313,14 @@ const Sprint = (props) => {
             variant='contained'
             color='primary'
             to={`/projects/sprints/updatesprint/${sprint._id}`}
+            style={{ marginBottom: '20px' }}
           >
             Edit Sprint
           </StyledGreyLink>
-
+          <p>
+            Select the button below to delete this sprint. Warning: This cannot
+            be undone.
+          </p>
           <StyledDeleteButton
             variant='contained'
             startIcon={<DeleteIcon />}

@@ -141,6 +141,16 @@ input[type="search"] {
   color: #43aa8b;
 }
 
+.MuiTableCell-head, .MuiTableCell-body {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.MuiTableCell-paddingCheckbox:last-child {
+   
+    padding-right: 24px;
+}
+
 img:-moz-loading {
     visibility: hidden;
 }

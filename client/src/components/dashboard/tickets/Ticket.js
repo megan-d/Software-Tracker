@@ -30,11 +30,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   fixedHeight: {
-    minHeight: 260,
-    height: 260,
+    minHeight: 300,
+    height: 300,
   },
   paper: {
-    minHeight: 260,
+    minHeight: 300,
     padding: theme.spacing(4),
     display: 'flex',
     overflow: 'auto',
@@ -272,7 +272,7 @@ const Ticket = (props) => {
             <Grid item xs={12} md={6} lg={6}>
               <MaterialTable
                 className={fixedHeightPaper, classes.typography}
-                style={{ minHeight: '460px', paddingLeft: '20px'}}
+                style={{ minHeight: '460px', paddingLeft: '32px', paddingRight: '32px'}}
                 localization={{
                   header: {
                     actions: '',

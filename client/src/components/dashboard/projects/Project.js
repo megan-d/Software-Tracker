@@ -195,7 +195,7 @@ const Project = (props) => {
                                     height: '40px',
                                     width: '40px',
                                     color: '#fafafa',
-                                    backgroundColor: colors[index],
+                                    backgroundColor: colors[index % colors.length],
                                   }}
                                 >
                                   {el.firstName.charAt(0).toUpperCase()}

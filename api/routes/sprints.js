@@ -90,8 +90,16 @@ router.get('/tickets/:sprint_id', verify, async (req, res) => {
 //ACCESS LEVEL: Private
 router.get('/sprint/:sprint_id', verify, async (req, res) => {
   try {
-    let sprint = await Sprint.findOne({ _id: req.params.sprint_id}).populate(
-      'project tickets').populate('developers', 'username');
+    let sprint = await Sprint.findOne({ _id: req.params.sprint_id })
+      .populate('project tickets')
+      .populate('developers', 'username firstName lastName')
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'user',
+          select: 'username',
+        },
+      });
 
     //If there are no sprints, return an error
     if (!sprint) {
@@ -407,7 +415,7 @@ router.get('/:sprint_id/:ticket_id', verify, async (req, res) => {
 
     if (isExistingSprintDeveloper.length === 0) {
       //Add to developers array for sprint
-      
+
       await Sprint.updateOne(
         { _id: req.params.sprint_id },
         { $push: { developers: assignedDev } },
@@ -461,7 +469,7 @@ router.delete('/ticket/:sprint_id/:ticket_id', verify, async (req, res) => {
     //   $pull: { "tickets": { _id: req.params.ticket_id } },
     // });
     // let deletedTicket = sprint.tickets.splice(index, 1);
-    await sprint.tickets.pull({_id: req.params.ticket_id});
+    await sprint.tickets.pull({ _id: req.params.ticket_id });
     await sprint.save();
     res.json(sprint);
   } catch (err) {
@@ -482,9 +490,9 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
-        check('title', 'Please provide text in the title field.')
+      check('title', 'Please provide text in the title field.')
         .not()
-        .isEmpty()
+        .isEmpty(),
     ],
   ],
   async (req, res) => {
