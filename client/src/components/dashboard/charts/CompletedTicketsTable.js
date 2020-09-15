@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
+import Typography from '@material-ui/core/Typography';
 
 const CompletedTicketsTable = (props) => {
   const { tickets, isLoading, getUserTickets, clearTickets } = useContext(
@@ -40,7 +41,7 @@ const CompletedTicketsTable = (props) => {
               actions: '',
             },
           }}
-          title='My Completed Tickets'
+          title={<Typography  style={{fontSize: '16px', fontWeight: 700, color: '#666666'}}>My Completed Tickets</Typography>}
           columns={columns}
           data={completedTickets}
           onRowClick={async (event, rowData) => {

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { TicketContext } from '../../../context/tickets/TicketContext';
 import Spinner from '../../layout/Spinner';
 import MaterialTable from 'material-table';
+import Typography from '@material-ui/core/Typography';
 
 const PendingTicketsTable = (props) => {
   const { tickets, isLoading, getUserTickets, clearTickets } = useContext(
@@ -40,7 +41,7 @@ const PendingTicketsTable = (props) => {
               actions: '',
             },
           }}
-          title='My Pending Tickets'
+          title={<Typography  style={{fontSize: '16px', fontWeight: 700, color: '#666666'}}>My Pending Tickets</Typography>}
           columns={columns}
           data={pendingTickets}
           onRowClick={async (event, rowData) => {
