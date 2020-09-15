@@ -38,14 +38,10 @@ const useStyles = makeStyles((theme) => ({
     height: 250,
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(4),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-  },
-  projectHeading: {
-    fontWeight: 700,
-    marginBottom: 16,
   },
 }));
 
@@ -135,7 +131,7 @@ const Project = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaper}>
-                <h4 className={classes.projectHeading}>Project Description:</h4>
+                <h4 className='page-content-subheading'>Project Description:</h4>
                 <p>{project.description}</p>
               </Paper>
             </Grid>
@@ -180,7 +176,7 @@ const Project = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <ul className={classes.projectHeading}>
+                <ul className='page-content-subheading'>
                   Developers on Project:
                 </ul>
                 {project.developers.length > 0 && project.developers[0].username
@@ -223,7 +219,7 @@ const Project = (props) => {
 
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <ul className={classes.projectHeading}>Project Tech Stack:</ul>
+                <ul className='page-content-subheading'>Project Tech Stack:</ul>
                 {project.techStack.length === 0 && !isLoading ? (
                   <p>No listed technologies</p>
                 ) : (
@@ -344,7 +340,7 @@ const Project = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
-                <ul className={classes.projectHeading}>Project comments:</ul>
+                <ul className='page-content-subheading'>Project comments:</ul>
                 {project.comments.length === 0 && !isLoading ? (
                   <p>There are no comments for this project</p>
                 ) : project.comments.length > 0 && !isLoading ? (

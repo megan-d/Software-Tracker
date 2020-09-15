@@ -29,14 +29,13 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
-
   fixedHeight: {
     minHeight: 260,
     height: 260,
   },
   paper: {
     minHeight: 260,
-    padding: theme.spacing(3),
+    padding: theme.spacing(4),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
@@ -85,14 +84,6 @@ const useStyles = makeStyles((theme) => ({
   searchButton: {
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(1),
-  },
-  projectHeading: {
-    fontWeight: 700,
-    marginBottom: 16,
-  },
-  projectSubheading: {
-    fontWeight: 700,
-    marginBottom: 6,
   },
   projectContent: {
     marginBottom: 20,
@@ -148,13 +139,13 @@ const Ticket = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <h4 className={classes.projectSubheading}>
+                <h4 className='page-content-subheading'>
                   Ticket Description:
                 </h4>
-                <p className={classes.projectContent}>{ticket.description}</p>
-                <h4 className={classes.projectSubheading}>Ticket Status:</h4>
-                <p className={classes.projectContent}>{ticket.status}</p>
-                <h4 className={classes.projectSubheading}>
+                <p className='page-content'>{ticket.description}</p>
+                <h4 className='page-content-subheading'>Ticket Status:</h4>
+                <p className='page-content'>{ticket.status}</p>
+                <h4 className='page-content-subheading'>
                   Assigned Developer:
                 </h4>
                 <div className='flex'>
@@ -162,7 +153,7 @@ const Ticket = (props) => {
                     className='page-heading-icon'
                     style={{ color: '#577590' }}
                   />
-                  <p className={classes.projectContent}>
+                  <p className='page-content'>
                     {ticket.assignedDeveloper.username}
                   </p>
                 </div>
@@ -171,12 +162,12 @@ const Ticket = (props) => {
 
             <Grid item xs={12} md={3} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <h4 className={classes.projectSubheading}>Ticket Type: </h4>
-                <p className={classes.projectContent}>{ticket.type}</p>
-                <h4 className={classes.projectSubheading}>Ticket Priority: </h4>
-                <p className={classes.projectContent}>{ticket.priority}</p>
+                <h4 className='page-content-subheading'>Ticket Type: </h4>
+                <p className='page-content'>{ticket.type}</p>
+                <h4 className='page-content-subheading'>Ticket Priority: </h4>
+                <p className='page-content'>{ticket.priority}</p>
 
-                <h4 className={classes.projectSubheading}>Due Date: </h4>
+                <h4 className='page-content-subheading'>Due Date: </h4>
                 <Moment format='MM/DD/YYYY'>{moment(ticket.dateDue)}</Moment>
               </Paper>
             </Grid>
@@ -260,7 +251,7 @@ const Ticket = (props) => {
                 className={fixedHeightPaper}
                 style={{ minHeight: '460px' }}
               >
-                <ul className={classes.projectHeading}>Ticket comments:</ul>
+                <ul className='page-content-subheading'>Ticket comments:</ul>
                 {ticket.comments.length === 0 && !isLoading ? (
                   <p>There are no comments for this ticket</p>
                 ) : ticket.comments.length > 0 && !isLoading ? (
@@ -280,7 +271,7 @@ const Ticket = (props) => {
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
               <MaterialTable
-                className={fixedHeightPaper}
+                className={fixedHeightPaper, classes.typography}
                 style={{ minHeight: '460px', paddingLeft: '20px'}}
                 localization={{
                   header: {

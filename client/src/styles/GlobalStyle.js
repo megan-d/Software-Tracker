@@ -24,12 +24,6 @@ html {
   height: 100%;
 }
 
-.MuiTypography-h6, .MuiToolbar-root {
-  font-size: 14px;
-  padding-left: 0px;
-}
-
-
 footer {
   display: flex;
   align-items: center;
@@ -132,6 +126,15 @@ input[type="search"] {
 .page-heading-icon {
   color: #43aa8b;
   margin-right: 10px;
+}
+
+.page-content-subheading {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.page-content {
+  margin-bottom: 20px;
 }
 
 .list-icon {

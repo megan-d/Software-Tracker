@@ -42,17 +42,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     marginBottom: 20,
   },
-  profileHeading: {
-    fontWeight: 700,
-    marginBottom: 16,
-  },
-  profileSubheading: {
-    fontWeight: 700,
-    marginBottom: 6,
-  },
-  profileContent: {
-    marginBottom: 20,
-  },
 }));
 
 // function ListItemLink(props) {
@@ -92,29 +81,29 @@ const MyProfile = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <h4 className={classes.profileSubheading}>Name: </h4>
-                <p className={classes.profileContent}>
+                <h4 className='page-content-subheading'>Name: </h4>
+                <p className='page-content'>
                   {profile.user.firstName} {profile.user.lastName}
                 </p>
-                <h4 className={classes.profileSubheading}>Username: </h4>
-                <p className={classes.profileContent}>
+                <h4 className='page-content-subheading'>Username: </h4>
+                <p className='page-content'>
                   {profile.user.username}
                 </p>
                 {profile.bio && (
                   <Fragment>
-                    <h4 className={classes.profileSubheading}>Bio:</h4>
-                    <p className={classes.profileContent}>{profile.bio}</p>
+                    <h4 className='page-content-subheading'>Bio:</h4>
+                    <p className='page-content'>{profile.bio}</p>
                   </Fragment>
                 )}
 
-                <h4 className={classes.profileSubheading}>Date Joined: </h4>
+                <h4 className='page-content-subheading'>Date Joined: </h4>
                 <Moment format='MM/DD/YYYY'>{moment(profile.created)}</Moment>
               </Paper>
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
-                <h4 className={classes.profileSubheading}>Technical Skills:</h4>
+                <h4 className='page-content-subheading'>Technical Skills:</h4>
                 {profile.skills.length > 0 && !isLoading ? (
                   <List aria-label='tech items'>
                     {profile.skills.map((el, index) => (
@@ -146,7 +135,7 @@ const MyProfile = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
-                <ul className={classes.profileHeading}>Profile comments:</ul>
+                <ul className='page-content-subheading'>Profile comments:</ul>
                 {profile.comments.length === 0 && !isLoading ? (
                   <p>There are no comments for this profile</p>
                 ) : profile.comments.length > 0 && !isLoading ? (

@@ -1,12 +1,12 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-} from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import Wrapper from '../../layout/Wrapper';
 import Spinner from '../../layout/Spinner';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
+import Moment from 'react-moment';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AlertBanner from '../../layout/AlertBanner';
 import MaterialTable from 'material-table';
 import {
   StyledGreyLink,
@@ -14,17 +14,27 @@ import {
 } from '../../../styles/styledComponents/StyledLinks';
 import { SprintContext } from '../../../context/sprints/SprintContext';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Comment from '../comments/Comment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // height: '100vh',
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+  fixedHeight: {
+    minHeight: 260,
+    height: 260,
   },
   paper: {
-    margin: theme.spacing(4, 4),
+    minHeight: 260,
+    padding: theme.spacing(4),
     display: 'flex',
+    overflow: 'auto',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginBottom: 20,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -34,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   formControl: {
-    margin: theme.spacing(1),
     maxWidth: '300px',
     display: 'block',
   },
@@ -69,21 +78,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(1),
   },
-  button: {
-    backgroundColor: '#f94144',
-    color: 'white',
-    fontSize: 14,
-    maxWidth: 180,
-    width: 180,
-    height: 40,
-    '&:hover': {
-      backgroundColor: 'red',
-    },
-  },
 }));
 
 const Sprint = (props) => {
   const classes = useStyles();
+
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const {
     sprint,
@@ -116,16 +116,23 @@ const Sprint = (props) => {
         <Spinner />
       ) : (
         <Fragment>
-          <div style={{display: 'flex'}}>
-          <GroupWorkIcon style={{marginRight: '10px', color: '#43aa8b'}}/>
-          <h2 className='page-heading'>{sprint.title}</h2>
+          <div style={{ display: 'flex' }}>
+            <GroupWorkIcon style={{ marginRight: '10px', color: '#43aa8b' }} />
+            <h2 className='page-heading'>{sprint.title}</h2>
           </div>
           <hr className='hr'></hr>
+          <AlertBanner />
+          <Grid container spacing={3}>
+
+            </Grid>
+
           <div>{sprint.description}</div>
           {sprint.developers.length > 0 && (
             <Fragment>
               <ul>Sprint developers:</ul>
-              {sprint.developers.map((el, index) => <li key={index}>{el.username}</li>)}
+              {sprint.developers.map((el, index) => (
+                <li key={index}>{el.username}</li>
+              ))}
             </Fragment>
           )}
 
@@ -204,7 +211,6 @@ const Sprint = (props) => {
 
           <StyledDeleteButton
             variant='contained'
-            className={classes.button}
             startIcon={<DeleteIcon />}
             onClick={async () =>
               deleteSprint(sprint.project._id, sprint._id, props.history)
