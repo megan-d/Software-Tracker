@@ -68,35 +68,29 @@ const useStyles = makeStyles((theme) => ({
 export default function Landing(props) {
   const classes = useStyles();
 
-  const { register } = useContext(AuthContext);
+  const { register, registerDemo } = useContext(AuthContext);
   const { createProfile } = useContext(ProfileContext);
+
+  const setUpDemoUser = async () => {
+      //Call register demo user action
+    await registerDemo();
+    //Call create demo profile action
+    // await createDemoProfile();
+  }
+
+
+  const profile = {
+    bio:
+      'I am an experienced front end developer looking to transition into full stack web development. I am currently focusing on the MERN stack, and I am also working on my project management skills. Please leave a comment on my profile if you would like to collaborate with me.',
+    skills: 'HTML, CSS, Javascript, React, Node.js, MongoDB',
+  };
 
   //When Demo button is clicked, run the onDemoClick function to register demo user, create profile, etc
   const onDemoClick = async (e) => {
     e.preventDefault();
-    let fullId = uuidv4();
-    let id = fullId.substring(0, 5);
-    const demoUser = {
-      firstName: 'Steven',
-      lastName: 'Demo',
-      username: `DemoUser${id}`,
-      email: `${id}@demo.com`,
-      password: '12345678',
-      confirmPassword: '12345678',
-      role: 'manager',
-    };
-    const profile = {
-      bio:
-        'I am an experienced front end developer looking to transition into full stack web development. I am currently focusing on the MERN stack, and I am also working on my project management skills. Please leave a comment on my profile if you would like to collaborate with me.',
-      skills: 'HTML, CSS, Javascript, React, Node.js, MongoDB',
-    };
-    //call register and createProfile actions
-    await register(demoUser);
-    await createProfile(profile, props.history);
-
-    //TODO: also figure out how to populate projects, tickets, sprints, and profile comments for demo user
+    await setUpDemoUser();
     props.history.push(`/dashboard`);
-  };
+  }
 
   return (
     <React.Fragment>

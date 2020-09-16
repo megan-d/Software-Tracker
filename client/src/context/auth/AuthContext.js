@@ -3,6 +3,7 @@ import AuthReducer from './AuthReducer';
 import { Redirect } from 'react-router-dom';
 import { AlertContext } from '../alerts/AlertContext';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 //This is similar to the file where you would put your actions if you're using Redux
 
@@ -169,6 +170,52 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  //*****REGISTER DEMO USER ACTION************
+  const registerDemo = async () => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    let fullId = uuidv4();
+    let id = fullId.substring(0, 5);
+    const demoUser = {
+      firstName: 'Steven',
+      lastName: 'Demo',
+      username: `DemoUser${id}`,
+      email: `${id}@demo.com`,
+      password: '12345678',
+      confirmPassword: '12345678',
+      role: 'manager',
+    };
+    
+    
+    const body = JSON.stringify(demoUser);
+    try {
+      const res = await axios.post('/api/users', body, config);
+      const token = res.data.token;
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+
+      dispatch({
+        type: 'REGISTER_SUCCESS',
+        payload: res.data,
+      });
+      // dispatch(loadUser());
+    } catch (err) {
+      let errors = err.response.data.errors;
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((error) => showAlert(error.msg, 'error'));
+      }
+      dispatch({
+        type: 'REGISTER_FAILURE',
+      });
+    }
+  };
+
   //Return Auth Provider
   return (
     <AuthContext.Provider
@@ -183,6 +230,7 @@ export const AuthProvider = ({ children }) => {
         loadUser,
         logoutUser,
         deleteUser,
+        registerDemo
       }}
     >
       {children}

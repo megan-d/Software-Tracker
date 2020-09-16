@@ -2,6 +2,7 @@ import { AuthContext } from '../../context/auth/AuthContext';
 
 const { register } = useContext(AuthContext);
 
+//Users for database (other than demo user)
 export const seedDatabase = () => {
   const user1 = {
     firstName: 'Sam',
@@ -250,3 +251,37 @@ export const seedDatabase = () => {
 
   users.forEach((el) => register(el));
 };
+
+//********* */
+//Demo User (will be logged in when somebody clicks the Demo buttons)
+//********* */
+//Demo user information to intially register and later login with
+const demoUserInfo = {
+  firstName: 'Steven',
+    lastName: 'Demo',
+    username: 'DemoSteve',
+    email: 'steven@demo.com',
+    password: 12345678,
+    confirmPassword: 12345678,
+}
+
+//Demo profile information to populate
+const demoProfileInfo = {
+  bio: 'I am an experienced full stack web developer working on a variety of personal projects. I would enjoy collaborating with other developers. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus porttitor odio at pharetra. Aenean tortor urna, consectetur varius mauris sit amet, sodales maximus nisl. Nam dictum orci id vestibulum imperdiet.',
+  skills: 'HTML, CSS, JavaScript, React, Node.js, MongoDB'
+}
+
+//Demo profile comments to populate
+
+
+//Demo projects to populate
+
+
+//Demo tickets to populate
+
+
+//Demo sprints to populate
+
+
+
+
