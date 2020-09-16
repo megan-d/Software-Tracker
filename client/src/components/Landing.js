@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { v4 as uuidv4 } from 'uuid';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { ProfileContext } from '../context/profiles/ProfileContext';
+import { AuthContext } from '../context/auth/AuthContext';
+import { demoUser } from './demo/demo';
 import Container from '@material-ui/core/Container';
 import PlainHeader from '../components/layout/PlainHeader';
 import Footer from './layout/Footer';
@@ -23,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '95%',
     textAlign: 'center',
-    margin: '0 auto'
+    margin: '0 auto',
   },
   heroTitle: {
     width: '100%',
@@ -61,8 +65,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Landing() {
+export default function Landing(props) {
   const classes = useStyles();
+
+  const { register } = useContext(AuthContext);
+  const { createProfile } = useContext(ProfileContext);
+
+  //When Demo button is clicked, run the onDemoClick function to register demo user, create profile, etc
+  const onDemoClick = async (e) => {
+    e.preventDefault();
+    let fullId = uuidv4();
+    let id = fullId.substring(0, 5);
+    const demoUser = {
+      firstName: 'Steven',
+      lastName: 'Demo',
+      username: `DemoUser${id}`,
+      email: `${id}@demo.com`,
+      password: '12345678',
+      confirmPassword: '12345678',
+      role: 'manager',
+    };
+    const profile = {
+      bio:
+        'I am an experienced front end developer looking to transition into full stack web development. I am currently focusing on the MERN stack, and I am also working on my project management skills. Please leave a comment on my profile if you would like to collaborate with me.',
+      skills: 'HTML, CSS, Javascript, React, Node.js, MongoDB',
+    };
+    //call register and createProfile actions
+    await register(demoUser);
+    await createProfile(profile, props.history);
+
+    //TODO: also figure out how to populate projects, tickets, sprints, and profile comments for demo user
+    props.history.push(`/dashboard`);
+  };
 
   return (
     <React.Fragment>
@@ -113,9 +147,17 @@ export default function Landing() {
                 Collaborate
               </span>
             </Typography>
-            <Typography paragraph style={{ color: '#333333', fontSize: '17px', width: '75%', margin: '0 auto'}}>
-              Project management and issue tracking along with a community of developers to
-              collaborate with
+            <Typography
+              paragraph
+              style={{
+                color: '#333333',
+                fontSize: '17px',
+                width: '75%',
+                margin: '0 auto',
+              }}
+            >
+              Project management and issue tracking along with a community of
+              developers to collaborate with
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify='center'>
@@ -123,6 +165,7 @@ export default function Landing() {
                   <Button
                     variant='contained'
                     style={{ backgroundColor: '#43aa8b', color: '#f3f3f3' }}
+                    onClick={(e) => onDemoClick(e)}
                   >
                     Demo Now
                   </Button>

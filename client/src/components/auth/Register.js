@@ -113,8 +113,6 @@ const Register = (props) => {
     };
     //call register action
     await register(user);
-    //THIS IS THE LINE THAT NEEDS TO BE FIXED
-    // props.history.push('/createprofile');
   };
 
   //If isAuthenticated, redirect to the Create Profile page to have them create their initial profile.

@@ -74,9 +74,14 @@ const MyProfile = (props) => {
       </div>
       <hr className='hr'></hr>
       <AlertBanner />
-      {(isLoading || profile === null) && <Spinner />}
-
-      {!isLoading && profile ? (
+      {isLoading ? (
+        <Spinner />
+      ) : !isLoading && !profile ? (
+        <Fragment>
+          <p>Please click the button below to create a profile.</p>
+          <StyledGreyLink to={'/createprofile'}>Create Profile</StyledGreyLink>
+        </Fragment>
+      ) : !isLoading && profile ? (
         <Fragment>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
@@ -188,10 +193,7 @@ const MyProfile = (props) => {
           )}
         </Fragment>
       ) : (
-        <div>
-          <p>Please click the button below to create a profile.</p>
-          <StyledGreyLink to={'/createprofile'}>Create Profile</StyledGreyLink>
-        </div>
+        ''
       )}
     </Wrapper>
   );
