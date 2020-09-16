@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   fixedHeight: {
-    minHeight: 250,
-    height: 400,
+    minHeight: 430,
+    height: 430,
   },
   paper: {
-    minHeight: 300,
+    minHeight: 430,
     padding: theme.spacing(4),
     display: 'flex',
     overflow: 'auto',
@@ -86,9 +86,7 @@ const MyProfile = (props) => {
                   {profile.user.firstName} {profile.user.lastName}
                 </p>
                 <h4 className='page-content-subheading'>Username: </h4>
-                <p className='page-content'>
-                  {profile.user.username}
-                </p>
+                <p className='page-content'>{profile.user.username}</p>
                 {profile.bio && (
                   <Fragment>
                     <h4 className='page-content-subheading'>Bio:</h4>

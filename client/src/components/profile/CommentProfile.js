@@ -65,10 +65,13 @@ const CommentProfile = (props) => {
   //Pull out variables from formData and userData
   const { comment, title } = formData;
 
-  const { profile, getProfileById, addComment } = useContext(ProfileContext);
+  const { profile, getProfileById, addComment, clearProfile } = useContext(ProfileContext);
 
   useEffect(() => {
     getProfileById(props.match.params.userid);
+    return () => {
+      clearProfile();
+    };
   }, []);
 
   // Function to update state on change using updateFormData

@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   fixedHeight: {
-    minHeight: 250,
-    height: 400,
+    minHeight: 430,
+    height: 430,
   },
   paper: {
-    minHeight: 300,
+    minHeight: 430,
     padding: theme.spacing(4),
     display: 'flex',
     overflow: 'auto',
@@ -155,7 +155,7 @@ const Profile = (props) => {
           <StyledGreyLink
             variant='contained'
             color='primary'
-            to={`/profiles/comment/${user._id}`}
+            to={`/profiles/comment/${profile.user._id}`}
           >
             Comment
           </StyledGreyLink>
