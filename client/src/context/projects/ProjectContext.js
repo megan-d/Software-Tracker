@@ -224,6 +224,52 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
+  //*****CREATE DMEO PROJECT ACTION************
+  const createDemoProject1 = async () => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    const project = {
+      name: 'Project 1',
+      description: 'My first project',
+      targetCompletionDate: 12/2/2020,
+      manager: '',
+      repoLink: '',
+      liveLink: '',
+      techStack: 'MongoDB, Express, React, Node.js',
+      developers: 'Sammy, Marky',
+    };
+    //Create body variable and stringify
+    const body = JSON.stringify(project);
+    
+
+    try {
+      const res = await axios.post('/api/projects', body, config);
+      dispatch({
+        type: 'CREATE_PROJECT_SUCCESS',
+        payload: res.data,
+      });
+      // history.push('/projects');
+    } catch (err) {
+      let errors = err.response.data.errors;
+      
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+      
+      dispatch({
+        type: 'CREATE_PROJECT_FAILURE',
+        payload: err.response.data.errors
+      });
+    }
+  };
+
   //Return Project Provider
   return (
     <ProjectContext.Provider
@@ -240,6 +286,7 @@ export const ProjectProvider = ({ children }) => {
         updateProject,
         deleteProject,
         addComment,
+        createDemoProject1
       }}
     >
       {children}

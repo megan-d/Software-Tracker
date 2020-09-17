@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { ProfileContext } from '../context/profiles/ProfileContext';
+import { ProjectContext } from '../context/projects/ProjectContext';
 import { AuthContext } from '../context/auth/AuthContext';
 import { demoUser } from './demo/demo';
 import Container from '@material-ui/core/Container';
@@ -70,12 +71,15 @@ export default function Landing(props) {
 
   const { register, registerDemo } = useContext(AuthContext);
   const { createDemoProfile } = useContext(ProfileContext);
+  const { createDemoProject1 } = useContext(ProjectContext);
 
   const setUpDemoUser = async () => {
       //Call register demo user action
     await registerDemo();
     //Call create demo profile action
     await createDemoProfile();
+    //Call create demo projects action
+    await createDemoProject1();
     //redirect to dashboard
     props.history.push(`/dashboard`);
   }
