@@ -183,7 +183,7 @@ export const AuthProvider = ({ children }) => {
     const demoUser = {
       firstName: 'Steven',
       lastName: 'Demo',
-      username: `DemoUser${id}`,
+      username: `Demo${id}`,
       email: `${id}@demo.com`,
       password: '12345678',
       confirmPassword: '12345678',

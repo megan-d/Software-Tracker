@@ -86,9 +86,6 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
-      check('access', 'Please select private or public for project access.')
-        .not()
-        .isEmpty(),
       check(
         'targetCompletionDate',
         'Please provide a target date in the future.',
@@ -117,7 +114,6 @@ router.post(
     const {
       name,
       description,
-      access,
       targetCompletionDate,
       manager,
       repoLink,
@@ -131,7 +127,6 @@ router.post(
     projectItems.owner = req.user.id;
     projectItems.name = name;
     projectItems.description = description;
-    projectItems.access = access;
     projectItems.targetCompletionDate = targetCompletionDate;
     if (manager) {
       projectItems.manager = manager;
@@ -220,7 +215,6 @@ router.put(
     const {
       name,
       description,
-      access,
       targetCompletionDate,
       manager,
       developer,
@@ -235,7 +229,6 @@ router.put(
     let updatedTechStack = [];
     if (name) updatedProjectFields.name = name;
     if (description) updatedProjectFields.description = description;
-    if (access) updatedProjectFields.access = access;
     if (targetCompletionDate)
       updatedProjectFields.targetCompletionDate = targetCompletionDate;
     if (completionDate) updatedProjectFields.completionDate = completionDate;
