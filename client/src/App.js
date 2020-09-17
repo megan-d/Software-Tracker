@@ -32,6 +32,7 @@ import Forum from './components/forum/Forum';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateSprint from './components/dashboard/sprints/CreateSprint';
 import CommentSprint from './components/dashboard/sprints/CommentSprint';
+import DemoPage from './components/demo/DemoPage';
 
 const App = () => {
   const { loadUser } = useContext(AuthContext);
@@ -50,6 +51,7 @@ const App = () => {
           <Route path='/' component={Landing} exact />
           <Route path='/register' component={Register} exact />
           <Route path='/login' component={Login} exact />
+          <Route path='/demo' component={DemoPage} exact />
           <PrivateRoute
             path='/dashboard'
             component={DeveloperDashboard}

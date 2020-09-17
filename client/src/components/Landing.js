@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { v4 as uuidv4 } from 'uuid';
@@ -69,27 +69,30 @@ const useStyles = makeStyles((theme) => ({
 export default function Landing(props) {
   const classes = useStyles();
 
-  const { register, registerDemo } = useContext(AuthContext);
+  const { register, registerDemo, loadUser } = useContext(AuthContext);
   const { createDemoProfile } = useContext(ProfileContext);
   const { createDemoProject1 } = useContext(ProjectContext);
 
+  useEffect(() => {
+    loadUser();
+  }, []);
+
   const setUpDemoUser = async () => {
-      //Call register demo user action
+    //Call register demo user action
     await registerDemo();
     //Call create demo profile action
     await createDemoProfile();
     //Call create demo projects action
-    await createDemoProject1();
+    // await createDemoProject1();
     //redirect to dashboard
-    props.history.push(`/dashboard`);
-  }
-
+    props.history.push(`/demo`);
+  };
 
   //When Demo button is clicked, run the onDemoClick function to register demo user, create profile, etc (via setUpDemoUser above)
   const onDemoClick = async (e) => {
     e.preventDefault();
     await setUpDemoUser();
-  }
+  };
 
   return (
     <React.Fragment>

@@ -151,7 +151,8 @@ export const seedDatabase = () => {
   const user10profile = {
     bio:
       'I am an experienced web developer working on personal projects. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus porttitor odio at pharetra.',
-    skills: 'HTML, CSS, Sass, Node.js, JavaScript, Regular Expressions, Express, Python, MySQL',
+    skills:
+      'HTML, CSS, Sass, Node.js, JavaScript, Regular Expressions, Express, Python, MySQL',
   };
 
   const user11 = {
@@ -229,8 +230,6 @@ export const seedDatabase = () => {
     skills: 'JavaScript, Vue, Python, Postgres, MySQL',
   };
 
-
-
   const users = [
     user1,
     user2,
@@ -258,30 +257,58 @@ export const seedDatabase = () => {
 //Demo user information to intially register and later login with
 const demoUserInfo = {
   firstName: 'Steven',
-    lastName: 'Demo',
-    username: 'DemoSteve',
-    email: 'steven@demo.com',
-    password: 12345678,
-    confirmPassword: 12345678,
-}
+  lastName: 'Demo',
+  username: 'DemoSteve',
+  email: 'steven@demo.com',
+  password: 12345678,
+  confirmPassword: 12345678,
+};
 
 //Demo profile information to populate
 const demoProfileInfo = {
-  bio: 'I am an experienced full stack web developer working on a variety of personal projects. I would enjoy collaborating with other developers. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus porttitor odio at pharetra. Aenean tortor urna, consectetur varius mauris sit amet, sodales maximus nisl. Nam dictum orci id vestibulum imperdiet.',
-  skills: 'HTML, CSS, JavaScript, React, Node.js, MongoDB'
-}
+  bio:
+    'I am an experienced full stack web developer working on a variety of personal projects. I would enjoy collaborating with other developers. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus porttitor odio at pharetra. Aenean tortor urna, consectetur varius mauris sit amet, sodales maximus nisl. Nam dictum orci id vestibulum imperdiet.',
+  skills: 'HTML, CSS, JavaScript, React, Node.js, MongoDB',
+};
 
 //Demo profile comments to populate
-
+const comment1 = 'Collaborate? Do you want to collaborate? If so, leave a comment on my profile. I have a few projects that might be interesting to you.';
+const comment2 = 'Database experience. I am trying to find somebody to collaborate with who has a lot of database experience. Would you be interested in working with me on a few projects?';
+const comment3 = 'I see that you work with MongoDB. Did you find that difficult to learn? Do you have any resources that you would recommend?';
+const comment4 = 'React vs. Angular. I see that you are a React developer. Have you tried working in Angular at all? I am curious what led you to React vs. Angular.';
 
 //Demo projects to populate
+const project1 = {
+      name: 'Flash Card Game',
+      description: 'A JavaScript flash card game that allows you to learn and practice vocabulary words in a variety of languages.',
+      targetCompletionDate: 11/15/2020,
+      repoLink: '',
+      liveLink: '',
+      techStack: 'HTML, CSS, JavaScript',
+};
 
-
-//Demo tickets to populate
-
+//Demo tickets to populate. Assign to a variety of developers so that you can see developers listed under the project.
+const ticket1 = {
+      title: 'Add styling',
+      type: 'Task',
+      description: 'Select a color palette and add styling with CSS',
+      priority: 'High',
+      dateDue: 10/2/2020,
+      assignedDeveloper: 'Sammy',
+}
+const ticket2 = {
+  title: 'Token expiration',
+  type: 'Bug',
+  description: 'Update the token expiration to an acceptable timeframe',
+  priority: 'Critical',
+  dateDue: 10/12/2020,
+  assignedDeveloper: '',
+}
 
 //Demo sprints to populate
-
-
+const sprint1 = {
+  title: 'UI Design',
+    description: 'This sprint will focus on designing and building out the UI for the application.',
+}
 
 
