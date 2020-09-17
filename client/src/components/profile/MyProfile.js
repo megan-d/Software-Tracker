@@ -74,9 +74,9 @@ const MyProfile = (props) => {
       </div>
       <hr className='hr'></hr>
       <AlertBanner />
-      {isLoading ? (
-        <Spinner />
-      ) : !isLoading && !profile ? (
+      {(isLoading || profile === null) ? <Spinner /> : ''}
+
+      {!isLoading && !profile ? (
         <Fragment>
           <p>Please click the button below to create a profile.</p>
           <StyledGreyLink to={'/createprofile'}>Create Profile</StyledGreyLink>

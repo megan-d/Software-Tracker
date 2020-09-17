@@ -261,6 +261,47 @@ export const ProfileProvider = ({ children }) => {
     }
   };
 
+  //*****CREATE DEMO PROFILE ACTION************
+  const createDemoProfile = async () => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    const demoProfileInfo = {
+      bio: 'I am an experienced full stack web developer working on a variety of personal projects. I would enjoy collaborating with other developers. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus porttitor odio at pharetra. Aenean tortor urna, consectetur varius mauris sit amet, sodales maximus nisl. Nam dictum orci id vestibulum imperdiet.',
+      skills: 'HTML, CSS, JavaScript, React, Node.js, MongoDB'
+    }
+
+    //Create body variable and stringify
+    const body = JSON.stringify(demoProfileInfo);
+
+    try {
+      const res = await axios.post('/api/profiles', body, config);
+      dispatch({
+        type: 'CREATE_USER_PROFILE_SUCCESS',
+        payload: res.data,
+      });
+      
+      // history.push(`/dashboard`);
+    } catch (err) {
+      let errors = err.response.data.errors;
+
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+
+      dispatch({
+        type: 'CREATE_USER_PROFILE_FAILURE',
+        payload: err.response.data.errors,
+      });
+    }
+  };
+
   //Return Profile Provider
   return (
     <ProfileContext.Provider
@@ -278,6 +319,7 @@ export const ProfileProvider = ({ children }) => {
         updateProfile,
         addComment,
         deleteProfile,
+        createDemoProfile
       }}
     >
       {children}

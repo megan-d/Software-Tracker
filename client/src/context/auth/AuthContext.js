@@ -203,7 +203,7 @@ export const AuthProvider = ({ children }) => {
         type: 'REGISTER_SUCCESS',
         payload: res.data,
       });
-      // dispatch(loadUser());
+      dispatch(loadUser());
     } catch (err) {
       let errors = err.response.data.errors;
       if (errors) {

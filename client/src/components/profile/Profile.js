@@ -70,7 +70,7 @@ const Profile = (props) => {
       </div>
       <hr className='hr'></hr>
       <AlertBanner />
-      {(isLoading || profile === null) && <Spinner />}
+      {isLoading && <Spinner />}
 
       {!isLoading && profile ? (
         <Fragment>

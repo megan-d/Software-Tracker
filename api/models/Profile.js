@@ -12,9 +12,11 @@ const profileSchema = new Schema({
   },
   bio: {
     type: String,
+    required: true
   },
   skills: {
     type: [String],
+    required: true
   },
   teams: [
     {

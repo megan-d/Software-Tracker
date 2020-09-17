@@ -15,7 +15,11 @@ const Profile = require('../models/Profile');
 //ACCESS LEVEL: Private
 router.get('/', verify, async (req, res) => {
   try {
-    let profiles = await Profile.find().populate('user', ['username', 'firstName', 'lastName']);
+    let profiles = await Profile.find().populate('user', [
+      'username',
+      'firstName',
+      'lastName',
+    ]);
     res.json(profiles);
   } catch (err) {
     res.status(500).send('Server Error');
@@ -53,14 +57,16 @@ router.get('/user/:user_id', verify, async (req, res) => {
     //Find the profile
     let profile = await Profile.findOne({
       user: req.params.user_id,
-    }).populate('user', ['username', 'firstName', 'lastName']).populate({
-      path: 'comments',
-      populate: {
-        path: 'user',
-        select: 'username',
-      },
     })
-    
+      .populate('user', ['username', 'firstName', 'lastName'])
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'user',
+          select: 'username',
+        },
+      });
+
     if (!profile) {
       return res.status(400).json({
         errors: [
@@ -87,10 +93,12 @@ router.post(
     [
       //User express validator to validate required inputs
       check('bio', 'Please provide a brief bio for your profile.')
-        .optional({ checkFalsy: true })
+        .not()
+        .isEmpty()
         .trim(),
       check('skills', 'Please list your technical skills.')
-        .optional({ checkFalsy: true })
+        .not()
+        .isEmpty()
         .trim(),
     ],
   ],
@@ -181,18 +189,16 @@ router.put(
     const updatedProfileFields = {};
     let updatedSkills;
     if (bio) updatedProfileFields.bio = bio;
-    
+
     try {
       let profile = await Profile.findOne({ user: req.params.user_id });
       let currentUser = await User.findOne({ _id: req.user.id }).select(
         '-password',
       );
       if (!profile) {
-        return res
-          .status(400)
-          .json({
-            errors: [{ msg: 'The profile for this user could not be found.' }],
-          });
+        return res.status(400).json({
+          errors: [{ msg: 'The profile for this user could not be found.' }],
+        });
       }
       //Only allow profile to be updated if admin user or owner of profile
       if (
@@ -200,17 +206,17 @@ router.put(
         req.params.user_id.toString() === req.user.id
       ) {
         if (skills) {
-            updatedSkills = skills.split(',').map((tech) => tech.trim());
-            await Profile.findOneAndUpdate(
-                { user: {_id: req.params.user_id }},
-                { $push: { skills: { $each: updatedSkills } } },
-                  { upsert: true, new: true },
-              );
-          }
+          updatedSkills = skills.split(',').map((tech) => tech.trim());
+          await Profile.findOneAndUpdate(
+            { user: { _id: req.params.user_id } },
+            { $push: { skills: { $each: updatedSkills } } },
+            { upsert: true, new: true },
+          );
+        }
 
         //Then, update profile with provided updates from updatedProfileFields
         let updatedProfile = await Profile.findOneAndUpdate(
-          { user: {_id: req.params.user_id }},
+          { user: { _id: req.params.user_id } },
           { $set: updatedProfileFields },
         );
 
@@ -240,9 +246,9 @@ router.post(
         .not()
         .isEmpty()
         .trim(),
-        check('title', 'Please provide text in the title field.')
+      check('title', 'Please provide text in the title field.')
         .not()
-        .isEmpty()
+        .isEmpty(),
     ],
   ],
   async (req, res) => {

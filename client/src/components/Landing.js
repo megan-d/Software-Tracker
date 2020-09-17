@@ -69,27 +69,22 @@ export default function Landing(props) {
   const classes = useStyles();
 
   const { register, registerDemo } = useContext(AuthContext);
-  const { createProfile } = useContext(ProfileContext);
+  const { createDemoProfile } = useContext(ProfileContext);
 
   const setUpDemoUser = async () => {
       //Call register demo user action
     await registerDemo();
     //Call create demo profile action
-    // await createDemoProfile();
+    await createDemoProfile();
+    //redirect to dashboard
+    props.history.push(`/dashboard`);
   }
 
 
-  const profile = {
-    bio:
-      'I am an experienced front end developer looking to transition into full stack web development. I am currently focusing on the MERN stack, and I am also working on my project management skills. Please leave a comment on my profile if you would like to collaborate with me.',
-    skills: 'HTML, CSS, Javascript, React, Node.js, MongoDB',
-  };
-
-  //When Demo button is clicked, run the onDemoClick function to register demo user, create profile, etc
+  //When Demo button is clicked, run the onDemoClick function to register demo user, create profile, etc (via setUpDemoUser above)
   const onDemoClick = async (e) => {
     e.preventDefault();
     await setUpDemoUser();
-    props.history.push(`/dashboard`);
   }
 
   return (
