@@ -46,7 +46,11 @@ export default function DeveloperDashboard(props) {
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const { isLoading, user } = useContext(AuthContext);
+  const { isLoading, user, isAuthenticated, loadUser } = useContext(AuthContext);
+
+  // useEffect(() => {
+  //   loadUser();
+  // }, [isAuthenticated]);
 
   return (
     <Wrapper>

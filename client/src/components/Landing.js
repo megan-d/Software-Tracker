@@ -69,13 +69,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Landing(props) {
   const classes = useStyles();
 
-  const { register, registerDemo, loadUser } = useContext(AuthContext);
+  const { register, registerDemo, loadUser, isAuthenticated } = useContext(AuthContext);
   const { createDemoProfile } = useContext(ProfileContext);
   const { createDemoProject1 } = useContext(ProjectContext);
 
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [isAuthenticated]);
 
   const setUpDemoUser = async () => {
     //Call register demo user action

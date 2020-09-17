@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import SideDrawer from './sidedrawer/SideDrawer';
 import DashboardHeader from './DashboardHeader';
 import Footer from './Footer';
+import { AuthContext } from '../../context/auth/AuthContext';
 
 const drawerWidth = 240;
 
@@ -72,6 +73,12 @@ export default function Wrapper(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const { isAuthenticated, loadUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    loadUser();
+  }, [isAuthenticated]);
 
   
   return (

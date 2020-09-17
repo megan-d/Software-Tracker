@@ -35,12 +35,12 @@ import CommentSprint from './components/dashboard/sprints/CommentSprint';
 import DemoPage from './components/demo/DemoPage';
 
 const App = () => {
-  const { loadUser } = useContext(AuthContext);
+  const { loadUser, isAuthenticated } = useContext(AuthContext);
 
   //run loadUser upon App component initially mounting (like component did mount - will only run once with empty array)
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <Router>
