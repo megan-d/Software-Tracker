@@ -287,7 +287,16 @@ const project1 = {
       techStack: 'HTML, CSS, JavaScript',
 };
 
-//Demo tickets to populate. Assign to a variety of developers so that you can see developers listed under the project.
+const project2 = {
+  name: 'Bug Tracker',
+  description: 'A React project management and issue tracking application.',
+  targetCompletionDate: 12/15/2020,
+  repoLink: '',
+  liveLink: '',
+  techStack: 'HTML, CSS, React, MongoDB, Node.js, Express',
+};
+
+//Demo tickets to populate for Project 1. Assign to a variety of developers so that you can see developers listed under the project.
 const ticket1 = {
       title: 'Add styling',
       type: 'Task',
@@ -302,10 +311,37 @@ const ticket2 = {
   description: 'Update the token expiration to an acceptable timeframe',
   priority: 'Critical',
   dateDue: 10/12/2020,
-  assignedDeveloper: '',
+  assignedDeveloper: 'Mary78',
 }
 
-//Demo sprints to populate
+const ticket3 = {
+  title: 'Brainstorm Teams',
+  type: 'Other',
+  description: 'Begin to brainstorm and diagram how teams could be implemented for users within the application',
+  priority: 'Low',
+  dateDue: 10/25/2020,
+  assignedDeveloper: 'DemoUser',
+}
+
+const ticket4 = {
+  title: 'Test User Registration',
+  type: 'Task',
+  description: 'Set up tests for user registration features',
+  priority: 'Medium',
+  dateDue: 10/30/2020,
+  assignedDeveloper: 'DemoUser',
+}
+
+const ticket5 = {
+  title: 'Test User Login',
+  type: 'Task',
+  description: 'Set up tests for user login features',
+  priority: 'Medium',
+  dateDue: 10/30/2020,
+  assignedDeveloper: 'Jeff',
+}
+
+//Demo sprints to populate for Project 1
 const sprint1 = {
   title: 'UI Design',
     description: 'This sprint will focus on designing and building out the UI for the application.',

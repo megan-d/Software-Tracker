@@ -224,7 +224,7 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
-  //*****CREATE DMEO PROJECT ACTION************
+  //*****CREATE DEMO PROJECTS ACTIONS************
   const createDemoProject1 = async () => {
     //Create config with headers
     const config = {
@@ -235,14 +235,56 @@ export const ProjectProvider = ({ children }) => {
     };
 
     const project = {
-      name: 'Project 1',
-      description: 'My first project',
-      targetCompletionDate: 12/2/2020,
-      manager: '',
+      name: 'Flash Card Game',
+      description: 'A JavaScript flash card game that allows you to learn and practice vocabulary words in a variety of languages.',
+      targetCompletionDate: 11/15/2020,
       repoLink: '',
       liveLink: '',
-      techStack: 'MongoDB, Express, React, Node.js',
-      developers: 'Sammy, Marky',
+      techStack: 'HTML, CSS, JavaScript',
+    };
+    //Create body variable and stringify
+    const body = JSON.stringify(project);
+    
+
+    try {
+      const res = await axios.post('/api/projects', body, config);
+      dispatch({
+        type: 'CREATE_PROJECT_SUCCESS',
+        payload: res.data,
+      });
+      // history.push('/projects');
+    } catch (err) {
+      let errors = err.response.data.errors;
+      
+      if (errors) {
+        //if errors, loop through them and dispatch the showAlert action from AlertContext
+        errors.forEach((el) => showAlert(el.msg, 'error'));
+      }
+      
+      dispatch({
+        type: 'CREATE_PROJECT_FAILURE',
+        payload: err.response.data.errors
+      });
+    }
+  };
+
+  //*****CREATE DEMO PROJECTS ACTIONS************
+  const createDemoProject2 = async () => {
+    //Create config with headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+
+    const project = {
+      name: 'Bug Tracker',
+  description: 'A React project management and issue tracking application.',
+  targetCompletionDate: 12/15/2020,
+  repoLink: '',
+  liveLink: '',
+  techStack: 'HTML, CSS, React, MongoDB, Node.js, Express',
     };
     //Create body variable and stringify
     const body = JSON.stringify(project);
@@ -286,10 +328,13 @@ export const ProjectProvider = ({ children }) => {
         updateProject,
         deleteProject,
         addComment,
-        createDemoProject1
+        createDemoProject1,
+        createDemoProject2
       }}
     >
       {children}
     </ProjectContext.Provider>
   );
 };
+
+

@@ -82,9 +82,7 @@ export default function Landing(props) {
     await registerDemo();
     //Call create demo profile action
     await createDemoProfile();
-    //Call create demo projects action
-    // await createDemoProject1();
-    //redirect to dashboard
+    //redirect to demo page
     props.history.push(`/demo`);
   };
 

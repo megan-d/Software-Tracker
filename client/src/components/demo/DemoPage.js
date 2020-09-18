@@ -45,16 +45,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DemoPage(props) {
-  const { getUserProjects, clearProjects } = useContext(ProjectContext);
+  const { getUserProjects, clearProject, createDemoProject1, createDemoProject2 } = useContext(ProjectContext);
 
-  const { user } = useContext(AuthContext);
+  const { user, loadUser, isAuthenticated } = useContext(AuthContext);
 
   const classes = useStyles();
 
   useEffect(() => {
-    getUserProjects();
-    return () => clearProjects();
-  }, []);
+    loadUser();
+    createDemoProject1();
+    createDemoProject2();
+  }, [isAuthenticated]);
+
+  //on button click, run function that generates projects, tickets, sprints, and comments and then redirect to dashboard
+  const generateDemoData = async (e) => {
+      e.preventDefault();
+      props.history.push('/dashboard')
+  }
 
   let history = useHistory();
 
@@ -68,11 +75,12 @@ export default function DemoPage(props) {
             A unique user has been generated so that you can explore Dash's
             features without having to create your own account. Click the button
             below to begin exploring all of the functionality, like adding
-            projects, comments, tickets, and more!
+            projects, exploring developer profiles, and more!
           </p>
           <Button
             variant='contained'
             style={{ backgroundColor: '#43aa8b', color: '#f3f3f3' }}
+            onClick={(e) => generateDemoData(e)}
           >
             Try it Now
           </Button>
