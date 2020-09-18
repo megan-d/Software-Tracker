@@ -68,10 +68,11 @@ const useStyles = makeStyles((theme) => ({
 const UpdateSprint = (props) => {
   const classes = useStyles();
 
-  const { sprint, updateSprint, getSprintDetails } = useContext(SprintContext);
+  const { sprint, updateSprint, getSprintDetails, clearSprint } = useContext(SprintContext);
 
   useEffect(() => {
     getSprintDetails(props.match.params.sprintid);
+    return () => clearSprint();
   }, []);
 
   const [formData, updateFormData] = useState({

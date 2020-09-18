@@ -164,18 +164,28 @@ const Sprint = (props) => {
             <Grid item xs={12} md={6} lg={6}>
               <MaterialTable
                 className={(fixedHeightPaper, classes.typography)}
-                style={{ height: '330px', paddingLeft: '8px', paddingRight: '32px', paddingTop: '14px'}}
+                style={{
+                  height: '330px',
+                  paddingLeft: '8px',
+                  paddingRight: '32px',
+                  paddingTop: '14px',
+                }}
                 localization={{
                   header: {
                     actions: '',
                   },
                 }}
-                title={<Typography  style={{fontSize: '15px', fontWeight: 700}}>Sprint Status Log:</Typography>}
+                title={
+                  <Typography style={{ fontSize: '15px', fontWeight: 700 }}>
+                    Sprint Status Log:
+                  </Typography>
+                }
                 columns={columns}
                 data={sprint.statusLog}
                 options={{
                   filtering: false,
                   pageSize: 3,
+                  pageSizeOptions: [3, 5, 10, 20, 30],
                   paging: true,
                   search: false,
                   align: 'center',
@@ -193,7 +203,7 @@ const Sprint = (props) => {
                 <ul className='page-content-subheading'>
                   Developers on Sprint:
                 </ul>
-                {sprint.developers.length > 0
+                {sprint.developers.length > 0 && sprint.developers[0].firstName
                   ? sprint.developers.map((el, index) => {
                       return (
                         <Fragment key={index}>
@@ -233,7 +243,7 @@ const Sprint = (props) => {
             </Grid>
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaper}>
-              <ul className='page-content-subheading'>Sprint comments:</ul>
+                <ul className='page-content-subheading'>Sprint comments:</ul>
                 {sprint.comments.length === 0 && !isLoading ? (
                   <p>There are no comments for this sprint</p>
                 ) : sprint.comments.length > 0 && !isLoading ? (
@@ -253,16 +263,22 @@ const Sprint = (props) => {
             </Grid>
           </Grid>
 
-
-          
           <MaterialTable
-          style={{ paddingLeft: '8px', paddingRight: '32px', paddingTop: '14px'}}
+            style={{
+              paddingLeft: '8px',
+              paddingRight: '32px',
+              paddingTop: '14px',
+            }}
             localization={{
               header: {
                 actions: 'Remove',
               },
             }}
-            title={<Typography  style={{fontSize: '15px', fontWeight: 700}}>Tickets:</Typography>}
+            title={
+              <Typography style={{ fontSize: '15px', fontWeight: 700 }}>
+                Tickets:
+              </Typography>
+            }
             columns={ticketColumns}
             data={sprint.tickets.map((el) => {
               return {
@@ -287,8 +303,8 @@ const Sprint = (props) => {
               },
             ]}
             options={{
-              pageSize: 5,
-              pageSizeOptions: [5, 10, 20, 30],
+              pageSize: 3,
+              pageSizeOptions: [3, 5, 10, 20, 30],
               toolbar: true,
               paging: true,
               options: {

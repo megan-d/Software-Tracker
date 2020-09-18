@@ -331,7 +331,7 @@ router.put(
               { _id: req.params.sprint_id },
               { $push: { developers: developerId } },
             );
-            // sprint.developers.push(developerId);
+            await sprint.save();
           } else {
             return res.status(400).json({
               errors: [

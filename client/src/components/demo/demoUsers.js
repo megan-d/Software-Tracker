@@ -289,8 +289,8 @@ const comment4 =
 const project1 = {
   name: 'Flash Card Game',
   description:
-    'A JavaScript flash card game that allows you to learn and practice vocabulary words in a variety of languages.',
-  targetCompletionDate: 11 / 15 / 2020,
+    'A JavaScript flash card game that allows you to learn and practice vocabulary words in a variety of languages. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis mi ante. Fusce vulputate augue in diam vehicula, vel tempor urna faucibus. Aliquam ac pellentesque odio. Nam venenatis elementum arcu, euismod finibus sem condimentum eu. Suspendisse blandit nec quam vel eleifend. Curabitur arcu leo, bibendum id gravida sit amet, faucibus a urna. Suspendisse vitae fermentum metus.',
+  targetCompletionDate: 11 / 16 / 2020,
   repoLink: '',
   liveLink: '',
   techStack: 'HTML, CSS, JavaScript',
@@ -320,8 +320,8 @@ const ticket3 = {
   description:
     'Begin to brainstorm and diagram how teams could be implemented for users within the application',
   priority: 'Low',
-  dateDue: 10 / 25 / 2020,
-  assignedDeveloper: 'DemoUser',
+  dateDue: 10 / 26 / 2020,
+  assignedDeveloper: 'DemoJamie',
 };
 
 const ticket4 = {
@@ -330,7 +330,7 @@ const ticket4 = {
   description: 'Set up tests for user registration features',
   priority: 'Medium',
   dateDue: 10 / 30 / 2020,
-  assignedDeveloper: 'DemoUser',
+  assignedDeveloper: 'DemoJamie',
 };
 
 const ticket5 = {
@@ -398,7 +398,7 @@ const ticket3 = {
     'Begin to brainstorm and diagram how teams could be implemented for users within the application',
   priority: 'Low',
   dateDue: 10 / 25 / 2020,
-  assignedDeveloper: 'DemoUser',
+  assignedDeveloper: 'DemoJamie',
 };
 
 const ticket4 = {
@@ -407,7 +407,7 @@ const ticket4 = {
   description: 'Set up tests for user registration features',
   priority: 'Medium',
   dateDue: 10 / 30 / 2020,
-  assignedDeveloper: 'DemoUser',
+  assignedDeveloper: 'DemoJamie',
 };
 
 const ticket5 = {
@@ -458,7 +458,7 @@ const ticket1 = {
   description: 'Select a color palette and add styling with CSS',
   priority: 'High',
   dateDue: 10 / 2 / 2020,
-  assignedDeveloper: 'DemoUser',
+  assignedDeveloper: 'DemoJamie',
 };
 const ticket2 = {
   title: 'Token expiration',
@@ -466,7 +466,7 @@ const ticket2 = {
   description: 'Update the token expiration to an acceptable timeframe',
   priority: 'High',
   dateDue: 10 / 12 / 2020,
-  assignedDeveloper: 'DemoUser',
+  assignedDeveloper: 'DemoJamie',
 };
 
 const ticket3 = {
@@ -544,7 +544,7 @@ const ticket2 = {
   description: 'Update the token expiration to an acceptable timeframe',
   priority: 'Low',
   dateDue: 10 / 12 / 2020,
-  assignedDeveloper: 'DemoUser',
+  assignedDeveloper: 'DemoJamie',
 };
 
 const ticket3 = {
@@ -554,7 +554,7 @@ const ticket3 = {
     'Begin to brainstorm and diagram how teams could be implemented for users within the application',
   priority: 'Low',
   dateDue: 10 / 25 / 2020,
-  assignedDeveloper: 'DemoUser',
+  assignedDeveloper: 'DemoJamie',
 };
 
 const ticket4 = {
