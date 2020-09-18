@@ -69,28 +69,38 @@ const useStyles = makeStyles((theme) => ({
 export default function Landing(props) {
   const classes = useStyles();
 
-  const { register, registerDemo, loadUser, isAuthenticated } = useContext(AuthContext);
-  const { createDemoProfile } = useContext(ProfileContext);
-  const { createDemoProject1 } = useContext(ProjectContext);
+  const { login, loadUser, isAuthenticated } = useContext(AuthContext);
+  // const { createDemoProfile } = useContext(ProfileContext);
+  // const { createDemoProject1 } = useContext(ProjectContext);
 
   useEffect(() => {
     loadUser();
   }, [isAuthenticated]);
 
-  const setUpDemoUser = async () => {
-    //Call register demo user action
-    await registerDemo();
-    //Call create demo profile action
-    await createDemoProfile();
-    //redirect to demo page
-    props.history.push(`/demo`);
-  };
+  // const setUpDemoUser = async () => {
+  //   //Call register demo user action
+  //   await registerDemo();
+  //   //Call create demo profile action
+  //   await createDemoProfile();
+  //   //redirect to demo page
+  //   props.history.push(`/demo`);
+  // };
 
   //When Demo button is clicked, run the onDemoClick function to register demo user, create profile, etc (via setUpDemoUser above)
-  const onDemoClick = async (e) => {
-    e.preventDefault();
-    await setUpDemoUser();
-  };
+  // const onDemoClick = async (e) => {
+  //   e.preventDefault();
+  //   await setUpDemoUser();
+  // };
+
+  const loginDemo = () => {
+    const demo = {
+      email: 'jamie@demo.com',
+      password: '11111111'
+    }
+    login(demo);
+    props.history.push('/dashboard')
+  }
+  
 
   return (
     <React.Fragment>
@@ -159,7 +169,7 @@ export default function Landing(props) {
                   <Button
                     variant='contained'
                     style={{ backgroundColor: '#43aa8b', color: '#f3f3f3' }}
-                    onClick={(e) => onDemoClick(e)}
+                    onClick={() => loginDemo()}
                   >
                     Demo Now
                   </Button>

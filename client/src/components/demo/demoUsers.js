@@ -126,8 +126,8 @@ export const seedDatabase = () => {
 
   const user9 = {
     firstName: 'John',
-    lastName: 'Nell',
-    username: 'JohnN',
+    lastName: 'Melon',
+    username: 'JohnM',
     email: 'john@john.com',
     password: 12345678,
     confirmPassword: 12345678,
@@ -256,95 +256,339 @@ export const seedDatabase = () => {
 //********* */
 //Demo user information to intially register and later login with
 const demoUserInfo = {
-  firstName: 'Steven',
+  firstName: 'Jamie',
   lastName: 'Demo',
-  username: 'DemoSteve',
-  email: 'steven@demo.com',
-  password: 12345678,
-  confirmPassword: 12345678,
+  username: 'DemoJamie',
+  email: 'jamie@demo.com',
+  password: 11111111,
+  confirmPassword: 11111111,
 };
 
 //Demo profile information to populate
 const demoProfileInfo = {
   bio:
-    'I am an experienced full stack web developer working on a variety of personal projects. I would enjoy collaborating with other developers. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus porttitor odio at pharetra. Aenean tortor urna, consectetur varius mauris sit amet, sodales maximus nisl. Nam dictum orci id vestibulum imperdiet.',
+    'I am an experienced full stack web developer working on a variety of personal projects. I would enjoy collaborating with other developers. Leave me a message if you would like to collaborate!',
   skills: 'HTML, CSS, JavaScript, React, Node.js, MongoDB',
 };
 
 //Demo profile comments to populate
-const comment1 = 'Collaborate? Do you want to collaborate? If so, leave a comment on my profile. I have a few projects that might be interesting to you.';
-const comment2 = 'Database experience. I am trying to find somebody to collaborate with who has a lot of database experience. Would you be interested in working with me on a few projects?';
-const comment3 = 'I see that you work with MongoDB. Did you find that difficult to learn? Do you have any resources that you would recommend?';
-const comment4 = 'React vs. Angular. I see that you are a React developer. Have you tried working in Angular at all? I am curious what led you to React vs. Angular.';
+const comment1 =
+  'Collaborate? Do you want to collaborate? If so, leave a comment on my profile. I have a few projects that might be interesting to you.';
+const comment2 =
+  'Database experience. I am trying to find somebody to collaborate with who has a lot of database experience. Would you be interested in working with me on a few projects?';
+const comment3 =
+  'I see that you work with MongoDB. Did you find that difficult to learn? Do you have any resources that you would recommend?';
+const comment4 =
+  'React vs. Angular. I see that you are a React developer. Have you tried working in Angular at all? I am curious what led you to React vs. Angular.';
 
 //Demo projects to populate
-const project1 = {
-      name: 'Flash Card Game',
-      description: 'A JavaScript flash card game that allows you to learn and practice vocabulary words in a variety of languages.',
-      targetCompletionDate: 11/15/2020,
-      repoLink: '',
-      liveLink: '',
-      techStack: 'HTML, CSS, JavaScript',
-};
 
-const project2 = {
-  name: 'Bug Tracker',
-  description: 'A React project management and issue tracking application.',
-  targetCompletionDate: 12/15/2020,
+//********* */
+//PROJECT 1
+//********* */
+const project1 = {
+  name: 'Flash Card Game',
+  description:
+    'A JavaScript flash card game that allows you to learn and practice vocabulary words in a variety of languages.',
+  targetCompletionDate: 11 / 15 / 2020,
   repoLink: '',
   liveLink: '',
-  techStack: 'HTML, CSS, React, MongoDB, Node.js, Express',
+  techStack: 'HTML, CSS, JavaScript',
 };
 
 //Demo tickets to populate for Project 1. Assign to a variety of developers so that you can see developers listed under the project.
 const ticket1 = {
-      title: 'Add styling',
-      type: 'Task',
-      description: 'Select a color palette and add styling with CSS',
-      priority: 'High',
-      dateDue: 10/2/2020,
-      assignedDeveloper: 'Sammy',
-}
+  title: 'Add styling',
+  type: 'Task',
+  description: 'Select a color palette and add styling with CSS',
+  priority: 'High',
+  dateDue: 10 / 2 / 2020,
+  assignedDeveloper: 'Sammy',
+};
 const ticket2 = {
   title: 'Token expiration',
   type: 'Bug',
   description: 'Update the token expiration to an acceptable timeframe',
   priority: 'Critical',
-  dateDue: 10/12/2020,
+  dateDue: 10 / 12 / 2020,
   assignedDeveloper: 'Mary78',
-}
+};
 
 const ticket3 = {
   title: 'Brainstorm Teams',
   type: 'Other',
-  description: 'Begin to brainstorm and diagram how teams could be implemented for users within the application',
+  description:
+    'Begin to brainstorm and diagram how teams could be implemented for users within the application',
   priority: 'Low',
-  dateDue: 10/25/2020,
+  dateDue: 10 / 25 / 2020,
   assignedDeveloper: 'DemoUser',
-}
+};
 
 const ticket4 = {
   title: 'Test User Registration',
   type: 'Task',
   description: 'Set up tests for user registration features',
   priority: 'Medium',
-  dateDue: 10/30/2020,
+  dateDue: 10 / 30 / 2020,
   assignedDeveloper: 'DemoUser',
-}
+};
 
 const ticket5 = {
   title: 'Test User Login',
   type: 'Task',
   description: 'Set up tests for user login features',
   priority: 'Medium',
-  dateDue: 10/30/2020,
+  dateDue: 10 / 30 / 2020,
   assignedDeveloper: 'Jeff',
-}
+};
 
 //Demo sprints to populate for Project 1
 const sprint1 = {
   title: 'UI Design',
-    description: 'This sprint will focus on designing and building out the UI for the application.',
-}
+  description:
+    'This sprint will focus on designing and building out the UI for the application.',
+};
 
+const sprint2 = {
+  title: 'User Authentication',
+  description:
+    'This sprint will focus on the logic for user login and registration.',
+};
 
+const sprint3 = {
+  title: 'Testing',
+  description: 'This sprint will focus on preliminary application testing.',
+};
+
+//********* */
+//PROJECT 2
+//********* */
+
+const project2 = {
+  name: 'Bug Tracker',
+  description: 'A React project management and issue tracking application.',
+  targetCompletionDate: 12 / 15 / 2020,
+  repoLink: '',
+  liveLink: '',
+  techStack: 'HTML, CSS, React, MongoDB, Node.js, Express',
+};
+
+//Demo tickets to populate for Project 2. Assign to a variety of developers so that you can see developers listed under the project.
+const ticket1 = {
+  title: 'Add styling',
+  type: 'Task',
+  description: 'Select a color palette and add styling with CSS',
+  priority: 'High',
+  dateDue: 10 / 2 / 2020,
+  assignedDeveloper: 'Maddie',
+};
+const ticket2 = {
+  title: 'Token expiration',
+  type: 'Bug',
+  description: 'Update the token expiration to an acceptable timeframe',
+  priority: 'High',
+  dateDue: 10 / 12 / 2020,
+  assignedDeveloper: 'JohnN',
+};
+
+const ticket3 = {
+  title: 'Brainstorm Teams',
+  type: 'Other',
+  description:
+    'Begin to brainstorm and diagram how teams could be implemented for users within the application',
+  priority: 'Low',
+  dateDue: 10 / 25 / 2020,
+  assignedDeveloper: 'DemoUser',
+};
+
+const ticket4 = {
+  title: 'Test User Registration',
+  type: 'Task',
+  description: 'Set up tests for user registration features',
+  priority: 'Medium',
+  dateDue: 10 / 30 / 2020,
+  assignedDeveloper: 'DemoUser',
+};
+
+const ticket5 = {
+  title: 'Test User Login',
+  type: 'Task',
+  description: 'Set up tests for user login features',
+  priority: 'Critical',
+  dateDue: 10 / 15 / 2020,
+  assignedDeveloper: 'Marky',
+};
+
+//Demo sprints to populate for Project 2
+const sprint1 = {
+  title: 'UI Design',
+  description:
+    'This sprint will focus on designing and building out the UI for the application.',
+};
+
+const sprint2 = {
+  title: 'User Authentication',
+  description:
+    'This sprint will focus on the logic for user login and registration.',
+};
+
+const sprint3 = {
+  title: 'Testing',
+  description: 'This sprint will focus on preliminary application testing.',
+};
+
+//********* */
+//PROJECT 3
+//********* */
+
+const project3 = {
+  name: 'Real Estate App',
+  description:
+    'A basic application focused on displaying and reviewing local real estate listings.',
+  targetCompletionDate: 12 / 05 / 2020,
+  repoLink: '',
+  liveLink: '',
+  techStack: 'HTML, CSS, Sass, React, Postgres',
+};
+
+//Demo tickets to populate for Project 3. Assign to a variety of developers so that you can see developers listed under the project.
+const ticket1 = {
+  title: 'Add styling',
+  type: 'Task',
+  description: 'Select a color palette and add styling with CSS',
+  priority: 'High',
+  dateDue: 10 / 2 / 2020,
+  assignedDeveloper: 'DemoUser',
+};
+const ticket2 = {
+  title: 'Token expiration',
+  type: 'Bug',
+  description: 'Update the token expiration to an acceptable timeframe',
+  priority: 'High',
+  dateDue: 10 / 12 / 2020,
+  assignedDeveloper: 'DemoUser',
+};
+
+const ticket3 = {
+  title: 'Brainstorm Teams',
+  type: 'Other',
+  description:
+    'Begin to brainstorm and diagram how teams could be implemented for users within the application',
+  priority: 'Low',
+  dateDue: 10 / 25 / 2020,
+  assignedDeveloper: 'Nat44',
+};
+
+const ticket4 = {
+  title: 'Test User Registration',
+  type: 'Task',
+  description: 'Set up tests for user registration features',
+  priority: 'Medium',
+  dateDue: 10 / 30 / 2020,
+  assignedDeveloper: 'Jacky',
+};
+
+const ticket5 = {
+  title: 'Test User Login',
+  type: 'Task',
+  description: 'Set up tests for user login features',
+  priority: 'Critical',
+  dateDue: 10 / 30 / 2020,
+  assignedDeveloper: 'Jacob2',
+};
+
+//Demo sprints to populate for Project 2
+const sprint1 = {
+  title: 'UI Design',
+  description:
+    'This sprint will focus on designing and building out the UI for the application.',
+};
+
+const sprint2 = {
+  title: 'User Authentication',
+  description:
+    'This sprint will focus on the logic for user login and registration.',
+};
+
+const sprint3 = {
+  title: 'Testing',
+  description: 'This sprint will focus on preliminary application testing.',
+};
+
+//********* */
+//PROJECT 4
+//********* */
+
+const project4 = {
+  name: 'Movie Search',
+  description:
+    'React application to search for movies and get recommendations.',
+  targetCompletionDate: 1 / 25 / 2021,
+  repoLink: '',
+  liveLink: '',
+  techStack: 'HTML, CSS, React, MongoDb, Express, Node.js',
+};
+
+//Demo tickets to populate for Project 4. Assign to a variety of developers so that you can see developers listed under the project.
+const ticket1 = {
+  title: 'Add styling',
+  type: 'Task',
+  description: 'Select a color palette and add styling with CSS',
+  priority: 'High',
+  dateDue: 10 / 2 / 2020,
+  assignedDeveloper: 'Nicky24',
+};
+const ticket2 = {
+  title: 'Token expiration',
+  type: 'Bug',
+  description: 'Update the token expiration to an acceptable timeframe',
+  priority: 'Low',
+  dateDue: 10 / 12 / 2020,
+  assignedDeveloper: 'DemoUser',
+};
+
+const ticket3 = {
+  title: 'Brainstorm Teams',
+  type: 'Other',
+  description:
+    'Begin to brainstorm and diagram how teams could be implemented for users within the application',
+  priority: 'Low',
+  dateDue: 10 / 25 / 2020,
+  assignedDeveloper: 'DemoUser',
+};
+
+const ticket4 = {
+  title: 'Test User Registration',
+  type: 'Task',
+  description: 'Set up tests for user registration features',
+  priority: 'Low',
+  dateDue: 10 / 30 / 2020,
+  assignedDeveloper: 'Karrie',
+};
+
+const ticket5 = {
+  title: 'Test User Login',
+  type: 'Task',
+  description: 'Set up tests for user login features',
+  priority: 'Critical',
+  dateDue: 10 / 30 / 2020,
+  assignedDeveloper: 'Mel892',
+};
+
+//Demo sprints to populate for Project 2
+const sprint1 = {
+  title: 'UI Design',
+  description:
+    'This sprint will focus on designing and building out the UI for the application.',
+};
+
+const sprint2 = {
+  title: 'User Authentication',
+  description:
+    'This sprint will focus on the logic for user login and registration.',
+};
+
+const sprint3 = {
+  title: 'Testing',
+  description: 'This sprint will focus on preliminary application testing.',
+};

@@ -35,7 +35,8 @@ export default function Comment({comment, index, isLoading}) {
 
   return (
     isLoading ? <Spinner /> : (
-<List className={classes.root}>
+      
+        <List className={classes.root}>
       <ListItem alignItems='flex-start'>
         <ListItemAvatar>
           <Avatar
@@ -59,7 +60,7 @@ export default function Comment({comment, index, isLoading}) {
                 className={classes.inline}
                 color='textPrimary'
               >
-                {comment.user.username}
+                {comment.user ? (comment.user.username) : ('')}
               </Typography>
               {` — ${comment.comment}`}
             </React.Fragment>
@@ -69,6 +70,5 @@ export default function Comment({comment, index, isLoading}) {
       <Divider variant='inset' component='li' />
     </List>
     )
-    
   );
 }

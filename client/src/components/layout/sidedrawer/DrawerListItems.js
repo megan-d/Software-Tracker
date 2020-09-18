@@ -7,6 +7,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import PersonIcon from '@material-ui/icons/Person';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Divider from '@material-ui/core/Divider';
@@ -59,6 +60,15 @@ const DrawerListItems = ({ sidedrawerClick }) => {
               <GroupWorkIcon style={{ color: '#43aa8b' }} />
             </ListItemIcon>
             <ListItemText primary='My Assigned Sprints' />
+          </ListItem>
+        </StyledLink>
+
+        <StyledLink to='/profiles'>
+          <ListItem button>
+            <ListItemIcon>
+              <SupervisedUserCircleIcon style={{ color: '#43aa8b' }} />
+            </ListItemIcon>
+            <ListItemText primary='Developers' />
           </ListItem>
         </StyledLink>
       </div>
