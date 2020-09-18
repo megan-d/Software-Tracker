@@ -47,23 +47,29 @@ const useStyles = makeStyles((theme) => ({
 export default function DemoPage(props) {
   const { getUserProjects, clearProject, createDemoProject1, createDemoProject2 } = useContext(ProjectContext);
 
-  const { user, loadUser, isAuthenticated } = useContext(AuthContext);
+  const { user, loadUser, isAuthenticated, login } = useContext(AuthContext);
 
   const classes = useStyles();
 
   useEffect(() => {
     loadUser();
-    createDemoProject1();
-    createDemoProject2();
   }, [isAuthenticated]);
 
-  //on button click, run function that generates projects, tickets, sprints, and comments and then redirect to dashboard
-  const generateDemoData = async (e) => {
-      e.preventDefault();
-      props.history.push('/dashboard')
-  }
+  // //on button click, run function that generates projects, tickets, sprints, and comments and then redirect to dashboard
+  // const generateDemoData = async (e) => {
+  //     e.preventDefault();
+  //     props.history.push('/dashboard')
+  // }
 
-  let history = useHistory();
+ const loginDemo = async (e) => {
+  e.preventDefault();
+    const demo = {
+      email: 'jamie@demo.com',
+      password: '11111111',
+    };
+    await login(demo);
+    props.history.push('/dashboard')
+  };
 
   return (
     <Fragment>
@@ -72,15 +78,14 @@ export default function DemoPage(props) {
       <main className={classes.content}>
         <div style={{ margin: '20vh 20vw 0 20vw', textAlign: 'center' }}>
           <p>
-            A unique user has been generated so that you can explore Dash's
-            features without having to create your own account. Click the button
+            This demo features allows you to login with demo user credentials. The demo profile has pre-populated data to allow you to explore the application better. Click the button
             below to begin exploring all of the functionality, like adding
             projects, exploring developer profiles, and more!
           </p>
           <Button
             variant='contained'
             style={{ backgroundColor: '#43aa8b', color: '#f3f3f3' }}
-            onClick={(e) => generateDemoData(e)}
+            onClick={(e) => loginDemo(e)}
           >
             Try it Now
           </Button>

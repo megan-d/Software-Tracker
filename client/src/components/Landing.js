@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { Redirect } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -92,15 +93,16 @@ export default function Landing(props) {
   //   await setUpDemoUser();
   // };
 
-  const loginDemo = () => {
+  const loginDemo = async (e) => {
+    e.preventDefault();
     const demo = {
       email: 'jamie@demo.com',
-      password: '11111111'
-    }
-    login(demo);
-    props.history.push('/dashboard')
-  }
-  
+      password: '11111111',
+    };
+    await login(demo);
+    props.history.push('/dashboard');
+  };
+
 
   return (
     <React.Fragment>
@@ -169,7 +171,7 @@ export default function Landing(props) {
                   <Button
                     variant='contained'
                     style={{ backgroundColor: '#43aa8b', color: '#f3f3f3' }}
-                    onClick={() => loginDemo()}
+                    onClick={(e) => loginDemo(e)}
                   >
                     Demo Now
                   </Button>

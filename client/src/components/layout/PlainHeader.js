@@ -1,6 +1,6 @@
 import React, { useContext, Fragment } from 'react';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { AuthContext } from '../../context/auth/AuthContext';
+
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -64,7 +65,17 @@ const useStyles = makeStyles((theme) => ({
 const PlainHeader = (props) => {
   const classes = useStyles();
 
-  const { isAuthenticated, logoutUser, isLoading } = useContext(AuthContext);
+  const { isAuthenticated, logoutUser, isLoading, login } = useContext(AuthContext);
+
+  const loginDemo = async (e) => {
+    e.preventDefault();
+    const demo = {
+      email: 'jamie@demo.com',
+      password: '11111111',
+    };
+    await login(demo);
+    props.history.push('/dashboard');
+  };
 
   return (
     <div className={classes.root}>
@@ -107,7 +118,7 @@ const PlainHeader = (props) => {
                   <Button className={classes.styledbutton} href='/register'>
                     Register
                   </Button>
-                  <Button className={classes.styledbutton} href='/'>
+                  <Button className={classes.styledbutton} onClick={(e) => loginDemo(e)}>
                     Demo
                   </Button>
                 </Fragment>
@@ -120,4 +131,4 @@ const PlainHeader = (props) => {
   );
 };
 
-export default PlainHeader;
+export default withRouter(PlainHeader);

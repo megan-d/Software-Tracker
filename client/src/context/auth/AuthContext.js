@@ -198,9 +198,6 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         localStorage.setItem('token', token);
       }
-
-      
-
       dispatch({
         type: 'REGISTER_SUCCESS',
         payload: res.data,
