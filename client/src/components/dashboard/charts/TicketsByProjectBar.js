@@ -78,7 +78,7 @@ const TicketsByProjectBar = () => {
               responsive: true,
               title: {
                 display: true,
-                text: 'Total Tickets by Project',
+                text: 'Total Tickets for My Projects',
                 fontSize: 14,
               },
               legend: {

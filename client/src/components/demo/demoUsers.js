@@ -388,16 +388,16 @@ const ticket2 = {
   description: 'Update the token expiration to an acceptable timeframe',
   priority: 'High',
   dateDue: 10 / 12 / 2020,
-  assignedDeveloper: 'JohnN',
+  assignedDeveloper: 'JohnM',
 };
 
 const ticket3 = {
   title: 'Brainstorm Teams',
   type: 'Other',
   description:
-    'Begin to brainstorm and diagram how teams could be implemented for users within the application',
-  priority: 'Low',
-  dateDue: 10 / 25 / 2020,
+    'Brainstorm and diagram how teams could be implemented for users within the application',
+  priority: 'Medium',
+  dateDue: 10 / 16 / 2020,
   assignedDeveloper: 'DemoJamie',
 };
 
@@ -405,8 +405,8 @@ const ticket4 = {
   title: 'Test User Registration',
   type: 'Task',
   description: 'Set up tests for user registration features',
-  priority: 'Medium',
-  dateDue: 10 / 30 / 2020,
+  priority: 'High',
+  dateDue: 10 / 15 / 2020,
   assignedDeveloper: 'DemoJamie',
 };
 
@@ -416,6 +416,15 @@ const ticket5 = {
   description: 'Set up tests for user login features',
   priority: 'Critical',
   dateDue: 10 / 15 / 2020,
+  assignedDeveloper: 'Marky',
+};
+
+const ticket6 = {
+  title: 'Edit Dashboard Charts',
+  type: 'Task',
+  description: 'Edit charts within the dashboard to more accurately display data',
+  priority: 'High',
+  dateDue: 10 / 20 / 2020,
   assignedDeveloper: 'Marky',
 };
 
