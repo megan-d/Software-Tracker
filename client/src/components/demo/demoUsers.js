@@ -462,61 +462,52 @@ const project3 = {
 
 //Demo tickets to populate for Project 3. Assign to a variety of developers so that you can see developers listed under the project.
 const ticket1 = {
-  title: 'Add styling',
+  title: 'Add calendar logic',
   type: 'Task',
-  description: 'Select a color palette and add styling with CSS',
+  description: 'Add calendars to application',
   priority: 'High',
   dateDue: 10 / 2 / 2020,
   assignedDeveloper: 'DemoJamie',
 };
 const ticket2 = {
-  title: 'Token expiration',
+  title: 'Commenting',
   type: 'Bug',
-  description: 'Update the token expiration to an acceptable timeframe',
+  description: 'Fix issue so only owner of comment can delete it',
   priority: 'High',
   dateDue: 10 / 12 / 2020,
   assignedDeveloper: 'DemoJamie',
 };
 
 const ticket3 = {
-  title: 'Brainstorm Teams',
+  title: 'Brainstorm Chat',
   type: 'Other',
   description:
-    'Begin to brainstorm and diagram how teams could be implemented for users within the application',
+    'Brainstorm and research how to add a chat feature to the application',
   priority: 'Low',
   dateDue: 10 / 25 / 2020,
   assignedDeveloper: 'Nat44',
 };
 
 const ticket4 = {
-  title: 'Test User Registration',
+  title: 'Test Forum',
   type: 'Task',
-  description: 'Set up tests for user registration features',
+  description: 'Set up tests for forum features',
   priority: 'Medium',
   dateDue: 10 / 30 / 2020,
   assignedDeveloper: 'Jacky',
 };
 
-const ticket5 = {
-  title: 'Test User Login',
-  type: 'Task',
-  description: 'Set up tests for user login features',
-  priority: 'Critical',
-  dateDue: 10 / 30 / 2020,
-  assignedDeveloper: 'Jacob2',
-};
-
 //Demo sprints to populate for Project 2
 const sprint1 = {
-  title: 'UI Design',
+  title: 'New Features',
   description:
-    'This sprint will focus on designing and building out the UI for the application.',
+    'This sprint will focus on designing and building out the newest features in the backlog.',
 };
 
 const sprint2 = {
-  title: 'User Authentication',
+  title: 'Authentication',
   description:
-    'This sprint will focus on the logic for user login and registration.',
+    'This sprint will focus on refining the logic for user login and registration.',
 };
 
 const sprint3 = {

@@ -59,7 +59,7 @@ const DrawerListItems = ({ sidedrawerClick }) => {
             <ListItemIcon>
               <GroupWorkIcon style={{ color: '#43aa8b' }} />
             </ListItemIcon>
-            <ListItemText primary='My Assigned Sprints' />
+            <ListItemText primary='My Sprints' />
           </ListItem>
         </StyledLink>
 
