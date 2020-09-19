@@ -103,9 +103,8 @@ export default function Landing(props) {
                   fontFamily: 'caveat, cursive',
                 }}
               >
-                {`Manage `}  
+                {`Manage - `}  
               </span>
-               -
               <span
                 style={{
                   color: '#f9c74f',
@@ -114,9 +113,8 @@ export default function Landing(props) {
                   fontFamily: 'caveat, cursive',
                 }}
               >
-                {`Track `} 
+                {`Track - `} 
               </span>
-               -
               <span
                 style={{
                   color: '#f8961e',
