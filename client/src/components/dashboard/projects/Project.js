@@ -176,7 +176,7 @@ const Project = (props) => {
 
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
-              <Paper className={fixedHeightPaper}>
+              <Paper className={fixedHeightPaper} style={{ minHeight: '300px' }}>
                 <ul className='page-content-subheading'>
                   Developers on Project:
                 </ul>
@@ -219,7 +219,7 @@ const Project = (props) => {
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
-              <Paper className={fixedHeightPaper}>
+              <Paper className={fixedHeightPaper} style={{ minHeight: '300px' }}>
                 <ul className='page-content-subheading'>Project Tech Stack:</ul>
                 {project.techStack.length === 0 && !isLoading ? (
                   <p>No listed technologies</p>
