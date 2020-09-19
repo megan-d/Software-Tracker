@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rightHeader: {
+    display: 'flex',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
