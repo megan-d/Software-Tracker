@@ -442,9 +442,9 @@ const sprint3 = {
 //********* */
 
 const project3 = {
-  name: 'Real Estate App',
+  name: 'Event Planning App',
   description:
-    'A basic application focused on displaying and reviewing local real estate listings.',
+    'A web application focused on event planning tools.',
   targetCompletionDate: 12 / 05 / 2020,
   repoLink: '',
   liveLink: '',

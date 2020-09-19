@@ -72,12 +72,9 @@ const colors = [
 ];
 
 const Projects = (props) => {
-  const {
-    projects,
-    isLoading,
-    getUserProjects,
-    clearProjects,
-  } = useContext(ProjectContext);
+  const { projects, isLoading, getUserProjects, clearProjects } = useContext(
+    ProjectContext,
+  );
 
   const { user } = useContext(AuthContext);
 
@@ -85,7 +82,7 @@ const Projects = (props) => {
 
   useEffect(() => {
     getUserProjects();
-    return () => clearProjects();
+    // return () => clearProjects();
   }, []);
 
   // let history = useHistory();
@@ -114,12 +111,23 @@ const Projects = (props) => {
       <StyledLink to='/createproject'>Add Project</StyledLink>
       <hr className='hr'></hr>
 
-      {isLoading && !projects ? (
+      {isLoading ? (
         <Spinner />
       ) : (
         <Fragment>
           <h3 className='subheading'>My Projects</h3>
-          {myProjects.length > 0 && !isLoading ? (
+          {!isLoading && myProjects.length === 0 ? (
+            <StyledCards>
+              <Card
+                className={classes.root}
+                style={{ border: `1px solid #f3f3f3` }}
+              >
+                <CardContent>
+                  <Typography>No projects available</Typography>
+                </CardContent>
+              </Card>
+            </StyledCards>
+          ) : (
             <StyledCards>
               {myProjects.map((el, index) => {
                 return (
@@ -133,7 +141,9 @@ const Projects = (props) => {
                 );
               })}
             </StyledCards>
-          ) : (
+          )}
+          <h3 className='subheading'>Projects I'm managing</h3>
+          {managing.length === 0 && !isLoading ? (
             <StyledCards>
               <Card
                 className={classes.root}
@@ -144,9 +154,7 @@ const Projects = (props) => {
                 </CardContent>
               </Card>
             </StyledCards>
-          )}
-          <h3 className='subheading'>Projects I'm managing</h3>
-          {managing.length > 0 && !isLoading ? (
+          ) : (
             <StyledCards>
               {managing.map((el, index) => {
                 return (
@@ -160,7 +168,10 @@ const Projects = (props) => {
                 );
               })}
             </StyledCards>
-          ) : (
+          )}
+
+          <h3 className='subheading'>Projects I'm collaborating on</h3>
+          {collabProjects.length === 0 && !isLoading ? (
             <StyledCards>
               <Card
                 className={classes.root}
@@ -171,10 +182,7 @@ const Projects = (props) => {
                 </CardContent>
               </Card>
             </StyledCards>
-          )}
-
-          <h3 className='subheading'>Projects I'm collaborating on</h3>
-          {collabProjects.length > 0 && !isLoading ? (
+          ) : (
             <StyledCards>
               {collabProjects.map((el, index) => {
                 return (
@@ -188,19 +196,6 @@ const Projects = (props) => {
                 );
               })}
             </StyledCards>
-          ) : (
-            collabProjects.length === 0 && (
-              <StyledCards>
-                <Card
-                  className={classes.root}
-                  style={{ border: `1px solid #f3f3f3` }}
-                >
-                  <CardContent>
-                    <Typography>No projects available</Typography>
-                  </CardContent>
-                </Card>
-              </StyledCards>
-            )
           )}
         </Fragment>
       )}

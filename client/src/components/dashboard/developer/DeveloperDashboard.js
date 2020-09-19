@@ -19,10 +19,10 @@ const useStyles = makeStyles((theme) => ({
   },
   fixedHeight: {
     minHeight: 340,
-    height: 340
+    height: 340,
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(4),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
@@ -46,7 +46,9 @@ export default function DeveloperDashboard(props) {
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const { isLoading, user, isAuthenticated, loadUser } = useContext(AuthContext);
+  const { isLoading, user, isAuthenticated, loadUser } = useContext(
+    AuthContext,
+  );
 
   // useEffect(() => {
   //   loadUser();
@@ -59,7 +61,7 @@ export default function DeveloperDashboard(props) {
       ) : (
         <Fragment>
           <h2 className='page-heading'>My Dashboard</h2>
-          <hr className='hr'/>
+          <hr className='hr' />
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={fixedHeightPaper}>
@@ -79,12 +81,12 @@ export default function DeveloperDashboard(props) {
               </Paper>
             </Grid>
 
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper className={classes.paper}>
                 <PendingTicketsTable />
               </Paper>
             </Grid>
-            <Grid item md={12} lg={6}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper className={classes.paper}>
                 <CompletedTicketsTable />
               </Paper>
