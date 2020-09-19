@@ -26,7 +26,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '300px',
+    },
   },
+   table: {
+     [theme.breakpoints.down('sm')]: {
+      minWidth: '300px',
+    }},
   root: {
     display: 'flex',
   },
@@ -78,12 +85,12 @@ export default function DeveloperDashboard(props) {
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper, classes.table}>
                 <PendingTicketsTable />
               </Paper>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper, classes.table}>
                 <CompletedTicketsTable />
               </Paper>
             </Grid>

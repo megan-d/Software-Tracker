@@ -56,6 +56,14 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  rightHeader: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -120,13 +128,16 @@ const Header = (props) => {
               --DASH-->
             </StyledLink>
           </Typography>
+          <div className={classes.rightHeader}>
           <Button href='/dashboard' className={classes.styledbutton}>
-            My Dashboard
+            Dashboard
           </Button>
           <Button href='/profiles' className={classes.styledbutton}>
             Developers
           </Button>
           <PopMenu />
+          </div>
+          
         </Toolbar>
       </AppBar>
     </div>
