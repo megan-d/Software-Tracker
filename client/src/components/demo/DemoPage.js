@@ -1,14 +1,8 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
-import { ProjectContext } from '../../context/projects/ProjectContext';
 import { AuthContext } from '../../context/auth/AuthContext';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import PlainHeader from '../layout/PlainHeader';
 import Footer from '../layout/Footer';
 
@@ -45,21 +39,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DemoPage(props) {
-  const { getUserProjects, clearProject, createDemoProject1, createDemoProject2 } = useContext(ProjectContext);
 
-  const { user, loadUser, isAuthenticated, login } = useContext(AuthContext);
+  const { loadUser, isAuthenticated, login } = useContext(AuthContext);
 
   const classes = useStyles();
 
   useEffect(() => {
     loadUser();
   }, [isAuthenticated]);
-
-  // //on button click, run function that generates projects, tickets, sprints, and comments and then redirect to dashboard
-  // const generateDemoData = async (e) => {
-  //     e.preventDefault();
-  //     props.history.push('/dashboard')
-  // }
 
  const loginDemo = async (e) => {
   e.preventDefault();

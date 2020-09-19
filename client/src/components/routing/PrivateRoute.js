@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import { AuthContext } from '../../context/auth/AuthContext';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { isAuthenticated, isLoading, loadUser } = useContext(AuthContext);
+  const { isAuthenticated, isLoading } = useContext(AuthContext);
   
 
   return (

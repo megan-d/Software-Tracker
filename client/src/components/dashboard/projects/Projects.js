@@ -72,7 +72,7 @@ const colors = [
 ];
 
 const Projects = (props) => {
-  const { projects, isLoading, getUserProjects, clearProjects } = useContext(
+  const { projects, isLoading, getUserProjects } = useContext(
     ProjectContext,
   );
 

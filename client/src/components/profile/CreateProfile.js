@@ -1,16 +1,12 @@
 import React, { useState, useContext } from 'react';
 import Wrapper from '../layout/Wrapper';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  StyledRedLink,
-  StyledBlueButton,
-} from '../../styles/styledComponents/StyledLinks';
+import { StyledBlueButton } from '../../styles/styledComponents/StyledLinks';
 import AlertBanner from '../layout/AlertBanner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { ProfileContext } from '../../context/profiles/ProfileContext';
-import { AuthContext } from '../../context/auth/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +59,6 @@ const CreateProfile = ({ history }) => {
   });
 
   const { createProfile } = useContext(ProfileContext);
-  const { user } = useContext(AuthContext);
 
   //Pull out variables from formData and userData
   const { bio, skills } = formData;

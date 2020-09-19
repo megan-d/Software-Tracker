@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -46,13 +46,9 @@ export default function DeveloperDashboard(props) {
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const { isLoading, user, isAuthenticated, loadUser } = useContext(
+  const { isLoading, user } = useContext(
     AuthContext,
   );
-
-  // useEffect(() => {
-  //   loadUser();
-  // }, [isAuthenticated]);
 
   return (
     <Wrapper>

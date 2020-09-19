@@ -1,15 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Redirect } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { ProfileContext } from '../context/profiles/ProfileContext';
-import { ProjectContext } from '../context/projects/ProjectContext';
 import { AuthContext } from '../context/auth/AuthContext';
-import { demoUser } from './demo/demo';
 import Container from '@material-ui/core/Container';
 import PlainHeader from '../components/layout/PlainHeader';
 import Footer from './layout/Footer';
@@ -20,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    // backgroundColor: '#e5e0db',
-    // padding: theme.spacing(30, 0, 6),
     display: 'flex',
     flexDirection: 'column',
     minHeight: '97vh',
@@ -71,27 +64,10 @@ export default function Landing(props) {
   const classes = useStyles();
 
   const { login, loadUser, isAuthenticated } = useContext(AuthContext);
-  // const { createDemoProfile } = useContext(ProfileContext);
-  // const { createDemoProject1 } = useContext(ProjectContext);
 
   useEffect(() => {
     loadUser();
   }, [isAuthenticated]);
-
-  // const setUpDemoUser = async () => {
-  //   //Call register demo user action
-  //   await registerDemo();
-  //   //Call create demo profile action
-  //   await createDemoProfile();
-  //   //redirect to demo page
-  //   props.history.push(`/demo`);
-  // };
-
-  //When Demo button is clicked, run the onDemoClick function to register demo user, create profile, etc (via setUpDemoUser above)
-  // const onDemoClick = async (e) => {
-  //   e.preventDefault();
-  //   await setUpDemoUser();
-  // };
 
   const loginDemo = async (e) => {
     e.preventDefault();
@@ -102,7 +78,6 @@ export default function Landing(props) {
     await login(demo);
     props.history.push('/dashboard');
   };
-
 
   return (
     <React.Fragment>

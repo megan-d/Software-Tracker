@@ -272,7 +272,7 @@ const Ticket = (props) => {
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
               <MaterialTable
-                className={fixedHeightPaper, classes.typography}
+                className={fixedHeightPaper}
                 style={{ minHeight: '460px', paddingLeft: '8px', paddingRight: '32px', paddingTop: '14px'}}
                 localization={{
                   header: {

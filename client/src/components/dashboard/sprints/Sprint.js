@@ -4,8 +4,6 @@ import Spinner from '../../layout/Spinner';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
-import Moment from 'react-moment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AlertBanner from '../../layout/AlertBanner';
 import MaterialTable from 'material-table';
