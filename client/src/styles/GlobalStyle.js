@@ -156,10 +156,10 @@ img:-moz-loading {
     visibility: hidden;
 }
 
-/* @media (max-width: 760px) {
-  .desktop-sidedrawer {
+@media (max-width: 700px) {
+  .table-title {
     display: none;
-  } */
+  }
 
 `;
 export default GlobalStyle;

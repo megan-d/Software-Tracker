@@ -43,7 +43,7 @@ const Sprints = (props) => {
               actions: 'Project',
             },
           }}
-          title={<Typography style={{fontSize: '16px', fontWeight: 700}}>Sprints</Typography>}
+          title={<Typography style={{fontSize: '16px', fontWeight: 700}} className='table-title'>Sprints</Typography>}
           columns={columns}
           actions={[
             {

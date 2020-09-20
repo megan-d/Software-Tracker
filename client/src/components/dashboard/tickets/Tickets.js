@@ -65,7 +65,7 @@ const Tickets = (props) => {
               actions: 'View Project',
             },
           }}
-          title={<Typography  style={{fontSize: '16px', fontWeight: 700}}>Tickets</Typography>}
+          title={<Typography  style={{fontSize: '16px', fontWeight: 700}} className='table-title'>Tickets</Typography>}
           columns={columns}
           actions={[
             {
