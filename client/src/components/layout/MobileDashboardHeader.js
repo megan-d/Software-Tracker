@@ -91,16 +91,16 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-const DashboardHeader = (props) => {
+const MobileDashboardHeader = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <AppBar
         position='absolute'
-        className={clsx(classes.appBar, props.open && classes.appBarShift)}
+        className={clsx(classes.appBar)}
       >
         <Toolbar className={classes.toolbar}>
-          <IconButton
+          {/* <IconButton
             edge='start'
             color='inherit'
             aria-label='open drawer'
@@ -111,7 +111,7 @@ const DashboardHeader = (props) => {
             )}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography
             component='h1'
             variant='h6'
@@ -142,4 +142,4 @@ const DashboardHeader = (props) => {
   );
 };
 
-export default DashboardHeader;
+export default MobileDashboardHeader;

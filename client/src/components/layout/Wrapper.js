@@ -1,17 +1,20 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import SideDrawer from './sidedrawer/SideDrawer';
+import MobileSideDrawer from './sidedrawer/MobileSideDrawer';
 import DashboardHeader from './DashboardHeader';
+import MobileDashboardHeader from './MobileDashboardHeader';
 import Footer from './Footer';
 import { AuthContext } from '../../context/auth/AuthContext';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex'
+    display: 'flex',
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -50,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
-    minHeight: '93vh'
+    minHeight: '93vh',
   },
   fixedHeight: {
     height: 240,
@@ -63,8 +66,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function Wrapper(props) {
+  const matches = useMediaQuery('(min-width:700px)');
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -74,30 +78,55 @@ export default function Wrapper(props) {
     setOpen(false);
   };
 
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const handleMobileDrawerOpen = () => {
+    setMobileOpen(true);
+  };
+  const handleMobileDrawerClose = () => {
+    setMobileOpen(false);
+  };
+
   const { isAuthenticated, loadUser } = useContext(AuthContext);
 
   useEffect(() => {
     loadUser();
   }, [isAuthenticated]);
 
-  
   return (
     <div className={classes.root}>
-      <DashboardHeader open={open} handleDrawerOpen={handleDrawerOpen} location={props.location}/>
-      <SideDrawer
-        open={open}
-        handleDrawerClose={handleDrawerClose}
-      />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth='lg' className={classes.container}>
-          
-            {props.children}
-          
-          <Box pt={4}></Box>
-        </Container>
-        <Footer />
-      </main>
+      {matches ? (
+        <Fragment>
+          <DashboardHeader
+            open={open}
+            handleDrawerOpen={handleDrawerOpen}
+            location={props.location}
+          />
+          <SideDrawer open={open} handleDrawerClose={handleDrawerClose} />
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Container maxWidth='lg' className={classes.container}>
+              {props.children}
+
+              <Box pt={4}></Box>
+            </Container>
+            <Footer />
+          </main>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <MobileDashboardHeader/>
+          <MobileSideDrawer />
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Container maxWidth='lg' className={classes.container}>
+              {props.children}
+
+              <Box pt={4}></Box>
+            </Container>
+            <Footer />
+          </main>
+        </Fragment>
+      )}
     </div>
   );
 }

@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SideDrawer = (props) => {
+const MobileSideDrawer = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -84,8 +84,5 @@ const SideDrawer = (props) => {
   );
 };
 
-SideDrawer.propTypes = {
-  open: PropTypes.bool.isRequired,
-};
 
-export default SideDrawer;
+export default MobileSideDrawer;

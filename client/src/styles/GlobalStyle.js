@@ -155,6 +155,11 @@ input[type="search"] {
 img:-moz-loading {
     visibility: hidden;
 }
-`;
 
+/* @media (max-width: 760px) {
+  .desktop-sidedrawer {
+    display: none;
+  } */
+
+`;
 export default GlobalStyle;
