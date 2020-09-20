@@ -473,7 +473,7 @@ const ticket2 = {
   title: 'Commenting',
   type: 'Bug',
   description: 'Fix issue so only owner of comment can delete it',
-  priority: 'High',
+  priority: 'Critical',
   dateDue: 10 / 12 / 2020,
   assignedDeveloper: 'DemoJamie',
 };
@@ -484,7 +484,7 @@ const ticket3 = {
   description:
     'Brainstorm and research how to add a chat feature to the application',
   priority: 'Low',
-  dateDue: 10 / 25 / 2020,
+  dateDue: 10 / 26 / 2020,
   assignedDeveloper: 'Nat44',
 };
 
@@ -511,8 +511,8 @@ const sprint2 = {
 };
 
 const sprint3 = {
-  title: 'Testing',
-  description: 'This sprint will focus on preliminary application testing.',
+  title: 'Chat',
+  description: 'This sprint will focus on the application chat functionality.',
 };
 
 //********* */
@@ -531,55 +531,55 @@ const project4 = {
 
 //Demo tickets to populate for Project 4. Assign to a variety of developers so that you can see developers listed under the project.
 const ticket1 = {
-  title: 'Add styling',
+  title: 'Database setup',
   type: 'Task',
-  description: 'Select a color palette and add styling with CSS',
+  description: 'Set up database connection and models',
   priority: 'High',
-  dateDue: 10 / 2 / 2020,
-  assignedDeveloper: 'Nicky24',
+  dateDue: 10 / 26 / 2020,
+  assignedDeveloper: 'Jacob2',
 };
 const ticket2 = {
-  title: 'Token expiration',
+  title: 'JWT',
   type: 'Bug',
-  description: 'Update the token expiration to an acceptable timeframe',
-  priority: 'Low',
+  description: 'Fix bug with token expiration timeframe',
+  priority: 'Critical',
   dateDue: 10 / 12 / 2020,
   assignedDeveloper: 'DemoJamie',
 };
 
 const ticket3 = {
-  title: 'Brainstorm Teams',
-  type: 'Other',
+  title: 'Admin Dashboard',
+  type: 'Task',
   description:
-    'Begin to brainstorm and diagram how teams could be implemented for users within the application',
+    'Create basic admin dashboard to be used throughout development as well as in production',
   priority: 'Low',
-  dateDue: 10 / 25 / 2020,
+  dateDue: 10 / 30 / 2020,
   assignedDeveloper: 'DemoJamie',
 };
 
 const ticket4 = {
-  title: 'Test User Registration',
+  title: 'Test User Auth',
   type: 'Task',
-  description: 'Set up tests for user registration features',
-  priority: 'Low',
+  description: 'Set up tests for user registration and login features',
+  priority: 'Medium',
   dateDue: 10 / 30 / 2020,
   assignedDeveloper: 'Karrie',
 };
 
 const ticket5 = {
-  title: 'Test User Login',
+  title: 'Notification system',
   type: 'Task',
-  description: 'Set up tests for user login features',
-  priority: 'Critical',
+  description: 'Set up notification system so users are notified when messages are received',
+  priority: 'High',
   dateDue: 10 / 30 / 2020,
   assignedDeveloper: 'Mel892',
 };
 
 //Demo sprints to populate for Project 2
 const sprint1 = {
-  title: 'UI Design',
+  title: 'Database Tasks',
   description:
-    'This sprint will focus on designing and building out the UI for the application.',
+    'This sprint will focus on designing and building the database.',
 };
 
 const sprint2 = {
