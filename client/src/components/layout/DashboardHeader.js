@@ -21,6 +21,18 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const StyledNavLink = styled(Link)`
+  text-decoration: none;
+  color: #f3f3f3;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px;
+  &:hover {
+    color: #f8961e; 
+  }
+`;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -59,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
   rightHeader: {
     display: 'flex',
+    alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
@@ -82,13 +95,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
-  styledbutton: {
-    color: '#f3f3f3',
-    '&:hover': {
-      color: '#f8961e',
-  }
-  }
-  
 }));
 
 const DashboardHeader = (props) => {
@@ -127,12 +133,12 @@ const DashboardHeader = (props) => {
             </StyledLink>
           </Typography>
           <div className={classes.rightHeader}>
-          <Button href='/dashboard' className={classes.styledbutton}>
+          <StyledNavLink to='/dashboard'>
             Dashboard
-          </Button>
-          <Button href='/profiles' className={classes.styledbutton}>
+          </StyledNavLink>
+          <StyledNavLink to='/profiles' >
             Developers
-          </Button>
+          </StyledNavLink>
           <PopMenu />
           </div>
           

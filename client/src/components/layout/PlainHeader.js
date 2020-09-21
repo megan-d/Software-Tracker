@@ -17,6 +17,19 @@ const StyledLink = styled(Link)`
     color: #f8961e; 
   }
 `;
+
+const StyledNavLink = styled(Link)`
+  text-decoration: none;
+  color: #f3f3f3;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px;
+  &:hover {
+    color: #f8961e; 
+  }
+`;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -100,24 +113,24 @@ const PlainHeader = (props) => {
             <Fragment>
               {isAuthenticated ? (
                 <Fragment>
-                  <Button className={classes.styledbutton} color='inherit' href='/dashboard'>
+                  <StyledNavLink className={classes.styledbutton} color='inherit' to='/dashboard'>
                     My Dashboard
-                  </Button>
-                  <Button className={classes.styledbutton} color='inherit' href='/profiles'>
+                  </StyledNavLink>
+                  <StyledNavLink className={classes.styledbutton} color='inherit' to='/profiles'>
                     Developers
-                  </Button>
+                  </StyledNavLink>
                   <Button className={classes.styledbutton} color='inherit' onClick={logoutUser}>
                     Logout
                   </Button>
                 </Fragment>
               ) : (
                 <Fragment>
-                  <Button className={classes.styledbutton} href='/login'>
+                  <StyledNavLink className={classes.styledbutton} to='/login'>
                     Login
-                  </Button>
-                  <Button className={classes.styledbutton} href='/register'>
+                  </StyledNavLink>
+                  <StyledNavLink className={classes.styledbutton} to='/register'>
                     Register
-                  </Button>
+                  </StyledNavLink>
                   <Button className={classes.styledbutton} onClick={(e) => loginDemo(e)}>
                     Demo
                   </Button>
