@@ -74,8 +74,9 @@ export const ProfileProvider = ({ children }) => {
       let errors = err.response.data.errors;
 
       if (errors) {
-        //if errors, loop through them and dispatch the showAlert action from AlertContext
-        errors.forEach((error) => showAlert(error.msg, 'error'));
+        //if errors, loop through them and dispatch the showAlert action from AlertContext. Don't include the no profile error (since this should never be reached.)
+        const filteredErrors = errors.filter(el => el.msg !== 'An existing profile could not be found. Please create a profile.')
+        filteredErrors.forEach((error) => showAlert(error.msg, 'error'));
       }
       dispatch({
         type: 'LOAD_USER_PROFILE_FAILURE',

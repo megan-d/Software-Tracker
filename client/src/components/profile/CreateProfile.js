@@ -1,8 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, Fragment } from 'react';
 import Wrapper from '../layout/Wrapper';
+import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { StyledBlueButton } from '../../styles/styledComponents/StyledLinks';
 import AlertBanner from '../layout/AlertBanner';
+import Spinner from '../layout/Spinner';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
@@ -53,12 +55,21 @@ const useStyles = makeStyles((theme) => ({
 const CreateProfile = ({ history }) => {
   const classes = useStyles();
 
+  const {
+    createProfile,
+    getCurrentUserProfile,
+    profile,
+    isLoading,
+  } = useContext(ProfileContext);
+
+  useEffect(() => {
+    getCurrentUserProfile();
+  }, [profile]);
+
   const [formData, updateFormData] = useState({
     bio: '',
     skills: '',
   });
-
-  const { createProfile } = useContext(ProfileContext);
 
   //Pull out variables from formData and userData
   const { bio, skills } = formData;
@@ -81,73 +92,87 @@ const CreateProfile = ({ history }) => {
 
   return (
     <Wrapper>
-      <h2 className='page-heading'>Create Your User Profile</h2>
-      <p>
-        Before getting started, please create a user profile. This can be
-        updated later.
-      </p>
-      <hr className='hr'></hr>
+      {isLoading ? (
+        <Spinner />
+      ) : !isLoading && profile ? (<Redirect to='/dashboard'/>) :
+        (<Fragment>
+          <h2 className='page-heading'>Create Your User Profile</h2>
+          <p>
+            Before getting started, please create a user profile. This can be
+            updated later.
+          </p>
+          <hr className='hr'></hr>
 
-      <Grid container component='main' className={classes.root}>
-        <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            <form
-              className={classes.form}
-              action=''
-              onSubmit={(e) => onSubmit(e)}
+          <Grid container component='main' className={classes.root}>
+            <Grid
+              item
+              xs={12}
+              sm={8}
+              md={8}
+              component={Paper}
+              elevation={6}
+              square
             >
-              <TextField
-                name='bio'
-                variant='outlined'
-                autoFocus
-                required
-                fullWidth
-                multiline
-                rows={6}
-                id='bio'
-                label='Bio'
-                helperText='Please provide a brief description about yourself as a developer.'
-                value={bio}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+              <div className={classes.paper}>
+                <form
+                  className={classes.form}
+                  action=''
+                  onSubmit={(e) => onSubmit(e)}
+                >
+                  <TextField
+                    name='bio'
+                    variant='outlined'
+                    autoFocus
+                    required
+                    fullWidth
+                    multiline
+                    rows={6}
+                    id='bio'
+                    label='Bio'
+                    helperText='Please provide a brief description about yourself as a developer.'
+                    value={bio}
+                    onChange={(e) => onChange(e)}
+                    margin='normal'
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
 
-              <TextField
-                variant='outlined'
-                fullWidth
-                required
-                name='skills'
-                label='Technologies'
-                helperText='Please enter the technologies that you have experience with, separated by a comma. (e.g. JavaScript, Node, React)'
-                id='skills'
-                value={skills}
-                onChange={(e) => onChange(e)}
-                margin='normal'
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <AlertBanner />
-              <StyledBlueButton
-                type='submit'
-                className={classes.buttons}
-                onClick={(e) => onSubmit(e)}
-              >
-                SUBMIT
-              </StyledBlueButton>
-              {/* <StyledRedLink
+                  <TextField
+                    variant='outlined'
+                    fullWidth
+                    required
+                    name='skills'
+                    label='Technologies'
+                    helperText='Please enter the technologies that you have experience with, separated by a comma. (e.g. JavaScript, Node, React)'
+                    id='skills'
+                    value={skills}
+                    onChange={(e) => onChange(e)}
+                    margin='normal'
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                  <AlertBanner />
+                  <StyledBlueButton
+                    type='submit'
+                    className={classes.buttons}
+                    onClick={(e) => onSubmit(e)}
+                  >
+                    SUBMIT
+                  </StyledBlueButton>
+                  {/* <StyledRedLink
                 to={`/profiles/${user._id}`}
                 className={classes.buttons}
               >
                 CANCEL
               </StyledRedLink> */}
-            </form>
-          </div>
-        </Grid>
-      </Grid>
+                </form>
+              </div>
+            </Grid>
+          </Grid>
+        </Fragment>
+      )}
     </Wrapper>
   );
 };
