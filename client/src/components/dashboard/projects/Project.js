@@ -119,8 +119,13 @@ const Project = (props) => {
               <AssignmentIcon className='page-heading-icon' />
               <h2 className='page-heading'>{project.name}</h2>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center' }} className='project-date'>
-              <h4 style={{ marginRight: '6px' }} className='project-date'>Target completion date:</h4>
+            <div
+              style={{ display: 'flex', alignItems: 'center' }}
+              className='project-date'
+            >
+              <h4 style={{ marginRight: '6px' }} className='project-date'>
+                Target completion date:
+              </h4>
               <p className='project-date'>
                 <Moment format='MM/DD/YYYY'>
                   {moment(project.targetCompletionDate)}
@@ -132,7 +137,9 @@ const Project = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaper}>
-                <h4 className='page-content-subheading'>Project Description:</h4>
+                <h4 className='page-content-subheading'>
+                  Project Description:
+                </h4>
                 <p>{project.description}</p>
               </Paper>
             </Grid>
@@ -176,7 +183,10 @@ const Project = (props) => {
 
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
-              <Paper className={fixedHeightPaper} style={{ minHeight: '300px' }}>
+              <Paper
+                className={fixedHeightPaper}
+                style={{ minHeight: '300px' }}
+              >
                 <ul className='page-content-subheading'>
                   Developers on Project:
                 </ul>
@@ -196,7 +206,8 @@ const Project = (props) => {
                                     height: '40px',
                                     width: '40px',
                                     color: '#fafafa',
-                                    backgroundColor: colors[index % colors.length],
+                                    backgroundColor:
+                                      colors[index % colors.length],
                                   }}
                                 >
                                   {el.firstName.charAt(0).toUpperCase()}
@@ -219,7 +230,10 @@ const Project = (props) => {
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
-              <Paper className={fixedHeightPaper} style={{ minHeight: '300px' }}>
+              <Paper
+                className={fixedHeightPaper}
+                style={{ minHeight: '300px' }}
+              >
                 <ul className='page-content-subheading'>Project Tech Stack:</ul>
                 {project.techStack.length === 0 && !isLoading ? (
                   <p>No listed technologies</p>
@@ -266,7 +280,30 @@ const Project = (props) => {
                 actions: '',
               },
             }}
-            title={<Typography  style={{fontSize: '14px', fontWeight: 700, paddingRight: '20px'}}>Tickets:</Typography>}
+            title={
+              <Fragment>
+                <Typography
+                  style={{
+                    fontSize: '15px',
+                    fontWeight: 700,
+                    paddingRight: '20px',
+                  }}
+                  className='project-table-title'
+                >
+                  Tickets:
+                </Typography>
+                <Typography
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    paddingRight: '20px',
+                  }}
+                  className='project-table-title-mobile'
+                >
+                  Tickets:
+                </Typography>
+              </Fragment>
+            }
             columns={ticketColumns}
             data={project.tickets.map((el) => {
               return {
@@ -306,7 +343,30 @@ const Project = (props) => {
                 actions: '',
               },
             }}
-            title={<Typography  style={{fontSize: '15px', fontWeight: 700, paddingRight: '20px'}}>Sprints:</Typography>}
+            title={
+              <Fragment>
+                <Typography
+                  style={{
+                    fontSize: '15px',
+                    fontWeight: 700,
+                    paddingRight: '20px',
+                  }}
+                  className='project-table-title'
+                >
+                  Sprints:
+                </Typography>
+                <Typography
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    paddingRight: '20px',
+                  }}
+                  className='project-table-title-mobile'
+                >
+                  Sprints:
+                </Typography>
+              </Fragment>
+            }
             columns={sprintColumns}
             data={project.sprints.map((el) => {
               return {
@@ -368,7 +428,7 @@ const Project = (props) => {
                 startIcon={<DeleteIcon />}
                 onClick={async () => deleteProject(project._id, props.history)}
                 className={classes.button}
-                style={{marginTop: '20px'}}
+                style={{ marginTop: '20px' }}
               >
                 Delete Project
               </StyledDeleteButton>

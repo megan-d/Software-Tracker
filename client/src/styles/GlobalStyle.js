@@ -160,6 +160,17 @@ img:-moz-loading {
   .table-title, .project-date {
     display: none;
   }
+  .project-table-title {
+    display: none;
+  }
+}
+
+@media (min-width: 701px) {
+  .project-table-title-mobile {
+    display: none;
+  }
 }
 `;
+
+
 export default GlobalStyle;
