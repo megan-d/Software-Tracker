@@ -9,12 +9,11 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { AuthContext } from '../../context/auth/AuthContext';
 
-
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: #f3f3f3;
   &:hover {
-    color: #f8961e; 
+    color: #f8961e;
   }
 `;
 
@@ -26,7 +25,7 @@ const StyledNavLink = styled(Link)`
   font-weight: 500;
   padding: 8px;
   &:hover {
-    color: #f8961e; 
+    color: #f8961e;
   }
 `;
 
@@ -71,14 +70,21 @@ const useStyles = makeStyles((theme) => ({
     color: '#f3f3f3',
     '&:hover': {
       color: '#f8961e',
-  }
-  }
+    },
+  },
+  styledbuttonMobile: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
 }));
 
 const PlainHeader = (props) => {
   const classes = useStyles();
 
-  const { isAuthenticated, logoutUser, isLoading, login } = useContext(AuthContext);
+  const { isAuthenticated, logoutUser, isLoading, login } = useContext(
+    AuthContext,
+  );
 
   const loginDemo = async (e) => {
     e.preventDefault();
@@ -113,13 +119,25 @@ const PlainHeader = (props) => {
             <Fragment>
               {isAuthenticated ? (
                 <Fragment>
-                  <StyledNavLink className={classes.styledbutton} color='inherit' to='/dashboard'>
+                  <StyledNavLink
+                    className={classes.styledbutton}
+                    color='inherit'
+                    to='/dashboard'
+                  >
                     My Dashboard
                   </StyledNavLink>
-                  <StyledNavLink className={classes.styledbutton} color='inherit' to='/profiles'>
+                  <StyledNavLink
+                    className={classes.styledbuttonMobile}
+                    color='inherit'
+                    to='/profiles'
+                  >
                     Developers
                   </StyledNavLink>
-                  <Button className={classes.styledbutton} color='inherit' onClick={logoutUser}>
+                  <Button
+                    className={classes.styledbutton}
+                    color='inherit'
+                    onClick={logoutUser}
+                  >
                     Logout
                   </Button>
                 </Fragment>
@@ -128,10 +146,16 @@ const PlainHeader = (props) => {
                   <StyledNavLink className={classes.styledbutton} to='/login'>
                     Login
                   </StyledNavLink>
-                  <StyledNavLink className={classes.styledbutton} to='/register'>
+                  <StyledNavLink
+                    className={classes.styledbutton}
+                    to='/register'
+                  >
                     Register
                   </StyledNavLink>
-                  <Button className={classes.styledbutton} onClick={(e) => loginDemo(e)}>
+                  <Button
+                    className={classes.styledbutton}
+                    onClick={(e) => loginDemo(e)}
+                  >
                     Demo
                   </Button>
                 </Fragment>

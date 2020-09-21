@@ -133,7 +133,7 @@ const DashboardHeader = (props) => {
             </StyledLink>
           </Typography>
           <div className={classes.rightHeader}>
-          <StyledNavLink to='/dashboard'>
+          <StyledNavLink to='/dashboard' >
             Dashboard
           </StyledNavLink>
           <StyledNavLink to='/profiles' >
