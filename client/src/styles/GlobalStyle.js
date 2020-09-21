@@ -157,9 +157,9 @@ img:-moz-loading {
 }
 
 @media (max-width: 700px) {
-  .table-title {
+  .table-title, .project-date {
     display: none;
   }
-
+}
 `;
 export default GlobalStyle;

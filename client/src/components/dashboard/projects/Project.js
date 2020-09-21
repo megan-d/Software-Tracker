@@ -119,9 +119,9 @@ const Project = (props) => {
               <AssignmentIcon className='page-heading-icon' />
               <h2 className='page-heading'>{project.name}</h2>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <h4 style={{ marginRight: '6px' }}>Target completion date:</h4>
-              <p>
+            <div style={{ display: 'flex', alignItems: 'center' }} className='project-date'>
+              <h4 style={{ marginRight: '6px' }} className='project-date'>Target completion date:</h4>
+              <p className='project-date'>
                 <Moment format='MM/DD/YYYY'>
                   {moment(project.targetCompletionDate)}
                 </Moment>
@@ -266,7 +266,7 @@ const Project = (props) => {
                 actions: '',
               },
             }}
-            title={<Typography  style={{fontSize: '15px', fontWeight: 700}}>Tickets:</Typography>}
+            title={<Typography  style={{fontSize: '14px', fontWeight: 700, paddingRight: '20px'}}>Tickets:</Typography>}
             columns={ticketColumns}
             data={project.tickets.map((el) => {
               return {
@@ -306,7 +306,7 @@ const Project = (props) => {
                 actions: '',
               },
             }}
-            title={<Typography  style={{fontSize: '15px', fontWeight: 700}}>Sprints:</Typography>}
+            title={<Typography  style={{fontSize: '15px', fontWeight: 700, paddingRight: '20px'}}>Sprints:</Typography>}
             columns={sprintColumns}
             data={project.sprints.map((el) => {
               return {
