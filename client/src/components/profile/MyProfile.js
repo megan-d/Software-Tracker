@@ -166,7 +166,7 @@ const MyProfile = (props) => {
           >
             Comment
           </StyledGreyLink>
-          {(user._id === profile.user._id || user.role === 'admin') && (
+          {((user._id === profile.user._id || user.role === 'admin') && user._id !== '5f6505c1d6e9568222fcaa8c') && (
             <Fragment>
               <StyledGreyLink
                 variant='contained'
